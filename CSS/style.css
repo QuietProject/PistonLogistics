@@ -2,29 +2,14 @@
 
 :root{
     --font:'Ysabeau Office', sans-serif;
+    --base: #3c3c3c;
+    --color: #ffaf64;
+    --highlight: #ff9632;
 }
 
 *{
+    border: 0;
     margin: 0;
     padding: 0;
     font-family: var(--font);
-}
-
-@media (min-width: 475px){
-
-}
-@media (min-width: 640px){
-
-}
-@media (min-width: 768px){
-
-}
-@media (min-width: 1024px){
-
-}
-@media (min-width: 1280px){
-
-}
-@media (min-width: 1536px){
-
 }
