@@ -1,0 +1,24 @@
+* {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+}
+
+.navDiv {
+    position: absolute;
+    height: 100%;
+    width: 4%;
+    background-color: var(--base);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.brandIconNav, .buttonUser, .buttonTrucks, .buttonRutes, .buttonWarehouses, .buttonProducts, .buttonClients {
+    width: 99%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color);
+}
