@@ -99,3 +99,11 @@ document.getElementById("btnClients").addEventListener("click", function myFunct
     document.getElementById("displayProducts").style.display = "none";
     document.getElementById("displayClients").style.display = "flex";
 })
+
+document.getElementById("addUser").addEventListener("click", function myFunction(){
+    document.getElementById("addUserBackdrop").style.display = "flex";
+})
+
+document.getElementById("addUserBackdrop").addEventListener("click", function myFunction(){
+    document.getElementById("addUserBackdrop").style.display = "none";
+})
