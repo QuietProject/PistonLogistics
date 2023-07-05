@@ -117,27 +117,67 @@ body {
 }
 
 .addBackdrop{
-    position: relative;
+    position: absolute;
     z-index: 1;
     height: 100vh;
     width: 100vw;
-    transition: 0.25;
+    left: 0;
     backdrop-filter: blur(0.5vh);
-    transition: 0.5s;   
 }
 
-.cover{
-    position: relative;
+.addInterface{
+    position: absolute;
     z-index: 2;
-    height: 10vh;
-    width: 10vw;
-    background-color: yellow;
+    height: 75vh;
+    width: 75vw;
+    left: 12.5vw;
+    top: 12.5vh;
+    background-color: var(--base);
+    border-radius: 1vw;
 }
 
-.addUserInterface{
+.closeButton{
     position: relative;
-    z-index:3;
-    height: 10vh;
-    width: 10vw;
-    background-color: red;
+    display: flex;
+    height: 5vh;
+    width: 5vh;
+    background-color: var(--highlight);
+    top: 3vh;
+    left: 3vh;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeButton:hover{
+    cursor: pointer;
+}
+
+.xLine{
+    position: absolute;
+    height: 0.5vh;
+    width: 3.5vh;
+    border-radius: 1vh;
+    background-color: black;
+}
+
+.titleTextAdder{
+    position: absolute;
+    font-size: 5vh;
+    top: 2.5vh;
+    left: 15vh;
+    color: white;
+}
+
+.adderTable{
+    position: absolute;
+    background-color: var(--baseLighter);
+    height: 60vh;
+    width: 70vw;
+    bottom: 3vh;
+    left: 2.5vw;
+    border-radius: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
