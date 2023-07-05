@@ -1,10 +1,9 @@
-* {
-    height: 100%;
-    width: 100%;
-}
-
 body {
     display: flex;
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .navDiv {
@@ -27,7 +26,7 @@ body {
     justify-content: center;
 }
 
-.button:hover{
+.button:hover {
     cursor: pointer;
 }
 
@@ -38,45 +37,81 @@ body {
 .inactive {
     width: 3.5vw;
     border-radius: 50%;
-    animation: activeToInactive ease-in-out 0.1s;
     background-color: var(--color);
 }
 
-@keyframes activeToInactive {
-    from {
-        border-radius: 50% 0 0 50%;
-    }
-
-    to {
-        border-radius: 50%;
-    }
-}
-
 .active {
-    width: 3.75vw;
-    border-radius: 50% 0 0 50%;
-    animation: inactiveToActive ease-in-out 0.1s;
+    width: 3.5vw;
+    border-radius: 50%;
     background-color: var(--highlight);
 }
 
-@keyframes inactiveToActive {
-    from {
-        border-radius: 50%;
-    }
-
-    to {
-        border-radius: 50% 0 0 50%;
-    }
-}
-
-.display{
-    position: relative;
-    right: -4vw;
-    height: 100%;
+.display {
+    position: absolute;
+    right: 0;
+    height: 100vh;
     width: 96%;
-    background-color: yellow;
+    background-color: var(--baseLight);
 }
 
-.welcomeText{
+.welcomeText {
+    position: absolute;
     font-size: 5vh;
+    width: 100vw;
+    top: 45vh;
+    text-align: center;
+}
+
+.titleText {
+    position: absolute;
+    font-size: 5vh;
+    top: 5vh;
+    left: 10vh;
+    color: white;
+}
+
+.addButton {
+    position: absolute;
+    height: 7.5vh;
+    width: 7.5vw;
+    top: 5vh;
+    right: 5vh;
+    background-color: var(--highlight);
+    border-radius: 2vh;
+    font-size: 3vh;
+}
+
+.addButton:hover{
+    cursor: pointer;
+}
+
+.filterText {
+    position: absolute;
+    height: 3vh;
+    width: 20vw;
+    top: 20vh;
+    left: 7.5vw;
+    border-radius: 2vh;
+    text-indent: 5%;
+    background-color: rgb(200, 200, 200);
+}
+
+.filterText:focus {
+    outline: none;
+    background-color: white;
+}
+
+.tablePlaceholder{
+    position: absolute;
+    height: 70vh;
+    width: 90vw;
+    left: 3vw;
+    bottom: 5vh;
+    background-color: rgb(150, 150, 150);
+    border-radius: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
