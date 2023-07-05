@@ -11,28 +11,31 @@ body {
 }
 
 .logInContainer {
-    background: linear-gradient(var(--base) 0%, var(--color) 50%);
+    background: var(--color);
     height: 70%;
     width: 25%;
     display: flex;
     align-items: center;
     flex-direction: column;
-    border-radius: 0px 0px 20px 20px;
+    border-radius: 5vh;
 }
 
 .iconImage {
-    width: 35%;
+    position: relative;
+    width: 55%;
     height: 20%;
     margin-top: 10%;
+    left: -1vw;
 }
 
 .title {
+    position: relative;
     height: 10%;
-    color: white;
+    color: var(--baseLight);
     font-size: 4vh;
     text-align: center;
-    text-shadow: 0 0 10px white;
     user-select: none;
+    top: 3vh;
 }
 
 input[type=Text] {
