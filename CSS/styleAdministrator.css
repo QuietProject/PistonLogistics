@@ -116,6 +116,21 @@ body {
     overflow-y: hidden;
 }
 
+.tablePlaceholderHalf{
+    position: absolute;
+    height: 70vh;
+    width: 42vw;
+    left: 3vw;
+    bottom: 5vh;
+    background-color: rgb(150, 150, 150);
+    border-radius: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 .addBackdrop{
     position: absolute;
     z-index: 1;
