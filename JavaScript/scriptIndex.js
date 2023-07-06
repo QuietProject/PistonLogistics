@@ -26,6 +26,7 @@ aboutUsLink.addEventListener("click", (e) => {
       { opacity: 0, x: 30 },
       { opacity: 1, x: 0, duration: 0.8 }
     );
+    gsap.fromTo('.bx-menu', {color: "#000000"}, {color: "#ff9500"});
     i++;
   } else {
     tl.fromTo(
@@ -33,6 +34,7 @@ aboutUsLink.addEventListener("click", (e) => {
       { opacity: 1, x: 0 },
       { opacity: 0, x: 30, duration: 0.8 }
     );
+    gsap.fromTo('.bx-menu', {color: "#ff9500"}, {color: "#000000"});
     i++;
   }
 });
@@ -48,6 +50,7 @@ homeLink.addEventListener("click", (e) => {
       { opacity: 0, x: 30 },
       { opacity: 1, x: 0, duration: 0.8 }
     );
+    gsap.fromTo('.bx-menu', {color: "#000000"}, {color: "#ff9500"});
     i++;
   } else {
     tl.fromTo(
@@ -55,6 +58,7 @@ homeLink.addEventListener("click", (e) => {
       { opacity: 1, x: 0 },
       { opacity: 0, x: 30, duration: 0.8 }
     );
+    gsap.fromTo('.bx-menu', {color: "#ff9500"}, {color: "#000000"});
     i++;
   }
 });
@@ -69,6 +73,7 @@ menu.addEventListener("click", () => {
       { opacity: 0, x: 30 },
       { opacity: 1, x: 0, duration: 0.8 }
     );
+    gsap.fromTo('.bx-menu', {color: "#000000"}, {color: "#ff9500"});
     i++;
   } else {
     tl.fromTo(
@@ -76,6 +81,7 @@ menu.addEventListener("click", () => {
       { opacity: 1, x: 0 },
       { opacity: 0, x: 30, duration: 0.8 }
     );
+    gsap.fromTo('.bx-menu', {color: "#ff9500"}, {color: "#000000"});
     i++;
   }
 });
