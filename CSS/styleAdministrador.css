@@ -1,3 +1,12 @@
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
 body {
     display: flex;
     height: 100%;
@@ -81,7 +90,7 @@ body {
     font-size: 3vh;
 }
 
-.addButton:hover{
+.addButton:hover {
     cursor: pointer;
 }
 
@@ -101,7 +110,7 @@ body {
     background-color: white;
 }
 
-.tablePlaceholder{
+.tablePlaceholder {
     position: absolute;
     height: 70vh;
     width: 90vw;
@@ -116,7 +125,7 @@ body {
     overflow-y: hidden;
 }
 
-.tablePlaceholderHalf{
+.tablePlaceholderHalf {
     position: absolute;
     height: 70vh;
     width: 42vw;
@@ -131,7 +140,7 @@ body {
     overflow-y: hidden;
 }
 
-.addBackdrop{
+.addBackdrop {
     position: absolute;
     z-index: 1;
     height: 100vh;
@@ -140,7 +149,7 @@ body {
     backdrop-filter: blur(0.5vh);
 }
 
-.addInterface{
+.addInterface {
     position: absolute;
     z-index: 2;
     height: 75vh;
@@ -151,7 +160,7 @@ body {
     border-radius: 1vw;
 }
 
-.closeButton{
+.closeButton {
     position: relative;
     display: flex;
     height: 5vh;
@@ -164,11 +173,11 @@ body {
     justify-content: center;
 }
 
-.closeButton:hover{
+.closeButton:hover {
     cursor: pointer;
 }
 
-.xLine{
+.xLine {
     position: absolute;
     height: 0.5vh;
     width: 3.5vh;
@@ -176,7 +185,7 @@ body {
     background-color: black;
 }
 
-.titleTextAdder{
+.titleTextAdder {
     position: absolute;
     font-size: 5vh;
     top: 2.5vh;
@@ -184,7 +193,7 @@ body {
     color: white;
 }
 
-.adderTable{
+.adderTable {
     position: absolute;
     background-color: var(--baseLighter);
     height: 60vh;
