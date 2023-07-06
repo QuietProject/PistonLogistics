@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+SC:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --font: 'Roboto', sans-serif;
+    --font: 'Ysabeau SC', sans-serif;
     --base: #3c3c3c;
     --baseLight: #646464;
     --baseLighter: #969696;
@@ -14,10 +14,4 @@
     margin: 0;
     padding: 0;
     font-family: var(--font);
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-*::-webkit-scrollbar {
-    display: none;
 }

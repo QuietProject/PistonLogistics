@@ -41,7 +41,6 @@ footer{
     height: 15vh;
     background-color: var(--base);
     position: static;
-    bottom: 0;
 }
 footer > div{
     font-family: 'Times New Roman', Times, serif;

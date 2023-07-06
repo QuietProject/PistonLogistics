@@ -1,0 +1,198 @@
+body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.navDiv {
+    position: absolute;
+    height: 100%;
+    width: 4vw;
+    background-color: var(--base);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.brandIconNav,
+.button {
+    height: 3.5vw;
+    margin-top: 0.5vw;
+    margin-left: 0.25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.disabled {
+    display: none;
+}
+
+.inactive {
+    width: 3.5vw;
+    border-radius: 50%;
+    background-color: var(--color);
+}
+
+.active {
+    width: 3.5vw;
+    border-radius: 50%;
+    background-color: var(--highlight);
+}
+
+.display {
+    position: absolute;
+    right: 0;
+    height: 100vh;
+    width: 96%;
+    background-color: var(--baseLight);
+}
+
+.welcomeText {
+    position: absolute;
+    font-size: 5vh;
+    width: 100vw;
+    top: 45vh;
+    text-align: center;
+}
+
+.titleText {
+    position: absolute;
+    font-size: 5vh;
+    top: 5vh;
+    left: 10vh;
+    color: white;
+}
+
+.addButton {
+    position: absolute;
+    height: 7.5vh;
+    width: 7.5vw;
+    top: 5vh;
+    right: 5vh;
+    background-color: var(--highlight);
+    border-radius: 2vh;
+    font-size: 3vh;
+}
+
+.addButton:hover{
+    cursor: pointer;
+}
+
+.filterText {
+    position: absolute;
+    height: 3vh;
+    width: 20vw;
+    top: 20vh;
+    left: 7.5vw;
+    border-radius: 2vh;
+    text-indent: 5%;
+    background-color: rgb(200, 200, 200);
+}
+
+.filterText:focus {
+    outline: none;
+    background-color: white;
+}
+
+.tablePlaceholder{
+    position: absolute;
+    height: 70vh;
+    width: 90vw;
+    left: 3vw;
+    bottom: 5vh;
+    background-color: rgb(150, 150, 150);
+    border-radius: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.tablePlaceholderHalf{
+    position: absolute;
+    height: 70vh;
+    width: 42vw;
+    left: 3vw;
+    bottom: 5vh;
+    background-color: rgb(150, 150, 150);
+    border-radius: 2vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.addBackdrop{
+    position: absolute;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    left: 0;
+    backdrop-filter: blur(0.5vh);
+}
+
+.addInterface{
+    position: absolute;
+    z-index: 2;
+    height: 75vh;
+    width: 75vw;
+    left: 12.5vw;
+    top: 12.5vh;
+    background-color: var(--base);
+    border-radius: 1vw;
+}
+
+.closeButton{
+    position: relative;
+    display: flex;
+    height: 5vh;
+    width: 5vh;
+    background-color: var(--highlight);
+    top: 3vh;
+    left: 3vh;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeButton:hover{
+    cursor: pointer;
+}
+
+.xLine{
+    position: absolute;
+    height: 0.5vh;
+    width: 3.5vh;
+    border-radius: 1vh;
+    background-color: black;
+}
+
+.titleTextAdder{
+    position: absolute;
+    font-size: 5vh;
+    top: 2.5vh;
+    left: 15vh;
+    color: white;
+}
+
+.adderTable{
+    position: absolute;
+    background-color: var(--baseLighter);
+    height: 60vh;
+    width: 70vw;
+    bottom: 3vh;
+    left: 2.5vw;
+    border-radius: 1vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
