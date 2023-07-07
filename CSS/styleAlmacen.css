@@ -58,6 +58,7 @@ body>.containerDescarga>.btnBack {
     left: -40%;
     color: var(--highlight);
     font-size: 3em;
+    cursor: pointer;
 }
 
 
@@ -110,6 +111,7 @@ body>.containerCarga>.btnBack {
     left: -40%;
     color: var(--highlight);
     font-size: 3em;
+    cursor: pointer;
 }
 
 body>.containerCarga>*:not(.btnBack, h1) {
