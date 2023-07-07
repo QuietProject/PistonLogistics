@@ -31,7 +31,7 @@ class ChangePwdContr extends Users
             echo json_encode($msg);
             exit();
         }
-        $this->changePass($this->pwd,$this->ci);
+        $this->changePass($this->pwd,$this->ci,0);
 
         $_SESSION['passDefault']=false;
     }

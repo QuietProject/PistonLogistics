@@ -21,17 +21,21 @@ class UsersView extends Users
         return $users;
     }
 
-    // public function fetchUser($ci){
-    //     return $this->getUser($ci);
-    // }
-
-    public function userExists($ci)
-    {
-        return $this->existsUser($ci);
+    public function fetchUser($id){
+        return $this->getUserById($id);
     }
 
-    public function userExistsName($ci)
+    public function fetchCamionero($id){
+        return $this->getCamioneroById($id);
+    }
+
+    public function userExists($id)
     {
-        return $this->existsUsername($ci);
+        return $this->existsUser($id);
+    }
+
+    public function userExistsName($id)
+    {
+        return $this->existsUsername($id);
     }
 }

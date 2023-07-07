@@ -1,16 +1,20 @@
 <?php
 session_start();
+if (!isset($_SESSION['id'])) {
+    exit;
+}
+
 if (!$_SESSION['passDefault']) {
-    header("Location: ./");
+    exit;
 }
 
     $ci = $_SESSION['id'];
     $pwd = $_POST['pwd'];
     $pwdRepeat = $_POST['pwdRepeat'];
 
-    include "../classes/Db.classes.php";
-    include "../classes/Users.classes.php";
-    include "../classes/ChangePwd-Contr.classes.php";
+    require "../classes/Db.classes.php";
+    require "../classes/Users.classes.php";
+    require "../classes/ChangePwd-Contr.classes.php";
 
     $change = new ChangePwdContr($pwd, $pwdRepeat, $ci);
 

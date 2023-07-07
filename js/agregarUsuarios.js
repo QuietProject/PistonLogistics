@@ -12,7 +12,7 @@ $("#agregarUsuarios").submit(function (e) {
     $.ajax({
         type: "post",
         url: "./includes/addUser.php",
-        //dataType: "json",
+        dataType: "json",
         data: {
             usuario: document.getElementById("user").value,
             pass: document.getElementById("pass").value,

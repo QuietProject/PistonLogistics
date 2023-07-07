@@ -2,9 +2,10 @@
 class Users extends Db
 {
 
+
     protected function getAllUsers()
     {
-        $query = $this->conn()->prepare("SELECT `id`, `username`, `nombre`, `apellido`, `telefono`, `rol` FROM `usuarios`  WHERE `baja` = 0");
+        $query = $this->conn()->prepare("SELECT usuarios.*, camioneros.licencia FROM usuarios LEFT JOIN camioneros ON usuarios.id = camioneros.id WHERE baja=0");
         $query->execute();
 
         return $query->fetchAll(PDO::FETCH_ASSOC);
@@ -16,7 +17,31 @@ class Users extends Db
         $query->bindParam('username', $username);
 
         if (!$query->execute()) {
-            echo json_encode('Error: '. $query->errorInfo());
+            echo json_encode('Error: ' . $query->errorInfo());
+            exit();
+        }
+        return  $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    protected function getUserById($id)
+    {
+        $query = $this->conn()->prepare("SELECT * FROM `usuarios` WHERE `id`=:id AND `baja` = 0");
+        $query->bindParam('id', $id);
+
+        if (!$query->execute()) {
+            echo json_encode('Error: ' . $query->errorInfo());
+            exit();
+        }
+        return  $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    protected function getCamioneroById($id)
+    {
+        $query = $this->conn()->prepare("SELECT * FROM `camioneros` WHERE `id`=:id");
+        $query->bindParam('id', $id);
+
+        if (!$query->execute()) {
+            echo json_encode('Error: ' . $query->errorInfo());
             exit();
         }
         return  $query->fetch(PDO::FETCH_ASSOC);
@@ -89,7 +114,7 @@ class Users extends Db
         $query->bindParam(':telefono', $celular);
         $query->bindParam(':rol', $rol);
         if (!$query->execute()) {
-            echo json_encode('Error 1: '.$query->errorInfo());
+            echo json_encode('Error 1: ' . $query->errorInfo());
             exit();
         }
         return $db->lastInsertID();
@@ -104,20 +129,48 @@ class Users extends Db
             echo json_encode('Error 2: ' . $query->errorInfo());
             exit();
         }
-        exit();
     }
 
-    protected function changePass($pass, $id )
+    protected function updateUser($id, $username, $nombre, $apellido, $celular)
     {
-        $query = $this->conn()->prepare("UPDATE `usuarios` SET `pass`= :pass, `pass_deafault`=0 WHERE `id`=:id");
+        $query = $this->conn()->prepare("UPDATE `usuarios` SET `username`= :username, `nombre`= :nombre, `apellido`=:apellido,`telefono`=:celular WHERE `id`=:id");
+        $query->bindParam('id', $id);
+        $query->bindParam('username', $username);
+        $query->bindParam('nombre', $nombre);
+        $query->bindParam('apellido', $apellido);
+        $query->bindParam('celular', $celular);
+
+        if (!$query->execute()) {
+            echo json_encode('Error: ' . $query->errorInfo());
+            exit();
+        }
+    }
+
+    protected function updateTrucker($id, $licencia)
+    {
+        $query = $this->conn()->prepare("UPDATE `camioneros` SET `licencia`= :licencia WHERE `id`=:id");
+        $query->bindParam('id', $id);
+        $query->bindParam('licencia', $licencia);
+
+        if (!$query->execute()) {
+            echo json_encode('Error: ' . $query->errorInfo());
+            exit();
+        }
+    }
+
+    
+
+    protected function changePass($pass, $id, $default)
+    {
+        $query = $this->conn()->prepare("UPDATE `usuarios` SET `pass`= :pass, `pass_deafault`=:passDefault WHERE `id`=:id");
         $query->bindParam('id', $id);
         $hashedPass = password_hash($pass, PASSWORD_BCRYPT);
         $query->bindParam('pass', $hashedPass);
+        $query->bindParam('passDefault', $default);
 
         if (!$query->execute()) {
-            echo json_encode('Error: '. $query->errorInfo());
+            echo json_encode('Error: ' . $query->errorInfo());
             exit();
         }
-
     }
 }

@@ -6,7 +6,6 @@ if (!isset($_SESSION['id'])) {
 if ($_SESSION['passDefault']) {
     header("Location: ./cambiarContrasena.php");
 }
-var_dump($_SESSION)
 ?>
 
 <html lang="es">
@@ -20,6 +19,8 @@ var_dump($_SESSION)
 <body>
 <h1>Piston logistics Backoffice</h1>
 <a href="./usuarios.php">Usuarios</a>
+<a href="./clientes.php">Clientes</a>
+<a href="./almacenes.php">Almacenes</a>
 <a href="./includes/logOut.php">Cerrar Sesion</a>
 </body>
 

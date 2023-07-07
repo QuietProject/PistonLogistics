@@ -7,7 +7,7 @@ if ($_SESSION['passDefault']) {
     header("Location: ./cambiarContrasena.php");
 }
 ?>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -52,7 +52,7 @@ if ($_SESSION['passDefault']) {
             <label for="licencia">licencia: </label>
             <select id="licencia">
                 <option value="0">A/E</option>
-                <option value="2">B</option>
+                <option value="1">B</option>
                 <option value="2">C/F</option>
                 <option value="3">D</option>
             </select>
