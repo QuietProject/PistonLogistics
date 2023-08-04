@@ -1,0 +1,94 @@
+* {
+    height: 100%;
+    width: 100%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    background-color: var(--base);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logInContainer {
+    background: var(--color);
+    height: 70%;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5vh;
+}
+
+.iconImage {
+    position: relative;
+    width: 55%;
+    height: 20%;
+    margin-top: 10%;
+    left: -1vw;
+}
+
+.title {
+    position: relative;
+    height: 10%;
+    color: var(--baseLight);
+    font-size: 4vh;
+    text-align: center;
+    user-select: none;
+    top: 3vh;
+}
+
+input {
+    height: 7.5%;
+    width: 90%;
+    border-radius: 20px;
+    text-align: center;
+    background-color: var(--base);
+    color: white;
+    font-size: 2vh;
+}
+
+input:focus {
+    outline: var(--highlight) solid;
+    box-shadow: 0 0 15px var(--base);
+}
+
+input[type=button] {
+    height: 7.5%;
+    width: 90%;
+    border-radius: 20px;
+    text-align: center;
+    background-color: var(--highlight);
+    color: white;
+    box-shadow: 0 0 15px var(--base);
+    font-size: 2vh;
+    animation: ease-in-out;
+}
+
+input[type=button]:hover {
+    cursor: pointer;
+}
+
+input[type=button]:active {
+    animation: buttonClick 0.15s ease-in-out;
+}
+
+@keyframes buttonClick {
+    0% {
+        transform: scale(100%);
+    }
+
+    50% {
+        transform: scale(98%);
+    }
+
+    100% {
+        transform: scale(100%);
+    }
+}
