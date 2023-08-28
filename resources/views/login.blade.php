@@ -10,13 +10,15 @@
 </head>
 
 <body>
-    <div class="logInContainer">
+    <form class="logInContainer" method="POST" action="{{ route('login') }}" >
+        @csrf
+        
         <img src="../Source/logoNegro.svg" alt="Icon" class="iconImage">
         <h1 class="title">Piston Logistics</h1>
-        <input type="text" required placeholder="ID" style="margin-top: 15%;">
-        <input type="password" required placeholder="Password" style="margin-top: 5%;">
-        <input type="button" value="Log In" style="margin-top: 30%;" id="buttonLogIn">
-    </div>
+        <input type="text" name="user" required placeholder="User" style="margin-top: 15%;">
+        <input type="password" name="password" required placeholder="Password" style="margin-top: 5%;">
+        <input type="submit" value="Log In" style="margin-top: 30%;" id="buttonLogIn">
+    </form>
 </body>
 
 </html>

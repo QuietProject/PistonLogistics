@@ -30,7 +30,7 @@
     </div>
     <section id="home" class="home">
         <div class="menuRastreo">
-            <form class="rastreo">
+            <form class="rastreo" method="GET" action="">
                 <div>
                     <h2>¡Rastrea tu paquete!</h2>
                     <i class='bx bxs-truck'></i>

@@ -10,15 +10,15 @@
 </head>
 
 <body>
-    <div class="container">
+    <form class="container">
         <div class="qrContainer">
             <h1>QR Cam Placeholder</h1>
         </div>
         <div class="ticketInfo">
             <h1>Ticket Info Placeholder</h1>
         </div>
-        <input type="button" value="Confirm" class="confirmButton">
-    </div>
+        <input type="submit" value="Confirm" class="confirmButton">
+    </form>
     <div class="hamMenu" id="hamMenu">
         <div class="hamMenuLine" id="hamMenuLine"></div>
         <div class="hamMenuLine" id="hamMenuLine"></div>
