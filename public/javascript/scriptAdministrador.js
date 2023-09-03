@@ -1,4 +1,3 @@
-
 // Nav Buttons Hide/Show
 document.getElementById("btnUsers").addEventListener("click", function myFunction() {
     document.getElementById("brandIcon").className = "brandIconNav inactive";

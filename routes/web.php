@@ -18,3 +18,4 @@ Route::view("/login", "login");
 Route::view("/camionero", "camionero");
 Route::view("/cliente", "cliente");
 Route::view("/almacen", "almacen");
+Route::view("/administrador", "administrador");
