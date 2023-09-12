@@ -14,7 +14,7 @@
     <div class="header">
         <header>
             <div class="logo header-section">
-                <img src="../Source/logoNegro.png" alt="logo">
+                <img src="../source/logoNegro.svg" alt="logo">
             </div>
             <div class="pageName header-section">
                 <h1>Piston Logistics</h1>

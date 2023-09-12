@@ -26,7 +26,8 @@ body {
     height: 80vh;
     width: 50vw;
     background-color: var(--baseLight);
-    border-radius: 20px;
+    border-radius: 15px;
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
@@ -34,19 +35,24 @@ body {
 .qrContainer {
     background-color: var(--baseLighter);
     height: 40vh;
-    width: 40vh;
-    border-radius: 1vw;
+    width: 30vw;
+    border-radius: 15px;
     margin-top: 3.5vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .ticketInfo {
     background-color: var(--baseLighter);
     height: 17.5vh;
-    width: 40vh;
-    border-radius: 1vw;
+    width: 30vw;
+    border-radius: 15px;
     margin-top: 3.5vh;
     display: flex;
     align-items: center;
@@ -56,9 +62,13 @@ body {
 .confirmButton {
     background-color: var(--baseLighter);
     height: 7.5vh;
-    width: 40vh;
-    border-radius: 1vw;
+    width: 30vw;
+    border-radius: 15px;
     margin-top: 3.5vh;
+}
+
+.confirmButton:hover {
+    cursor: pointer;
 }
 
 .hamMenu {
