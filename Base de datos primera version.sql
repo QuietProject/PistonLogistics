@@ -156,6 +156,9 @@ CREATE TABLE PAQUETES (
 ALTER TABLE PAQUETES
 	ADD CONSTRAINT FECHAS_TRAE CHECK (fecha_registrado<fecha_recibido);
 
+ALTER TABLE PAQUETES
+	ADD CONSTRAINT DIRECCION CHECK ( (ciudad IS NULL AND calle IS NULL AND ciudad IS NULL) OR  (ciudad IS NOT NULL AND calle IS NOT NULL AND ciudad IS NOT NULL));
+
 CREATE TABLE LOTES (
     ID INT AUTO_INCREMENT PRIMARY KEY,
     ID_troncal INT NOT NULL,
@@ -318,11 +321,17 @@ INSERT INTO ALMACENES_CLIENTES (ID, RUT) VALUES
 (2,'987654321098'),
 (3,'543216789012');
 
+/*INSERT INTO PAQUETES (ID_almacen, ID_pickup, peso, volumen, mail, cedula, calle, ciudad) VALUES
+(1, 4, 5, 10, 'cliente1@mail.com', '12345678','calle',null);*/
 
-INSERT INTO PAQUETES (ID_almacen, ID_pickup, peso, volumen, mail, cedula) VALUES
-(1, 4, 5, 10, 'cliente1@mail.com', '12345678'),
-(2, 5, 8, 15, 'cliente2@mail.com', '87654321'),
-(3, 6, 6, 12, 'cliente3@mail.com', '23456789');
+
+INSERT INTO PAQUETES (ID_almacen, ID_pickup, peso, volumen, mail, cedula, calle, numero, ciudad) VALUES
+(1, 4, 5, 10, 'cliente1@mail.com', '12345678','calle',1010,'rivera'),
+(2, 5, 8, 15, 'cliente2@mail.com', '87654321','calle',1010,'canelones'),
+(2, 5, 8, 15, 'cliente2@mail.com', '87654321','calle',1010,'melo'),
+(3, 6, 6, 12, 'cliente3@mail.com', '23456789','calle',1010,'meontevideo'),
+(3, 6, 6, 12, 'cliente3@mail.com', '23456789','calle',1010,'montevideo'),
+(3, 6, 6, 12, 'cliente3@mail.com', '23456789','calle',1010,'melo');
 
 INSERT INTO TRONCALES (nombre) values 
 ('troncal 1'),
