@@ -17,8 +17,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: hidden;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .qrContainer {
@@ -39,8 +38,8 @@ body {
     position: absolute;
     background-color: var(--baseLighter);
     height: 80vh;
-    aspect-ratio: 1.25/1;
-    border-radius: 1vw;
+    aspect-ratio: 1.20/1;
+    border-radius: 10px;
     top: 8vh;
     right: 8vh;
     padding: 2.5vh;
@@ -51,63 +50,11 @@ body {
     background-color: var(--baseLighter);
     height: 10vh;
     width: 70vh;
-    border-radius: 1vw;
+    border-radius: 10px;
     bottom: 7vh;
     left: 8vh;
     font-weight: bolder;
     font-size: xx-large;
 }
 
-.hamMenu {
-    position: absolute;
-    height: 5vh;
-    width: 5vh;
-    top: 2vh;
-    right: 2vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 3;
-}
 
-.hamMenu:hover {
-    cursor: pointer;
-}
-
-.hamMenuLine {
-    border-radius: 1vw;
-    height: 0.75vh;
-    width: 5vh;
-    margin-bottom: 0.75vh;
-    background-color: var(--baseLighter);
-}
-
-.sideMenu {
-    position: absolute;
-    height: 15.1vh;
-    width: 15vw;
-    top: 0;
-    background-color: var(--baseLight);
-    transition: 0.5s;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 0 0 0 5px;
-}
-
-.itemSideMenu {
-    position: relative;
-    height: 7.5vh;
-    width: 14.9vw;
-    background-color: var(--baseLight);
-    border: 0.1vw var(--baseLight) solid;
-    border-radius: 5px;
-    top: 7.5vh;
-    font-size: x-large;
-    font-weight: bold;
-}
-
-.itemSideMenu:hover {
-    cursor: pointer;
-}
