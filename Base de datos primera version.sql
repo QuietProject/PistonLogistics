@@ -1,7 +1,18 @@
 -- REVISAR  ESTADOS DE LOTES Y TIPOS DE LOTES
-drop database piston_logistics;
+drop database IF EXISTS piston_logistics;
 
 CREATE DATABASE piston_logistics;
+
+DROP USER IF EXISTS 'almacen'@'localhost' ;
+DROP USER IF EXISTS 'autentificacion'@'localhost';
+DROP USER IF EXISTS 'camionero'@'localhost';
+DROP USER IF EXISTS 'backoffice'@'localhost';
+
+CREATE USER 'almacen'@'localhost' IDENTIFIED BY 'almacen';
+CREATE USER 'camionero'@'localhost' IDENTIFIED BY 'camionero';
+CREATE USER 'autentificacion'@'localhost' IDENTIFIED BY 'autentificacion';
+CREATE USER 'backoffice'@'localhost' IDENTIFIED BY 'backoffice';
+
 
 USE piston_logistics;
 
