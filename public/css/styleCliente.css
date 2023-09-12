@@ -57,4 +57,11 @@ body {
     font-size: xx-large;
 }
 
+.confirmButton:hover{
+    cursor: pointer;
+}
+
+.confirmButton:active{
+    
+}
 
