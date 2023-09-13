@@ -202,6 +202,8 @@ body>.menuDesplegable>.logout>div>a {
     color: white;
 }
 
+
+
 @media (max-width: 570px) {
     body>.containerDescarga {
         width: 85%;
