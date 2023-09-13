@@ -1,5 +1,6 @@
 USE piston_logistics;
 -- 1. MOSTRAR LOS PAQUETES ENTREGADOS EN EL MES DE MAYO DEL 2023 CON DESTINO A LA CIUDAD DE MELO
+
 select * from paquetes where ciudad = 'melo' AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
 -- 2. MOSTRAR TODOS LOS ALMACENES Y LOS PAQUETES QUE FUERON ENTREGADOS EN LOS MISMOS DURANTE EL 2023, ORDENARLOS ADEMAS DE LOS QUE RECIBIERON MAS PAQUETES A LOS QUE RECIBIERON MENOS.
 -- 3. MOSTRAR TODOS LOS CAMIONES REGISTRADOS Y QUE TEREA SE ENCUENTRAN REALIZANDO EN ESTE MOMENTO 
@@ -10,3 +11,17 @@ select * from paquetes where ciudad = 'melo' AND '2023-05-01'<=cast(fecha_regist
 -- 8. MOSTRAR MATRICULA DE LOS CAMIONES QUE SE ENCUENTRAN FUERA DE SERVICIO.
 -- 9. MOSTRAR TODOS LOS CAMIONES QUE NO TIENEN UN CONDUCTOR ASIGNADO Y SU ESTADO OPERATIVO.
 -- 10. MOSTRAR TODOS LOS ALMACENES QUE SE ENCUENTRAN EN UN RECORRIDO DADO.
+
+INSERT INTO ALMACENES (nombre, calle, numero, latitud, longitud) VALUES
+('Almacén D', 'Calle 1', '1232', 40.12456, -74.57920),
+('Almacén E', 'Calle 2', '4561', 41.93654, -75.24536);
+select * from ALMACENES;
+insert into ALMACENES_PROPIOS (ID) values (7),(8);
+select * from ALMACENES_PROPIOS;
+INSERT INTO TRONCALES (nombre) values  ('troncal 5');
+INSERT INTO ORDENES (ID_almacen,ID_troncal,orden) values (8,6,2);
+select * from troncales;
+
+update troncales set baja=1 where id=6;
+select * from ALMACENES_PROPIOS ;
+select * from ALMACENES_PROPIOS where ID in (select ID_almacen from ORDENES where ID_troncal in (select ID from troncales where baja=0));
