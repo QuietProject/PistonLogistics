@@ -17,51 +17,125 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.container {
+    position: absolute;
+    height: 80vh;
+    width: 50vw;
+    background-color: var(--baseLight);
+    border-radius: 20px;
+    flex-direction: column;
+    align-items: center;
 }
 
 .qrContainer {
-    position: absolute;
     background-color: var(--baseLighter);
-    height: 70vh;
-    aspect-ratio: 1/1;
-    border-radius: 10px;
-    top: 8vh;
-    left: 8vh;
-    overflow: hidden;
+    height: 40vh;
+    width: 40vh;
+    border-radius: 1vw;
+    margin-top: 3.5vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .ticketInfo {
-    position: absolute;
     background-color: var(--baseLighter);
-    height: 80vh;
-    aspect-ratio: 1.20/1;
-    border-radius: 10px;
-    top: 8vh;
-    right: 8vh;
-    padding: 2.5vh;
+    height: 17.5vh;
+    width: 40vh;
+    border-radius: 1vw;
+    margin-top: 3.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .confirmButton {
-    position: absolute;
     background-color: var(--baseLighter);
-    height: 10vh;
-    width: 70vh;
-    border-radius: 10px;
-    bottom: 7vh;
-    left: 8vh;
-    font-weight: bolder;
-    font-size: xx-large;
+    height: 7.5vh;
+    width: 40vh;
+    border-radius: 1vw;
+    margin-top: 3.5vh;
 }
 
-.confirmButton:hover{
+.hamMenu {
+    position: absolute;
+    height: 5vh;
+    width: 5vh;
+    top: 2vh;
+    right: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 3;
+}
+
+.hamMenu:hover {
     cursor: pointer;
 }
 
-.confirmButton:active{
-    
+.hamMenuLine {
+    border-radius: 1vw;
+    height: 0.75vh;
+    width: 5vh;
+    margin-bottom: 0.75vh;
+    background-color: var(--baseLighter);
 }
 
+.sideMenu {
+    position: absolute;
+    height: 45.1vh;
+    width: 15vw;
+    top: 0;
+    background-color: var(--baseLight);
+    transition: 0.5s;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0 0 5px 5px;
+}
+
+.logOutButton {
+    position: absolute;
+    height: 7.5vh;
+    width: 12.5vw;
+    bottom: 1.25vh;
+    left: 1.25vw;
+    background-color: var(--baseLighter);
+    border-radius: 1vw;
+}
+
+.itemSideMenu {
+    position: relative;
+    height: 7.5vh;
+    width: 14.9vw;
+    background-color: var(--baseLighter);
+    border: 0.1vw var(--baseLight) solid;
+    border-radius: 5px;
+    top: 7.5vh;
+}
+
+.itemSideMenu:hover {
+    cursor: pointer;
+}
+
+.tableInfo {
+    position: relative;
+    max-height: 76vh;
+    top: 2svh;
+    border-collapse: collapse;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+th {
+    height: 5vh;
+    width: 12vw;
+    color: white;
+    background-color: black;
+    font-size: larger;
+}
