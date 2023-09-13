@@ -17,28 +17,18 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow-y: hidden;
-    overflow-x: hidden;
-}
-
-.container {
-    position: absolute;
-    height: 80vh;
-    width: 50vw;
-    background-color: var(--baseLight);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow: hidden;
 }
 
 .qrContainer {
     position: absolute;
     background-color: var(--baseLighter);
-    height: 40vh;
-    width: 30vw;
-    border-radius: 15px;
-    margin-top: 3.5vh;
+    height: 70vh;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    top: 8vh;
+    left: 8vh;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,28 +42,15 @@ a {
 .ticketInfo {
     position: absolute;
     background-color: var(--baseLighter);
-    height: 17.5vh;
-    width: 30vw;
-    border-radius: 15px;
-    margin-top: 3.5vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 80vh;
+    aspect-ratio: 1.20/1;
+    border-radius: 10px;
+    top: 8vh;
+    right: 8vh;
+    padding: 2.5vh;
 }
 
 .confirmButton {
-    background-color: var(--baseLighter);
-    height: 7.5vh;
-    width: 30vw;
-    border-radius: 15px;
-    margin-top: 3.5vh;
-}
-
-.confirmButton:hover {
-    cursor: pointer;
-}
-
-.hamMenu {
     position: absolute;
     background-color: var(--baseLighter);
     height: 10vh;

@@ -31,7 +31,6 @@
     </div>
     <div class="sideMenu" id="sideMenu" style="right: -15vw;">
         <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu">
-        <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu">
     </div>
     <script src="/javascript/scriptCliente.js"></script>
 </body>
