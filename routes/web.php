@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Http\Controllers\PackageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view("/", "welcome")->name("index");
+Route::view("/", "welcome")->name("home");
 
-Route::view("/login", "login")->name("login");
-Route::post("/login", [AuthenticatedSessionController::class, "store"]);
+Route::view("/login", "login")->name("login.index");
+Route::post("/login", [AuthenticatedSessionController::class, "store"])->name("login.algo");
 
 Route::view("/camionero", "camionero")->name("camionero");
 
+Route::view("/cliente/scanner", "scanner")->name("scanner");
+
 Route::view("/cliente", "cliente")->name("cliente");
+Route::post("/cliente", [PackageController::class, "store"])->name("cliente.scan");
 
 Route::view("/almacen", "almacen")->name("almacen");

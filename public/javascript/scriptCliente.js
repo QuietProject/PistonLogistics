@@ -8,30 +8,23 @@ document.getElementById("hamMenu").addEventListener("click", function myFunction
     }
 })
 
-document.getElementById("BtnPaquetes").addEventListener("click", function myFunction() {
-    document.getElementById("ContainerPaquetes").style.display = "flex";
-    document.getElementById("ContainerLotes").style.display = "none";
-    document.getElementById("ContainerCrearLote").style.display = "none";
-    document.getElementById("ContainerQrScanner").style.display = "none";
-})
+let scannedContent = localStorage.getItem('scannedContent');
 
-document.getElementById("BtnLotes").addEventListener("click", function myFunction() {
-    document.getElementById("ContainerPaquetes").style.display = "none";
-    document.getElementById("ContainerLotes").style.display = "flex";
-    document.getElementById("ContainerCrearLote").style.display = "none";
-    document.getElementById("ContainerQrScanner").style.display = "none";
-})
+// Reference to the "Ticket Info" div and input
+let ticketInfoDiv = document.getElementById('ticketInfo');
+let ticketInfoInput = document.getElementById('ticketInfoInput');
 
-document.getElementById("BtnCrearLote").addEventListener("click", function myFunction() {
-    document.getElementById("ContainerPaquetes").style.display = "none";
-    document.getElementById("ContainerLotes").style.display = "none";
-    document.getElementById("ContainerCrearLote").style.display = "flex";
-    document.getElementById("ContainerQrScanner").style.display = "none";
-})
+// Display the scanned content in the "Ticket Info" div
+if (scannedContent) {
+    console.log('Scanned content: ' + scannedContent)
+    ticketInfoDiv.innerHTML = '<span>' + scannedContent + '</span>';
+    ticketInfoInput.value = scannedContent;
+} else {
+    console.log('No scanned content available')
+    ticketInfoDiv.innerHTML = '<span>No scanned content available</span>';
+}
 
-document.getElementById("BtnQrScanner").addEventListener("click", function myFunction() {
-    document.getElementById("ContainerPaquetes").style.display = "none";
-    document.getElementById("ContainerLotes").style.display = "none";
-    document.getElementById("ContainerCrearLote").style.display = "none";
-    document.getElementById("ContainerQrScanner").style.display = "flex";
+document.getElementById("confirmButton").addEventListener("click", function myFunction() {
+
+    localStorage.clear();
 })
