@@ -1,12 +1,20 @@
-document.getElementById("hamMenu").addEventListener("click", function myFunction() {
-    let str = document.getElementById("sideMenu").style.getPropertyValue('right');
-    if (str.slice(0, 2) < 0) {
-        document.getElementById("sideMenu").style.right = "0";
-        document.getElementById("menu").style.color = "orange";
-    }
-    else {
-        document.getElementById("sideMenu").style.right = "-15vw";
-        document.getElementById("menu").style.color = "var(--baseLighter)";
+
+const menu = document.getElementById('menu');
+const menuDesplegable = document.getElementById('menuDesplegable');
+
+let i = 0;
+
+menuDesplegable.style.display = 'none';
+menu.addEventListener('click', () => {
+    menuDesplegable.style.display = '';
+    if (i % 2 === 0) {
+        gsap.fromTo('.menuDesplegable', { opacity: 0, x: 70 }, { opacity: 1, x: 0, display: '', duration: 0.8 });
+        gsap.fromTo('.bx-menu', { color: "#ffffff" }, { color: "#ff9500" });
+        i++;
+    } else {
+        gsap.fromTo('.menuDesplegable', { opacity: 1, x: 0, display: '' }, { opacity: 0, x: 70, display: 'none', duration: 0.8 });
+        gsap.fromTo('.bx-menu', { color: "#ff9500" }, { color: "#ffffff" });
+        i++;
     }
 })
 

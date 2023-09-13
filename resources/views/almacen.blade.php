@@ -15,12 +15,20 @@
 </head>
 
 <body>
-    <!-- Ham Menu -->
-    <div class="hamMenu" id="hamMenu">
+    <div class="menu" id="menu">
         <i class='bx bx-menu' id="menu"></i>
     </div>
-    <div class="sideMenu" id="sideMenu" style="right: -15vw;">
-        <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu">
+
+    <div class="menuDesplegable" id="menuDesplegable">
+        <div class="menu-items m">
+            <div><a href="#">- Paquetes</a></div>
+            <div><a href="#">- Lotes</a></div>
+            <div><a href="#">- Crear Lote</a></div>
+            <div><a href="#">- QR Scanner</a></div>
+        </div>
+        <div class="logout m">
+            <div><a href="#">LogOut</a></div>
+        </div>
     </div>
 
     <div class="mainScreen" id="mainScreen">
