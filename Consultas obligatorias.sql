@@ -32,19 +32,19 @@ ORDER BY
 
 select distinct lleva.matricula
 from lleva
-inner join lotes on lotes.id=lleva.ID_lote
-inner join destino_lote on destino_lote.ID_lote=lotes.ID
-where lotes.ID_almacen=6 or (destino_lote.ID_almacen=6 and lleva.fecha_descarga is not null);
+left join lotes on lotes.id=lleva.ID_lote
+left join destino_lote on destino_lote.ID_lote=lotes.ID
+where lotes.ID_almacen=2 or (destino_lote.ID_almacen=2 and lleva.fecha_descarga is not null);
 
 -- 5. MOSTRAR DESTINO, LOTE, ALMACEN DE DESTINO Y CAMIÓN QUE TRANSPORTA UN PAQUETE DADO.
 
-SELECT paquetes.calle, paquetes.numero, paquetes.ciudad, paquetes.id_pickup, lotes.ID ,destino_lote.ID_lote
+SELECT paquetes.calle, paquetes.numero, paquetes.ciudad, paquetes.id_pickup, lotes.ID as lote ,lleva.matricula
 FROM paquetes
 LEFT JOIN paquetes_lotes ON paquetes.id = paquetes_lotes.ID_paquete
 LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
 LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
 LEFT JOIN lleva ON lotes.id = lleva.id_lote
-WHERE paquetes.ID= 3;
+WHERE paquetes.ID= 2;
 
 -- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
 
@@ -54,7 +54,7 @@ LEFT JOIN paquetes_lotes ON paquetes.id = paquetes_lotes.ID_paquete
 LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
 LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
 LEFT JOIN lleva ON lotes.id = lleva.id_lote
-WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 3 DAY);
+WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY);
 
 -- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
 SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE', 
@@ -67,11 +67,11 @@ CASE
   destino_lote.ID_almacen as 'ALMACEN DESTINO', paquetes.calle, paquetes.numero, paquetes.ciudad, paquetes.id_pickup,
   CASE
 	WHEN paquetes.fecha_entregado is not null then 'Entregado'
-    WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN 'LLevando hacia el destino'
+    WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN 'Llevando hacia el destino final'
     WHEN lleva.matricula is not null and lleva.fecha_descarga is null THEN 'Transportando hacia almacen secundario'
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN 'Trayendo hacia almacenes de QC'
     WHEN EXISTS (SELECT 1 FROM lotes WHERE lotes.ID = paquetes_lotes.ID_lote and lotes.ID not in (select 1 from lleva where lleva.ID_lote =paquetes_lotes.ID_lote) ) THEN 'En almacenes de QC'
-    WHEN lotes.ID is not null and lleva.ID_lote is null THEN 'En almacenes de QC'
+    WHEN lotes.ID is not null and (lleva.ID_lote is null or lleva.fecha_descarga is not null) THEN 'En almacenes de QC'
     WHEN trae.ID_paquete is null THEN 'En almacenes del proveedor'
   END AS 'ESTADO ENVIO'
   
@@ -82,7 +82,7 @@ LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
 LEFT JOIN lleva ON lotes.ID = lleva.id_lote
 LEFT JOIN trae ON paquetes.ID = trae.id_paquete
 LEFT JOIN reparte ON paquetes.ID = reparte.id_paquete
-WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 3 DAY);
+/*WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY)*/;
 
 /*INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, calle, numero, ciudad, peso, volumen, fecha_entregado, mail, cedula)
 VALUES
@@ -123,4 +123,3 @@ select * from troncales;
 update troncales set baja=1 where id=6;
 update almacenes set baja=1 where id=6;
 select * from ALMACENES_PROPIOS ;*/
-
