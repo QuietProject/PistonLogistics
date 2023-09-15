@@ -217,18 +217,9 @@ INSERT INTO TRAE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (3,'NOP3456','2023-09-17 09:39:40','2023-09-17 12:25:40');
 
 
-INSERT INTO lotes (ID_troncal,ID_almacen) values (4,15),(1,2);
-
-delete from estados where 1;
-INSERT INTO ESTADOS (ID_lote, fecha, tipo) VALUES
-(1,'2023-09-17 12:23:40', 0),
-(1,'2023-09-17 13:23:40', 1),
-(1,'2023-09-18 07:27:40', 2),
-(1,'2023-09-18 10:40:40', 3),
-
-(2,'2023-09-18 10:45:40', 0),
-(2,'2023-09-18 11:20:40', 1),
-(2,'2023-09-18 12:45:40', 2);
+INSERT INTO lotes (ID_troncal,ID_almacen,fecha_creacion,fecha_pronto,fecha_cerrado) values 
+(4,15,'2023-09-17 12:23:40','2023-09-17 13:23:40','2023-09-18 10:50:40'),
+(1,2,'2023-09-18 10:45:40','2023-09-18 11:20:40',null);
 
 INSERT INTO DESTINO_LOTE (ID_lote,ID_troncal,ID_almacen) VALUES
 (1,4,2);
@@ -255,6 +246,3 @@ select ALMACENES.*
 from ALMACENES_PROPIOS 
 INNER JOIN ALMACENES on ALMACENES_PROPIOS.ID = ALMACENES.ID 
 where ALMACENES_PROPIOS.ID in (select ID_almacen from ORDENES where ID_troncal in (select troncales.ID from troncales where baja=0)) and ALMACENES.baja=0;
-
-
-

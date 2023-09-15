@@ -16,7 +16,6 @@ GRANT SELECT ON piston_logistics.ORDENES TO 'almacen'@'localhost';
 GRANT SELECT ON piston_logistics.PAQUETES TO 'almacen'@'localhost';
 GRANT SELECT ON piston_logistics.LOTES TO 'almacen'@'localhost';
 GRANT SELECT ON piston_logistics.PAQUETES_LOTES TO 'almacen'@'localhost';
-GRANT SELECT ON piston_logistics.ESTADOS TO 'almacen'@'localhost';
 GRANT SELECT ON piston_logistics.DESTINO_LOTE TO 'almacen'@'localhost';
 GRANT SELECT ON piston_logistics.LLEVA TO 'almacen'@'localhost';
 GRANT SELECT ON piston_logistics.REPARTE TO 'almacen'@'localhost';
@@ -26,10 +25,10 @@ GRANT INSERT(ID_almacen, ID_pickup, calle, numero, ciudad, mail) ON piston_logis
 GRANT UPDATE(peso, volumen, fecha_recibido, cedula) ON piston_logistics.PAQUETES TO 'almacen'@'localhost';
 
 GRANT INSERT (ID_almacen, ID_troncal, tipo) ON piston_logistics.LOTES TO 'almacen'@'localhost';
+GRANT UPDATE (fecha_pronto,fecha_cerrado) ON piston_logistics.LOTES TO 'almacen'@'localhost';
 
 GRANT INSERT (ID_paquete, ID_lote) ON piston_logistics.PAQUETES_LOTES TO 'almacen'@'localhost';
 
-GRANT INSERT (ID_lote, fecha, tipo) ON piston_logistics.ESTADOS TO 'almacen'@'localhost';
 
 GRANT INSERT (ID_almacen, ID_lote) ON piston_logistics.DESTINO_LOTE TO 'almacen'@'localhost';
 
@@ -58,7 +57,6 @@ GRANT SELECT ON piston_logistics.ORDENES TO 'camionero'@'localhost';
 GRANT SELECT (ID, ID_almacen, fecha_registrado, peso, volumen, fecha_recibido, cedula, ciudad,calle, numero,ID_pickup) ON piston_logistics.PAQUETES TO 'camionero'@'localhost';
 GRANT SELECT ON piston_logistics.LOTES TO 'camionero'@'localhost';
 GRANT SELECT ON piston_logistics.PAQUETES_LOTES TO  'camionero'@'localhost';
-GRANT SELECT ON piston_logistics.ESTADOS TO 'camionero'@'localhost';
 GRANT SELECT ON piston_logistics.DESTINO_LOTE TO 'camionero'@'localhost';
 GRANT SELECT ON piston_logistics.LLEVA TO 'camionero'@'localhost';
 GRANT SELECT ON piston_logistics.TRAE TO 'camionero'@'localhost';
@@ -85,7 +83,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON piston_logistics.ORDENES TO 'backoffice'
 GRANT SELECT, UPDATE (ID_almacen, ID_pickup, calle, numero, ciudad, peso, volumen, mail), DELETE ON piston_logistics.PAQUETES TO 'backoffice'@'localhost';
 GRANT SELECT ON piston_logistics.LOTES TO 'backoffice'@'localhost';
 GRANT SELECT, DELETE ON piston_logistics.PAQUETES_LOTES TO  'backoffice'@'localhost';
-GRANT SELECT ON piston_logistics.ESTADOS TO 'backoffice'@'localhost';
 GRANT SELECT ON piston_logistics.DESTINO_LOTE TO 'backoffice'@'localhost';
 GRANT SELECT, INSERT(ID_lote, matricula), UPDATE(fecha_descarga) ON piston_logistics.LLEVA TO 'backoffice'@'localhost';
 GRANT SELECT, INSERT(ID_paquete, matricula), UPDATE(fecha_descarga) ON piston_logistics.TRAE TO 'backoffice'@'localhost';
@@ -95,4 +92,3 @@ GRANT SELECT, INSERT(ID_paquete, matricula), UPDATE(fecha_descarga) ON piston_lo
 -- SHOW GRANTS FOR 'almacen'@'localhost';
 -- SHOW GRANTS FOR 'autentificacion'@'localhost';
 -- SHOW GRANTS FOR 'camionero'@'localhost';
-
