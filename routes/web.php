@@ -28,3 +28,7 @@ Route::view("/cliente", "cliente")->name("cliente");
 Route::post("/cliente", [PackageController::class, "store"])->name("cliente.scan");
 
 Route::view("/almacen", "almacen")->name("almacen");
+
+Route::view("/almacenCarga", "almacenCarga")->name("almacenCarga");
+
+Route::view("/administrador", "administrador") ->name("administrador");
