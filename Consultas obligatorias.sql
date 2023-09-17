@@ -48,7 +48,9 @@ WHERE paquetes.ID= 2;
 
 -- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
 
-SELECT *
+select * from paquetes_lotes;
+
+SELECT paquetes.ID, lotes.ID, lleva.ID_lote, lleva.fecha_descarga
 FROM paquetes
 LEFT JOIN paquetes_lotes ON paquetes.id = paquetes_lotes.ID_paquete
 LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
@@ -57,7 +59,7 @@ LEFT JOIN lleva ON lotes.id = lleva.id_lote
 WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY);
 
 -- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
-SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE', 
+SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE',
 CASE
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN trae.matricula
     WHEN lleva.matricula is not null and lleva.fecha_descarga is null THEN lleva.matricula
@@ -70,19 +72,50 @@ CASE
     WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN 'Llevando hacia el destino final'
     WHEN lleva.matricula is not null and lleva.fecha_descarga is null THEN 'Transportando hacia almacen secundario'
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN 'Trayendo hacia almacenes de QC'
-    WHEN EXISTS (SELECT 1 FROM lotes WHERE lotes.ID = paquetes_lotes.ID_lote and lotes.ID not in (select 1 from lleva where lleva.ID_lote =paquetes_lotes.ID_lote) ) THEN 'En almacenes de QC'
-    WHEN lotes.ID is not null and (lleva.ID_lote is null or lleva.fecha_descarga is not null) THEN 'En almacenes de QC'
     WHEN trae.ID_paquete is null THEN 'En almacenes del proveedor'
+    ELSE 'En almacenes de QC'
   END AS 'ESTADO ENVIO'
   
 FROM paquetes
-LEFT JOIN paquetes_lotes ON paquetes.id = paquetes_lotes.ID_paquete
+LEFT JOIN (
+SELECT paquetes_lotes.id_paquete, paquetes_lotes.id_lote, paquetes_lotes.fecha FROM paquetes_lotes INNER JOIN (
+	SELECT id_paquete, MAX(fecha) AS max_fecha FROM paquetes_lotes GROUP BY id_paquete ) subquery
+		ON paquetes_lotes.id_paquete = subquery.id_paquete AND paquetes_lotes.fecha = subquery.max_fecha 
+) paquetes_lotes ON paquetes.id = paquetes_lotes.id_paquete
 LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
 LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
 LEFT JOIN lleva ON lotes.ID = lleva.id_lote
 LEFT JOIN trae ON paquetes.ID = trae.id_paquete
 LEFT JOIN reparte ON paquetes.ID = reparte.id_paquete
 /*WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY)*/;
+
+select * from reparte where id_paquete=3;
+SELECT *
+FROM paquetes
+LEFT JOIN (select id_paquete, id_lote, fecha from paquetes_lotes group by id_paquete order by fecha ) paquetes_lotes ON paquetes.id = paquetes_lotes.ID_paquete where paquetes.ID<4;
+select id_paquete, id_lote, fecha from paquetes_lotes group by id_paquete order by fecha desc;
+
+SELECT *
+FROM paquetes_lotes;
+
+SELECT pl.id_paquete, pl.id_lote, pl.fecha
+FROM paquetes_lotes pl
+INNER JOIN (
+    SELECT id_paquete, MAX(fecha) AS max_fecha
+    FROM paquetes_lotes
+    GROUP BY id_paquete
+) subquery
+ON pl.id_paquete = subquery.id_paquete AND pl.fecha = subquery.max_fecha
+ORDER BY pl.id_paquete;
+
+    SELECT pl.id_paquete, pl.id_lote, pl.fecha,
+           ROW_NUMBER() OVER (PARTITION BY pl.id_paquete ORDER BY pl.fecha DESC) AS row_num
+    FROM paquetes_lotes pl;
+
+    SELECT id_paquete, MAX(fecha) AS max_fecha
+    FROM paquetes_lotes
+    GROUP BY id_paquete;
+
 
 /*INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, calle, numero, ciudad, peso, volumen, fecha_entregado, mail, cedula)
 VALUES
