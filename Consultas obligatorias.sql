@@ -7,12 +7,12 @@ from paquetes where ciudad = 'melo' AND '2023-05-01'<=cast(fecha_registrado as d
 /*select * 
 from paquetes_lotes
 inner join_lotes
-;*/
+;
 SELECT
 *
-    /*lote.ID_almacen AS NombreAlmacen,
+    lote.ID_almacen AS NombreAlmacen,
     paquetes_lotes.ID_paquete AS NombrePaquete,
-    COUNT(*) AS CantidadPaquetesEntregados*/
+    COUNT(*) AS CantidadPaquetesEntregados
 FROM lotes
 inner join paquetes_lotes ON lotes.ID = paquetes_lotes.ID_lote
 inner join estados on estados.ID_lote=lotes.ID
@@ -21,9 +21,9 @@ inner join estados on estados.ID_lote=lotes.ID
 GROUP BY
     A.Nombre, P.Nombre
 ORDER BY
-    CantidadPaquetesEntregados DESC*/;
+    CantidadPaquetesEntregados DESC;
 
-
+*/
 -- 3. MOSTRAR TODOS LOS CAMIONES REGISTRADOS Y QUE TAREA SE ENCUENTRAN REALIZANDO EN ESTE MOMENTO 
 
 
