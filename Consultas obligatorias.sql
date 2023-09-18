@@ -1,11 +1,15 @@
 USE piston_logistics;
 -- 1. MOSTRAR LOS PAQUETES ENTREGADOS EN EL MES DE MAYO DEL 2023 CON DESTINO A LA CIUDAD DE MELO
 
-select * 
-from paquetes where ciudad = 'melo' AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
+select * from paquetes where ciudad = 'melo' AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
 
 -- 2. MOSTRAR TODOS LOS ALMACENES Y LOS PAQUETES QUE FUERON ENTREGADOS EN LOS MISMOS DURANTE EL 2023, ORDENARLOS ADEMAS DE LOS QUE RECIBIERON MAS PAQUETES A LOS QUE RECIBIERON MENOS.
-/*select * 
+/*select *
+from paquetes_lotes
+inner join
+where YEAR(lotes) = 2023;
+
+select * 
 from paquetes_lotes
 inner join_lotes
 ;
@@ -27,6 +31,25 @@ ORDER BY
 */
 -- 3. MOSTRAR TODOS LOS CAMIONES REGISTRADOS Y QUE TAREA SE ENCUENTRAN REALIZANDO EN ESTE MOMENTO 
 
+select distinct vehiculos.*,
+CASE
+    WHEN lleva.id_lote is not null and trae.ID_paquete is not null THEN 'El camion esta llevando lotes y trayendo paquetes'
+    WHEN lleva.id_lote is not null THEN 'El camion esta llevando lotes'
+    WHEN trae.ID_paquete is not null THEN 'El camion esta trayendo paquetes'
+    WHEN vehiculos.es_operativo=0 THEN 'El camion esta fuera de servicio'
+    ELSE 'El camion no esta realizando nunguna tarea	'
+  END AS MATRICULA
+from vehiculos
+LEFT JOIN (select * from lleva where fecha_descarga is null) lleva ON vehiculos.matricula = lleva.matricula
+LEFT JOIN (select * from trae where fecha_descarga is null) trae ON vehiculos.matricula = trae.matricula
+where vehiculos.matricula in (select matricula from camiones)
+group by vehiculos.matricula;
+
+/*insert into lotes (ID_troncal, ID_almacen) values(1,2);
+insert into lleva (matricula,ID_lote) values ('PQR1234',12);
+insert into trae (ID_paquete,matricula) values (15,'PQR1234');
+delete from trae where ID_paquete >15;
+select* from trae;*/
 
 
 -- 4. MOSTRAR TODOS LOS CAMIONES QUE VISITARON DURANTE EL MES DE JUNIO UN ALMACEN DADO
@@ -88,7 +111,7 @@ LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
 LEFT JOIN lleva ON lotes.ID = lleva.id_lote
 LEFT JOIN trae ON paquetes.ID = trae.id_paquete
 LEFT JOIN reparte ON paquetes.ID = reparte.id_paquete
-/*WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY)*/;
+WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY);
 
 -- 7. MOSTRAR TODOS LOS PAQUETES A LOS QUE AÚN NO SE LES HA ASIGNADO UN LOTE Y LA FECHA EN LA QUE FUERON RECIBIDOS.
 
@@ -110,6 +133,12 @@ where es_operativo=1 and baja=0 and matricula in(select matricula from camiones)
 -- 10. MOSTRAR TODOS LOS ALMACENES QUE SE ENCUENTRAN EN UN RECORRIDO DADO.
 
 select ALMACENES.* 
-from ALMACENES_PROPIOS 
-INNER JOIN ALMACENES on ALMACENES_PROPIOS.ID = ALMACENES.ID 
-where ALMACENES_PROPIOS.ID in (select ID_almacen from ORDENES where ID_troncal in (select troncales.ID from troncales where baja=0)) and ALMACENES.baja=0;
+from ordenes
+inner join ALMACENES on ordenes.ID_almacen=ALMACENES.ID
+where ordenes.ID_troncal=2 and almacenes.baja=0;
+
+
+
+
+
+
