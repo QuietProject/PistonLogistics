@@ -19,10 +19,10 @@
 
 .hamMenu {
     position: absolute;
-    height: 5vh;
-    width: 5vh;
-    top: 2vh;
-    right: 2vh;
+    height: 2.5vh;
+    width: 2.5vh;
+    top: 0.5vh;
+    right: 1.5vw;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -31,14 +31,12 @@
 
 .sideMenu {
     position: absolute;
-    height: 22.6vh;
+    height: 15.1vh;
     width: 15vw;
     top: 0;
     background-color: var(--baseDark);
     transition: 0.5s;
     z-index: 2;
-    display: flex;
-    flex-direction: column;
     border-radius: 0 0 0 5px;
     overflow: hidden;
 }
@@ -56,7 +54,7 @@
     height: 7.5vh;
     border-radius: 5px;
     top: 7.5vh;
-    left: 0.5vw;
+    left: 1vw;
     font-size: x-large;
     font-weight: bold;
     text-align: left;
@@ -66,5 +64,5 @@
 
 .itemSideMenu:hover {
     cursor: pointer;
-    left: 1vw;
+    left: 1.5vw;
 }
