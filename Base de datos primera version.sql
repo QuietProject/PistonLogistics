@@ -155,12 +155,12 @@ CREATE TABLE LOTES (
     fecha_pronto TIMESTAMP NULL DEFAULT NULL,
     fecha_cerrado TIMESTAMP NULL DEFAULT NULL,
     tipo BIT NOT NULL DEFAULT 0,
-    FOREIGN KEY (ID_almacen)
-        REFERENCES ORDENES (ID_almacen)
-        ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (ID_almacen, ID_troncal)
+        REFERENCES ORDENES (ID_almacen, ID_troncal)
+        ON DELETE RESTRICT ON UPDATE RESTRICT /*,
     FOREIGN KEY (ID_troncal)
         REFERENCES ORDENES (ID_troncal)
-        ON DELETE RESTRICT ON UPDATE RESTRICT
+        ON DELETE RESTRICT ON UPDATE RESTRICT*/
 );
 
 CREATE TABLE PAQUETES_LOTES (
@@ -247,4 +247,5 @@ IMPLEMENTADO RNE 8: En trae fecha carga<fecha descarga
 IMPLEMENTADO RNE 9: En reparte fecha carga<fecha descarga
 IMPLEMENTADO RNE 10: En conduce fecha desde<fecha hasta
 IMPLEMENTADO RNE 11 : Fecha de registro de paquete < Fecha carga de trae
+Destino lote tipo tiene que ser = 0
 */
