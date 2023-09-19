@@ -33,12 +33,16 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
-     * The attributes that should be cast.
+     * Always encrypt the password when it is updated.
      *
-     * @var array<string, string>
+     * @param $value
+     * @return string
      */
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }

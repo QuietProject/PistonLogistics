@@ -39,8 +39,7 @@ class AuthController extends Controller
                 $redirect = env("CLIENTE_URL");
                 break;
         }
-
-        return redirect($redirect);
+        
         return redirect($redirect)->with([
             "user" => $user,
             "token" => $user->createToken("API token of " . $user->user)->plainTextToken
