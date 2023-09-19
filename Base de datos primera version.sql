@@ -5,8 +5,8 @@ CREATE DATABASE piston_logistics;
 USE piston_logistics;
 
 CREATE TABLE USUARIOS (
-    usuario VARCHAR(20) PRIMARY KEY NOT NULL,
-    pass VARCHAR(255) NOT NULL,
+    user VARCHAR(20) PRIMARY KEY NOT NULL,
+    password VARCHAR(255) NOT NULL,
     rol TINYINT NOT NULL
 );
 
