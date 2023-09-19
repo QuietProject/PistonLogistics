@@ -77,7 +77,7 @@ GRANT UPDATE (fecha_entregado, cedula) ON piston_logistics.PAQUETES TO 'camioner
 
 -- BACKOFFICE
 
-GRANT SELECT (usuario, rol), INSERT, UPDATE ON piston_logistics.USUARIOS TO 'backoffice'@'%';
+GRANT SELECT (user, rol), INSERT, UPDATE ON piston_logistics.USUARIOS TO 'backoffice'@'%';
 GRANT SELECT, INSERT, UPDATE ON piston_logistics.CAMIONEROS TO 'backoffice'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON piston_logistics.VEHICULOS TO 'backoffice'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON piston_logistics.CAMIONES TO 'backoffice'@'%';
