@@ -5,7 +5,7 @@ document.getElementById("hamMenu").addEventListener("click", function myFunction
         document.getElementById("menu").style.color = "orange";
     }
     else {
-        document.getElementById("sideMenu").style.right = "-15vw";
+        document.getElementById("sideMenu").style.right = "-20vw";
         document.getElementById("menu").style.color = "var(--baseLighter)";
     }
 })

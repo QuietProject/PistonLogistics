@@ -19,49 +19,20 @@
     <div class="hamMenu" id="hamMenu">
         <i class='bx bx-menu' id="menu"></i>
     </div>
-    <div class="sideMenu" id="sideMenu" style="right: -15vw;">
-        <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu">
+    <div class="sideMenu" id="sideMenu" style="right: -20vw; height: 48.1vh;" tabindex="-1">
+        <a href="" class="itemSideMenu" tabindex="-1">Carga</a>
+        <a href="" class="itemSideMenu" tabindex="-1">Descarga</a>
+        <a href="" class="itemSideMenu" tabindex="-1">Paquetes</a>
+        <a href="" class="itemSideMenu" tabindex="-1">Lotes</a>
+        <a href="" class="itemSideMenu" tabindex="-1">Crear Lotes</a>
+        <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu" tabindex="-1">
     </div>
 
-    <div class="mainScreen" id="mainScreen">
-        <div class="logo">
-            <img src="../Source/logo.png">
-        </div>
-        <div class="opciones">
-            <div class="descarga" id="descarga">
-                <h1>Descarga</h1>
-            </div>
-            <div class="carga" id="carga">
-                <h1>Carga</h1>
-            </div>
-        </div>
-
-    </div>
-
-    <div class="containerDescarga" id="containerDescarga">
-        <div class="btnBack" id="btnBackDescarga"><i class='bx bx-left-arrow-alt'></i></div>
-        <h1>Descarga</h1>
-        <div class="qr">
-            <h2>QR Cam Placeholder</h2>
-        </div>
-        <div class="ticketInfo">
-            <h2>Ticket Info Placeholder</h2>
-        </div>
-        <div class="btnSubmit">Confirm</div>
-    </div>
-
-    <div class="containerCarga" id="containerCarga">
-        <div class="btnBack" id="btnBackCarga"><i class='bx bx-left-arrow-alt'></i></div>
-        <h1>Carga</h1>
-        <div class="qr">
-            <h2>QR Cam Placeholder</h2>
-        </div>
-        <div class="ticketInfo">
-            <h2>Ticket Info Placeholder</h2>
-        </div>
-        <div class="btnSubmit">
-            <h3>Confirm</h3>
-        </div>
+    <!-- Main Container -->
+    <div class="scanContainer">
+        <img src="../source/logoNegro.svg" alt="Logo" class="containerLogo">
+        <a href="../views/almacenCarga.blade.php" class="accessButton">Carga</a>
+        <a href="../views/almacenDescarga.blade.php" class="accessButton">Descarga</a>
     </div>
 </body>
 

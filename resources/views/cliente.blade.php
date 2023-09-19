@@ -29,7 +29,7 @@
     <div class="hamMenu" id="hamMenu">
         <i class='bx bx-menu' id="menu"></i>
     </div>
-    <div class="sideMenu" id="sideMenu" style="right: -15vw;" tabindex="-1">
+    <div class="sideMenu" id="sideMenu" style="right: -20vw;" tabindex="-1">
         <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu" tabindex="-1">
     </div>
     <script src="/javascript/scriptCliente.js"></script>

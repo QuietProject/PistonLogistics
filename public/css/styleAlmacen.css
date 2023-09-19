@@ -4,254 +4,71 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    overflow-x: hidden;
+    width: 100vw;
+    overflow: hidden;
 }
 
-body>.mainScreen {
-    height: 80vh;
-    width: 25%;
-    background: var(--baseLight);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-body>.mainScreen>.logo {
-    height: 15vh;
-}
-
-body>.mainScreen>.opciones>div {
-    font-size: 1.4em;
-    height: 5vh;
-    margin: 40px;
-    text-align: center;
-    background-color: var(--color);
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 15px;
-    cursor: pointer;
-}
-
-body>.containerDescarga {
-    height: 80vh;
-    width: 25%;
-    background: var(--baseLight);
-    border-radius: 15px;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-body>.containerDescarga>h1 {
-    color: var(--highlight);
-    height: 6vh;
-}
-
-body>.containerDescarga>.btnBack {
-    position: relative;
-    top: 0;
-    left: -40%;
-    color: var(--highlight);
-    font-size: 3em;
-    cursor: pointer;
-}
-
-
-body>.containerDescarga>*:not(.btnBack, h1) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* Scan Shortcut Container */
+.scanContainer {
+    height: 75vh;
+    width: 30vw;
     background-color: var(--baseLighter);
-    text-align: center;
     border-radius: 15px;
-    box-shadow: 0px 0px 10px -1px black;
-}
-
-body>.containerDescarga>.qr {
-    height: 40%;
-    width: 75%;
-}
-
-body>.containerDescarga>.ticketInfo {
-    height: 18%;
-    width: 75%;
-}
-
-body>.containerDescarga>.btnSubmit {
-    height: 8%;
-    width: 75%;
-    cursor: pointer;
-    background-color: var(--highlight);
-}
-
-body>.containerCarga {
-    height: 80vh;
-    width: 25%;
-    background: var(--baseLight);
-    border-radius: 15px;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
 }
 
-body>.containerCarga>h1 {
-    color: var(--highlight);
-    height: 6vh;
+/* Center Logo */
+.containerLogo {
+    height: 30vh;
 }
 
-body>.containerCarga>.btnBack {
+/* Navigation Buttons */
+.accessButton {
+    /* Button Body */
     position: relative;
-    top: 0;
-    left: -40%;
-    color: var(--highlight);
-    font-size: 3em;
-    cursor: pointer;
-}
-
-body>.containerCarga>*:not(.btnBack, h1) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--baseLighter);
-    text-align: center;
-    border-radius: 15px;
-    box-shadow: 0px 0px 10px -1px black;
-}
-
-body>.containerCarga>.qr {
-    height: 40%;
-    width: 75%;
-}
-
-body>.containerCarga>.ticketInfo {
-    height: 18%;
-    width: 75%;
-}
-
-body>.containerCarga>.btnSubmit {
-    height: 8%;
-    width: 75%;
-    cursor: pointer;
+    height: 10vh;
+    width: 25vw;
     background-color: var(--highlight);
-}
-
-body>.menu {
-    margin: 20px;
-    color: white;
-    font-size: 3em;
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1;
-    cursor: pointer;
-}
-
-body>.menuDesplegable {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: #2c2c2c;
-    width: 500px;
-    height: 85.5vh;
-}
-
-body>.menuDesplegable>.menu-items {
+    top: 17vh;
+    border-radius: 15px;
+    margin-bottom: 3vh;
+    box-shadow: 0 0 10px 2.5px var(--baseLight);
+    color: var(--baseDark);
+    /* Button Text */
     display: flex;
-    flex-direction: column;
-    margin-top: 10vh;
-    margin-left: 2vw;
-    width: max-content;
-    height: 80%;
-}
-
-body>.menuDesplegable>.menu-items>div {
-    display: inline-block;
-    width: max-content;
-    color: white;
-}
-
-body>.menuDesplegable>.m>div>a {
-    font-size: 2em;
-    color: var(--interactuables);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-body>.menuDesplegable>.logout {
-    position: static;
-    width: 100%;
-}
-
-body>.menuDesplegable>.logout>div {
-    display: flex;
-    justify-content: center;
     align-items: center;
-}
-
-body>.menuDesplegable>.logout>div>a {
-    font-size: 2em;
-    color: var(--interactuables);
+    justify-content: center;
     text-decoration: none;
+    font-weight: bold;
+    font-size: 5vh;
+}
+
+.accessButton:hover{
     cursor: pointer;
-    color: white;
 }
 
-
-
-@media (max-width: 570px) {
-    body>.containerDescarga {
-        width: 85%;
-    }
-
-    body>.containerCarga {
-        width: 85%;
-    }
-
-    body>.mainScreen {
-        width: 85%;
-    }
+.accessButton:active{
+    transform: scale(98%);
 }
 
-@media (min-width: 571px) and (max-width: 800px) {
-    body>.containerDescarga {
-        width: 65%;
+/* Responsive */
+@media screen and (orientation:portrait){
+    .scanContainer{
+        height: 100vh;
+        width: 100vw;
+        background-color: var(--base);
+        border-radius: 0;
     }
 
-    body>.containerCarga {
-        width: 65%;
+    .containerLogo{
+        width: 95vw;
     }
-
-    body>.mainScreen {
-        width: 65%;
-    }
-}
-
-@media (min-width: 801px) {
-    body>.containerDescarga {
-        width: 450px;
-    }
-
-    body>.containerCarga {
-        width: 450px;
-    }
-
-    body>.mainScreen {
-        width: 450px;
-    }
-}
-
-@media (max-width: 700px) {
-    body>.menuDesplegable {
-        width: 100%;
-    }
-
-    body>.menuDesplegable>.m>a {
-        font-size: 2.5em;
+    
+    .accessButton{
+        width: 90vw;
+        top: 40vh;
+        box-shadow: 0 0 10px 2.5px var(--base);
     }
 }
