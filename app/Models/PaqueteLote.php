@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class PaquetesLote extends Model
+class PaqueteLote extends Model
 {
 	protected $table = 'paquetes_lotes';
 	public $incrementing = false;

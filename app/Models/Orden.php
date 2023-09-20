@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Ordene extends Model
+class Orden extends Model
 {
 	protected $table = 'ordenes';
 	public $incrementing = false;

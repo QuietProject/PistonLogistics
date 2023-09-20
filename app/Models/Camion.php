@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Camione extends Model
+class Camion extends Model
 {
 	protected $table = 'camiones';
 	protected $primaryKey = 'matricula';

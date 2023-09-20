@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Troncale extends Model
+class Troncal extends Model
 {
 	protected $table = 'troncales';
 	protected $primaryKey = 'ID';

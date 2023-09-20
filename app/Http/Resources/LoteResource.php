@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Paquete;
+use App\Models\Lote;
 
-class PaqueteResource extends JsonResource
+class LoteResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,7 +20,7 @@ class PaqueteResource extends JsonResource
 
     public function index()
     {
-        $paquetes = Paquete::paginate();
-        return PaqueteResource::collection($paquetes);
+        $lotes = Lote::paginate();
+        return LoteResource::collection($lotes);
     }
 }

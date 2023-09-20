@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use App\Http\Controllers\PaqueteController;
+use App\Http\Controllers\LoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,5 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::resource("paquetes", PaqueteController::class);
-Route::get("cliente/carga/{id}/{matricula}", [PaqueteController::class, "carga"]);
-Route::get("almacen/descarga/{id}", [PaqueteController::class, "descargaAlmacen"]);
+Route::get("cliente/carga/{id}/{matricula}", [PaqueteController::class, "cargaCliente"]);
+Route::get("almacen/descarga/{id}", [PaqueteController::class, "descarga"]);
+Route::get("almacen/carga/{id}/{matricula}", [PaqueteController::class, "cargaAlmacen"]);
+Route::get("lotes/{id}", [PaqueteController::class, "paquetesLote"]);
+Route::get("lotes", [LoteController::class, "index"]);

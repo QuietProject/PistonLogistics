@@ -6,10 +6,12 @@ use App\Models\Paquete;
 use App\Models\Trae;
 use App\Models\Vehiculo;
 use App\Models\Lote;
+use App\Models\Orden;
+use App\Models\PaqueteLote;
 use App\Models\DestinoLote;
 use Illuminate\Http\Request;
 use App\Http\Resources\PaqueteResource;
-
+use App\Models\Lleva;
 
 class PaqueteController extends Controller
 {
@@ -21,6 +23,40 @@ class PaqueteController extends Controller
     public function index()
     {
         return Paquete::all();
+    }
+
+    public function paquetesLote($id)
+    {
+        foreach (Lleva::all() as $lleva) {
+            $lotesLleva[] = $lleva->ID_lote;
+        }
+
+        $lotes = Lote::where("tipo", 0)
+        ->whereNull("fecha_cerrado")
+        ->whereNull("fecha_pronto")
+        ->where("ID_almacen", 5)
+        ->get();
+
+
+        foreach($lotes as $lote){
+            $lotesArray[] = $lote->ID;
+        }
+
+
+        $lotesfinal = array_diff($lotesArray, $lotesLleva);
+  
+        foreach($lotesfinal as $lote){
+            $paquetesLote = PaqueteLote::where("ID_lote", $lote)->get();
+            foreach ($paquetesLote as $paquete) {
+                $paquete->paquete;
+            }
+            $paquetesLoteArray[] = $paquetesLote;
+        }
+        // $paqueteLote = PaqueteLote::where("ID_lote", 5)->get();
+        // foreach ($paqueteLote as $paquete) {
+        //     $paquete->paquete;
+        // }
+        return PaqueteResource::collection($paquetesLoteArray);
     }
 
     /**
@@ -45,12 +81,12 @@ class PaqueteController extends Controller
             "ID_almacen" => "required",
             "ID_pickup" => "required",
             "calle" => "required",
-            "numero" => "required",
+            "numero" => "required|numeric",
             "ciudad" => "required",
             "peso" => "required",
             "volumen" => "required",
-            "mail" => "required",
-            "cedula" => "required",
+            "mail" => "required|email",
+            "cedula" => "required|numeric|length:8",
         ]);
 
         $paquete = Paquete::create($validated);
@@ -76,7 +112,6 @@ class PaqueteController extends Controller
      */
     public function edit(Paquete $paquete)
     {
-        
     }
 
     /**
@@ -91,7 +126,7 @@ class PaqueteController extends Controller
         //
     }
 
-    public function carga($id, $matricula)
+    public function cargaCliente($id, $matricula)
     {
         if (!is_numeric($id)) {
             return response()->json([
@@ -127,7 +162,8 @@ class PaqueteController extends Controller
 
 
 
-    public function descargaAlmacen($id){
+    public function descarga($id)
+    {
 
         $paquete = Paquete::find($id);
         if ($paquete === null) {
@@ -137,22 +173,72 @@ class PaqueteController extends Controller
         }
 
 
-        //  Trae::where(["ID_paquete" => $id, "matricula" => $matricula,])->update([
-        //      "fecha_descarga" => now(),]);
+        Trae::where(["ID_paquete" => $id])->update([
+            "fecha_descarga" => now(),
+        ]);
 
+        $almacen = explode(".", session()->get("user"))[0];
         $paquete = Paquete::find($id);
+        // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete
         $destinoLote = DestinoLote::where("ID_almacen", $paquete->ID_pickup)->first();
-        if($destinoLote === null || $destinoLote->lote->tipo == 1){
-            Lote::create([
-                "ID_troncal" => 1,
-                "ID_almacen" => $paquete->ID_pickup,
+        // Busco una troncal que tenga el mismo almacen que el paquete y agarro su ID
+        $troncal = Orden::where("ID_almacen", $almacen)->first()->troncal->ID;
+        // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
+        if ($destinoLote === null || $destinoLote->lote->tipo == 1) {
+
+            $lote = Lote::create([
+                "ID_troncal" => $troncal,
+                "ID_almacen" => $almacen,
                 "tipo" => 0,
             ]);
+        } else {
+            // Si hay un lote con el mismo almacen destino que el paquete, lo agarro
+            $lote = $destinoLote->lote;
         }
-        return $destinoLote->lote;
+
+        PaqueteLote::create([
+            "ID_paquete" => $id,
+            "ID_lote" => $lote->ID,
+            "fecha" => now(),
+        ]);
+
 
         return response()->json([
-            "message" => "Paquete descargado"
+            "message" => "Paquete descargado y lote asignado"
+        ], 200);
+    }
+
+    public function cargaAlmacen($id, $matricula)
+    {
+        if (!is_numeric($id)) {
+            return response()->json([
+                "message" => "ID debe ser numérico"
+            ], 400);
+        }
+
+        $lote = Lote::find($id);
+        if ($lote === null) {
+            return response()->json([
+                "message" => "Lote no encontrado"
+            ], 404);
+        }
+
+        // Find a vehiculo by its matricula (license plate)
+        $vehiculo = Vehiculo::where('matricula', $matricula)->first();
+
+        if ($vehiculo === null) {
+            return response()->json([
+                "message" => "Vehiculo no encontrado"
+            ], 404);
+        }
+
+        Lleva::create([
+            "ID_lote" => $id,
+            "matricula" => $matricula,
+        ]);
+
+        return response()->json([
+            "message" => "Lote cargado"
         ], 200);
     }
 }
