@@ -1,8 +1,8 @@
-drop database IF EXISTS piston_logistics;
+drop database IF EXISTS surno;
 
-CREATE DATABASE piston_logistics;
+CREATE DATABASE surno;
 
-USE piston_logistics;
+USE surno;
 
 CREATE TABLE USERS (
     user VARCHAR(20) PRIMARY KEY NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE USERS (
     rol TINYINT NOT NULL
 );
 
-ALTER TABLE USUARIOS
+ALTER TABLE USERS
     ADD CONSTRAINT rol CHECK ( 0<=rol AND rol<=2);
 
 CREATE TABLE CAMIONEROS (

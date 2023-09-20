@@ -1,4 +1,4 @@
-use piston_logistics;
+use surno;
 
 INSERT INTO CAMIONEROS (CI, nombre, apellido, baja) VALUES
 ('12345678', 'Juan', 'Perez', 0),
