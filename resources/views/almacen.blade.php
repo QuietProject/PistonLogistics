@@ -31,8 +31,8 @@
     <!-- Main Container -->
     <div class="scanContainer">
         <img src="../source/logoNegro.svg" alt="Logo" class="containerLogo">
-        <a href="../views/almacenCarga.blade.php" class="accessButton">Carga</a>
-        <a href="../views/almacenDescarga.blade.php" class="accessButton">Descarga</a>
+        <a href="../almacenCarga" class="accessButton">Carga</a>
+        <a href="../almacenDescarga" class="accessButton">Descarga</a>
     </div>
 </body>
 

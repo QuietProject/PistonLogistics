@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <form class="logInContainer" method="POST" action="{{ route('login') }}" >
+    <form class="logInContainer" method="POST" action=" {{ route('login') }} ">
         @csrf
         
         <img src="../Source/logoNegro.svg" alt="Icon" class="iconImage">

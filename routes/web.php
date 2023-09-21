@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::view("/", "welcome")->name("home");
 
-Route::view("/login", "login")->name("login.index");
+Route::view("/login", "login")->name("login");
 Route::post("/login", [AuthenticatedSessionController::class, "store"])->name("login.algo");
 
 Route::view("/camionero", "camionero")->name("camionero");
