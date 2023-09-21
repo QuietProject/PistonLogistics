@@ -1,4 +1,26 @@
-use piston_logistics;
+use surno;
+
+INSERT INTO USERS (user, password, rol) VALUES
+('usuario1', 'contraseña1', 0),
+('usuario2', 'contraseña2', 1),
+('usuario3', 'contraseña3', 2),
+('usuario4', 'contraseña4', 0),
+('usuario5', 'contraseña5', 1),
+('usuario6', 'contraseña6', 2),
+('usuario7', 'contraseña7', 0),
+('usuario8', 'contraseña8', 1),
+('usuario9', 'contraseña9', 2),
+('usuario10', 'contraseña10', 0),
+('usuario11', 'contraseña11', 1),
+('usuario12', 'contraseña12', 2),
+('usuario13', 'contraseña13', 0),
+('usuario14', 'contraseña14', 1),
+('usuario15', 'contraseña15', 2),
+('usuario16', 'contraseña16', 0),
+('usuario17', 'contraseña17', 1),
+('usuario18', 'contraseña18', 2),
+('usuario19', 'contraseña19', 0),
+('usuario20', 'contraseña20', 1);
 
 INSERT INTO CAMIONEROS (CI, nombre, apellido, baja) VALUES
 ('12345678', 'Juan', 'Perez', 0),
@@ -113,31 +135,31 @@ INSERT INTO TRONCALES (nombre, baja) VALUES
 ('Troncal 6', 0),
 ('Troncal 7', 1);
 
-INSERT INTO ALMACENES (nombre, calle, numero, latitud, longitud, baja) VALUES
-('Almacén 1', 'Calle A', '123', 40.123456, -74.654321, 0),
-('Almacén 2', 'Calle B', '456', 40.987654, -73.123456, 0),
-('Almacén 3', 'Calle C', '789', 41.111111, -75.222222, 1),
-('Almacén 4', 'Calle D', '101', 39.555555, -72.444444, 0),
-('Almacén 5', 'Calle E', '202', 40.777777, -73.888888, 0),
-('Almacén 6', 'Calle F', '303', 39.888888, -74.555555, 1),
-('Almacén 7', 'Calle G', '404', 41.222222, -75.777777, 0),
-('Almacén 8', 'Calle H', '505', 40.333333, -73.333333, 0),
-('Almacén 9', 'Calle I', '606', 39.444444, -72.777777, 1),
-('Almacén 10', 'Calle J', '707', 41.444444, -75.444444, 0),
-('Almacén 11', 'Calle K', '808', 40.555555, -74.111111, 0),
-('Almacén 12', 'Calle L', '909', 41.777777, -75.555555, 0),
-('Almacén 13', 'Calle M', '1010', 40.666666, -73.777777, 1),
-('Almacén 14', 'Calle N', '1111', 39.222222, -72.111111, 0),
-('Almacén 15', 'Calle O', '1212', 41.888888, -75.888888, 0),
-('Almacén 16', 'Calle P', '1313', 40.444444, -73.444444, 1),
-('Almacén 17', 'Calle Q', '1414', 39.777777, -72.888888, 0),
-('Almacén 18', 'Calle R', '1515', 41.666666, -75.333333, 0),
-('Almacén 19', 'Calle S', '1616', 40.888888, -73.111111, 1),
-('Almacén 20', 'Calle T', '1717', 39.111111, -72.666666, 0),
-('Almacén 21', 'Calle U', '1515', 41.666666, -75.333333, 1),
-('Almacén 22', 'Calle V', '1616', 40.888888, -73.111111, 1),
-('Almacén 23', 'Calle X', '1717', 39.111111, -72.666666, 1),
-('Almacén 24', 'Calle Y', '1717', 39.111111, -72.666666, 0);
+INSERT INTO ALMACENES (nombre, direccion, baja) VALUES
+('Almacén 1', 'Calle A 123',0),
+('Almacén 2', 'Calle B 456',0),
+('Almacén 3', 'Calle C 789',0),
+('Almacén 4', 'Calle D 101',0),
+('Almacén 5', 'Calle E 202',0),
+('Almacén 6', 'Calle F 303',0),
+('Almacén 7', 'Calle G 404',0),
+('Almacén 8', 'Calle H 505',0),
+('Almacén 9', 'Calle I 606',0),
+('Almacén 10', 'Calle J 707',0),
+('Almacén 11', 'Calle K 808',0),
+('Almacén 12', 'Calle L 909',0),
+('Almacén 13', 'Calle M 010',0),
+('Almacén 14', 'Calle N 111',0),
+('Almacén 15', 'Calle O 212',0),
+('Almacén 16', 'Calle P 313',0),
+('Almacén 17', 'Calle Q 414',0),
+('Almacén 18', 'Calle R 515',0),
+('Almacén 19', 'Calle S 616',0),
+('Almacén 20', 'Calle T 717',0),
+('Almacén 21', 'Calle U 515',0),
+('Almacén 22', 'Calle V 616',0),
+('Almacén 23', 'Calle X 717',0),
+('Almacén 24', 'Calle Y 717',0);
 
 
 INSERT INTO ALMACENES_PROPIOS (ID) VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15),(21),(22),(23);
@@ -204,25 +226,25 @@ INSERT INTO ALMACENES_CLIENTES (RUT, ID) VALUES
 /*
 select matricula from conducen where hasta is null and matricula in(select matricula from camiones);
 delete from paquetes where 1;*/
-INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, calle, numero, ciudad, peso, volumen, fecha_entregado, mail, cedula) VALUES
-(16, '2023-09-15 07:37:40', 2,'Calle', '123', 'florida', 1000, 2000, NULL, 'correo1@example.com', NULL), -- 1 ok
-(16, '2023-09-14 07:34:40', 11,'Calle', '456', 'punta del este', 1500, 2500, NULL, 'correo2@example.com', NULL),  -- 2 ok
-(16, '2023-09-14 23:32:40', 2,'Calle', '789', 'chuy', 1200, 2200, NULL,	'correo3@example.com', NULL), -- 3 ok
-(16, '2023-08-26 16:28:20', 4,'Calle', '101', 'melo', 800, 1800, NULL, 'correo4@example.com', NULL), -- 4 ok
-(16, '2023-05-04 05:25:35', 11,'Calle', '202', 'melo', 1400, 2400, '2023-05-12 14:22:00', 'correo5@example.com', '56789012'), -- 5 ok
-(16, '2023-05-10 17:06:01', 11,'Calle', '404', 'melo', 1300, 2300, '2023-05-12 16:26:00', 'correo6@example.com', '78901234'), -- 6 ok
-(16, '2023-08-27 18:22:58', 1,'Calle', '303', 'salto', 1100, 2100, '2023-09-01 14:01:00', 'correo7@example.com', '67890123'), -- 7 ok
-(16, '2023-07-23 05:37:47', 8,'Calle', '505', 'canelones', 900,	1900, NULL, 'correo8@example.com', NULL), -- 8 ok
-(16, '2023-09-11 01:38:22', 7,'Calle', '606', 'montevideo',	1600, 2600,	NULL, 'correo9@example.com', NULL), -- 9 ok
-(16, '2023-08-13 04:06:42', 12,'Calle', '707', 'montevideo', 700, 1700,	'2023-08-16 12:54:42', 'correo10@example.com', '01234567'), -- 10 ok
-(17, '2023-08-02 04:22:08', 14,'Calle', '808', 'colonia del sacramento', 1800,	2800, NULL, 'correo11@example.com',	NULL), -- 11 ok
-(18, '2023-08-29 11:42:52', 5,null, null, null, 1100, 2500, NULL, 'correo13@example.com', NULL), -- 12 ok 
-(18, '2023-09-05 10:42:49', 5,null, null, null,	1500, 2000,	'2023-09-15 16:34:14', 'correo12@example.com', '22345669'), -- 13 ok
-(18, '2023-07-30 05:22:07', 4,'Calle', '1111', 'montevideo', 1400, 2100, '2023-08-01 05:22:07',	'correo14@example.com',	'44567871'), -- 14 ok
-(19, '2023-09-13 23:29:45', 5,'Calle', '1212', 'montevideo', 900, 2400,	NULL, 'correo15@example.com', NULL), -- 15 ok
-(19, '2023-08-28 23:54:46', 7,'Calle', '1313', 'montevideo', 1700, 1900, NULL, 'correo16@example.com', '66789073'), -- 16
-(20, '2023-07-29 19:17:39', 8,'Calle', '1414', 'minas',	1200, 2700,	NULL, 'correo17@example.com', NULL), -- 17
-(20, '2023-07-29 19:18:39', 8, null , null, null, 1200,	2200, NULL,	'correo18@example.com',	NULL); -- 18
+INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, direccion, peso, volumen, fecha_entregado, mail, cedula) VALUES
+(16, '2023-09-15 07:37:40', 2 ,'Calle 123, florida', 1000, 2000, NULL, 'correo1@example.com', NULL), -- 1 ok
+(16, '2023-09-14 07:34:40', 11,'Calle 456, punta del este', 1500, 2500, NULL, 'correo2@example.com', NULL),  -- 2 ok
+(16, '2023-09-14 23:32:40', 2 ,'Calle 789, chuy', 1200, 2200, NULL,	'correo3@example.com', NULL), -- 3 ok
+(16, '2023-08-26 16:28:20', 4 ,'Calle 101, melo', 800, 1800, NULL, 'correo4@example.com', NULL), -- 4 ok
+(16, '2023-05-04 05:25:35', 11,'Calle 202, melo', 1400, 2400, '2023-05-12 14:22:00', 'correo5@example.com', '56789012'), -- 5 ok
+(16, '2023-05-10 17:06:01', 11,'Calle 404, melo', 1300, 2300, '2023-05-12 16:26:00', 'correo6@example.com', '78901234'), -- 6 ok
+(16, '2023-08-27 18:22:58', 1 ,'Calle 303, salto', 1100, 2100, '2023-09-01 14:01:00', 'correo7@example.com', '67890123'), -- 7 ok
+(16, '2023-07-23 05:37:47', 8 ,'Calle 505, canelones', 900,	1900, NULL, 'correo8@example.com', NULL), -- 8 ok
+(16, '2023-09-11 01:38:22', 7 ,'Calle 606, montevideo',	1600, 2600,	NULL, 'correo9@example.com', NULL), -- 9 ok
+(16, '2023-08-13 04:06:42', 12,'Calle 707, montevideo', 700, 1700,	'2023-08-16 12:54:42', 'correo10@example.com', '01234567'), -- 10 ok
+(17, '2023-08-02 04:22:08', 14,'Calle 808, colonia del sacramento', 1800,	2800, NULL, 'correo11@example.com',	NULL), -- 11 ok
+(18, '2023-08-29 11:42:52', 5 ,null, 1100, 2500, null, 'correo13@example.com', NULL), -- 12 ok 
+(18, '2023-09-05 10:42:49', 5 ,null, 1500, 2000, '2023-09-15 16:34:14', 'correo12@example.com', '22345669'), -- 13 ok
+(18, '2023-07-30 05:22:07', 4,'Calle 111, montevideo', 1400, 2100, '2023-08-01 05:22:07',	'correo14@example.com',	'44567871'), -- 14 ok
+(19, '2023-09-13 23:29:45', 5,'Calle 212, montevideo', 900, 2400,	NULL, 'correo15@example.com', NULL), -- 15 ok
+(19, '2023-08-28 23:54:46', 7,'Calle 313, montevideo', 1700, 1900, NULL, 'correo16@example.com', '66789073'), -- 16
+(20, '2023-07-29 19:17:39', 8,'Calle 414, minas',	1200, 2700,	NULL, 'correo17@example.com', NULL), -- 17
+(20, '2023-07-29 19:18:39', 8, null , 1200,	2200, NULL,	'correo18@example.com',	NULL); -- 18
 /*
 select * from ordenes where ID_almacen=4; -- 1, 4, 5, 6
 select * from ordenes where ID_troncal in(4) group by ID_almacen;

@@ -1,7 +1,7 @@
-USE piston_logistics;
+USE surno;
 -- 1. MOSTRAR LOS PAQUETES ENTREGADOS EN EL MES DE MAYO DEL 2023 CON DESTINO A LA CIUDAD DE MELO
 
-select * from paquetes where ciudad = 'melo' AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
+select * from paquetes where direccion like('% melo') AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
 
 -- 2. MOSTRAR TODOS LOS ALMACENES Y LOS PAQUETES QUE FUERON ENTREGADOS EN LOS MISMOS DURANTE EL 2023, ORDENARLOS ADEMAS DE LOS QUE RECIBIERON MAS PAQUETES A LOS QUE RECIBIERON MENOS.
 /*select *
@@ -62,7 +62,7 @@ where lotes.ID_almacen=2 or (destino_lote.ID_almacen=2 and lleva.fecha_descarga 
 
 -- 5. MOSTRAR DESTINO, LOTE, ALMACEN DE DESTINO Y CAMIÓN QUE TRANSPORTA UN PAQUETE DADO.
 
-SELECT paquetes.calle, paquetes.numero, paquetes.ciudad, paquetes.id_pickup as 'almacen destino', lotes.ID as lote ,lleva.matricula
+SELECT paquetes.direccion, paquetes.id_pickup as 'almacen destino', lotes.ID as lote ,lleva.matricula
 FROM paquetes
 LEFT JOIN paquetes_lotes ON paquetes.id = paquetes_lotes.ID_paquete
 LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
@@ -89,7 +89,7 @@ CASE
     WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN reparte.matricula
     ELSE null
   END AS MATRICULA,
-  destino_lote.ID_almacen as 'ALMACEN DESTINO', paquetes.calle, paquetes.numero, paquetes.ciudad, paquetes.id_pickup,
+  destino_lote.ID_almacen as 'ALMACEN DESTINO', paquetes.direccion, paquetes.id_pickup,
   CASE
 	WHEN paquetes.fecha_entregado is not null then 'Entregado'
     WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN 'Llevando hacia el destino final'
@@ -126,8 +126,7 @@ from vehiculos
 where es_operativo=0 and baja=0 and matricula in(select matricula from camiones);
 
 -- 9. MOSTRAR TODOS LOS CAMIONES QUE NO TIENEN UN CONDUCTOR ASIGNADO Y SU ESTADO OPERATIVO.
-select *
-from vehiculos
+select *from vehiculos
 where es_operativo=1 and baja=0 and matricula in(select matricula from camiones) and matricula not in(select matricula from conducen where hasta is null);
 
 -- 10. MOSTRAR TODOS LOS ALMACENES QUE SE ENCUENTRAN EN UN RECORRIDO DADO.
@@ -138,7 +137,7 @@ inner join ALMACENES on ordenes.ID_almacen=ALMACENES.ID
 where ordenes.ID_troncal=2 and almacenes.baja=0;
 
 
-
+describe camioneros;
 
 
 
