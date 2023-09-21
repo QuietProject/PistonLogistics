@@ -31,7 +31,7 @@ class Camion extends Model
 		return $this->belongsTo(Vehiculo::class, 'matricula');
 	}
 
-	public function llevas()
+	public function lleva()
 	{
 		return $this->hasMany(Lleva::class, 'matricula');
 	}
