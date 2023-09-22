@@ -245,11 +245,12 @@ INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, direccion, peso, 
 (19, '2023-09-13 23:29:45', 5,'Calle 212, montevideo', 900, 2400,	NULL, 'correo15@example.com', NULL), -- 15 ok
 (19, '2023-08-28 23:54:46', 7,'Calle 313, montevideo', 1700, 1900, NULL, 'correo16@example.com', '66789073'), -- 16
 (20, '2023-07-29 19:17:39', 8,'Calle 414, minas',	1200, 2700,	NULL, 'correo17@example.com', NULL), -- 17
-(20, '2023-07-29 19:18:39', 8, null , 1200,	2200, NULL,	'correo18@example.com',	NULL); -- 18
-/*
+(20, '2023-07-29 19:18:39', 8, null , 1200,	2200, NULL,	'correo18@example.com',	NULL), -- 18
+(20, '2023-09-20 12:18:39', 14, 'Calle 413, florida' , 1200,	2200, NULL,	'correo19@example.com',	NULL); -- 18
+
 select * from ordenes where ID_almacen=4; -- 1, 4, 5, 6
-select * from ordenes where ID_troncal in(4) group by ID_almacen;
-select * from camionetas;*/
+select * from ordenes where ID_troncal in(5) group by ID_almacen;
+select * from camionetas;
 
 INSERT INTO TRAE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (1,'NOP3456','2023-09-17 09:37:40','2023-09-17 12:23:40'),
@@ -266,16 +267,14 @@ INSERT INTO TRAE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (9,'QRS7890','2023-09-12 11:28:22','2023-09-12 15:26:22'),
 (10,'CDE3450','2023-08-14 08:56:42','2023-08-14 12:54:42'),
 (11,'YZA3456','2023-08-04 10:22:08','2023-08-4 14:23:08'),
-#---------------------------------------------------------
 (12,'EFG1234','2023-09-03 11:56:52','2023-09-04 15:32:42'),
 (13,'MNO7890','2023-09-07 08:23:49','2023-09-07 11:45:49'),
 
 (14,'GHI9012','2023-08-02 12:22:07','2023-08-02 16:13:07'),
 
-#(15,'NOP3456','2023-09-16 10:24:45','2023-09-16 14:56:45'),
-
 (17,'GHI9012','2023-07-30 12:43:39','2023-07-30 16:13:07'),
-(18,'GHI9012','2023-07-30 12:44:45','2023-07-30 16:14:34');
+(18,'GHI9012','2023-07-30 12:44:45','2023-07-30 16:14:34'),
+(19,'GHI9012','2023-09-22 11:18:39',null);
 
 
 INSERT INTO lotes (ID_troncal,ID_almacen,fecha_creacion,fecha_pronto,fecha_cerrado, tipo) values 
