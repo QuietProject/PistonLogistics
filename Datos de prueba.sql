@@ -1,5 +1,6 @@
 use surno;
 
+
 INSERT INTO USERS (user, password, rol) VALUES
 ('usuario1', 'contraseña1', 0),
 ('usuario2', 'contraseña2', 1),
