@@ -30,21 +30,13 @@ qrContainer.addEventListener("click", function () {
     }).catch(function (error) {
         console.error(error);
     });
-    scanner.addListener('scan', async function (content) {
+    scanner.addListener('scan', function (content) {
         console.log('Scanned content: ' + content);
         // //let paquetes = await fetch("http://localhost:8080/paquetes", {"mode": "cors", "headers": "Access-Control-Allow-Origin: *"})
         // // 
         
         
-        $.ajax({
-            type: "get",
-            url: "http://localhost:8080/paquetes",
-            data:  content,
-            dataType: "dataType",
-            success: function (response) {
-                
-            }
-        });
+        
 
         // console.log(paquetes);
         ticketInfo.value = content;
