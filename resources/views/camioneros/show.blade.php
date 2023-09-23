@@ -1,10 +1,9 @@
 <x-layout titulo='Camionero'>
     <h2>Camionero</h2>
 
-    <span>{{ $camionero->CI }}</span>
-    <span>{{ $camionero->nombre }}</span>
-    <span>{{ $camionero->apellido }}</span>
-    <span>
+    <p>Cedula: {{ $camionero->CI }}</p>
+    <p>Nombre: {{ $camionero->nombre }} {{ $camionero->apellido }}</p>
+    <p>
         <form action="{{ route('camioneros.destroy', $camionero->CI) }}" method="POST">
             @csrf
             @method('DELETE')
@@ -16,7 +15,8 @@
                 @endif
             </button>
         </form>
-    </span>
+    </p>
+    <p><a href="{{ route('camioneros.edit',$camionero) }}">Editar</a></p>
 
     <a href="{{ route('camioneros.index') }}">Volver</a>
 

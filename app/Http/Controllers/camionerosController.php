@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveCamioneroRequest;
 use App\Models\Camionero;
 use GuzzleHttp\RetryMiddleware;
 use Illuminate\Http\Request;
@@ -16,8 +17,7 @@ class camionerosController extends Controller
     public function index()
     {
         $camioneros = Camionero::get();
-
-        return   view('camioneros.index', ['camioneros'=>$camioneros]);
+        return   view('camioneros.index', ['camioneros' => $camioneros]);
     }
 
     /**
@@ -27,7 +27,7 @@ class camionerosController extends Controller
      */
     public function create()
     {
-        return view('camioneros.create');
+        return view('camioneros.create', ['camionero' => new Camionero()]);
     }
 
     /**
@@ -36,9 +36,10 @@ class camionerosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveCamioneroRequest $request)
     {
-        //
+        Camionero::create($request->validated());
+        return to_route('camioneros.show', $request->input('CI'))->with('success', 'El camionero se edito correctamente');
     }
 
     /**
@@ -49,7 +50,7 @@ class camionerosController extends Controller
      */
     public function show(Camionero $camionero)
     {
-        return view('camioneros.show',['camionero'=>$camionero]);
+        return view('camioneros.show', ['camionero' => $camionero]);
     }
 
     /**
@@ -60,7 +61,7 @@ class camionerosController extends Controller
      */
     public function edit(Camionero $camionero)
     {
-        //
+        return view('camioneros.edit', ['camionero' => $camionero]);
     }
 
     /**
@@ -70,9 +71,10 @@ class camionerosController extends Controller
      * @param  \App\Models\Camionero  $camionero
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Camionero $camionero)
+    public function update(SaveCamioneroRequest $request, Camionero $camionero)
     {
-        //
+        $camionero->update($request->validated());
+        return to_route('camioneros.show', $camionero)->with('success', 'El camionero se actualizo correctamente');
     }
 
     /**
@@ -83,6 +85,7 @@ class camionerosController extends Controller
      */
     public function destroy(Camionero $camionero)
     {
-        //
+        $camionero->update(['baja'=>!$camionero->baja]);
+        return redirect()->back()->with('success', 'El camionero se actualizo correctamente');
     }
 }
