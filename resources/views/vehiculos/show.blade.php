@@ -1,3 +1,11 @@
+<?php
+$estado = 'fuera de servicio';
+if ($vehiculo->baja) {
+    $estado = 'de baja';
+} elseif ($vehiculo->es_operativo) {
+    $estado = 'operativo';
+}
+?>
 <x-layout titulo='{{ $tipo }}'>
 
     <h2>{{ $tipo }}</h2>
@@ -6,27 +14,23 @@
     <p>Volumen Maximo: {{ $vehiculo->vol_max }}m3</p>
     <p>Conductor:
         @if (isset($camioneros[0]) && $camioneros[0]->hasta == null)
-            <a href="{{ route('camioneros.show', $camioneros[0]->CI) }}">{{ $camioneros[0]->nombre }} {{ $camioneros[0]->apellido }}</a>
-            <form action="{{ route('conducen.hasta', [ 'matricula' =>$vehiculo->matricula, 'ci'=>$camioneros[0]->CI]) }}" method="POST">
+            <a href="{{ route('camioneros.show', $camioneros[0]->CI) }}">{{ $camioneros[0]->nombre }}
+                {{ $camioneros[0]->apellido }}</a>
+            <form
+                action="{{ route('conducen.hasta', ['matricula' => $vehiculo->matricula, 'ci' => $camioneros[0]->CI]) }}"
+                method="POST">
                 @csrf
                 @method('PATCH')
                 <button type="submit"> Dejar de conducir</button>
             </form>
         @else
             no tiene
-        @endif
-    </p>
-    <p>Estado:
-        @if ($vehiculo->baja)
-            de baja
-        @else
-            @if ($vehiculo->es_operativo)
-                operativo
-            @else
-                fuera de servicio
+            @if ($estado == 'operativo')
+            <a href="{{ route('conducen.vehiculo', ['vehiculo' => $vehiculo->matricula]) }}">Asignar conductor</a>
             @endif
         @endif
     </p>
+    <p>Estado: {{ $estado }}</p>
     @if (!$vehiculo->baja)
         <form action="{{ route('vehiculos.operativo', $vehiculo->matricula) }}" method="POST">
             @csrf
@@ -98,14 +102,15 @@
             <tbody>
                 @foreach ($camioneros as $camionero)
                     <tr>
-                        <td><a href="{{ route('camioneros.show', $camionero->CI) }}"> {{ $camionero->nombre }} {{ $camionero->apellido }}</a></td>
+                        <td><a href="{{ route('camioneros.show', $camionero->CI) }}"> {{ $camionero->nombre }}
+                                {{ $camionero->apellido }}</a></td>
                         <td>{{ $camionero->desde }}</td>
-                        <td>{{ $camionero->hasta != null ? $camionero->hasta : 'Conduciendo'  }}</td>
+                        <td>{{ $camionero->hasta != null ? $camionero->hasta : 'Conduciendo' }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        @else
+    @else
         <p>Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento</p>
-        @endif
+    @endif
 </x-layout>

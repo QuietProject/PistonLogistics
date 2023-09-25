@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveCamioneroRequest;
 use App\Models\Camionero;
 use App\Models\Conducen;
-use GuzzleHttp\RetryMiddleware;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
-class camionerosController extends Controller
+class CamionerosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -52,7 +50,7 @@ class camionerosController extends Controller
      */
     public function show(Camionero $camionero)
     {
-        $vehiculos = Conducen::where('CI', $camionero->CI)->orderBy('desde', 'desc')->get();
+        $vehiculos = Conducen::where('CI', $camionero->CI)->orderBy('hasta', 'asc')->get();
         return view('camioneros.show', ['camionero' => $camionero, 'vehiculos' => $vehiculos]);
     }
 
@@ -88,6 +86,15 @@ class camionerosController extends Controller
      */
     public function destroy(Camionero $camionero)
     {
+
+        $conduce = Conducen::where('CI', $camionero->CI)->whereNull('hasta')->first();
+        if($conduce!=null){
+            Conducen::where('matricula', $conduce->matricula)
+            ->where('ci', $conduce->CI)
+            ->where('desde', $conduce->desde)
+            ->update(['hasta' => Carbon::now()->toDateTimeString()]);
+        }
+
         $camionero->update(['baja' => !$camionero->baja]);
         return redirect()->back()->with('success', 'El camionero se actualizo correctamente');
     }

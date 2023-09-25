@@ -38,5 +38,8 @@ Route::get('/logout',[AuthenticatedSessionController::class, 'destroy'])->middle
 
 Route::patch('/conducen/hasta/{matricula}/{ci}',[ConducenController::class, 'hasta'])->name('conducen.hasta')->middleware('auth');
 
+Route::get('/conducen/vehiculo/{vehiculo}',[ConducenController::class, 'vehiculo'])->name('conducen.vehiculo')->middleware('auth');
+Route::patch('/conducen/desde',[ConducenController::class, 'desde'])->name('conducen.desde')->middleware('auth');
+
 
 

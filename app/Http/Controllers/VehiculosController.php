@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveVehiculoRequest;
 use App\Models\Camion;
-use App\Models\Camionero;
 use App\Models\Camioneta;
 use App\Models\Conducen;
 use App\Models\Lleva;
 use App\Models\Reparte;
 use App\Models\Trae;
 use App\Models\Vehiculo;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class VehiculosController extends Controller
@@ -76,7 +75,7 @@ class VehiculosController extends Controller
         $camioneros = DB::table('conducen')
             ->join('camioneros', 'conducen.CI', 'camioneros.CI')
             ->where('conducen.matricula', $vehiculo->matricula)
-            ->orderBy('desde', 'desc')
+            ->orderBy('hasta', 'desc')
             ->get();
         $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
@@ -137,6 +136,15 @@ class VehiculosController extends Controller
         $vehiculo->baja = !$vehiculo->baja;
         $vehiculo->save();
         $baja = $vehiculo->baja ? 'baja' : 'alta';
+
+        $conduce = Conducen::where('matricula', $vehiculo->matricula)->whereNull('hasta')->first();
+        if($conduce!=null){
+            Conducen::where('matricula', $conduce->matricula)
+            ->where('ci', $conduce->CI)
+            ->where('desde', $conduce->desde)
+            ->update(['hasta' => Carbon::now()->toDateTimeString()]);
+        }
+
         return redirect()->back()->with('success', "El vehiculo se dio de $baja correctamente");
     }
 
