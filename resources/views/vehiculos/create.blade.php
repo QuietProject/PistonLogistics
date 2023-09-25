@@ -10,6 +10,13 @@
                 <option value="camioneta">Camioneta</option>
             </select>
         </div>
+        <div>
+            <label for="matricula">Matricula</label>
+            <input type="text" name="matricula" id="matricula" maxlength="7" minlength="7" required value="{{ old('matricula') }}">
+            @error('matricula')
+                <span style="color: red">{{ $message }}</span>
+            @enderror
+        </div>
         @include('vehiculos.form-fields')
     </form>
 

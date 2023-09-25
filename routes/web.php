@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\camionerosController;
+use App\Http\Controllers\ConducenController;
 use App\Http\Controllers\VehiculosController;
+use App\Models\Vehiculo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
@@ -23,13 +25,18 @@ Route::get('/home', function(){
 });
 Route::view('/', 'index')->name('inicio')->middleware('auth');
 
-Route::resource('camioneros', CamionerosController::class);//->middleware('auth');
+Route::resource('camioneros', CamionerosController::class)->middleware('auth');
 
-Route::resource('vehiculos', VehiculosController::class);//->middleware('auth');
+Route::resource('vehiculos', VehiculosController::class)->middleware('auth');
+Route::patch('/vehiculo/{vehiculo}/baja',[VehiculosController::class, 'baja'])->name('vehiculos.baja')->middleware('auth');
+Route::patch('/vehiculo/{vehiculo}/operativo',[VehiculosController::class, 'operativo'])->name('vehiculos.operativo')->middleware('auth');
+
 
 Route::view('/login','login')->name('login')->middleware('guest');
 Route::post('/login',[AuthenticatedSessionController::class, 'store'])->middleware('guest');
 Route::get('/logout',[AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
+
+Route::patch('/conducen/hasta/{matricula}/{ci}',[ConducenController::class, 'hasta'])->name('conducen.hasta')->middleware('auth');
 
 
 

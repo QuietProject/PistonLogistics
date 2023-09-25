@@ -10,18 +10,18 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Camioneta
+ * Class Camion
  *
  * @property string $matricula
  *
  * @property Vehiculo $vehiculo
- * @property Collection|Reparte[] $repartes
+ * @property Collection|Lleva[] $llevas
  *
  * @package App\Models
  */
-class Camioneta extends Model
+class Camion extends Model
 {
-	protected $table = 'camionetas';
+	protected $table = 'camiones';
 	protected $primaryKey = 'matricula';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -30,14 +30,13 @@ class Camioneta extends Model
 		'matricula'
 	];
 
-
 	public function vehiculo()
 	{
 		return $this->belongsTo(Vehiculo::class, 'matricula');
 	}
 
-	public function reparte()
+	public function lleva()
 	{
-		return $this->hasMany(Reparte::class, 'matricula');
+		return $this->hasMany(Lleva::class, 'matricula');
 	}
 }

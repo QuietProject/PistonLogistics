@@ -1,12 +1,13 @@
-<x-layout titulo='Editar Camionero'>
-    <h2>Editar Camionero</h2>
-    <form action="{{ route('camioneros.update',$camionero) }}" method="POST">
+<x-layout titulo='Editar Vehiculo'>
+
+    <h2>Editar Vehiculo</h2>
+    <form action="{{ route('vehiculos.update',$vehiculo) }}" method="POST">
         @csrf
         @method('PATCH')
-        @include('camioneros.form-fields')
+        @include('vehiculos.form-fields')
     </form>
 
-    <a href="{{ route('camioneros.show',$camionero) }}">Volver</a>
+    <a href="{{ route('vehiculos.show',$vehiculo) }}">Volver</a>
 
 
 </x-layout>

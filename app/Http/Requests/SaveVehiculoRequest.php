@@ -26,7 +26,6 @@ class SaveVehiculoRequest extends FormRequest
     {
         if ($this->isMethod('PATCH')) {
             return [
-                'matricula' => ['bail', 'regex:^[A-Z]{3}[0-9]{4}$', 'digits:8',  'unique:vehiculo,matricula'],
                 'peso_max' => ['bail', 'required', 'integer', 'gt:0'],
                 'vol_max' => ['bail', 'required', 'numeric', 'gt:0']
             ];

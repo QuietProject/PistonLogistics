@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveCamioneroRequest;
 use App\Models\Camionero;
+use App\Models\Conducen;
 use GuzzleHttp\RetryMiddleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class camionerosController extends Controller
 {
@@ -16,7 +18,7 @@ class camionerosController extends Controller
      */
     public function index()
     {
-        $camioneros = Camionero::get();
+        $camioneros = Camionero::all();
         return   view('camioneros.index', ['camioneros' => $camioneros]);
     }
 
@@ -50,7 +52,8 @@ class camionerosController extends Controller
      */
     public function show(Camionero $camionero)
     {
-        return view('camioneros.show', ['camionero' => $camionero]);
+        $vehiculos = Conducen::where('CI', $camionero->CI)->orderBy('desde', 'desc')->get();
+        return view('camioneros.show', ['camionero' => $camionero, 'vehiculos' => $vehiculos]);
     }
 
     /**
@@ -85,7 +88,7 @@ class camionerosController extends Controller
      */
     public function destroy(Camionero $camionero)
     {
-        $camionero->update(['baja'=>!$camionero->baja]);
+        $camionero->update(['baja' => !$camionero->baja]);
         return redirect()->back()->with('success', 'El camionero se actualizo correctamente');
     }
 }

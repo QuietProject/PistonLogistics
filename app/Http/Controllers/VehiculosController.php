@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveVehiculoRequest;
+use App\Models\Camion;
+use App\Models\Camionero;
+use App\Models\Camioneta;
+use App\Models\Conducen;
+use App\Models\Lleva;
+use App\Models\Reparte;
+use App\Models\Trae;
 use App\Models\Vehiculo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -17,10 +24,10 @@ class VehiculosController extends Controller
     public function index()
     {
         $camionetas = DB::table('vehiculos')
-            ->join('camionetas', 'vehiculos.matricula', '=', 'camionetas.matricula')->get();
+            ->join('camionetas', 'vehiculos.matricula', 'camionetas.matricula')->get();
 
         $camiones = DB::table('vehiculos')
-            ->join('camiones', 'vehiculos.matricula', '=', 'camiones.matricula')->get();
+            ->join('camiones', 'vehiculos.matricula', 'camiones.matricula')->get();
 
         return view('vehiculos.index', ['camionetas' => $camionetas], ['camiones' => $camiones]);
     }
@@ -32,7 +39,7 @@ class VehiculosController extends Controller
      */
     public function create()
     {
-        return view('vehiculos.create', ['camionero' => new Vehiculo()]);
+        return view('vehiculos.create', ['vehiculo' => new Vehiculo()]);
     }
 
     /**
@@ -45,9 +52,16 @@ class VehiculosController extends Controller
     {
         $vehiculo = $request->validated();
         unset($vehiculo['tipo']);
-        $request->validated()['tipo'];
-        Vehiculo::create($request->validated());
-        return to_route('cehiculos.show', $request->input('matricula'))->with('success', 'El camionero se edito correctamente');
+        $matricula = $request->validated()['matricula'];
+
+        Vehiculo::create($vehiculo);
+        if ($request->validated()['tipo'] == 'camion') {
+            Camion::create(['matricula' => $matricula]);
+        } else {
+            Camioneta::create(['matricula' => $matricula]);
+        }
+
+        return to_route('vehiculos.show', $request->input('matricula'))->with('success', 'El vehiculo se agrego correctamente');
     }
 
     /**
@@ -58,8 +72,24 @@ class VehiculosController extends Controller
      */
     public function show(Vehiculo $vehiculo)
     {
-        $tipo = (DB::table('camiones')->where('matricula', $vehiculo->matricula)->exists()) ? 'Camion':'Camioneta';
-        return view('vehiculos.show', ['vehiculo' => $vehiculo], ['tipo' => $tipo]);
+        $tipo = (DB::table('camiones')->where('matricula', $vehiculo->matricula)->exists()) ? 'Camion' : 'Camioneta';
+        $camioneros = DB::table('conducen')
+            ->join('camioneros', 'conducen.CI', 'camioneros.CI')
+            ->where('conducen.matricula', $vehiculo->matricula)
+            ->orderBy('desde', 'desc')
+            ->get();
+        $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
+        $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
+        $reparte = Reparte::where('reparte.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
+
+        return view('vehiculos.show', [
+            'vehiculo' => $vehiculo,
+            'tipo' => $tipo,
+            'camioneros' => $camioneros,
+            'trae' => $trae,
+            'lleva' => $lleva,
+            'reparte' => $reparte
+        ]);
     }
 
     /**
@@ -70,7 +100,7 @@ class VehiculosController extends Controller
      */
     public function edit(Vehiculo $vehiculo)
     {
-        //
+        return view('vehiculos.edit', ['vehiculo' => $vehiculo]);
     }
 
     /**
@@ -80,9 +110,10 @@ class VehiculosController extends Controller
      * @param  \App\Models\Vehiculo  $vehiculo
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vehiculo $vehiculo)
+    public function update(SaveVehiculoRequest $request, Vehiculo $vehiculo)
     {
-        //
+        $vehiculo->update($request->validated());
+        return to_route('vehiculos.show', $vehiculo)->with('success', 'El vehiculo se actualizo correctamente');
     }
 
     /**
@@ -93,6 +124,27 @@ class VehiculosController extends Controller
      */
     public function destroy(Vehiculo $vehiculo)
     {
-        //
+        try {
+            $vehiculo->delete();
+        } catch (\PDOException $e) {
+            return redirect()->back()->with('error', 'No se puede elminiar el vehiculo Error SQL:' . $e->errorInfo[1]);
+        }
+        return to_route('vehiculos.index')->with('success', 'El vehiculo se elimino correctamente');
+    }
+
+    public function baja(Vehiculo $vehiculo)
+    {
+        $vehiculo->baja = !$vehiculo->baja;
+        $vehiculo->save();
+        $baja = $vehiculo->baja ? 'baja' : 'alta';
+        return redirect()->back()->with('success', "El vehiculo se dio de $baja correctamente");
+    }
+
+    public function operativo(Vehiculo $vehiculo)
+    {
+        $vehiculo->es_operativo = !$vehiculo->es_operativo;
+        $vehiculo->save();
+        $operaivo = $vehiculo->es_operativo ? 'operativo' : 'fuera de servicio';
+        return redirect()->back()->with('success', "El vehiculo se cambio a $operaivo correctamente");
     }
 }

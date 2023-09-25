@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Vehiculo
- * 
+ *
  * @property string $matricula
  * @property int $vol_max
  * @property int $peso_max
  * @property bool $es_operativo
  * @property bool $baja
- * 
- * @property Camione $camione
+ *
+ * @property Camion $camion
  * @property Camioneta $camioneta
- * @property Collection|Conducen[] $conducens
- * @property Collection|Trae[] $traes
+ * @property Collection|Conducen[] $conducen
+ * @property Collection|Trae[] $trae
  *
  * @package App\Models
  */
@@ -40,15 +40,16 @@ class Vehiculo extends Model
 	];
 
 	protected $fillable = [
-		'vol_max',
+		'matricula',
+        'vol_max',
 		'peso_max',
 		'es_operativo',
 		'baja'
 	];
 
-	public function camione()
+	public function camion()
 	{
-		return $this->hasOne(Camione::class, 'matricula');
+		return $this->hasOne(Camion::class, 'matricula');
 	}
 
 	public function camioneta()
@@ -56,12 +57,12 @@ class Vehiculo extends Model
 		return $this->hasOne(Camioneta::class, 'matricula');
 	}
 
-	public function conducens()
+	public function conducido()
 	{
 		return $this->hasMany(Conducen::class, 'matricula');
 	}
 
-	public function traes()
+	public function trae()
 	{
 		return $this->hasMany(Trae::class, 'matricula');
 	}

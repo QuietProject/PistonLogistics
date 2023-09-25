@@ -39,7 +39,7 @@ class Camionero extends Model
 		'baja'
 	];
 
-	public function conducens()
+	public function conduce()
 	{
 		return $this->hasMany(Conducen::class, 'CI');
 	}
