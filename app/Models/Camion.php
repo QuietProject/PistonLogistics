@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $matricula
  *
  * @property Vehiculo $vehiculo
- * @property Collection|Lleva[] $llevas
+ * @property Collection|Lleva[] $lleva
  *
  * @package App\Models
  */

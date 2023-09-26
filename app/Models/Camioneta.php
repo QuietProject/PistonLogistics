@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $matricula
  *
  * @property Vehiculo $vehiculo
- * @property Collection|Reparte[] $repartes
+ * @property Collection|Reparte[] $reparte
  *
  * @package App\Models
  */

@@ -19,10 +19,10 @@
     </p>
     <p><a href="{{ route('clientes.edit', $cliente) }}">Editar</a></p>
 
-    <a href="{{ route('camioneros.index') }}">Volver</a>
+    <a href="{{ route('clientes.index') }}">Volver</a>
 
     <h3>Almacenes</h3>
-    @if (count($almacenes) > 0)
+    @if (count($cliente->almacenes) > 0)
         <table>
             <thead>
                 <tr>
@@ -33,10 +33,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($almacenes as $almacen)
-                    @php
-                        $almacen = $almacen->almacen()->first();
-                    @endphp
+                @foreach ($cliente->almacenes as $almacen)
                     <tr>
                         <td><a href="#">{{ $almacen->ID }}</a></td>
                         <td>{{ $almacen->nombre }}</td>

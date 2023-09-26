@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $fecha_descarga
  * 
  * @property Lote $lote
- * @property Camione|null $camione
+ * @property Camion|null $camion
  *
  * @package App\Models
  */
@@ -46,8 +46,8 @@ class Lleva extends Model
 		return $this->belongsTo(Lote::class, 'ID_lote');
 	}
 
-	public function camione()
+	public function camion()
 	{
-		return $this->belongsTo(Camione::class, 'matricula');
+		return $this->belongsTo(Camion::class, 'matricula');
 	}
 }

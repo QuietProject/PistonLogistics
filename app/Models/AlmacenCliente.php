@@ -15,13 +15,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID
  * @property string $RUT
  * 
- * @property Almacene $almacene
+ * @property Almacen $almacen
  * @property Cliente $cliente
  * @property Collection|Paquete[] $paquetes
  *
  * @package App\Models
  */
-class AlmacenesCliente extends Model
+class AlmacenCliente extends Model
 {
 	protected $table = 'almacenes_clientes';
 	protected $primaryKey = 'ID';
@@ -33,12 +33,13 @@ class AlmacenesCliente extends Model
 	];
 
 	protected $fillable = [
+		'ID',
 		'RUT'
 	];
 
 	public function almacen()
 	{
-		return $this->belongsTo(Almacene::class, 'ID');
+		return $this->belongsTo(Almacen::class, 'ID');
 	}
 
 	public function cliente()

@@ -18,11 +18,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool $baja
  * 
  * @property Collection|Cliente[] $clientes
- * @property AlmacenesPropio $almacenes_propio
+ * @property AlmacenPropio $almacen_propio
+ * @property AlmacenCliente $almacen_cliente
  *
  * @package App\Models
  */
-class Almacene extends Model
+class Almacen extends Model
 {
 	protected $table = 'almacenes';
 	protected $primaryKey = 'ID';
@@ -43,8 +44,13 @@ class Almacene extends Model
 		return $this->belongsToMany(Cliente::class, 'almacenes_clientes', 'ID', 'RUT');
 	}
 
-	public function almacenes_propio()
+	public function almacen_propio()
 	{
-		return $this->hasOne(AlmacenesPropio::class, 'ID');
+		return $this->hasOne(AlmacenPropio::class, 'ID');
+	}
+
+	public function almacen_clienteropio()
+	{
+		return $this->hasOne(AlmacenCliente::class, 'ID');
 	}
 }

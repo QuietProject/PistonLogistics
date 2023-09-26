@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveClienteRequest;
+use App\Models\AlmacenCliente;
 use App\Models\AlmacenesCliente;
 use App\Models\Cliente;
 use Illuminate\Http\Request;
@@ -50,8 +51,7 @@ class ClientesController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        $almacenes= AlmacenesCliente::where('RUT',$cliente->RUT)->get();
-        return view('clientes.show', ['cliente' => $cliente, 'almacenes'=>$almacenes]);
+        return view('clientes.show', ['cliente' => $cliente]);
     }
 
     /**

@@ -16,14 +16,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID_troncal
  * @property int|null $orden
  * 
- * @property AlmacenesPropio $almacenes_propio
+ * @property AlmacenPropio $almacen_propio
  * @property Troncale $troncale
  * @property Collection|DestinoLote[] $destino_lotes
  * @property Collection|Lote[] $lotes
  *
  * @package App\Models
  */
-class Ordene extends Model
+class Orden extends Model
 {
 	protected $table = 'ordenes';
 	public $incrementing = false;

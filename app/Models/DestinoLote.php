@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID_troncal
  * 
  * @property Lote $lote
- * @property Ordene $ordene
+ * @property Orden $orden
  *
  * @package App\Models
  */
@@ -43,9 +43,9 @@ class DestinoLote extends Model
 		return $this->belongsTo(Lote::class, 'ID_lote');
 	}
 
-	public function ordene()
+	public function orden()
 	{
-		return $this->belongsTo(Ordene::class, 'ID_almacen')
+		return $this->belongsTo(Orden::class, 'ID_almacen')
 					->where('ordenes.ID_almacen', '=', 'destino_lote.ID_almacen')
 					->where('ordenes.ID_troncal', '=', 'destino_lote.ID_troncal');
 	}

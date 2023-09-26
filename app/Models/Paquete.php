@@ -24,8 +24,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $mail
  * @property string|null $cedula
  * 
- * @property AlmacenesCliente $almacenes_cliente
- * @property AlmacenesPropio $almacenes_propio
+ * @property AlmacenCliente $almacen_cliente
+ * @property AlmacenPropio $almacen_propio
  * @property Collection|Lote[] $lotes
  * @property Reparte $reparte
  * @property Trae $trae
@@ -59,14 +59,14 @@ class Paquete extends Model
 		'cedula'
 	];
 
-	public function almacenes_cliente()
+	public function almacen_cliente()
 	{
-		return $this->belongsTo(AlmacenesCliente::class, 'ID_almacen');
+		return $this->belongsTo(AlmacenCliente::class, 'ID_almacen');
 	}
 
-	public function almacenes_propio()
+	public function almacen_propio()
 	{
-		return $this->belongsTo(AlmacenesPropio::class, 'ID_pickup');
+		return $this->belongsTo(AlmacenPropio::class, 'ID_pickup');
 	}
 
 	public function lotes()

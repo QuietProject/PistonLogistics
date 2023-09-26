@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $fecha_cerrado
  * @property bool $tipo
  * 
- * @property Ordene $ordene
+ * @property Orden $ordene
  * @property DestinoLote $destino_lote
  * @property Lleva $lleva
  * @property Collection|Paquete[] $paquetes
@@ -52,9 +52,9 @@ class Lote extends Model
 		'tipo'
 	];
 
-	public function ordene()
+	public function orden()
 	{
-		return $this->belongsTo(Ordene::class, 'ID_almacen')
+		return $this->belongsTo(Orden::class, 'ID_almacen')
 					->where('ordenes.ID_almacen', '=', 'lotes.ID_almacen')
 					->where('ordenes.ID_troncal', '=', 'lotes.ID_troncal');
 	}

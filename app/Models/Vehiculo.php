@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Camioneta $camioneta
  * @property Collection|Conducen[] $conducen
  * @property Collection|Trae[] $trae
+ * @property Collection|Lleva[] $lleva
+ * @property Collection|Reparte[] $reparte
  *
  * @package App\Models
  */
@@ -63,6 +65,16 @@ class Vehiculo extends Model
 	}
 
 	public function trae()
+	{
+		return $this->hasMany(Trae::class, 'matricula');
+	}
+
+	public function lleva()
+	{
+		return $this->hasMany(Lleva::class, 'matricula');
+	}
+
+	public function reparte()
 	{
 		return $this->hasMany(Trae::class, 'matricula');
 	}

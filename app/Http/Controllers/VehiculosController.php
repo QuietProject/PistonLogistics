@@ -80,7 +80,7 @@ class VehiculosController extends Controller
         $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $reparte = Reparte::where('reparte.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
-
+        dd($vehiculo->lleva);
         return view('vehiculos.show', [
             'vehiculo' => $vehiculo,
             'tipo' => $tipo,

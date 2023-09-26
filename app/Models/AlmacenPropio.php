@@ -14,13 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $ID
  * 
- * @property Almacene $almacene
- * @property Collection|Ordene[] $ordenes
+ * @property Almacen $almacen
+ * @property Collection|Orden[] $ordenes
  * @property Collection|Paquete[] $paquetes
  *
  * @package App\Models
  */
-class AlmacenesPropio extends Model
+class AlmacenPropio extends Model
 {
 	protected $table = 'almacenes_propios';
 	protected $primaryKey = 'ID';
@@ -31,9 +31,9 @@ class AlmacenesPropio extends Model
 		'ID' => 'int'
 	];
 
-	public function almacene()
+	public function almacen()
 	{
-		return $this->belongsTo(Almacene::class, 'ID');
+		return $this->belongsTo(Almacen::class, 'ID');
 	}
 
 	public function ordenes()
