@@ -50,8 +50,8 @@ class ClientesController extends Controller
      */
     public function show(Cliente $cliente)
     {
-        // $almacenes= AlmacenesCliente::where('RUT',$cliente->RUT)->get();
-        return view('clientes.show', ['cliente' => $cliente]);
+        $almacenes= AlmacenesCliente::where('RUT',$cliente->RUT)->get();
+        return view('clientes.show', ['cliente' => $cliente, 'almacenes'=>$almacenes]);
     }
 
     /**

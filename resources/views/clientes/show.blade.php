@@ -2,7 +2,8 @@
     <h2>Clientes</h2>
 
     <p>Rut: {{ $cliente->RUT }}</p>
-    <p>Nombre: {{ $cliente->nombre }}<p>
+    <p>Nombre: {{ $cliente->nombre }}
+    <p>
     <p>
     <form action="{{ route('clientes.destroy', $cliente->RUT) }}" method="POST">
         @csrf
@@ -19,31 +20,34 @@
     <p><a href="{{ route('clientes.edit', $cliente) }}">Editar</a></p>
 
     <a href="{{ route('camioneros.index') }}">Volver</a>
-{{-- 
+
     <h3>Almacenes</h3>
     @if (count($almacenes) > 0)
         <table>
             <thead>
                 <tr>
-                    <th>Matricula</th>
-                    <th>Desde</th>
-                    <th>Hasta</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Direccion</th>
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($vehiculos as $vehiculo)
+                @foreach ($almacenes as $almacen)
+                    @php
+                        $almacen = $almacen->almacen()->first();
+                    @endphp
                     <tr>
-                        <td><a href="{{ route('vehiculos.show', $vehiculo->matricula) }}">
-                                {{ $vehiculo->matricula }}</a>
-                        </td>
-                        <td>{{ $vehiculo->desde }}</td>
-                        <td>{{ $vehiculo->hasta != null ? $vehiculo->hasta : 'Conduciendo' }}</td>
+                        <td><a href="#">{{ $almacen->ID }}</a></td>
+                        <td>{{ $almacen->nombre }}</td>
+                        <td>{{ $almacen->direccion }}</td>
+                        <td>{{ $almacen->baja ? 'baja' : 'alta' }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
     @else
-        <p>Este conductor/a no ha conducido ningun camion hasta el momento</p>
-    @endif --}}
+        <p>Este cliente no tiene ningun almacen todavia</p>
+    @endif
 
 </x-layout>

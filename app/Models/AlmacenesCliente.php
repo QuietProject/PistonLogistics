@@ -36,7 +36,7 @@ class AlmacenesCliente extends Model
 		'RUT'
 	];
 
-	public function almacene()
+	public function almacen()
 	{
 		return $this->belongsTo(Almacene::class, 'ID');
 	}
