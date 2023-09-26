@@ -39,7 +39,7 @@ class CamionerosController extends Controller
     public function store(SaveCamioneroRequest $request)
     {
         Camionero::create($request->validated());
-        return to_route('camioneros.show', $request->input('CI'))->with('success', 'El camionero se edito correctamente');
+        return to_route('camioneros.show', $request->input('CI'))->with('success', 'El camionero se creo correctamente');
     }
 
     /**

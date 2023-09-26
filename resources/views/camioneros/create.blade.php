@@ -5,7 +5,7 @@
         <div>
             <label for="CI">Cedula</label>
             <input type="number" name="CI" id="CI" maxlength="8" minlength="8" required value="{{ old('CI') }}">
-            @error('cedula')
+            @error('CI')
                 <span style="color: red">{{ $message }}</span>
             @enderror
         </div>

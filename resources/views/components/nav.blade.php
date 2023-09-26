@@ -4,5 +4,6 @@
 </a>
 <a href="{{ route('camioneros.index') }}">Camioneros</a>
 <a href="{{ route('vehiculos.index') }}"">Vehiculos</a>
+<a href="{{ route('clientes.index') }}"">Clientes</a>
 <a href="{{ route('logout') }}">Cerrar Sesion</a>
 </nav>

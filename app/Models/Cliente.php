@@ -32,6 +32,7 @@ class Cliente extends Model
 	];
 
 	protected $fillable = [
+		'RUT',
 		'nombre',
 		'baja'
 	];
