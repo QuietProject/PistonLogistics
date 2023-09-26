@@ -71,10 +71,28 @@ class ConducenController extends Controller
             return redirect()->back()->with('error', 'El vehiculo no esta operativo');
         }
         $camioneros = DB::select('SELECT DISTINCT camioneros.CI, camioneros.nombre, camioneros.apellido FROM camioneros INNER JOIN conducen ON camioneros.ci = conducen.ci WHERE baja = 0 AND camioneros.CI NOT IN ( SELECT CI FROM conducen WHERE hasta IS NULL );');
-        if (count($camioneros)==0) {
+        if (count($camioneros) == 0) {
             return redirect()->back()->with('error', 'No hay camioneros disponibles');
         }
-        return view('conducen.vehiculo', ['vehiculo' => $vehiculo,'camioneros'=>$camioneros]);
+        return view('conducen.vehiculo', ['vehiculo' => $vehiculo, 'camioneros' => $camioneros]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Conducen  $conducen
+     * @return \Illuminate\Http\Response
+     */
+    public function  camionero(Camionero $camionero)
+    {
+        if ($camionero->baja) {
+            return redirect()->back()->with('error', 'El camionero no esta dado de baja');
+        }
+        $vehiculos = DB::select("SELECT DISTINCT vehiculos.matricula, IF (Exists (select 1 from camiones where camiones.matricula=vehiculos.matricula),'Camion','Camioneta') AS tipo FROM vehiculos INNER JOIN conducen ON vehiculos.matricula = conducen.matricula WHERE baja = 0 AND vehiculos.matricula NOT IN (SELECT matricula FROM conducen WHERE hasta IS NULL);");
+        if (count($vehiculos) == 0) {
+            return redirect()->back()->with('error', 'No hay vehiculo disponibles');
+        }
+        return view('conducen.camionero', ['vehiculos' => $vehiculos, 'camionero' => $camionero]);
     }
 
     /**
@@ -86,22 +104,23 @@ class ConducenController extends Controller
      */
     public function desde(Request $request)
     {
-        $camionero=Camionero::where('CI',$request->input('CI'))->where('baja',0)->firstOrFail();
-        $vehiculo=Vehiculo::where('matricula',$request->input('matricula'))->where('baja',0)->where('es_operativo',1)->firstOrFail();
+        $camionero = Camionero::where('CI', $request->input('CI'))->where('baja', 0)->firstOrFail();
+        $vehiculo = Vehiculo::where('matricula', $request->input('matricula'))->where('baja', 0)->where('es_operativo', 1)->firstOrFail();
 
-        Conducen::where('CI',$camionero->CI)->whereNull('hasta')->Orwhere('matricula',$camionero->matricula)->whereNull('hasta')->dd();
-        
-    
+        $a = Conducen::where('CI', $camionero->CI)->whereNull('hasta')->Orwhere('matricula', $vehiculo->matricula)->whereNull('hasta')->get();
+
+        $ruta = app('router')->getRoutes()->match(app('request')->create(url()->previous()))->getName();
+        if (count($a) > 0) {
+            return redirect()->back()->with('error', 'Error');
+        }
+
+        Conducen::create(['CI' => $camionero->CI, 'matricula' => $vehiculo->matricula]);
+
+        if ($ruta == 'conducen.vehiculo') {
+            return to_route('vehiculos.show', ['vehiculo' => $vehiculo->matricula])->with('success', 'Se le a asignado un camionero al vehiculo correctamente');
+        } else {
+            return to_route('camioneros.show', ['camionero' => $camionero->CI])->with('success', 'Se le a asignado un vehiculo al camionero correctamente');
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Conducen  $conducen
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Conducen $conducen)
-    {
-        //
-    }
 }

@@ -50,7 +50,7 @@ class CamionerosController extends Controller
      */
     public function show(Camionero $camionero)
     {
-        $vehiculos = Conducen::where('CI', $camionero->CI)->orderBy('hasta', 'asc')->get();
+        $vehiculos = Conducen::where('CI', $camionero->CI)->orderBy('desde', 'desc')->get();
         return view('camioneros.show', ['camionero' => $camionero, 'vehiculos' => $vehiculos]);
     }
 

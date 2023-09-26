@@ -75,7 +75,7 @@ class VehiculosController extends Controller
         $camioneros = DB::table('conducen')
             ->join('camioneros', 'conducen.CI', 'camioneros.CI')
             ->where('conducen.matricula', $vehiculo->matricula)
-            ->orderBy('hasta', 'desc')
+            ->orderBy('desde', 'desc')
             ->get();
         $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();

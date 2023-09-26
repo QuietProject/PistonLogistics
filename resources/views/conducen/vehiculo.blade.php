@@ -9,16 +9,16 @@
 
     <h3>Conductor</h3>
     <form action=""></form>
-    <form action="{{ route('conducen.desde')}}" method="POST">
+    <form action="{{ route('conducen.desde') }}" method="POST">
         @csrf
         @method('PATCH')
         <input type="text" value="{{ $vehiculo->matricula }}" name="matricula" hidden>
         <div>
             <label for="CI">Camionero:</label>
             <select name="CI" id="CI">
-@foreach ($camioneros as $camionero)
-    <option value="{{ $camionero->CI }}">{{ $camionero->nombre }} {{ $camionero->apellido }}</option>
-@endforeach
+                @foreach ($camioneros as $camionero)
+                    <option value="{{ $camionero->CI }}">{{ $camionero->nombre }} {{ $camionero->apellido }}, {{ $camionero->CI }}</option>
+                @endforeach
             </select>
         </div>
         <button type="submit"> Asignar</button>
