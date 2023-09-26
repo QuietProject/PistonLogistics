@@ -88,7 +88,7 @@ class ConducenController extends Controller
         if ($camionero->baja) {
             return redirect()->back()->with('error', 'El camionero no esta dado de baja');
         }
-        $vehiculos = DB::select("SELECT DISTINCT vehiculos.matricula, IF (Exists (select 1 from camiones where camiones.matricula=vehiculos.matricula),'Camion','Camioneta') AS tipo FROM vehiculos INNER JOIN conducen ON vehiculos.matricula = conducen.matricula WHERE baja = 0 AND vehiculos.matricula NOT IN (SELECT matricula FROM conducen WHERE hasta IS NULL);");
+        $vehiculos = DB::select("SELECT DISTINCT vehiculos.matricula, IF (Exists (select 1 from camiones where camiones.matricula=vehiculos.matricula),'Camion','Camioneta') AS tipo FROM vehiculos INNER JOIN conducen ON vehiculos.matricula = conducen.matricula WHERE baja = 0 AND es_operativo = 1 AND vehiculos.matricula NOT IN (SELECT matricula FROM conducen WHERE hasta IS NULL);");
         if (count($vehiculos) == 0) {
             return redirect()->back()->with('error', 'No hay vehiculo disponibles');
         }
