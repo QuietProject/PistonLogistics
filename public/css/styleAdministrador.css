@@ -39,6 +39,10 @@ body {
     cursor: pointer;
 }
 
+.button:active {
+    transform: scale(95%);
+}
+
 .disabled {
     display: none;
 }
@@ -77,6 +81,7 @@ body {
     top: 5vh;
     left: 10vh;
     color: white;
+    text-shadow: 0 0 10px var(--baseDark);
 }
 
 .addButton {
@@ -96,13 +101,14 @@ body {
 
 .filterText {
     position: absolute;
-    height: 3vh;
+    height: 5vh;
     width: 20vw;
-    top: 20vh;
+    top: 17vh;
     left: 7.5vw;
     border-radius: 2vh;
     text-indent: 5%;
     background-color: rgb(200, 200, 200);
+    box-shadow: 0 0 10px 0 var(--base);
 }
 
 .filterText:focus {
@@ -111,11 +117,11 @@ body {
 }
 
 .tablePlaceholder {
-    position: absolute;
+    position: relative;
     height: 70vh;
     width: 90vw;
     left: 3vw;
-    bottom: 5vh;
+    top: 25vh;
     background-color: rgb(150, 150, 150);
     border-radius: 2vh;
     display: flex;
@@ -123,14 +129,15 @@ body {
     align-items: center;
     overflow-x: hidden;
     overflow-y: hidden;
+    box-shadow: 0 0 10px 0 var(--base);
 }
 
 .tablePlaceholderHalf {
-    position: absolute;
+    position: relative;
     height: 70vh;
     width: 42vw;
-    left: 3vw;
-    bottom: 5vh;
+    left: 4vw;
+    top: 25vh;
     background-color: rgb(150, 150, 150);
     border-radius: 2vh;
     display: flex;
@@ -204,4 +211,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.tableView {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    height: 5vh;
+}
+
+th {
+    background-color: var(--base);
+    color: white;
 }

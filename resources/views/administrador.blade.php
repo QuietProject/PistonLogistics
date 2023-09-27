@@ -33,7 +33,15 @@
         <input type="button" value="Add" class="addButton" id="addUser">
         <input type="text" id="" class="filterText" placeholder="Search">
         <div class="tablePlaceholder">
-            <h1>Table Placeholder</h1>
+            <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
     </div>
     <!-- Add Users -->
@@ -53,7 +61,15 @@
         <input type="button" value="Add" class="addButton" id="addTruck">
         <input type="text" id="" class="filterText" placeholder="Search">
         <div class="tablePlaceholder">
-            <h1>Table Placeholder</h1>
+        <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
     </div>
     <!-- Add Trucks -->
@@ -73,7 +89,15 @@
         <input type="button" value="Add" class="addButton" id="addRute">
         <input type="text" id="" class="filterText" placeholder="Search">
         <div class="tablePlaceholder">
-            <h1>Table Placeholder</h1>
+        <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
     </div>
     <!-- Add Rutes -->
@@ -93,10 +117,26 @@
         <input type="button" value="Add" class="addButton" id="addWarehouse">
         <input type="text" id="" class="filterText" placeholder="Search">
         <div class="tablePlaceholderHalf">
-            <h1>Table Placeholder</h1>
+        <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
-        <div class="tablePlaceholderHalf" style="left: 48vw;">
-            <h1>Table Placeholder</h1>
+        <div class="tablePlaceholderHalf" style="left: 7vw;">
+        <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
     </div>
     <!-- Add Warehouses -->
@@ -116,10 +156,26 @@
         <input type="button" value="Add" class="addButton" id="addProduct">
         <input type="text" id="" class="filterText" placeholder="Search">
         <div class="tablePlaceholderHalf">
-            <h1>Table Placeholder</h1>
+        <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
-        <div class="tablePlaceholderHalf" style="left: 48vw;">
-            <h1>Table Placeholder</h1>
+        <div class="tablePlaceholderHalf" style="left: 7vw;">
+        <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
     </div>
     <!-- Add Products -->
@@ -139,7 +195,15 @@
         <input type="button" value="Add" class="addButton" id="addClient">
         <input type="text" id="" class="filterText" placeholder="Search">
         <div class="tablePlaceholder">
-            <h1>Table Placeholder</h1>
+        <table class="tableView">
+                <tr>
+                    <th style="width: 7.5%;">ID</th>
+                    <th style="width: 30%;">Name</th>
+                    <th style="width: 30%;">Surname</th>
+                    <th style="width: 20%;">Rol</th>
+                    <th style="width: 12.5%;"></th>
+                </tr>
+            </table>
         </div>
     </div>
     <!-- Add Clients -->
