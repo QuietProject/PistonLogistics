@@ -92,9 +92,38 @@ END //
 DELIMITER ;
 
 -- CALL camioneta("ead3342",10,10, @fallo);
-describe almacenes_clientes;
+
+DROP PROCEDURE almacen_cliente;
 DELIMITER //
-CREATE PROCEDURE almacen_cliente (IN nombre varchar(32), direccion varchar(128), RUT char(12), OUT fallo bit, ID);
+CREATE PROCEDURE almacen_cliente (IN nombre varchar(32), IN direccion varchar(128), IN RUT char(12), OUT error bit, OUT ID int)
+BEGIN
+	-- Inicio de la transacción
+	START TRANSACTION;
+	SET error =0;
+    
+	-- Paso 1: Crear el almacen
+	insert into almacenes (nombre, direccion) values (nombre, direccion);
+	SET error = IF(row_count()=0, 1, @error);
+    SET ID = LAST_INSERT_ID();
+    
+	-- Paso 2: Insertar almacen en almacenes_clientes
+	INSERT INTO almacenes_clientes (rut,ID) values (RUT, ID);
+	SET @row= row_count();
+	SET error = IF(@row=0, 1, @error);
+
+    IF error=1 THEN
+       rollback;
+    ELSE
+		commit;
+    END IF;
+END //
+DELIMITER ;
+
+/*CALL almacen_cliente("almacen7",'calle',234323232323,@error,@ID);
+select @error, @ID;*/
+
+DELIMITER //
+CREATE PROCEDURE camioneta (IN matricula char(7), vol_max int unsigned, peso_max int unsigned, OUT fallo bit)
 BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
@@ -105,7 +134,7 @@ BEGIN
 	SET @error = IF(row_count()=0, 1, @error);
 
 	-- Paso 2: Crear un camion
-	INSERT INTO camiones (matricula) values (matricula);
+	INSERT INTO camionetas (matricula) values (matricula);
 	SET @row= row_count();
 	SET @error = IF(@row=0, 1, @error);
 
@@ -119,5 +148,33 @@ BEGIN
 END //
 DELIMITER ;
 
--- Llama al procedimiento para ejecutar la lógica condicional
-CALL camion("ead3342",10,10, @fallo);
+-- CALL camioneta("ead3342",10,10, @fallo);
+
+DROP PROCEDURE almacen_propio;
+DELIMITER //
+CREATE PROCEDURE almacen_propio (IN nombre varchar(32), IN direccion varchar(128), OUT error bit, OUT ID int)
+BEGIN
+	-- Inicio de la transacción
+	START TRANSACTION;
+	SET error =0;
+    
+	-- Paso 1: Crear el almacen
+	insert into almacenes (nombre, direccion) values (nombre, direccion);
+	SET error = IF(row_count()=0, 1, @error);
+    SET ID = LAST_INSERT_ID();
+    
+	-- Paso 2: Insertar almacen en almacenes_propios
+	INSERT INTO almacenes_propios (ID) values (ID);
+	SET @row= row_count();
+	SET error = IF(@row=0, 1, @error);
+
+    IF error=1 THEN
+       rollback;
+    ELSE
+		commit;
+    END IF;
+END //
+DELIMITER ;
+
+/*CALL almacen_propio("almacen7",'calle',@error,@ID);
+select @error, @ID;*/
