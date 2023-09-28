@@ -1,23 +1,34 @@
 const body = document.getElementsByTagName('body');
-const menu = document.getElementById('menu');
-const menuDesplegable = document.getElementById('menuDesplegable');
-const tl = gsap.timeline({ defautls: { duration: 0.8 } });
 let i = 0;
 let y = 0;
 
-menuDesplegable.style.display = 'none';
-menu.addEventListener('click', () => {
-    menuDesplegable.style.display = '';
-    if (i % 2 === 0) {
-        tl.fromTo('.menuDesplegable', { opacity: 0, x: 30 }, { opacity: 1, x: 0, display: '', duration: 0.8 });
-        gsap.fromTo('.bx-menu', { color: "#000000" }, { color: "#ff9500" });
-        i++;
-    } else {
-        tl.fromTo('.menuDesplegable', { opacity: 1, x: 0, display: '' }, { opacity: 0, x: 30, display: 'none', duration: 0.8 });
-        gsap.fromTo('.bx-menu', { color: "#ff9500" }, { color: "#000000" });
-        i++;
+let isTransitionInProgress = false;
+
+document.getElementById('menu').addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    const menu = document.getElementById('menu');
+
+    if (isTransitionInProgress) {
+        return;
     }
-})
+
+    sidebar.classList.toggle("opened");
+
+    setTimeout(() => {
+        menu.classList.toggle("bx-menu");
+        menu.classList.toggle("fixed");
+        menu.classList.toggle("bx-x");
+    },100);
+    
+
+    isTransitionInProgress = true;
+
+    sidebar.addEventListener('transitionend', () => {
+        isTransitionInProgress = false;
+    });
+});
+
+
 
 
 const section = document.getElementById('section');
@@ -36,10 +47,10 @@ divs.forEach((div, index) => {
 
     div.addEventListener('click', () => {
         if (i % 2 === 0) {
-            gsap.fromTo(`.${a}`, { opacity: 0, xPercent: 0 }, { opacity: 1, xPercent: 100, duration: 0.8 });
+            document.querySelector(`.${a}`).style.transform = "translateY(100%)";
             i++;
         } else {
-            gsap.fromTo(`.${a}`, { opacity: 1, xPercent: 100 }, { opacity: 0, xPercent: 0, duration: 0.8 });
+            document.querySelector(`.${a}`).style.transform = "translateY(0%)";
             i++;
         }
     })

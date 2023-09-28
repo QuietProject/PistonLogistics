@@ -89,9 +89,9 @@ header div img {
     height: 100%;
     background-color: var(--sidebar);
     max-width: 300px;
-    transition: .20s ease-in-out;
     padding: 0 1rem;
     width: 100%;
+    transition: 0.1s ease;
 }
 
 #sidebar div {
@@ -111,7 +111,9 @@ header div img {
 
 #sidebar.opened {
     right: 0%;
+    transition: 0.3s ease-in-out;
 }
+
 
 #sidebar a {
     color: var(--interactuables);
