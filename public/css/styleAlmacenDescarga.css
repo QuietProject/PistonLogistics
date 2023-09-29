@@ -23,9 +23,8 @@ body {
 .qrContainer {
     position: absolute;
     background-color: var(--baseLighter);
+    height: 70vh;
     aspect-ratio: 1/1;
-    max-height: 35.5vw;
-    width: 35.5vw;
     border-radius: 10px;
     top: 8vh;
     left: 8vh;
@@ -54,24 +53,20 @@ a {
 .confirmButton {
     position: absolute;
     background-color: var(--baseLighter);
-    height: 12.5vh;
-    width: 35.5vw;
+    height: 10vh;
+    width: 70vh;
     border-radius: 10px;
     bottom: 7vh;
     left: 8vh;
     font-weight: bolder;
-    font-size: 200%;
+    font-size: xx-large;
 }
 
-.confirmButton:hover {
+.confirmButton:hover{
     cursor: pointer;
 }
 
-.confirmButton:active {
+.confirmButton:active{
     transform: scale(98%);
 }
 
-/* Responsive */
-@media screen and (orientation:portrait){
-        
-}
