@@ -17,17 +17,7 @@ class CamionerosController extends Controller
     public function index()
     {
         $camioneros = Camionero::all();
-        return   view('camioneros.index', ['camioneros' => $camioneros]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('camioneros.create', ['camionero' => new Camionero()]);
+        return   view('camioneros.index', ['camioneros' => $camioneros,'camionero' => new Camionero()]);
     }
 
     /**
@@ -52,17 +42,6 @@ class CamionerosController extends Controller
     {
         $vehiculos = Conducen::where('CI', $camionero->CI)->orderBy('desde', 'desc')->get();
         return view('camioneros.show', ['camionero' => $camionero, 'vehiculos' => $vehiculos]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Camionero  $camionero
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Camionero $camionero)
-    {
-        return view('camioneros.edit', ['camionero' => $camionero]);
     }
 
     /**

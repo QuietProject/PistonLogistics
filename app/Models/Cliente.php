@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Cliente
- * 
+ *
  * @property string $RUT
  * @property string $nombre
  * @property bool $baja
- * 
+ *
  * @property Collection|Almacen[] $almacenes
+ * @property Collection|Almacen_cliente[] $almacenes_cliente
  *
  * @package App\Models
  */
@@ -40,5 +41,11 @@ class Cliente extends Model
 	public function almacenes()
 	{
 		return $this->belongsToMany(Almacen::class, 'almacenes_clientes', 'RUT', 'ID');
+	}
+
+    public function almacenes_cliente()
+	{
+		return $this->belongsToMany(AlmacenCliente::class, 'RUT'
+    );
 	}
 }

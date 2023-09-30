@@ -7,7 +7,7 @@ if ($vehiculo->baja) {
 }
 ?>
 <x-layout titulo='{{ $tipo }}'>
-
+    @include('vehiculos.edit')
     <h2>{{ $tipo }}</h2>
     <p>Matricula: {{ $vehiculo->matricula }}</p>
     <p>Peso Maximo: {{ $vehiculo->peso_max }}kg</p>
@@ -63,8 +63,6 @@ if ($vehiculo->baja) {
             Eliminar
         </button>
     </form>
-
-    <p><a href="{{ route('vehiculos.edit', $vehiculo) }}">Editar</a></p>
 
     <a href="{{ route('vehiculos.index') }}">Volver</a>
 

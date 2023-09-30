@@ -1,4 +1,5 @@
 <x-layout titulo='Clientes'>
+    @include('clientes.edit')
     <h2>Clientes</h2>
 
     <p>Rut: {{ $cliente->RUT }}</p>
@@ -17,7 +18,6 @@
         </button>
     </form>
     </p>
-    <p><a href="{{ route('clientes.edit', $cliente) }}">Editar</a></p>
 
     <a href="{{ route('clientes.index') }}">Volver</a>
 

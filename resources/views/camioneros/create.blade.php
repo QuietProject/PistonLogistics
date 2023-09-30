@@ -1,4 +1,6 @@
-<x-layout titulo='Ingresar Camionero'>
+@if ($errors->any())
+    abre el formulario
+@endif
     <h2>Ingresar Camionero</h2>
     <form action="{{ route('camioneros.store') }}" method="POST">
         @csrf
@@ -12,7 +14,5 @@
         @include('camioneros.form-fields')
     </form>
 
-    <a href="{{ route('camioneros.index') }}">Volver</a>
 
 
-</x-layout>

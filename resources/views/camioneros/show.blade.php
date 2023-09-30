@@ -1,6 +1,6 @@
 <x-layout titulo='Camionero'>
+    @include('camioneros.edit')
     <h2>Camionero</h2>
-
     <p>Cedula: {{ $camionero->CI }}</p>
     <p>Nombre: {{ $camionero->nombre }} {{ $camionero->apellido }}</p>
     <p>Vehiculo asignado:
@@ -33,7 +33,6 @@
         </button>
     </form>
     </p>
-    <p><a href="{{ route('camioneros.edit', $camionero) }}">Editar</a></p>
 
     <a href="{{ route('camioneros.index') }}">Volver</a>
 

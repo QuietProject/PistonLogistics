@@ -1,6 +1,6 @@
 <x-layout titulo='Clientes'>
+    @include('clientes.create')
     <h2>Clientes</h2>
-    <a href="{{ route('clientes.create') }}">Insertar cliente</a>
     <table>
         <thead>
             <tr>

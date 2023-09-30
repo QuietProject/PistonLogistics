@@ -28,17 +28,7 @@ class VehiculosController extends Controller
         $camiones = DB::table('vehiculos')
             ->join('camiones', 'vehiculos.matricula', 'camiones.matricula')->get();
 
-        return view('vehiculos.index', ['camionetas' => $camionetas], ['camiones' => $camiones]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('vehiculos.create', ['vehiculo' => new Vehiculo()]);
+        return view('vehiculos.index', ['camionetas' => $camionetas, 'camiones' => $camiones, 'vehiculo' => new Vehiculo()]);
     }
 
     /**
@@ -80,7 +70,6 @@ class VehiculosController extends Controller
         $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $reparte = Reparte::where('reparte.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
-        dd($vehiculo->lleva);
         return view('vehiculos.show', [
             'vehiculo' => $vehiculo,
             'tipo' => $tipo,
@@ -89,17 +78,6 @@ class VehiculosController extends Controller
             'lleva' => $lleva,
             'reparte' => $reparte
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Vehiculo  $vehiculo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Vehiculo $vehiculo)
-    {
-        return view('vehiculos.edit', ['vehiculo' => $vehiculo]);
     }
 
     /**

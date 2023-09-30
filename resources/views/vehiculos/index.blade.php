@@ -1,5 +1,5 @@
 <x-layout titulo='Vehiculos'>
-    <a href="{{ route('vehiculos.create') }}">Insertar Vehiculo</a>
+    @include('vehiculos.create')
     <h2>Camiones</h2>
     <table>
         <thead>

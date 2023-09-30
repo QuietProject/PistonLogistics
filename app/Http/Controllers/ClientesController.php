@@ -18,17 +18,7 @@ class ClientesController extends Controller
     public function index()
     {
         $clientes = Cliente::all();
-        return   view('clientes.index', ['clientes' => $clientes]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('clientes.create', ['cliente' => new Cliente()]);
+        return   view('clientes.index', ['clientes' => $clientes, 'cliente' => new Cliente()]);
     }
 
     /**
@@ -51,18 +41,8 @@ class ClientesController extends Controller
      */
     public function show(Cliente $cliente)
     {
+        //dd($cliente->almacenes_cliente);
         return view('clientes.show', ['cliente' => $cliente]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cliente  $cliente
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cliente $cliente)
-    {
-        return view('clientes.edit', ['cliente' => $cliente]);
     }
 
     /**
