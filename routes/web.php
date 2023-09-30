@@ -30,9 +30,9 @@ Route::get('/home', function(){ return to_route('inicio'); });
 
 Route::view('/', 'index')->name('inicio')->middleware('auth');
 
-Route::resource('camioneros', CamionerosController::class)->middleware('auth');
+Route::resource('camioneros', CamionerosController::class)->middleware('auth')->except(['create','edit']);
 
-Route::resource('vehiculos', VehiculosController::class)->middleware('auth');
+Route::resource('vehiculos', VehiculosController::class)->middleware('auth')->except(['create','edit']);
 Route::patch('/vehiculo/{vehiculo}/baja',[VehiculosController::class, 'baja'])->name('vehiculos.baja')->middleware('auth');
 Route::patch('/vehiculo/{vehiculo}/operativo',[VehiculosController::class, 'operativo'])->name('vehiculos.operativo')->middleware('auth');
 
@@ -41,7 +41,7 @@ Route::get('/conducen/vehiculo/{vehiculo}',[ConducenController::class, 'vehiculo
 Route::get('/conducen/camionero/{camionero}',[ConducenController::class, 'camionero'])->name('conducen.camionero')->middleware('auth');
 Route::patch('/conducen/desde',[ConducenController::class, 'desde'])->name('conducen.desde')->middleware('auth');
 
-Route::resource('clientes', ClientesController::class)->middleware('auth');
+Route::resource('clientes', ClientesController::class)->middleware('auth')->except(['create','edit']);
 
 
 
