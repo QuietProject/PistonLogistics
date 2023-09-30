@@ -20,45 +20,84 @@ body {
     overflow: hidden;
 }
 
+.container{
+    position: relative;
+    display: flex;
+    width: 90vw;
+    height: 90vh;
+    border-radius: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.inputContainer {
+    position: relative;
+    width: 40%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.matricula {
+    width: 28%;
+    height: 8%;
+    display: flex;
+    font-size: xx-large;
+    font-weight: bolder;
+    justify-content: center;
+}
+
 .qrContainer {
-    position: absolute;
+    position: relative;
     background-color: var(--baseLighter);
     aspect-ratio: 1/1;
     max-height: 35.5vw;
-    width: 35.5vw;
+    width: 30.5vw;
     border-radius: 10px;
-    top: 8vh;
-    left: 8vh;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-a {
-    text-decoration: none;
-    color: black;
+.qrContainer:hover{
+    cursor: pointer;
 }
 
 .ticketInfo {
-    position: absolute;
+    position: relative;
     background-color: var(--baseLighter);
     height: 80vh;
     width: 50vw;
     border-radius: 10px;
-    top: 8vh;
-    right: 8vh;
     padding: 2.5vh;
 }
 
+.ticketInfo:focus{
+    outline: none;
+}
+
+.ticketInfo:hover{
+    cursor: default;
+}
+
+.preview{
+    position: relative;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    object-position: center;
+}
+
 .confirmButton {
-    position: absolute;
+    position: relative;
     background-color: var(--baseLighter);
-    height: 12.5vh;
+    height: 10.5vh;
     width: 35.5vw;
     border-radius: 10px;
-    bottom: 7vh;
-    left: 8vh;
     font-weight: bolder;
     font-size: 200%;
 }
