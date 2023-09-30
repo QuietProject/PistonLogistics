@@ -6,23 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/styleCliente.css">
-    <title>Cliente</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../CSS/styleAlmacenDescarga.css">
+    <title>Almacen Descarga</title>
 </head>
 
 <body>
-    @if (session('status'))
-        <script>
-            Swal.fire({
-                position: 'top',
-                icon: 'success',
-                title: '{{ session('status') }}',
-                showConfirmButton: false,
-                timer: 800
-            })
-        </script>
-    @endif
     <form class="container" method="POST" enctype="multipart/form-data" action=" {{ route("cliente.scan") }} ">
         @csrf
         <a class="qrContainer" href="{{ route("scanner") }}">
@@ -41,13 +29,19 @@
         <input type="text" id="ticketInfoInput" name="ticketInfoInput" hidden>
         <input type="submit" value="Confirm" class="confirmButton" id="confirmButton">
     </form>
+
+    <a href="">
+        <div class="backArrow" onclick="">
+            <i class=""></i>
+        </div>
+    </a>
+
     <div class="hamMenu" id="hamMenu">
         <i class='bx bx-menu' id="menu"></i>
     </div>
     <div class="sideMenu" id="sideMenu" style="right: -20vw;" tabindex="-1">
         <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu" tabindex="-1">
     </div>
-    <script src="/javascript/instascan.min.js"></script>
     <script src="/javascript/scriptCliente.js"></script>
 </body>
 
