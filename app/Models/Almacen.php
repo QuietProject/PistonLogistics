@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Almacene
+ * Class Almacen
  * 
  * @property int $ID
  * @property string $nombre
@@ -49,7 +49,7 @@ class Almacen extends Model
 		return $this->hasOne(AlmacenPropio::class, 'ID');
 	}
 
-	public function almacen_clienteropio()
+	public function almacen_cliente()
 	{
 		return $this->hasOne(AlmacenCliente::class, 'ID');
 	}

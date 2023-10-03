@@ -8,7 +8,7 @@
         <label for="tipo">Tipo</label>
         <select name="tipo" id="tipo">
             <option value="camion">Camion</option>
-            <option value="camioneta">Camioneta</option>
+            <option value="camioneta"  {{ old('tipo') == 'camioneta' ? 'selected' : '' }}>Camioneta</option>
         </select>
     </div>
     <div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlmacenesController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\camionerosController;
 use App\Http\Controllers\ClientesController;
@@ -42,6 +43,9 @@ Route::get('/conducen/camionero/{camionero}',[ConducenController::class, 'camion
 Route::patch('/conducen/desde',[ConducenController::class, 'desde'])->name('conducen.desde')->middleware('auth');
 
 Route::resource('clientes', ClientesController::class)->middleware('auth')->except(['create','edit']);
+
+Route::resource('almacenes', AlmacenesController::class)->middleware('auth')->except(['create','edit']);
+Route::patch('/almacenes/{almacen}/baja',[almacenesController::class, 'baja'])->name('almacenes.baja')->middleware('auth');
 
 
 

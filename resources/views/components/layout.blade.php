@@ -9,7 +9,14 @@
 
 <body>
 
-    <x-nav />
+    <a href="{{ route('inicio') }}" style="text-decoration: none; color:black;">
+        <h1>Piston logistics</h1>
+    </a>
+    <a href="{{ route('camioneros.index') }}">Camioneros</a>
+    <a href="{{ route('almacenes.index') }}"">Almacenes</a>
+    <a href="{{ route('vehiculos.index') }}"">Vehiculos</a>
+    <a href="{{ route('clientes.index') }}"">Clientes</a>
+    <a href="{{ route('logout') }}">Cerrar Sesion</a>
 
     @if (session('success'))
         <h4 style="color: green;">{{ session('success') }}</h4>
