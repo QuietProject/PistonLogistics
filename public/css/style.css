@@ -6,68 +6,17 @@
     --baseLight: #646464;
     --baseLighter: #969696;
     --color: #ffaf64;
+    --colorDark: #ffaf64e3;
     --highlight: #ff9500;
     --baseDark :#2c2c2c;
 }
 
 * {
-    border: 0;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
     font-family: var(--font);
-}
-
-.hamMenu {
-    position: absolute;
-    height: 2.5vh;
-    width: 2.5vh;
-    top: 0.25vh;
-    right: 1.5vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 3;
-}
-
-.sideMenu {
-    position: absolute;
-    height: 15.1vh;
-    width: 20vw;
-    top: 0;
-    background-color: var(--baseDark);
-    transition: 0.5s;
-    z-index: 2;
-    border-radius: 0 0 0 5px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.bx-menu{
-    color: var(--baseLighter);
-    font-size: 3.5em;
-    cursor: pointer;
-    transition: 0.5s;
-}
-
-.itemSideMenu {
-    position: relative;
-    background-color: var(--baseDark);
-    height: 7.5vh;
-    border-radius: 5px;
-    top: 10vh;
-    left: 1vw;
-    font-size: x-large;
-    font-weight: bold;
-    text-align: left;
-    transition: 0.25s;
-    color: var(--highlight);
-    text-decoration: none;
-}
-
-.itemSideMenu:hover {
-    cursor: pointer;
-    left: 1.5vw;
 }
 
 /* Responsive */
