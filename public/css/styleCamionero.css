@@ -1,4 +1,7 @@
-body{
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background-color: var(--base);
     overflow-x: hidden;
     -ms-overflow-style: none;
@@ -52,6 +55,10 @@ header div i {
     padding: 10px;
 }
 
+header div i:hover {
+    font-size: 3.1rem;
+}
+
 header div img {
     height: 100%;
 }
@@ -66,10 +73,10 @@ header div img {
     max-width: 300px;
     padding: 0 1rem;
     width: 100%;
-    transition: 0.1s ease-in-out;
+    transition: 0.25s ease-in-out;
 }
 
-#sidebar div {
+#sidebar > div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -90,17 +97,21 @@ header div img {
     color: var(--highlight);
 }
 
+.bx-x:hover{
+    font-size: 3.1rem;
+}
+
 .fixed{
     position: fixed;
 }
 
 #sidebar.opened {
     right: 0%;
-    transition: 0.3s ease-in-out;
+    transition: 0.25s ease-in-out;
 }
 
 
-#sidebar a {
+#sidebar a, #sidebar > div {
     color: var(--highlight);
     text-decoration: none;
     font-size: 1.7rem;
@@ -109,19 +120,49 @@ header div img {
     display: block;
 }
 
+.radioBtnEstados{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.radioBtnEstados > div{
+    color: greenyellow;
+    font-size: 1.1rem;
+}
+
+.checked{
+    color: greenyellow;
+}
+.notChecked{
+    color: red;
+}
+
+
 #sidebar a:hover {
     transform: translateX(5px);
 }
+
+.blank{
+    min-height: 70vh;
+    z-index: -1;
+    position: relative;
+    transition: height 1s ease;
+}
+
 
 section{
     min-height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    overflow-y: auto;
 }
 
-section > div{
+section::-webkit-scrollbar {
+    display: none;
+}
+
+section > div {
     height: 20vh;
     width: 40%;
     margin: 1%;
@@ -130,15 +171,18 @@ section > div{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
 }
+
 
 section > div > div{
     position: absolute;
     height: 20vh;
-    width: 40%;
+    width: 100%;
     background-color: var(--baseLighter);
-    z-index: -1;
     transition: 0.2s ease-in-out;
+    z-index: -1;
 }
 
 section > div > div > div{
@@ -151,12 +195,12 @@ section > div > div > div{
     text-align: center;
 }
 
-footer{
-    height: 15vh;
+footer {
+    height: 10vh;
     width: 100%;
     background-color: #303030;
-    position: static;
     bottom: 0;
+    position: static;
 }
 footer > div{
     font-family: 'Times New Roman', Times, serif;

@@ -24,8 +24,25 @@
         <div>
             <i class='bx bx-x' id="closeMenu"></i> 
         </div>
-            <a href="#home">Home</a>
-            <a href="#aboutUs">Sobre Nosotros</a>
+            <div class="estado">
+                <h4>Estado</h4>
+                <form class="radioBtnEstados" name="estado">
+                    <div>
+                        <input type="radio" name="estado" id="manejando">
+                        <label for="manejando" name="label" class="notChecked">Manejando</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="estado" id="descansando">
+                        <label for="descansando" name="label" class="notChecked">Descansando</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="estado" id="fueraDeServicio">
+                        <label for="fueraDeServicio" name="label" class="notChecked">Fuera de servicio</label>
+                    </div>
+                    
+                    
+                </form>
+            </div>
     </div>
 
     <section id="section">
@@ -33,9 +50,15 @@
         <div>Placeholder</div>
         <div>Placeholder</div>
         <div>Placeholder</div>
+        <div>Placeholder</div>
+        <div>Placeholder</div>
+        <div>Placeholder</div>
+        <div>Placeholder</div>
     </section>
+    <div id="blank" style="height: 10vh">
 
-    <footer>
+    </div>
+    <footer id="footer">
         <div>
             © 2023, Quick Carry, Inc.
         </div>
