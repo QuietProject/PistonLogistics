@@ -15,18 +15,11 @@ class AuthenticatedSessionController extends Controller
             "user" => ["required", "string", "max:20"],
             "password" => ["required", "string", "max:24", "min:8"],
         ]);
-        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
-            return redirect()->back()->withErrors(['authError' => 'El usuario o la contraseña son incorrectoseeee']);
+        if (!Auth::attemptWhen($credentials, function ($user) {
+            return $user->rol==0;
+        }, $request->has('remember'))) {
+            return redirect()->back()->withErrors(['authError' => 'El usuario o la contraseña son incorrectose']);
         }
-        $user = User::where("user", $request->user)->firstOrFail();
-
-        if ($user->rol != 0) {
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-            return redirect()->back()->withErrors(['authError' => '2 El usuario o la contraseña son incorrectos']);
-        }
-
         return to_route('inicio');
     }
 

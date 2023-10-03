@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Camion $camion
  * @property Camioneta $camioneta
- * @property Collection|Conducen[] $conducen
+ * @property Collection|Conducen[] $conduceng
  * @property Collection|Trae[] $trae
  * @property Collection|Lleva[] $lleva
  * @property Collection|Reparte[] $reparte
