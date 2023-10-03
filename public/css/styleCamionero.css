@@ -1,32 +1,168 @@
-body{
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background-color: var(--base);
     overflow-x: hidden;
+    -ms-overflow-style: none;
 }
 
-.header{
-    position: sticky;
-    top: 0;
-    background-color: var(--color);
+header {
+    display: flex;
     width: 100%;
+    height: 100px;
+    max-height: 12%;
+    background-color: var(--color);
+    padding: 0 .5rem;
+    border-bottom: 2px solid var(--base);
+    top: 0;
+    left: 0;
     z-index: 2;
 }
 
-header{
+header div{
     display: flex;
-    justify-content: space-between;
-    background-color: var(--color);
-    height: 10%;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
 }
+
+header div h1 {
+    text-align: center;
+    line-height: 70px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+header div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+header div:nth-child(3) {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+header div i {
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 4;
+    padding: 10px;
+}
+
+header div i:hover {
+    font-size: 3.1rem;
+}
+
+header div img {
+    height: 100%;
+}
+
+#sidebar {
+    z-index: 3;
+    top: 0;
+    right: -100%;
+    position: fixed;
+    height: 100%;
+    background-color: var(--baseDark);
+    max-width: 300px;
+    padding: 0 1rem;
+    width: 100%;
+    transition: 0.25s ease-in-out;
+}
+
+#sidebar > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+#sidebar i {
+    line-height: 72px;
+    cursor: pointer;
+    font-size: 3rem;
+    color: var(--baseDark);
+}
+
+.bx-x{
+    line-height: 72px;
+    cursor: pointer;
+    font-size: 3rem;
+    color: var(--highlight);
+}
+
+.bx-x:hover{
+    font-size: 3.1rem;
+}
+
+.fixed{
+    position: fixed;
+}
+
+#sidebar.opened {
+    right: 0%;
+    transition: 0.25s ease-in-out;
+}
+
+
+#sidebar a, #sidebar > div {
+    color: var(--highlight);
+    text-decoration: none;
+    font-size: 1.7rem;
+    margin-bottom: .7rem;
+    transition: .2s ease;
+    display: block;
+}
+
+.radioBtnEstados{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.radioBtnEstados > div{
+    color: greenyellow;
+    font-size: 1.1rem;
+}
+
+.checked{
+    color: greenyellow;
+}
+.notChecked{
+    color: red;
+}
+
+
+#sidebar a:hover {
+    transform: translateX(5px);
+}
+
+.blank{
+    min-height: 70vh;
+    z-index: -1;
+    position: relative;
+    transition: height 1s ease;
+}
+
 
 section{
     min-height: 75vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    overflow-y: auto;
 }
 
-section > div{
+section::-webkit-scrollbar {
+    display: none;
+}
+
+section > div {
     height: 20vh;
     width: 40%;
     margin: 1%;
@@ -35,13 +171,17 @@ section > div{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
 }
+
 
 section > div > div{
     position: absolute;
     height: 20vh;
-    width: 40%;
+    width: 100%;
     background-color: var(--baseLighter);
+    transition: 0.2s ease-in-out;
     z-index: -1;
 }
 
@@ -55,12 +195,12 @@ section > div > div > div{
     text-align: center;
 }
 
-footer{
-    height: 15vh;
+footer {
+    height: 10vh;
     width: 100%;
     background-color: #303030;
-    position: static;
     bottom: 0;
+    position: static;
 }
 footer > div{
     font-family: 'Times New Roman', Times, serif;
@@ -69,84 +209,6 @@ footer > div{
     justify-content: center;
     text-align: center;
     height: 100%;
-}
-
-.header-section{
-    display: flex; 
-    width: 30%;
-}
-
-header > .logo{
-    justify-content: left;
-    align-items: center;
-}
-
-header > .pageName{
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    color: black;
-}
-header > .menu{
-    justify-content: right;
-    align-items: center;
-}
-
-.menu > i{
-    color: black;
-    font-size: 4em;
-    cursor: pointer;
-    z-index: 1;
-}
-
-.menuDesplegable{
-    position: absolute;
-    top: 0;
-    background-color: #2c2c2c;
-    width: 500px;
-    height: 85.5vh;
-}
-
-.menuDesplegable > .menu-items{
-    display: flex;
-    flex-direction: column;
-    margin-top: 10vh;
-    margin-left: 2vw;
-    width: max-content;
-    height: 80%;
-}
-
-.menuDesplegable > .menu-items > div{
-    display: inline-block;
-    width: max-content;
-    color: white;
-}
-
-.menuDesplegable > .m > div > a{
-    font-size: 2em;
-    color: var(--interactuables);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.menuDesplegable > .logout{
-    position: static;
-    width: 100%;
-}
-
-.menuDesplegable > .logout > div{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.menuDesplegable > .logout > div > a{
-    font-size: 2em;
-    color: var(--interactuables);
-    text-decoration: none;
-    cursor: pointer;
-    color: white;
 }
 
 ::-webkit-scrollbar{
@@ -167,51 +229,8 @@ header > .menu{
 }
 
 /*Celular*/
-@media (max-width: 399px){
-    header > .pageName{
+@media (max-width: 700px) {
+    header div:nth-child(2) {
         display: none;
-    }
-}
-
-@media (min-width: 400px) and (max-width: 600px){
-
-}
-@media (min-width: 601px) and (max-width: 768px){
-
-}
-@media (min-width: 769px) and (max-width: 1024px){
-
-}
-@media (min-width: 1025px) and (max-width: 1280px){
-    
-}
-@media (max-width: 700px){
-    .menuDesplegable{
-        width: 100%;
-    }
-
-    .menuDesplegable > .m > a{
-        font-size: 2.5em;
-    }
-}
-
-@media (max-width: 1200px){
-    section > div{
-        width: 49%;
-    }
-    section > div > div{
-        width: 49%;
-    }
-
-}
-
-
-/*Computadora*/
-@media (min-width: 1201px){
-    section > div{
-        width: 600px;
-    }
-    section > div > div{
-        width: 600px;
     }
 }

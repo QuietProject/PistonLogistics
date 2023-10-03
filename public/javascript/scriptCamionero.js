@@ -1,27 +1,67 @@
+
 const body = document.getElementsByTagName('body');
-const menu = document.getElementById('menu');
-const menuDesplegable = document.getElementById('menuDesplegable');
-const tl = gsap.timeline({ defautls: { duration: 0.8 } });
 let i = 0;
 let y = 0;
 
-menuDesplegable.style.display = 'none';
-menu.addEventListener('click', () => {
-    menuDesplegable.style.display = '';
-    if (i % 2 === 0) {
-        tl.fromTo('.menuDesplegable', { opacity: 0, x: 30 }, { opacity: 1, x: 0, display: '', duration: 0.8 });
-        gsap.fromTo('.bx-menu', { color: "#000000" }, { color: "#ff9500" });
-        i++;
-    } else {
-        tl.fromTo('.menuDesplegable', { opacity: 1, x: 0, display: '' }, { opacity: 0, x: 30, display: 'none', duration: 0.8 });
-        gsap.fromTo('.bx-menu', { color: "#ff9500" }, { color: "#000000" });
-        i++;
+let isTransitionInProgress = false;
+
+document.getElementById('menu').addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    const menu = document.getElementById('menu');
+
+    if (isTransitionInProgress) {
+        return;
     }
-})
+
+    sidebar.classList.toggle("opened");
+
+    setTimeout(() => {
+        menu.classList.toggle("bx-menu");
+        menu.classList.toggle("fixed");
+        menu.classList.toggle("bx-x");
+    },100);
+    
+
+    isTransitionInProgress = true;
+
+    sidebar.addEventListener('transitionend', () => {
+        isTransitionInProgress = false;
+    });
+});
+
+let radios = document.forms["estado"].elements["estado"];
+let labels = document.querySelectorAll(".radioBtnEstados label");
+
+for (let i = 0, max = radios.length; i < max; i++) {
+    radios[i].addEventListener("change", function() {
+        labels.forEach((label, index) => {
+            if (radios[index].checked) {
+                label.classList.add("checked");
+                label.classList.remove("notChecked");
+            } else {
+                label.classList.remove("checked");
+                label.classList.add("notChecked");
+            }
+        });
+        
+        enviarInformacion();
+        
+    });
+}
+
+function enviarInformacion() {
+    alert("Información enviada.");
+}
+
+
+
+
 
 
 const section = document.getElementById('section');
 const divs = section.querySelectorAll('div');
+
+let elementoAbierto = null;
 
 divs.forEach((div, index) => {
     const newDiv = document.createElement('div');
@@ -31,17 +71,44 @@ divs.forEach((div, index) => {
     newDiv.appendChild(info);
     div.appendChild(newDiv);
 
-    let i = 0;
     let a = `div${index + 1}`;
+            
+    let isExpanded = false;
 
     div.addEventListener('click', () => {
-        if (i % 2 === 0) {
-            gsap.fromTo(`.${a}`, { opacity: 0, xPercent: 0 }, { opacity: 1, xPercent: 100, duration: 0.8 });
-            i++;
-        } else {
-            gsap.fromTo(`.${a}`, { opacity: 1, xPercent: 100 }, { opacity: 0, xPercent: 0, duration: 0.8 });
-            i++;
+        let info = document.querySelector(`.${a}`);
+    
+        if (elementoAbierto !== null && elementoAbierto !== div) {
+            elementoAbierto.style.transform = "translateX(0%)";
+            let infoAbierto = elementoAbierto.querySelector(`div`);
+            infoAbierto.style.transform = "translateY(0%)";
+            infoAbierto.style.opacity = "0";
+            infoAbierto.style.height = "0";
         }
-    })
+    
+        if (!isExpanded || elementoAbierto !== div) {
+            div.style.transform = "translateX(125%)";
+            info.style.transform = "translateY(70%)";
+            info.style.height = "60vh";
+            info.style.opacity = "1";
+            elementoAbierto = div;
+            document.getElementById("blank").classList.add("blank");
+        } else {
+            div.style.transform = "translateX(0%)";
+            div.style.width = "40%";
+            info.style.transform = "translateY(0%)";
+            info.style.opacity = "0";
+            info.style.height = "0";
+            elementoAbierto = null;
+            if (!document.querySelector('.div')) {
+                document.getElementById("blank").classList.remove("blank");
+            }
+        }
+        isExpanded = !isExpanded;
+    });    
 });
+
+
+
+
 
