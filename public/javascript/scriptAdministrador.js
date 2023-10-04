@@ -138,7 +138,6 @@ function searchFilter() {
         }
     }
 
-    document.getElementsByName("tr").
 }
 
 {/* <i class="fa-solid fa-arrow-up"></i>
