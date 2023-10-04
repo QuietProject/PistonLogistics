@@ -164,7 +164,7 @@ section::-webkit-scrollbar {
 
 section > div {
     height: 20vh;
-    width: 40%;
+    width: 45%;
     margin: 1%;
     background-color: var(--baseLight);
     display: flex;

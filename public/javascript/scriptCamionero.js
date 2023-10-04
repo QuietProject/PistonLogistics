@@ -73,40 +73,53 @@ divs.forEach((div, index) => {
 
     let a = `div${index + 1}`;
             
-    let isExpanded = false;
 
     div.addEventListener('click', () => {
         let info = document.querySelector(`.${a}`);
     
         if (elementoAbierto !== null && elementoAbierto !== div) {
-            elementoAbierto.style.transform = "translateX(0%)";
             let infoAbierto = elementoAbierto.querySelector(`div`);
+            elementoAbierto.style.transform = "translateX(0%)";
             infoAbierto.style.transform = "translateY(0%)";
             infoAbierto.style.opacity = "0";
             infoAbierto.style.height = "0";
         }
     
-        if (!isExpanded || elementoAbierto !== div) {
-            div.style.transform = "translateX(125%)";
-            info.style.transform = "translateY(70%)";
-            info.style.height = "60vh";
+        if (elementoAbierto !== div) {
+            div.style.transform = "translateX(115%)";
+            info.style.transform = "translateY(68.5%)";
+            info.style.height = "300%";
             info.style.opacity = "1";
             elementoAbierto = div;
-            document.getElementById("blank").classList.add("blank");
+            document.getElementById("blank").style.height = "0";
+            if (divs.length - index == 3) {
+                document.getElementById("blank").style.height = "20vh";
+            }else if (divs.length - index == 2) {
+                document.getElementById("blank").style.height = "40vh";
+            }else if (divs.length - index == 1) {
+                document.getElementById("blank").style.height = "65vh";
+            }
         } else {
             div.style.transform = "translateX(0%)";
-            div.style.width = "40%";
             info.style.transform = "translateY(0%)";
             info.style.opacity = "0";
             info.style.height = "0";
             elementoAbierto = null;
             if (!document.querySelector('.div')) {
-                document.getElementById("blank").classList.remove("blank");
+                document.getElementById("blank").style.height = "0";
             }
         }
-        isExpanded = !isExpanded;
-    });    
+    });  
+    
+    info.addEventListener("click", (e) => {
+        e.stopPropagation();
+    });
 });
+
+
+
+
+
 
 
 

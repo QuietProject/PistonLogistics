@@ -55,7 +55,7 @@
         <div>Placeholder</div>
         <div>Placeholder</div>
     </section>
-    <div id="blank" style="height: 10vh">
+    <div id="blank">
 
     </div>
     <footer id="footer">
