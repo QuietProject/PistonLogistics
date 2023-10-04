@@ -1,6 +1,9 @@
 * {
     -ms-overflow-style: none;
     scrollbar-width: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 *::-webkit-scrollbar {
@@ -76,7 +79,8 @@ body {
     top: 5vh;
     left: 10vh;
     color: white;
-    text-shadow: 0 0 10px var(--baseDark);
+    text-shadow: 0 0 10px var(--base);
+    user-select: none;
 }
 
 .addButton {
@@ -98,7 +102,7 @@ body {
     position: absolute;
     height: 5vh;
     width: 20vw;
-    top: 17vh;
+    top: 15vh;
     left: 7.5vw;
     border-radius: 2vh;
     text-indent: 5%;
@@ -111,11 +115,22 @@ body {
     background-color: white;
 }
 
+.tableTitle {
+    position: absolute;
+    top: 22.25vh;
+    left: 21vw;
+    color: rgb(225, 225, 225);
+    font-size: 5vh;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--base);
+    user-select: none;
+}
+
 .tableContainer {
     position: absolute;
-    top: 25vh;
+    top: 30vh;
     left: 4vw;
-    max-height: 70vh;
+    max-height: 65vh;
     width: 42vw;
     border-radius: 10px;
     display: flex;
@@ -146,6 +161,7 @@ th {
     top: 0;
     text-align: center;
     font-size: large;
+    user-select: none;
 }
 
 td {
@@ -176,6 +192,7 @@ tr:nth-child(even) {
     background-color: var(--base);
     border-radius: 1vw;
     display: flex;
+    overflow: hidden;
 }
 
 .closeButton {
@@ -184,8 +201,8 @@ tr:nth-child(even) {
     height: 4vh;
     width: 4vh;
     background-color: var(--highlight);
-    top: 3vh;
-    left: 3vh;
+    top: 1vh;
+    left: 1vh;
     border-radius: 50%;
     align-items: center;
     justify-content: center;
@@ -193,6 +210,16 @@ tr:nth-child(even) {
 
 .closeButton:hover {
     cursor: pointer;
+}
+
+.cornerButton{
+    position: absolute;
+    top: -6vw;
+    left: -6vw;
+    height: 10vw;
+    aspect-ratio: 1/1;
+    background-color: var(--highlight);
+    transform: rotate(45deg);
 }
 
 .xLine {

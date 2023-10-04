@@ -31,6 +31,10 @@
         <input type="button" value="Add" class="addButton" id="addTruck">
         <!-- SearchBar -->
         <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
+        <!-- Trucks Title -->
+        <p class="tableTitle">Trucks</p>
+        <!-- Camionetas Title -->
+        <p class="tableTitle" style="left: 63vw">Pickup Trucks</p>
         <!-- Tables Container -->
         <div class="tableContainer">
             <!-- Truck Table -->
@@ -104,16 +108,18 @@
         <!-- Add Trucks -->
         <div class="addInterface" id="addTruckInterface" style="display: none">
             <!-- Close Button -->
-            <div class="cornerButton">
-                <div class="closeButton" id="closeButtonTrucks">
-                    <div class="xLine" style="rotate: 45deg;"></div>
-                    <div class="xLine" style="rotate: -45deg;"></div>
-                </div>
+            <div class="cornerButton"></div>
+            <div class="closeButton" id="closeButtonTrucks">
+                <div class="xLine" style="rotate: 45deg;"></div>
+                <div class="xLine" style="rotate: -45deg;"></div>
             </div>
             <!-- Add Vehicle -->
             <div class="addForm">
                 @if ($errors->any())
-                    abre el formulario
+                <script>
+                    document.getElementById("addBackdrop").style.display = "flex";
+                    document.getElementById("addTruckInterface").style.display = "flex";
+                </script>
                 @endif
                 <h2>Ingresar Vehiculo</h2>
                 <form action="{{ route('vehiculos.store') }}" method="POST">
@@ -127,8 +133,8 @@
                     </div>
                     <div>
                         <label for="matricula">Matricula</label>
-                        <input type="text" name="matricula" id="matricula" maxlength="7" minlength="7" required
-                            value="{{ old('matricula') }}">
+                        <input type="text" name="matricula" id="matricula" maxlength="7" minlength="7" 
+                        requiredvalue="{{ old('matricula') }}" pattern="[A-Za-z]{3}[0-9]{4}">
                         @error('matricula')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
