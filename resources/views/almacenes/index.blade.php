@@ -1,3 +1,6 @@
+@php
+    $a='a';
+@endphp
 <x-layout titulo='Almacenes'>
     @include('almacenes.create')
     <h2>Almacenes propios</h2>

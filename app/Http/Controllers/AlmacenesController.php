@@ -7,6 +7,7 @@ use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
 
 class AlmacenesController extends Controller
 {
@@ -46,30 +47,91 @@ class AlmacenesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Almacen  $almacen
+     * @param  \App\Models\Almacen  $almacenhi
      * @return \Illuminate\Http\Response
      */
     public function show($almacen)
     {
         $almacen = Almacen::findOrFail($almacen);
         $tipo = (DB::table('almacenes_propios')->where('ID', $almacen->ID)->exists()) ? 'propio' : 'cliente';
-        /*$camioneros = DB::table('conducen')
-            ->join('camioneros', 'conducen.CI', 'camioneros.CI')
-            ->where('conducen.matricula', $vehiculo->matricula)
-            ->orderBy('desde', 'desc')
-            ->get();
+
+        if ($tipo == 'propio') {
+
+            //Total de lotes en preparacion en el almacen
+            $lotesEnPreparacion = DB::table('lotes')
+            ->where('lotes.ID_almacen', $almacen->ID)
+            ->whereNull('fecha_pronto')
+            ->count();
+
+            //Total de lotes prontos que estan esperando a ser cargados
+            $lotesProntos = DB::table('lotes')
+            ->leftJoin('lleva','lleva.ID_lote','lotes,ID')
+            ->where('lotes.ID_almacen', $almacen->ID)
+            ->whereNotNull('lotes.fecha_pronto')
+            ->whereNull('lleva.matricula')
+            ->dd();
+            
+            //Total de lotes creados en el almacen
+            $lotesCreados = DB::table('lotes')
+            ->where('lotes.ID_almacen', $almacen->ID)
+            ->count();
+            
+            // Total de lotes recibidos en el almacen 
+            $lotesRecibidos  = DB::table('lotes')
+            ->join('lleva', 'lotes.ID', 'lleva.ID_lote')
+            ->join('destino_lote', 'lotes.ID', 'destino_lote.ID_lote')
+            ->where('destino_lote.ID_almacen', $almacen->ID)
+            ->count();
+
+            // Total de lotes recibidos en el almacen que no fueron desarmados
+            $lotesParaDesarmar  = DB::table('lotes')
+            ->join('lleva', 'lotes.ID', 'lleva.ID_lote')
+            ->join('destino_lote', 'lotes.ID', 'destino_lote.ID_lote')
+            ->where('destino_lote.ID_almacen', $almacen->ID)
+            ->whereNotNull('lleva.fecha_descarga')
+            ->whereNull('lotes.fecha_cerrado')
+            ->count();
+
+            dd($lotesEnPreparacion);
+                return view('almacenes.show', [
+                    'almacen' => $almacen,
+                    'tipo' => $tipo
+                ]);
+        } else{
+            //Total de paquetes que ordenados por el cliente en este almacen
+            $paquetesEncargados = DB::table('almacenes_clientes')
+                ->join('paquetes', 'almacenes_clientes.ID', 'paquetes.ID_almacen')
+                ->where('almacenes_clientes.ID', $almacen->ID)
+                ->count();
+            // Total de paquetes ordenados por este almacen que fueron entregados
+            $paquetesEntregadosCliente = DB::table('almacenes_clientes')
+                ->join('paquetes', 'almacenes_clientes.ID', 'paquetes.ID_almacen')
+                ->where('almacenes_clientes.ID', $almacen->ID)
+                ->whereNull('paquetes.fecha_entregado',)
+                ->count();
+
+            //Total de paquetes que estan esperando en este almacen
+            $paquetesEnCliente = DB::table('almacenes_clientes')
+                ->select('')
+                ->join('paquetes', 'almacenes_clientes.ID', 'paquetes.ID_almacen')
+                ->leftJoin('trae', 'paquetes.id', '=', 'trae.ID_paquete')
+                ->where('almacenes_clientes.ID', $almacen->ID)
+                ->whereNull('trae.matricula')->count();
+
+                return view('almacenes.show', [
+                    'almacen' => $almacen,
+                    'tipo' => $tipo,
+                    'paquetesEncargados' => $paquetesEncargados,
+                    'paquetesEntregadosCliente' => $paquetesEntregadosCliente,
+                    'paquetesEnCliente' => $paquetesEnCliente
+                ]);
+        }
+
+        /*
         $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         $reparte = Reparte::where('reparte.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();*/
         //dd(Almacen::findOrFail($almacen));
-        return view('almacenes.show', [
-            'almacen' => $almacen,
-            'tipo' => $tipo/*,
-            'camioneros' => $camioneros,
-            'trae' => $trae,
-            'lleva' => $lleva,
-            'reparte' => $reparte*/
-        ]);
 
     }
 

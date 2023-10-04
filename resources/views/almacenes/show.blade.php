@@ -13,8 +13,8 @@
     <p>ID: {{ $almacen->ID }}</p>
     <p>Nombre: {{ $almacen->nombre }}</p>
     <p>Direccion: {{ $almacen->direccion }}</p>
-    @if ($tipo=='cliente')
-    <p>Cliente: cliente</p>        
+    @if ($tipo == 'cliente')
+        <p>Cliente: cliente</p>
     @endif
     <form action="{{ route('almacenes.baja', $almacen->ID) }}" method="POST">
         @csrf
@@ -38,49 +38,12 @@
 
     <a href="{{ route('almacenes.index') }}">Volver</a>
 
-    {{-- @if (count($trae) > 0)
-        <h3>Trae paquetes:</h3>
-        @foreach ($trae as $paquete)
-            <p>ID:{{ $paquete->ID_paquete }}</p>
-        @endforeach
-    @endif
-
-    @if (count($lleva) > 0)
-        <h3>Lleva lotes:</h3>
-        @foreach ($lleva as $lote)
-            <p>ID:{{ $lote->ID_lote }}</p>
-        @endforeach
-    @endif
-
-    @if (count($reparte) > 0)
-        <h3>Reparte paquetes:</h3>
-        @foreach ($reparte as $paquete)
-            <p>ID:{{ $paquete->ID_paquete }}</p>
-        @endforeach
-    @endif
-
-    <h3>Historial de conductores</h3>
-    @if (count($camioneros) > 0)
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Desde</th>
-                    <th>Hasta</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($camioneros as $camionero)
-                    <tr>
-                        <td><a href="{{ route('camioneros.show', $camionero->CI) }}"> {{ $camionero->nombre }}
-                                {{ $camionero->apellido }}</a></td>
-                        <td>{{ $camionero->desde }}</td>
-                        <td>{{ $camionero->hasta != null ? $camionero->hasta : 'Conduciendo' }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    @if ($tipo == 'propio')
+        aaaa
     @else
-        <p>Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento</p>
-    @endif --}}
+    <p>Paquetes esperando en el almacenen: {{ $paquetesEnCliente }}</p>
+    <p>Paquetes encargados por almacen que ya fueron entregados: {{ $paquetesEntregadosCliente }}</p>
+    <p>Total de paquetes encargados por el almacen: {{ $paquetesEncargados }}</p>
+    @endif
+
 </x-layout>
