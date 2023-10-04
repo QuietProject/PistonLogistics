@@ -46,11 +46,15 @@ class CamionController extends Controller
             return "El camion ya esta en marcha";
         }
 
-        Conducen::create([
-            "CI" => $ci,
-            "matricula" => $matricula,
-            "desde" => now()
-        ]);
+        // $a = Conducen::create([
+        //     "CI" => $ci,
+        //     "matricula" => $matricula
+        // ]);
+
+        $a = new Conducen();
+        $a->CI = $ci;
+        $a->matricula = $matricula;
+        $a->save();
 
         return "Jornal iniciado";
         
@@ -86,7 +90,7 @@ class CamionController extends Controller
             WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN reparte.matricula
             ELSE null
           END AS MATRICULA,
-          destino_lote.ID_almacen as 'ALMACEN DESTINO', paquetes.calle, paquetes.numero, paquetes.ciudad, paquetes.id_pickup,
+          destino_lote.ID_almacen as 'ALMACEN DESTINO', paquetes.direccion, paquetes.id_pickup,
           CASE
             WHEN paquetes.fecha_entregado is not null then 'Entregado'
             WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN 'Llevando hacia el destino final'

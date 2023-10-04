@@ -471,8 +471,8 @@ class ComposerStaticInit792178cf10064733071e3853ec2c3c23
         ),
         'Fruitcake\\Cors\\' => 
         array (
-            0 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
-            1 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
+            0 => __DIR__ . '/..' . '/fruitcake/laravel-cors/src',
+            1 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
         ),
         'Faker\\' => 
         array (
@@ -554,8 +554,8 @@ class ComposerStaticInit792178cf10064733071e3853ec2c3c23
     public static $classMap = array (
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\Http\\Controllers\\CamionController' => __DIR__ . '/../..' . '/app/Http/Controllers/CamionController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
-        'App\\Http\\Controllers\\PaqueteController' => __DIR__ . '/../..' . '/app/Http/Controllers/PaqueteController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
@@ -567,7 +567,10 @@ class ComposerStaticInit792178cf10064733071e3853ec2c3c23
         'App\\Http\\Middleware\\ValidateSignature' => __DIR__ . '/../..' . '/app/Http/Middleware/ValidateSignature.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'App\\Http\\Resources\\PaqueteResource' => __DIR__ . '/../..' . '/app/Http/Resources/PaqueteResource.php',
+        'App\\Models\\Almacen' => __DIR__ . '/../..' . '/app/Models/Almacen.php',
+        'App\\Models\\AlmacenCliente' => __DIR__ . '/../..' . '/app/Models/AlmacenCliente.php',
         'App\\Models\\AlmacenPropio' => __DIR__ . '/../..' . '/app/Models/AlmacenPropio.php',
+        'App\\Models\\Camion' => __DIR__ . '/../..' . '/app/Models/Camion.php',
         'App\\Models\\Camionero' => __DIR__ . '/../..' . '/app/Models/Camionero.php',
         'App\\Models\\Camioneta' => __DIR__ . '/../..' . '/app/Models/Camioneta.php',
         'App\\Models\\Cliente' => __DIR__ . '/../..' . '/app/Models/Cliente.php',
@@ -576,10 +579,12 @@ class ComposerStaticInit792178cf10064733071e3853ec2c3c23
         'App\\Models\\Estado' => __DIR__ . '/../..' . '/app/Models/Estado.php',
         'App\\Models\\Lleva' => __DIR__ . '/../..' . '/app/Models/Lleva.php',
         'App\\Models\\Lote' => __DIR__ . '/../..' . '/app/Models/Lote.php',
+        'App\\Models\\Orden' => __DIR__ . '/../..' . '/app/Models/Orden.php',
         'App\\Models\\Paquete' => __DIR__ . '/../..' . '/app/Models/Paquete.php',
-        'App\\Models\\PaquetesLote' => __DIR__ . '/../..' . '/app/Models/PaquetesLote.php',
+        'App\\Models\\PaqueteLote' => __DIR__ . '/../..' . '/app/Models/PaqueteLote.php',
         'App\\Models\\Reparte' => __DIR__ . '/../..' . '/app/Models/Reparte.php',
         'App\\Models\\Trae' => __DIR__ . '/../..' . '/app/Models/Trae.php',
+        'App\\Models\\Troncal' => __DIR__ . '/../..' . '/app/Models/Troncal.php',
         'App\\Models\\Usuario' => __DIR__ . '/../..' . '/app/Models/Usuario.php',
         'App\\Models\\Vehiculo' => __DIR__ . '/../..' . '/app/Models/Vehiculo.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
