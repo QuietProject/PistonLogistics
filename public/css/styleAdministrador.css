@@ -111,34 +111,32 @@ body {
     background-color: white;
 }
 
-.tableContainer{
-    position: relative;
+.tableContainer {
+    position: absolute;
     top: 25vh;
     left: 4vw;
-    height: 70vh;
+    max-height: 70vh;
     width: 42vw;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .tableView {
-    max-height: 70vh;
     width: 42vw;
-    background-color: rgb(150, 150, 150);
+    background-color: rgb(140, 140, 140);
     border-collapse: collapse;
 }
 
-a{
+a {
     text-decoration: none;
     color: var(--highlight);
-    text-shadow: 0 0 5px black;
+    text-shadow: 0 0 5px var(--base);
 }
 
 tr {
-    height: 5vh;
-    max-height: 5vh;
+    height: 4.5vh;
 }
 
 th {
@@ -146,6 +144,17 @@ th {
     color: white;
     position: sticky;
     top: 0;
+    text-align: center;
+    font-size: large;
+}
+
+td {
+    text-align: center;
+    font-size: medium
+}
+
+tr:nth-child(even) {
+    background-color: rgb(165, 165, 165);
 }
 
 .addBackdrop {

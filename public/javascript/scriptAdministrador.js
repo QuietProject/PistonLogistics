@@ -86,3 +86,60 @@ function sortTableAlternate(n) {
         }
     }
 }
+
+function searchFilter() {
+    var input, filter, table, tr, td, i, o, show, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("tableTrucks");
+    tr = table.getElementsByTagName("tr");
+    table2 = document.getElementById("tableCamionetas");
+    tr2 = table2.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) {
+        var rowLenght = tr[i].getElementsByTagName("td");
+        var show = 0;
+        for (o = 0; o < rowLenght.length; o++) {
+            td = tr[i].getElementsByTagName("td")[o];
+            console.log(o);
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    show++;
+                }
+            }
+        }
+
+        if (show == 0) {
+            tr[i].style.display = "none";
+        } else {
+            tr[i].style.display = "";
+        }
+    }
+
+    for (i = 1; i < tr2.length; i++) {
+        var rowLenght = tr2[i].getElementsByTagName("td");
+        var show = 0;
+        for (o = 0; o < rowLenght.length; o++) {
+            td = tr2[i].getElementsByTagName("td")[o];
+            console.log(o);
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    show++;
+                }
+            }
+        }
+
+        if (show == 0) {
+            tr2[i].style.display = "none";
+        } else {
+            tr2[i].style.display = "";
+        }
+    }
+
+    document.getElementsByName("tr").
+}
+
+{/* <i class="fa-solid fa-arrow-up"></i>
+<i class="fa-solid fa-arrow-down"></i> */}

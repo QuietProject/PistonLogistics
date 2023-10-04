@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="../css/style.css ">
     <link rel="stylesheet" href="../css/styleAdministrador.css">
+    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
     <title>Piston Logistics</title>
 </head>
 
@@ -29,18 +30,17 @@
         <!-- Add Button -->
         <input type="button" value="Add" class="addButton" id="addTruck">
         <!-- SearchBar -->
-        <input type="text" id="" class="filterText" placeholder="Search">
+        <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <!-- Tables Container -->
         <div class="tableContainer">
             <!-- Truck Table -->
             <table class="tableView" id="tableTrucks">
                 <thead>
                     <tr>
-                        <th style="width: 7.5%;" onclick="sortTable(0)">ID</th>
-                        <th style="width: 30%;" onclick="sortTable(1)">Name</th>
-                        <th style="width: 30%;" onclick="sortTable(2)">Surname</th>
-                        <th style="width: 20%;" onclick="sortTable(3)">Rol</th>
-                        <th style="width: 12.5%;" onclick="sortTable(4)"></th>
+                        <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Matricula </th>
+                        <th style="width: 30%;" onclick="sortTable(1);arrowsTable(1);" id="1">Peso Maximo </th>
+                        <th style="width: 30%;" onclick="sortTable(2);arrowsTable(2);" id="2">Volumen Maximo </th>
+                        <th style="width: 25%;" onclick="sortTable(3);arrowsTable(3);" id="3">Estado </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,15 +67,14 @@
                 </tbody>
             </table>
         </div>
-        <div class="tableContainer" style="left: 50vw; top: -45vh;">
+        <div class="tableContainer" style="left: 50vw;">
             <table class="tableView" id="tableCamionetas">
                 <thead>
                     <tr>
-                        <th style="width: 7.5%;" onclick="sortTableAlternate(0)">ID</th>
-                        <th style="width: 30%;" onclick="sortTableAlternate(1)">Name</th>
-                        <th style="width: 30%;" onclick="sortTableAlternate(2)">Surname</th>
-                        <th style="width: 20%;" onclick="sortTableAlternate(3)">Rol</th>
-                        <th style="width: 12.5%;" onclick="sortTableAlternate(4)"></th>
+                        <th style="width: 15%;" onclick="sortTableAlternate(0);arrowsTable(4);"" id="4">Matricula</th>
+                        <th style="width: 30%;" onclick="sortTableAlternate(1);arrowsTable(5);"" id="5">Peso Maximo</th>
+                        <th style="width: 30%;" onclick="sortTableAlternate(2);arrowsTable(6);"" id="6">Volumen Maximo</th>
+                        <th style="width: 25%;" onclick="sortTableAlternate(3);arrowsTable(7);"" id="7">Estado</th>
                     </tr>
                 </thead>
                 <tbody>
