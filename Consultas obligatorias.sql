@@ -81,7 +81,7 @@ LEFT JOIN lleva ON lotes.id = lleva.id_lote
 WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY);
 
 -- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
-
+ 
 SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE',
 CASE
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN trae.matricula

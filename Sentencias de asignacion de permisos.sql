@@ -29,6 +29,7 @@ GRANT SELECT ON surno.DESTINO_LOTE TO 'almacen'@'%';
 GRANT SELECT ON surno.LLEVA TO 'almacen'@'%';
 GRANT SELECT ON surno.REPARTE TO 'almacen'@'%';
 GRANT SELECT ON surno.TRAE TO 'almacen'@'%';
+GRANT SELECT ON surno.PAQUETES_ALMACENES TO 'almacen'@'%';
 
 GRANT INSERT(ID_almacen, ID_pickup, direccion , mail) ON surno.PAQUETES TO 'almacen'@'%';
 GRANT UPDATE(peso, volumen, fecha_entregado, cedula) ON surno.PAQUETES TO 'almacen'@'%';
@@ -48,7 +49,8 @@ GRANT INSERT (ID_paquete, matricula) ON surno.REPARTE TO 'almacen'@'%';
 GRANT UPDATE (fecha_descarga) ON surno.REPARTE TO 'almacen'@'%';
 
 GRANT INSERT (ID_paquete, matricula) ON surno.TRAE TO 'almacen'@'%';
-GRANT UPDATE (fecha_descarga) ON surno.TRAE TO 'almacen'@'%';
+
+GRANT EXECUTE ON PROCEDURE surno.descargar_trae TO 'almacen'@'%';
 
 -- CAMIONERO
 
@@ -70,11 +72,11 @@ GRANT SELECT ON surno.DESTINO_LOTE TO 'camionero'@'%';
 GRANT SELECT ON surno.LLEVA TO 'camionero'@'%';
 GRANT SELECT ON surno.TRAE TO 'camionero'@'%';
 GRANT SELECT ON surno.REPARTE TO 'camionero'@'%';
+GRANT SELECT ON surno.PAQUETES_ALMACENES TO 'camionero'@'%';
 
 GRANT INSERT (CI, matricula) ON surno.CONDUCEN TO 'camionero'@'%';
 GRANT UPDATE (hasta) ON surno.CONDUCEN TO 'camionero'@'%';
 GRANT UPDATE (fecha_entregado, cedula) ON surno.PAQUETES TO 'camionero'@'%';
-
 -- BACKOFFICE
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON surno.USERS TO 'backoffice'@'%';
@@ -94,10 +96,16 @@ GRANT SELECT ON surno.LOTES TO 'backoffice'@'%';
 GRANT SELECT, DELETE ON surno.PAQUETES_LOTES TO  'backoffice'@'%';
 GRANT SELECT ON surno.DESTINO_LOTE TO 'backoffice'@'%';
 GRANT SELECT, INSERT(ID_lote, matricula), UPDATE(fecha_descarga) ON surno.LLEVA TO 'backoffice'@'%';
-GRANT SELECT, INSERT(ID_paquete, matricula), UPDATE(fecha_descarga) ON surno.TRAE TO 'backoffice'@'%';
+GRANT SELECT, INSERT(ID_paquete, matricula) ON surno.TRAE TO 'backoffice'@'%';
 GRANT SELECT, INSERT(ID_paquete, matricula), UPDATE(fecha_descarga) ON surno.REPARTE TO 'backoffice'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON surno.PAQUETES_ALMACENES TO 'backoffice'@'%';
 
-SHOW GRANTS FOR 'backoffice'@'%';
+GRANT EXECUTE ON PROCEDURE surno.almacen_cliente TO 'backoffice'@'%';
+GRANT EXECUTE ON PROCEDURE surno.almacen_propio TO 'backoffice'@'%';
+GRANT EXECUTE ON PROCEDURE surno.camioneta TO 'backoffice'@'%';
+GRANT EXECUTE ON PROCEDURE surno.camion TO 'backoffice'@'%';
+GRANT EXECUTE ON PROCEDURE surno.descargar_trae TO 'backoffice'@'%';
+-- SHOW GRANTS FOR 'backoffice'@'%';
 -- SHOW GRANTS FOR 'almacen'@'%';
 -- SHOW GRANTS FOR 'autentificacion'@'%';
 -- SHOW GRANTS FOR 'camionero'@'%';

@@ -228,6 +228,17 @@ CREATE TABLE TRAE (
 
 ALTER TABLE TRAE 
 	ADD CONSTRAINT FECHAS_TRAE CHECK (fecha_carga<fecha_descarga);
+    
+CREATE TABLE PAQUETES_ALMACENES (
+    ID_paquete INT NOT NULL primary key,
+    ID_almacen INT NOT NULL,
+	FOREIGN KEY (ID_paquete)
+        REFERENCES PAQUETES (ID)
+        ON DELETE RESTRICT ON UPDATE RESTRICT,
+    FOREIGN KEY (ID_almacen)
+        REFERENCES ALMACENES_PROPIOS (ID)
+        ON DELETE RESTRICT ON UPDATE RESTRICT
+);
 /*    
 RNE 1: En conduce en cada nuevo registro fecha desde>max(fecha_hasta) de la seleccionde conduce con el camionero a ingresar
 RNE 2: Un paquete no puede estar en mas de un lote que no tenga estado.tipo = 0
