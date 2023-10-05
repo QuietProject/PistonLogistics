@@ -65,7 +65,7 @@ GRANT SELECT ON surno.ALMACENES TO 'camionero'@'%';
 GRANT SELECT ON surno.ALMACENES_PROPIOS TO 'camionero'@'%';
 GRANT SELECT ON surno.ALMACENES_CLIENTES TO 'camionero'@'%';
 GRANT SELECT ON surno.ORDENES TO 'camionero'@'%';
-GRANT SELECT (ID, ID_almacen, fecha_registrado, peso, volumen, fecha_entregado, cedula, direccion,ID_pickup) ON surno.PAQUETES TO 'camionero'@'%';
+GRANT SELECT (ID, ID_almacen, fecha_registrado, peso, volumen, fecha_entregado, cedula, direccion,ID_pickup, estado) ON surno.PAQUETES TO 'camionero'@'%';
 GRANT SELECT ON surno.LOTES TO 'camionero'@'%';
 GRANT SELECT ON surno.PAQUETES_LOTES TO  'camionero'@'%';
 GRANT SELECT ON surno.DESTINO_LOTE TO 'camionero'@'%';
