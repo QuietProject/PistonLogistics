@@ -6,8 +6,7 @@ use surno;
 Este trigger se ejecuta cuando se ingresa un paquete a un lote y elimina al paquete de la tabla paquetes_almacenes 
 y le asigna estado al paquete de acuerdo si es lote tipo 1 o 2
 */
--- drop trigger trigger_descargar_paquete;
-
+drop trigger trigger_descargar_paquete;
 DELIMITER //
 CREATE TRIGGER trigger_paquete_lote
 before INSERT
@@ -23,7 +22,7 @@ IF EXISTS(SELECT 1
 		ELSE
 			UPDATE PAQUETES SET estado=9 where ID=NEW.ID_paquete;
     END IF;
-END
+END //
 DELIMITER ;
 
 /*
@@ -112,7 +111,7 @@ FOR EACH ROW
 BEGIN
 UPDATE PAQUETES 
 	SET estado =5 
-	WHERE ID = (SELECT ID
+	WHERE ID IN (SELECT ID
 	FROM PAQUETES_LOTES
     WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
 END //
@@ -133,6 +132,21 @@ BEGIN
 			FROM PAQUETES_LOTES
 			WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
     END IF;
+END //
+DELIMITER ;
+
+
+DROP TRIGGER trigger_estado_paquete_entregado;
+DELIMITER //
+CREATE TRIGGER trigger_estado_paquete_entregado
+BEFORE UPDATE
+ON PAQUETES
+FOR EACH ROW
+BEGIN
+	IF NEW.fecha_entregado IS NOT NULL AND OLD.fecha_entregado IS NULL
+	THEN
+		SET NEW.estado=9;
+	END IF;
 END //
 DELIMITER ;
 
