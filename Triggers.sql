@@ -1,12 +1,10 @@
 use surno;
 
-
-
 /*
-Este trigger se ejecuta cuando se ingresa un paquete a un lote y elimina al paquete de la tabla paquetes_almacenes 
+1 Este trigger se ejecuta cuando se ingresa un paquete a un lote, elimina al paquete de la tabla paquetes_almacenes 
 y le asigna estado al paquete de acuerdo si es lote tipo 1 o 2
 */
-drop trigger trigger_descargar_paquete;
+drop trigger if exists trigger_paquete_lote;
 DELIMITER //
 CREATE TRIGGER trigger_paquete_lote
 before INSERT
@@ -26,10 +24,10 @@ END //
 DELIMITER ;
 
 /*
-Este trigger se ejecuta al cerrar un lote y añade los paquetes de ese lote a la tabla paquetes_almacen 
-y *TODO* le asigna el nuevo estado al lote de acuerdo a si este es el final o no
+2 Este trigger se ejecuta al cerrar un lote, añade los paquetes de ese lote a la tabla paquetes_almacen 
+y le asigna el nuevo estado al lote de acuerdo a si este es el final o no
 */
-drop TRIGGER trigger_cerrar_lote;
+drop TRIGGER if exists trigger_cerrar_lote;
 DELIMITER //
 CREATE TRIGGER trigger_cerrar_lote
 AFTER UPDATE
@@ -57,10 +55,12 @@ BEGIN
 	END IF;
 END //
 DELIMITER ;
--- drop TRIGGER trigger_repartir_paquete;
+
 /*
-Este trigger se ejecuta cuando se carga un paquete a repartirse y elimina el paquete de la tabla almacenes paquete y le da estado repartiendo
+3 Este trigger se ejecuta cuando se carga un paquete a repartirse y elimina el paquete de la tabla almacenes paquete y le da estado repartiendo
 */
+drop TRIGGER if exists trigger_repartir_paquete;
+
 DELIMITER //
 CREATE TRIGGER trigger_repartir_paquete
 BEFORE INSERT
@@ -72,9 +72,10 @@ END //
 DELIMITER ;
 
 /*
-Este trigger se ejecuta cuando se carga un paquete en trae y le da estado de trayendo
+4 Este trigger se ejecuta cuando se carga un paquete en trae y le da estado de trayendo
 */
 
+DROP TRIGGER IF EXISTS trigger_traer_paquete;
 DELIMITER //
 CREATE TRIGGER trigger_traer_paquete
 AFTER INSERT
@@ -84,25 +85,31 @@ BEGIN
 END //
 DELIMITER ;
 
+/*
+5 Este triger se ejecuta cuando se ingresa un paquete a la tabla paquetes_almacenes y le da el estado correspondiente a los paquetes
+*/
 
-
+DROP TRIGGER IF EXISTS trigger_estado_PAQUETE_ALMACENES;
+DROP TRIGGER IF EXISTS trigger_estado_PAQUETE_ALMACENES;
 DELIMITER //
 CREATE TRIGGER trigger_estado_PAQUETE_ALMACENES
 AFTER INSERT
 ON PAQUETES_ALMACENES FOR EACH ROW
 BEGIN
 	IF EXISTS(SELECT 1 
-            FROM PAQUETES 
-            WHERE ID=NEW.ID_paquete AND ID_pickup=NEW.ID_almacen)
-		THEN
-			UPDATE PAQUETES SET estado=7 where ID=NEW.ID_paquete;
-		ELSE
-			UPDATE PAQUETES SET estado=3 where ID=NEW.ID_paquete;
+		FROM PAQUETES 
+        WHERE ID=NEW.ID_paquete AND ID_pickup=NEW.ID_almacen)
+	THEN
+		UPDATE PAQUETES SET estado=7 where ID=NEW.ID_paquete;
+	ELSE
+		UPDATE PAQUETES SET estado=3 where ID=NEW.ID_paquete;
     END IF;
 END //
 DELIMITER ;
 
-/*Trigger cuando se carga un lote al camion actualiza el estado del paquete*/
+/* 6 Trigger cuando se carga un lote al camion actualiza el estado del paquete*/
+DROP TRIGGER IF EXISTS trigger_lleva_lote_carga;
+
 DELIMITER //
 CREATE TRIGGER trigger_lleva_lote_carga
 AFTER INSERT
@@ -117,7 +124,9 @@ UPDATE PAQUETES
 END //
 DELIMITER ;
 
-/*Trigger cuando se descarga un lote al almacen actualiza el estado del paquete*/
+DROP TRIGGER IF EXISTS trigger_lleva_lote_descarga;
+
+/* 7 Trigger cuando se descarga un lote al almacen actualiza el estado del paquete*/
 DELIMITER //
 CREATE TRIGGER trigger_lleva_lote_descarga
 AFTER UPDATE
@@ -127,16 +136,16 @@ BEGIN
 	IF NEW.fecha_descarga IS NOT NULL AND OLD.fecha_descarga IS NULL
     THEN
 		UPDATE PAQUETES 
-			SET estado =7
+			SET estado =6
 			WHERE ID = (SELECT ID
 			FROM PAQUETES_LOTES
 			WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
     END IF;
 END //
 DELIMITER ;
-
-
-DROP TRIGGER trigger_estado_paquete_entregado;
+/*
+/* 8 Al marcar un paquete como entregado su estado cambia a entregado
+DROP TRIGGER IF EXISTS trigger_estado_paquete_entregado;
 DELIMITER //
 CREATE TRIGGER trigger_estado_paquete_entregado
 BEFORE UPDATE
@@ -145,10 +154,11 @@ FOR EACH ROW
 BEGIN
 	IF NEW.fecha_entregado IS NOT NULL AND OLD.fecha_entregado IS NULL
 	THEN
-		SET NEW.estado=9;
+		SET NEW.estado=0;
 	END IF;
 END //
 DELIMITER ;
+*/
 
 /*
 ESTADOS DE LOS PAQUETES
