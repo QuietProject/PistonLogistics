@@ -71,17 +71,7 @@ LEFT JOIN lleva ON lotes.id = lleva.id_lote
 WHERE paquetes.ID= 6;
 
 -- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
-
-SELECT paquetes.ID, lotes.ID, lleva.ID_lote, lleva.fecha_descarga
-FROM paquetes
-LEFT JOIN paquetes_lotes ON paquetes.id = paquetes_lotes.ID_paquete
-LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
-LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
-LEFT JOIN lleva ON lotes.id = lleva.id_lote
-WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY);
-
--- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
- 
+-- CAMBIAR 
 SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE',
 CASE
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN trae.matricula
@@ -114,7 +104,7 @@ LEFT JOIN reparte ON paquetes.ID = reparte.id_paquete
 WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY);
 
 -- 7. MOSTRAR TODOS LOS PAQUETES A LOS QUE AÚN NO SE LES HA ASIGNADO UN LOTE Y LA FECHA EN LA QUE FUERON RECIBIDOS.
-
+-- CAMBIAR
 select * 
 from paquetes
 where ID not in (select ID_paquete from trae where fecha_descarga is not null) and fecha_entregado is null;

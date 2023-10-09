@@ -23,27 +23,27 @@ INSERT INTO USERS (user, password, rol) VALUES
 ('usuario19', 'contraseña19', 0),
 ('usuario20', 'contraseña20', 1);
 
-INSERT INTO CAMIONEROS (CI, nombre, apellido, baja) VALUES
-('12345678', 'Juan', 'Perez', 0),
-('23456789', 'Maria', 'Gomez', 0),
-('34567890', 'Pedro', 'Lopez', 0),
-('45678901', 'Ana', 'Martinez', 0),
-('56789012', 'Carlos', 'Rodriguez', 0),
-('67890123', 'Laura', 'Hernandez', 0),
-('12341234', 'Alejandro', 'Gonzalez', 0),
-('23452345', 'Isabel', 'Lopez', 0),
-('34563456', 'Pablo', 'Fernandez', 0),
-('45674567', 'Carolina', 'Gomez', 0),
-('54321098', 'Andres', 'Ramirez', 0),
-('65432109', 'Eva', 'Vargas', 0),
-('54321087', 'Fernando', 'Torres', 0),
-('43210987', 'Carmen', 'Sanchez', 0),
-('32109876', 'Luis', 'Mendoza', 0),
-('65432108', 'Maria', 'Jimenez', 0),
-('54321086', 'Diego', 'Paredes', 0),
-('43210986', 'Sofia', 'Guerrero', 0),
-('32109875', 'Javier', 'Luna', 0),
-('65432107', 'Valentina', 'Cabrera', 0);
+INSERT INTO CAMIONEROS (CI, nombre, baja) VALUES
+('12345678', 'Juan Perez', 0),
+('23456789', 'Maria Gomez', 0),
+('34567890', 'Pedro Lopez', 0),
+('45678901', 'Ana Martinez', 0),
+('56789012', 'Carlos Rodriguez', 0),
+('67890123', 'Laura Hernandez', 0),
+('12341234', 'Alejandro Gonzalez', 0),
+('23452345', 'Isabel Lopez', 0),
+('34563456', 'Pablo Fernandez', 0),
+('45674567', 'Carolina Gomez', 0),
+('54321098', 'Andres Ramirez', 0),
+('65432109', 'Eva Vargas', 0),
+('54321087', 'Fernando Torres', 0),
+('43210987', 'Carmen Sanchez', 0),
+('32109876', 'Luis Mendoza', 0),
+('65432108', 'Maria Jimenez', 0),
+('54321086', 'Diego Paredes', 0),
+('43210986', 'Sofia Guerrero', 0),
+('32109875', 'Javier Luna', 0),
+('65432107', 'Valentina Cabrera', 0);
 
 
 INSERT INTO VEHICULOS (matricula, vol_max, peso_max, es_operativo, baja) VALUES

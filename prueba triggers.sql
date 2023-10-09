@@ -1,4 +1,4 @@
-SELECT * FROM `paquetes` WHERE ID = 21; 
+SELECT * FROM `paquetes` WHERE ID = 20; 
 SELECT * FROM paquetes_almacenes;
 use surno;
 

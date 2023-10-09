@@ -36,12 +36,14 @@ DROP PROCEDURE ejecutar_accion;
 CALL ejecutar_accion();
 */
 
+DROP PROCEDURE IF EXISTS camion;
+
 DELIMITER //
-CREATE PROCEDURE camion (IN matricula char(7), vol_max int unsigned, peso_max int unsigned, OUT fallo bit)
+CREATE PROCEDURE camion (IN matricula char(7), IN vol_max int unsigned, IN peso_max int unsigned, OUT fallo bit)
 BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
-	SET @error =0;
+	SET @error :=0;
     
 	-- Paso 1: Crear el vehiculo
 	insert into vehiculos (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
@@ -65,6 +67,7 @@ DELIMITER ;
 
 -- CALL camion("ead3342",10,10, @fallo);
 
+DROP PROCEDURE IF EXISTS camioneta;
 DELIMITER //
 CREATE PROCEDURE camioneta (IN matricula char(7), vol_max int unsigned, peso_max int unsigned, OUT fallo bit)
 BEGIN
@@ -93,9 +96,9 @@ DELIMITER ;
 
 -- CALL camioneta("ead3342",10,10, @fallo);
 
--- DROP PROCEDURE almacen_cliente;
+DROP PROCEDURE IF EXISTS almacen_cliente;
 DELIMITER //
-CREATE PROCEDURE almacen_cliente (IN nombre varchar(32), IN direccion varchar(128), IN RUT char(12), OUT error bit, OUT ID int)
+CREATE PROCEDURE almacen_cliente (IN nombre varchar(32), IN direccion varchar(128), IN RUT char(12), OUT ID int, OUT error bit)
 BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
@@ -119,40 +122,9 @@ BEGIN
 END //
 DELIMITER ;
 
-/*CALL almacen_cliente("almacen7",'calle',234323232323,@error,@ID);
-select @error, @ID;*/
-/*
+DROP PROCEDURE IF EXISTS almacen_propio;
 DELIMITER //
-CREATE PROCEDURE camioneta (IN matricula char(7), vol_max int unsigned, peso_max int unsigned, OUT fallo bit)
-BEGIN
-	-- Inicio de la transacción
-	START TRANSACTION;
-	SET @error =0;
-    
-	-- Paso 1: Crear el vehiculo
-	insert into vehiculos (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
-	SET @error = IF(row_count()=0, 1, @error);
-
-	-- Paso 2: Crear un camion
-	INSERT INTO camionetas (matricula) values (matricula);
-	SET @row= row_count();
-	SET @error = IF(@row=0, 1, @error);
-
-    IF @error=1 THEN
-       rollback;
-       set fallo = 1;
-    ELSE
-		commit;
-        set fallo = 0;
-    END IF;
-END //
-DELIMITER ;
-
--- CALL camioneta("ead3342",10,10, @fallo);
-*/
--- DROP PROCEDURE almacen_propio;
-DELIMITER //
-CREATE PROCEDURE almacen_propio (IN nombre varchar(32), IN direccion varchar(128), OUT error bit, OUT ID int)
+CREATE PROCEDURE almacen_propio (IN nombre varchar(32), IN direccion varchar(128), OUT ID int, OUT error bit)
 BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
@@ -176,7 +148,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- DROP PROCEDURE descargar_trae;
+DROP PROCEDURE IF EXISTS descargar_trae;
 DELIMITER //
 CREATE PROCEDURE descargar_trae(IN paquete INT, IN almacen INT (128), OUT error bit)
 BEGIN
@@ -206,4 +178,3 @@ END //
 DELIMITER ;
 
 -- CALL descargar_trae(19,1,@error);
-

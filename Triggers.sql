@@ -10,7 +10,7 @@ CREATE TRIGGER trigger_paquete_lote
 before INSERT
 ON paquetes_lotes FOR EACH ROW
 BEGIN
-DELETE FROM PAQUETES_ALMACENES where ID_paquete=NEW.ID_paquete;
+UPDATE PAQUETES_ALMACENES SET hasta=current_timestamp() where ID_paquete=NEW.ID_paquete AND hasta is null;
 
 IF EXISTS(SELECT 1 
             FROM LOTES 
@@ -66,7 +66,7 @@ CREATE TRIGGER trigger_repartir_paquete
 BEFORE INSERT
 ON reparte FOR EACH ROW
 BEGIN
-	DELETE FROM PAQUETES_ALMACENES where id_paquete=NEW.ID_paquete;
+	UPDATE PAQUETES_ALMACENES SET hasta=current_timestamp() where ID_paquete=NEW.ID_paquete AND hasta is null;
     UPDATE PAQUETES SET estado=8 where ID=NEW.ID_paquete;
 END //
 DELIMITER ;
