@@ -42,14 +42,11 @@ class VehiculosController extends Controller
         $vehiculo = $request->validated();
         unset($vehiculo['tipo']);
         $matricula = $request->validated()['matricula'];
-
-        Vehiculo::create($vehiculo);
-        if ($request->validated()['tipo'] == 'camion') {
-            Camion::create(['matricula' => $matricula]);
-        } else {
-            Camioneta::create(['matricula' => $matricula]);
+        //dd($vehiculo);
+        DB::select('CALL ' . $request->validated()['tipo'] . '(?,?,?,@fallo)', [$vehiculo['matricula'], $vehiculo['vol_max'], $vehiculo['peso_max']]);
+        if (DB::select('SELECT @FALLO AS fallo')[0]->fallo != 0) {
+            return redirect()->back()->with('error','Ha ocurrido un error');
         }
-
         return to_route('vehiculos.show', $request->input('matricula'))->with('success', 'El vehiculo se agrego correctamente');
     }
 
@@ -116,11 +113,11 @@ class VehiculosController extends Controller
         $baja = $vehiculo->baja ? 'baja' : 'alta';
 
         $conduce = Conducen::where('matricula', $vehiculo->matricula)->whereNull('hasta')->first();
-        if($conduce!=null){
+        if ($conduce != null) {
             Conducen::where('matricula', $conduce->matricula)
-            ->where('ci', $conduce->CI)
-            ->where('desde', $conduce->desde)
-            ->update(['hasta' => Carbon::now()->toDateTimeString()]);
+                ->where('ci', $conduce->CI)
+                ->where('desde', $conduce->desde)
+                ->update(['hasta' => Carbon::now()->toDateTimeString()]);
         }
 
         return redirect()->back()->with('success', "El vehiculo se dio de $baja correctamente");

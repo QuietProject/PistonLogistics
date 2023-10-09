@@ -6,7 +6,6 @@
             <tr>
                 <th>CI</th>
                 <th>Nombre</th>
-                <th>Apellido</th>
                 <th>Estado</th>
             </tr>
         </thead>
@@ -15,7 +14,6 @@
                 <tr>
                     <td><a href="{{ route('camioneros.show', $camionero->CI) }}"> {{ $camionero->CI }}</a> </td>
                     <td>{{ $camionero->nombre }}</td>
-                    <td>{{ $camionero->apellido }}</td>
                     <td>
                         <form action="{{ route('camioneros.destroy', $camionero->CI) }}" method="POST">
                             @csrf

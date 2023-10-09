@@ -5,7 +5,6 @@
     <h3>Camionero</h3>
     <p>Ci: {{ $camionero->CI }}</p>
     <p>Nombre {{ $camionero->nombre }}</p>
-    <p>Apellido {{ $camionero->apellido }}</p>
 
     <h3>Vehiculo</h3>
     <form action=""></form>

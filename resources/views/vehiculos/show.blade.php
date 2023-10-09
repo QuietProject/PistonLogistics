@@ -14,8 +14,7 @@ if ($vehiculo->baja) {
     <p>Volumen Maximo: {{ $vehiculo->vol_max }}m3</p>
     <p>Conductor:
         @if (isset($camioneros[0]) && $camioneros[0]->hasta == null)
-            <a href="{{ route('camioneros.show', $camioneros[0]->CI) }}">{{ $camioneros[0]->nombre }}
-                {{ $camioneros[0]->apellido }}</a>
+            <a href="{{ route('camioneros.show', $camioneros[0]->CI) }}">{{ $camioneros[0]->nombre }}</a>
             <form
                 action="{{ route('conducen.hasta', ['matricula' => $vehiculo->matricula, 'ci' => $camioneros[0]->CI]) }}"
                 method="POST">
@@ -100,8 +99,7 @@ if ($vehiculo->baja) {
             <tbody>
                 @foreach ($camioneros as $camionero)
                     <tr>
-                        <td><a href="{{ route('camioneros.show', $camionero->CI) }}"> {{ $camionero->nombre }}
-                                {{ $camionero->apellido }}</a></td>
+                        <td><a href="{{ route('camioneros.show', $camionero->CI) }}"> {{ $camionero->nombre }}</a></td>
                         <td>{{ $camionero->desde }}</td>
                         <td>{{ $camionero->hasta != null ? $camionero->hasta : 'Conduciendo' }}</td>
                     </tr>

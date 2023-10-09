@@ -23,9 +23,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $fecha_entregado
  * @property string|null $mail
  * @property string|null $cedula
+ * @property int $estado
  * 
  * @property AlmacenCliente $almacen_cliente
  * @property AlmacenPropio $almacen_propio
+ * @property Collection|PaquetesAlmacene[] $paquetes_almacenes
  * @property Collection|Lote[] $lotes
  * @property Reparte $reparte
  * @property Trae $trae
@@ -44,7 +46,8 @@ class Paquete extends Model
 		'ID_pickup' => 'int',
 		'peso' => 'int',
 		'volumen' => 'int',
-		'fecha_entregado' => 'datetime'
+		'fecha_entregado' => 'datetime',
+		'estado' => 'int'
 	];
 
 	protected $fillable = [
@@ -56,7 +59,8 @@ class Paquete extends Model
 		'volumen',
 		'fecha_entregado',
 		'mail',
-		'cedula'
+		'cedula',
+		'estado'
 	];
 
 	public function almacen_cliente()
@@ -67,6 +71,12 @@ class Paquete extends Model
 	public function almacen_propio()
 	{
 		return $this->belongsTo(AlmacenPropio::class, 'ID_pickup');
+	}
+
+
+	public function paquetes_almacenes()
+	{
+		return $this->hasMany(PaquetesAlmacene::class, 'ID_paquete');
 	}
 
 	public function lotes()

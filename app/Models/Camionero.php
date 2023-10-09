@@ -11,13 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Camionero
- *
+ * 
  * @property string $CI
  * @property string $nombre
- * @property string $apellido
  * @property bool $baja
- *
- * @property Collection|Conducen[] $conducens
+ * 
+ * @property Collection|Conducen[] $conducen
  *
  * @package App\Models
  */
@@ -33,13 +32,11 @@ class Camionero extends Model
 	];
 
 	protected $fillable = [
-		'CI',
-        'nombre',
-		'apellido',
+		'nombre',
 		'baja'
 	];
 
-	public function conduce()
+	public function conducen()
 	{
 		return $this->hasMany(Conducen::class, 'CI');
 	}

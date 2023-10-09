@@ -17,7 +17,7 @@
             <label for="CI">Camionero:</label>
             <select name="CI" id="CI">
                 @foreach ($camioneros as $camionero)
-                    <option value="{{ $camionero->CI }}">{{ $camionero->nombre }} {{ $camionero->apellido }}, {{ $camionero->CI }}</option>
+                    <option value="{{ $camionero->CI }}">{{ $camionero->nombre }}, {{ $camionero->CI }}</option>
                 @endforeach
             </select>
         </div>

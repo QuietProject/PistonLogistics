@@ -2,7 +2,7 @@
     @include('camioneros.edit')
     <h2>Camionero</h2>
     <p>Cedula: {{ $camionero->CI }}</p>
-    <p>Nombre: {{ $camionero->nombre }} {{ $camionero->apellido }}</p>
+    <p>Nombre: {{ $camionero->nombre }}</p>
     <p>Vehiculo asignado:
         @if (isset($vehiculos[0]) && $vehiculos[0]->hasta == null)
             <a href="{{ route('vehiculos.show', $vehiculos[0]->matricula) }}">{{ $vehiculos[0]->matricula }}</a>
