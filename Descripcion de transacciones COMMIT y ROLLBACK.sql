@@ -165,7 +165,7 @@ BEGIN
 	SET error = IF(row_count()!=1, 1, error);
     
 	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
-    INSERT INTO PAQUETES_ALMACENES values (paquete, almacen);
+    INSERT INTO PAQUETES_ALMACENES(ID_paquete,ID_almacen) values (paquete, almacen);
 	SET error = IF(row_count()!=1, 1, error);
 
     IF error=1 THEN
@@ -222,7 +222,7 @@ BEGIN
 	SET error =0;
     
 	-- Paso 2: Entregar el paquete
-	UPDATE PAQUETE SET fecha_entregado=CURRENT_TIMESTAMP(), estado=0 WHERE ID=paquete;
+	UPDATE PAQUETES SET fecha_entregado=CURRENT_TIMESTAMP(), estado=0 WHERE ID=paquete;
 	SET error = IF(row_count()!=1, 1, error);
     
     IF error=1 THEN
@@ -253,7 +253,7 @@ BEGIN
 	SET error = IF(row_count()!=1, 1, error);
     
 	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
-    INSERT INTO PAQUETES_ALMACENES values (paquete, almacen);
+    INSERT INTO PAQUETES_ALMACENES(ID_paquete, ID_almacen) values (paquete, almacen);
 	SET error = IF(row_count()!=1, 1, error);
     IF error=1 THEN
     

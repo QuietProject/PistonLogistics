@@ -1,9 +1,9 @@
-SELECT * FROM `paquetes` WHERE ID = 20; 
+SELECT * FROM `paquetes` WHERE ID = 21; 
 SELECT * FROM paquetes_almacenes;
 use surno;
 
 describe paquetes;
-
+select * from lotes;
 insert into paquetes (id_almacen,id_pickup,direccion) values (18,1,'casa');
 select * from camiones;
 insert into trae (matricula,ID_paquete) values('ABC1234',20);
@@ -36,4 +36,12 @@ update lleva set fecha_descarga=current_timestamp() where ID_lote=13;
 update lotes set fecha_cerrado=current_timestamp() where ID=13;
 insert into reparte (matricula,ID_paquete) values ('ABD2399',21);
 update reparte set fecha_descarga=current_timestamp() where ID_paquete=21;
-update paquetes set fecha_entregado=current_timestamp() where ID=21;
+call descargar_reparte(21,1,@error);
+insert into lotes(ID_almacen,ID_troncal,tipo) values (1,2,1);
+insert into lotes(ID_almacen,ID_troncal) values (21,4);
+insert into paquetes_lotes(ID_paquete,ID_lote) values(21,16);
+call entregar_paquete_pickup(21,@error);
+
+insert into paquetes (id_almacen,id_pickup,direccion) values (18,1,'casa');
+insert into trae (matricula,ID_paquete) values('ABC1234',22);
+call descargar_trae(22,3,@error);
