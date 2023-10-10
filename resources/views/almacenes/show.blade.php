@@ -39,7 +39,14 @@
     <a href="{{ route('almacenes.index') }}">Volver</a>
 
     @if ($tipo == 'propio')
-        aaaa
+
+    <p>Paquetes 'sueltos' en el almacen: {{ $paquetesEnAlmacen }}</p>
+    <p>Total de paquetes en que pasaron por el almacen: {{ $paquetesRecibidos }}</p>
+    <p>Lotes para desarmar en el almacen: {{ $lotesParaDesarmar }}</p>
+    <p>Lotes en el almacen prontos para llevar : {{ $lotesProntos }}</p>
+    <p>Lotes en preparacion en el almacen: {{ $lotesEnPreparacion }}</p>
+    <p>Total de lotes recibidos en el almacen: {{ $lotesRecibidos }}</p>
+    <p>Total de lotes creados en el almacen: {{ $lotesCreados }}</p>
     @else
     <p>Paquetes esperando en el almacenen: {{ $paquetesEnCliente }}</p>
     <p>Paquetes encargados por almacen que ya fueron entregados: {{ $paquetesEntregadosCliente }}</p>

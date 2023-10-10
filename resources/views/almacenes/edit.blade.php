@@ -6,4 +6,5 @@
     @csrf
     @method('PATCH')
     @include('almacenes.form-fields')
+    <button type="submit">Submit</button>
 </form>

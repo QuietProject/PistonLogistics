@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveAlmacenRequest;
 use App\Models\Almacen;
 use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
@@ -39,9 +40,9 @@ class AlmacenesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveAlmacenRequest $request)
     {
-        //
+
     }
 
     /**
@@ -57,6 +58,17 @@ class AlmacenesController extends Controller
 
         if ($tipo == 'propio') {
 
+            //Total de paquetes en almacen
+            $paquetesEnAlmacen = DB::table('paquetes_almacenes')
+            ->where('ID_almacen', $almacen->ID)
+            ->whereNull('hasta')
+            ->count();
+
+            //Total de paquetes que pasaron por el almacen
+            $paquetesRecibidos = DB::table('paquetes_almacenes')
+            ->where('ID_almacen', $almacen->ID)
+            ->count();
+
             //Total de lotes en preparacion en el almacen
             $lotesEnPreparacion = DB::table('lotes')
             ->where('lotes.ID_almacen', $almacen->ID)
@@ -65,18 +77,18 @@ class AlmacenesController extends Controller
 
             //Total de lotes prontos que estan esperando a ser cargados
             $lotesProntos = DB::table('lotes')
-            ->leftJoin('lleva','lleva.ID_lote','lotes,ID')
+            ->leftJoin('lleva','lleva.ID_lote','lotes.ID')
             ->where('lotes.ID_almacen', $almacen->ID)
             ->whereNotNull('lotes.fecha_pronto')
             ->whereNull('lleva.matricula')
-            ->dd();
-            
+            ->count();
+
             //Total de lotes creados en el almacen
             $lotesCreados = DB::table('lotes')
             ->where('lotes.ID_almacen', $almacen->ID)
             ->count();
-            
-            // Total de lotes recibidos en el almacen 
+
+            // Total de lotes recibidos en el almacen
             $lotesRecibidos  = DB::table('lotes')
             ->join('lleva', 'lotes.ID', 'lleva.ID_lote')
             ->join('destino_lote', 'lotes.ID', 'destino_lote.ID_lote')
@@ -92,10 +104,16 @@ class AlmacenesController extends Controller
             ->whereNull('lotes.fecha_cerrado')
             ->count();
 
-            dd($lotesEnPreparacion);
-                return view('almacenes.show', [
+            return view('almacenes.show', [
                     'almacen' => $almacen,
-                    'tipo' => $tipo
+                    'tipo' => $tipo,
+                    'paquetesEnAlmacen' => $paquetesEnAlmacen,
+                    'paquetesRecibidos' => $paquetesRecibidos,
+                    'lotesEnPreparacion' => $lotesEnPreparacion,
+                    'lotesProntos' => $lotesProntos,
+                    'lotesCreados' => $lotesCreados,
+                    'lotesRecibidos' => $lotesRecibidos,
+                    'lotesParaDesarmar' => $lotesParaDesarmar
                 ]);
         } else{
             //Total de paquetes que ordenados por el cliente en este almacen
@@ -126,25 +144,8 @@ class AlmacenesController extends Controller
                     'paquetesEnCliente' => $paquetesEnCliente
                 ]);
         }
-
-        /*
-        $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
-        $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
-        $reparte = Reparte::where('reparte.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();*/
-        //dd(Almacen::findOrFail($almacen));
-
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Almacen  $almacen
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Almacen $almacen)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
