@@ -42,7 +42,7 @@ CREATE PROCEDURE camion (IN matricula char(7), IN vol_max int unsigned, IN peso_
 BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
-	SET @error :=0;
+	SET @error =0;
     
 	-- Paso 1: Crear el vehiculo
 	insert into vehiculos (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
@@ -233,11 +233,10 @@ BEGIN
 END //
 DELIMITER ;
 
-
-/* PARA DESCARGAR UN PAQUETE EN EL ALMACEN DESPUES NO HABER SIDO RECIBIO AL REPARTIR */
-DROP PROCEDURE IF exists descargar_reparte;
+/* PARA CREAR UN LOTE TIPO 1 */
+DROP PROCEDURE IF exists lote_1;
 DELIMITER //
-CREATE PROCEDURE descargar_reparte(IN paquete INT, IN almacen INT, OUT error bit)
+CREATE PROCEDURE lote_1(IN almacen INT, OUT ID int ,OUT error bit)
 BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -247,22 +246,60 @@ BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
 	SET error =0;
+    SET ID = 0;
     
-	-- Paso 2: Descargar el paquete
-	UPDATE REPARTE SET fecha_descarga=CURRENT_TIMESTAMP() WHERE ID_paquete=paquete AND fecha_descarga IS NULL;
-	SET error = IF(row_count()!=1, 1, error);
+	-- Paso 2: Obtener troncal
+	Set @troncal = (Select ID_troncal from ordenes where ID_almacen=almacen limit 1);
+	SET error = IF(found_rows()!=1, 1, error);
     
-	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
-    INSERT INTO PAQUETES_ALMACENES(ID_paquete, ID_almacen) values (paquete, almacen);
-	SET error = IF(row_count()!=1, 1, error);
+    
+    -- Paso 3: Crear el lote
+	INSERT INTO LOTES(ID_almacen,ID_troncal,tipo) values(almacen,@troncal,1);
+    SET error = IF(row_count()!=1, 1, error);    
+    
     IF error=1 THEN
-    
-	/* UPDATE PAQUETE SET DIRECCION = NULL ???*/
        rollback;
+    ELSE
+		SET ID = LAST_INSERT_ID();
+		commit;
+    END IF;
+END //
+DELIMITER ;
+CALL lote_1(1,@ID,@error);
+select @ID, @error;
+select * from lotes;
+
+/* PARA CREAR UN LOTE TIPO 0 */
+DROP PROCEDURE IF exists lote_0;
+DELIMITER //
+CREATE PROCEDURE lote_0(IN origen INT, IN destino INT, IN troncal INT, OUT ID int ,OUT error bit)
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      SET ID = 0;
+      ROLLBACK;
+  END;
+	-- Inicio de la transacción
+	START TRANSACTION;
+	SET error =0;
+    SET ID = 0;    
+    
+    -- Paso 2: Crear el lote
+	INSERT INTO LOTES(ID_almacen,ID_troncal) values(origen,troncal);
+    SET error = IF(row_count()!=1, 1, error);    
+	SET ID = LAST_INSERT_ID();
+    
+	-- Paso 3: Guardar el destino
+	INSERT INTO DESTINO_LOTE(ID_lote,ID_almacen,ID_troncal) values(ID,destino,troncal);
+    SET error = IF(row_count()!=1, 1, error);    
+
+    IF error=1 THEN
+       rollback;
+       SET ID = 0;
     ELSE
 		commit;
     END IF;
 END //
 DELIMITER ;
--- CALL descargar_trae(19,1,@error);
-
+-- CALL lote_0(2,6,1,@ID,@error);

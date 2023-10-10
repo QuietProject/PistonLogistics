@@ -88,14 +88,10 @@ CASE
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN 'Trayendo hacia almacenes de QC'
     WHEN trae.ID_paquete is null THEN 'En almacenes del proveedor'
     ELSE 'En almacenes de QC'
-  END AS 'ESTADO ENVIO'
+	END AS 'ESTADO ENVIO'
   
 FROM paquetes
-LEFT JOIN (
-SELECT paquetes_lotes.id_paquete, paquetes_lotes.id_lote, paquetes_lotes.fecha FROM paquetes_lotes INNER JOIN (
-	SELECT id_paquete, MAX(fecha) AS max_fecha FROM paquetes_lotes GROUP BY id_paquete ) subquery
-		ON paquetes_lotes.id_paquete = subquery.id_paquete AND paquetes_lotes.fecha = subquery.max_fecha 
-) paquetes_lotes ON paquetes.id = paquetes_lotes.id_paquete
+LEFT JOIN (SELECT id_paquete, id_lote ,MAX(fecha) AS fecha FROM paquetes_lotes GROUP BY id_paquete) as paquetes_lotes ON paquetes.id = paquetes_lotes.id_paquete
 LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
 LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
 LEFT JOIN lleva ON lotes.ID = lleva.id_lote
