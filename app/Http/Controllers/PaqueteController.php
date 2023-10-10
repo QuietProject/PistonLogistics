@@ -27,36 +27,54 @@ class PaqueteController extends Controller
 
     public function paquetesLote($id)
     {
-        foreach (Lleva::all() as $lleva) {
-            $lotesLleva[] = $lleva->ID_lote;
-        }
+        // foreach (Lleva::all() as $lleva) {
+        //     $lotesLleva[] = $lleva->ID_lote;
+        // }
 
-        $lotes = Lote::where("tipo", 0)
-        ->whereNull("fecha_cerrado")
-        ->whereNull("fecha_pronto")
-        ->where("ID_almacen", 5)
-        ->get();
-
-
-        foreach($lotes as $lote){
-            $lotesArray[] = $lote->ID;
-        }
+        // $lotes = Lote::where("tipo", 0)
+        // ->whereNull("fecha_cerrado")
+        // ->whereNull("fecha_pronto")
+        // ->where("ID_almacen", 5)
+        // ->get();
 
 
-        $lotesfinal = array_diff($lotesArray, $lotesLleva);
-  
-        foreach($lotesfinal as $lote){
-            $paquetesLote = PaqueteLote::where("ID_lote", $lote)->get();
-            foreach ($paquetesLote as $paquete) {
-                $paquete->paquete;
-            }
-            $paquetesLoteArray[] = $paquetesLote;
-        }
+        // foreach($lotes as $lote){
+        //     $lotesArray[] = $lote->ID;
+        // }
+
+
+        // $lotesfinal = array_diff($lotesArray, $lotesLleva);
+
+        // foreach($lotesfinal as $lote){
+        //     $paquetesLote = PaqueteLote::where("ID_lote", $lote)->get();
+        //     foreach ($paquetesLote as $paquete) {
+        //         $paquete->paquete;
+        //     }
+        //     $paquetesLoteArray[] = $paquetesLote;
+        // }
         // $paqueteLote = PaqueteLote::where("ID_lote", 5)->get();
         // foreach ($paqueteLote as $paquete) {
         //     $paquete->paquete;
         // }
-        return PaqueteResource::collection($paquetesLoteArray);
+
+
+        // $arrayPaquetes = PaqueteLote::where("ID_lote", $id)->get();
+        // foreach ($arrayPaquetes as $paquete) {
+        //     dd($paquete->paquete());
+        //     $arrayPaquetesFiltrados[] = $paquete->paquete();
+        // }
+        // dd($arrayPaquetesFiltrados);
+        $latestDateSubquery = PaqueteLote::where('ID_lote', $id)
+            ->selectRaw('MAX(fecha)');
+
+        dd($latestDateSubquery);
+
+        $latestPaquete = PaqueteLote::where('ID_lote', $id)
+            ->where('fecha', '=', $latestDateSubquery)
+            ->with('paquete')
+            ->get();
+
+        return PaqueteResource::collection($latestPaquete);
     }
 
     /**
