@@ -36,8 +36,7 @@ DROP PROCEDURE ejecutar_accion;
 CALL ejecutar_accion();
 */
 
-DROP PROCEDURE IF EXISTS camion;
-
+DROP PROCEDURE IF exists camion;
 DELIMITER //
 CREATE PROCEDURE camion (IN matricula char(7), IN vol_max int unsigned, IN peso_max int unsigned, OUT fallo bit)
 BEGIN
@@ -150,7 +149,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS descargar_trae;
 DELIMITER //
-CREATE PROCEDURE descargar_trae(IN paquete INT, IN almacen INT (128), OUT error bit)
+CREATE PROCEDURE descargar_trae(IN paquete INT, IN almacen INT, OUT error bit)
 BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -178,3 +177,92 @@ END //
 DELIMITER ;
 
 -- CALL descargar_trae(19,1,@error);
+
+DROP PROCEDURE IF exists entregar_paquete;
+DELIMITER //
+CREATE PROCEDURE entregar_paquete(IN paquete INT(128), OUT error bit)
+BEGIN
+/* No funciona si el paquete ya fue descargado o entregado anteriormente*/
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
+	-- Inicio de la transacción
+	START TRANSACTION;
+	SET error =0;
+    
+	-- Paso 2: Descargar el paquete
+	UPDATE REPARTE SET fecha_descarga=CURRENT_TIMESTAMP() WHERE ID_paquete=paquete AND fecha_descarga IS NULL;
+	SET error = IF(row_count()!=1, 1, error);
+    
+	-- Paso 2: Actualizar paquete
+    UPDATE PAQUETES SET fecha_entregado=current_timestamp(), estado=0 where ID=paquete AND fecha_entregado IS NULL;
+	SET error = IF(row_count()!=1, 1, error);
+
+    IF error=1 THEN
+       rollback;
+    ELSE
+		commit;
+    END IF;
+END //
+DELIMITER ;
+
+DROP PROCEDURE IF exists entregar_paquete_pickup;
+DELIMITER //
+CREATE PROCEDURE entregar_paquete_pickup(IN paquete INT(128), OUT error bit)
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
+	-- Inicio de la transacción
+	START TRANSACTION;
+	SET error =0;
+    
+	-- Paso 2: Entregar el paquete
+	UPDATE PAQUETE SET fecha_entregado=CURRENT_TIMESTAMP(), estado=0 WHERE ID=paquete;
+	SET error = IF(row_count()!=1, 1, error);
+    
+    IF error=1 THEN
+       rollback;
+    ELSE
+		commit;
+    END IF;
+END //
+DELIMITER ;
+
+
+/* PARA DESCARGAR UN PAQUETE EN EL ALMACEN DESPUES NO HABER SIDO RECIBIO AL REPARTIR */
+DROP PROCEDURE IF exists descargar_reparte;
+DELIMITER //
+CREATE PROCEDURE descargar_reparte(IN paquete INT, IN almacen INT, OUT error bit)
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
+	-- Inicio de la transacción
+	START TRANSACTION;
+	SET error =0;
+    
+	-- Paso 2: Descargar el paquete
+	UPDATE REPARTE SET fecha_descarga=CURRENT_TIMESTAMP() WHERE ID_paquete=paquete AND fecha_descarga IS NULL;
+	SET error = IF(row_count()!=1, 1, error);
+    
+	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
+    INSERT INTO PAQUETES_ALMACENES values (paquete, almacen);
+	SET error = IF(row_count()!=1, 1, error);
+    IF error=1 THEN
+    
+	/* UPDATE PAQUETE SET DIRECCION = NULL ???*/
+       rollback;
+    ELSE
+		commit;
+    END IF;
+END //
+DELIMITER ;
+-- CALL descargar_trae(19,1,@error);
+
