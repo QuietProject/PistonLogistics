@@ -195,8 +195,9 @@ BEGIN
 	SET error = IF(row_count()!=1, 1, error);
     
 	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
-    INSERT INTO PAQUETES_ALMACENES values (paquete, almacen);
+    INSERT INTO PAQUETES_ALMACENES(ID_paquete,ID_almacen) values (paquete, almacen);
 	SET error = IF(row_count()!=1, 1, error);
+    
     IF error=1 THEN
     
 	/* UPDATE PAQUETE SET DIRECCION = NULL ???*/
@@ -297,9 +298,9 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
-CALL lote_1(1,@ID,@error);
+/*CALL lote_1(1,@ID,@error);
 select @ID, @error;
-select * from lotes;
+select * from lotes;*/
 
 /* PARA CREAR UN LOTE TIPO 0 */
 DROP PROCEDURE IF exists lote_0;
