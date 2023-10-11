@@ -21,11 +21,9 @@ body {
     background-image: url(../source/fondo.jpg);
     background-repeat: no-repeat;
     background-size: cover;
-    /* background-position: center; */
     background-attachment: fixed;
     background-color: var(--sidebar);
     -ms-overflow-style: none;
-    /* IE and Edge */
     scrollbar-width: none;
 }
 
@@ -122,7 +120,7 @@ header div img {
 #sidebar a {
     color: var(--interactuables);
     text-decoration: none;
-    font-size: 1.7rem;
+    font-size: 1.6rem;
     margin-bottom: .7rem;
     transition: .2s ease;
     display: block;
@@ -244,15 +242,16 @@ header div img {
     gap: 2rem;
 }
 
-.aboutUs > h3 {
+.aboutUs>h3 {
     font-size: 2rem;
     margin-bottom: 2rem;
     border-radius: 5px;
     box-shadow: 0px 0px 10px -1px black;
     padding: .7rem;
+    text-align: center;
 }
 
-.aboutUs > .textoAbout {
+.aboutUs>.textoAbout {
     max-width: 90%;
     width: 1000px;
     font-size: 1.1rem;
@@ -260,28 +259,30 @@ header div img {
     margin-bottom: 100px;
 }
 
-.aboutUs > .textoPreguntas1, .textoPreguntas2{
+.aboutUs>.textoPreguntas {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     font-size: 1.1rem;
     gap: 10px;
 }
 
-.aboutUs > .textoPreguntas1 > div,.textoPreguntas2 > div{
+.aboutUs>.textoPreguntas>div {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    max-width: 30vw;
+    width: 30vw;
     text-align: center;
     box-shadow: 0px 0px 10px -1px black;
     border-radius: 10px;
     padding: 15px;
 }
 
-.aboutUs > .textoPreguntas1 > div > *:nth-child(1), .textoPreguntas2 > div > *:nth-child(1){
+.aboutUs>.textoPreguntas>div>*:nth-child(1) {
     display: flex;
     justify-content: center;
-    align-items: center; 
-    height: 8vh;
+    align-items: center;
+    min-height: 8vh;
     border-bottom: 2px solid white;
     padding: 5px;
     font-size: 1.1em;
@@ -356,7 +357,7 @@ footer {
     animation: fade 1s ease 0.75s forwards;
 }
 
-.divInicio > img {
+.divInicio>img {
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 1s, transform 1s;
@@ -368,6 +369,7 @@ footer {
     from {
         transform: scale(1);
     }
+
     to {
         transform: scale(3);
     }
@@ -391,7 +393,7 @@ footer {
         display: none;
     }
 
-    /* .aboutUs .texto {
-        text-align: justify;
-    } */
+    .aboutUs>.textoPreguntas>div {
+        width: 80%;
+    }
 }
