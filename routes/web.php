@@ -45,8 +45,6 @@ Route::patch('/conducen/desde',[ConducenController::class, 'desde'])->name('cond
 Route::resource('clientes', ClientesController::class)->middleware('auth')->except(['create','edit']);
 
 Route::resource('almacenes', AlmacenesController::class)->middleware('auth')->except(['create','edit']);
-Route::patch('/almacenes/{almacen}/baja',[almacenesController::class, 'baja'])->name('almacenes.baja')->middleware('auth');
-
 
 
 

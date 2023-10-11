@@ -35,7 +35,8 @@ class SaveAlmacenRequest extends FormRequest
             'nombre' => ['required', 'max:32'],
             'direccion' => ['bail', 'required', 'max:128'],
             'tipo' => ['required', Rule::in(['propio', 'cliente'])],
-            'RUT' => ['bail', 'required_if:tipo,cliente', 'int', 'digits:12', 'exists:clientes,RUT']
+            //'RUT' => ['required_if:tipo,cliente', 'int', 'digits:12', 'exists:clientes,RUT']
+            'RUT' => [Rule::when(function(){return $this->input('tipo') === 'cliente';}, ['required', 'int', 'digits:12', 'exists:clientes,RUT'])]
         ];
     }
 }

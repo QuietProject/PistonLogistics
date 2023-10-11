@@ -16,23 +16,15 @@
     @if ($tipo == 'cliente')
         <p>Cliente: cliente</p>
     @endif
-    <form action="{{ route('almacenes.baja', $almacen->ID) }}" method="POST">
+    <form action="{{ route('almacenes.destroy', $almacen->ID) }}" method="POST">
         @csrf
-        @method('PATCH')
+        @method('DELETE')
         <button type="submit">
             @if ($almacen->baja)
                 Dar de Alta
             @else
                 Dar de Baja
             @endif
-        </button>
-    </form>
-
-    <form action="{{ route('almacenes.destroy', $almacen->ID) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit">
-            Eliminar
         </button>
     </form>
 
