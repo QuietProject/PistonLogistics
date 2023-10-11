@@ -224,9 +224,7 @@ INSERT INTO ALMACENES_CLIENTES (RUT, ID) VALUES
 ('213456789012', 18),
 ('987654321012', 19),
 ('456789123012', 20);
-/*
-select matricula from conducen where hasta is null and matricula in(select matricula from camiones);
-delete from paquetes where 1;*/
+
 INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, direccion, peso, volumen, fecha_entregado, mail, cedula) VALUES
 (16, '2023-09-15 07:37:40', 2 ,'Calle 123, florida', 1000, 2000, NULL, 'correo1@example.com', NULL), -- 1 ok
 (16, '2023-09-14 07:34:40', 11,'Calle 456, punta del este', 1500, 2500, NULL, 'correo2@example.com', NULL),  -- 2 ok
@@ -247,10 +245,6 @@ INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, direccion, peso, 
 (20, '2023-07-29 19:17:39', 8,'Calle 414, minas',	1200, 2700,	NULL, 'correo17@example.com', NULL), -- 17
 (20, '2023-07-29 19:18:39', 8, null , 1200,	2200, NULL,	'correo18@example.com',	NULL), -- 18
 (20, '2023-09-20 12:18:39', 14, 'Calle 413, florida' , 1200,	2200, NULL,	'correo19@example.com',	NULL); -- 18
-
-select * from ordenes where ID_almacen=4; -- 1, 4, 5, 6
-select * from ordenes where ID_troncal in(5) group by ID_almacen;
-select * from camionetas;
 
 INSERT INTO TRAE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (1,'NOP3456','2023-09-17 09:37:40','2023-09-17 12:23:40'),
@@ -333,7 +327,7 @@ INSERT INTO PAQUETES_LOTES(ID_lote,ID_paquete,fecha) VALUES
 (10,17,'2023-07-30 16:13:07'),
 (10,18,'2023-07-30 16:14:34'),
 (11,18,'2023-08-02 13:03:42');
-#select matricula from conducen where desde<'2023-05-10 05:25:35' and (hasta is null or hasta> '2023-08-29 10:17:00') and matricula in(select matricula from camiones);
+
 INSERT INTO LLEVA (ID_lote,matricula,fecha_carga,fecha_descarga) values
 (1,'MNO7890', '2023-09-18 07:27:40','2023-09-18 10:40:40'),
 (2,'PQR1234', '2023-09-18 12:45:40', NULL),
@@ -345,9 +339,6 @@ INSERT INTO LLEVA (ID_lote,matricula,fecha_carga,fecha_descarga) values
 (9,'DEF5678', '2023-08-06 10:13:07','2023-08-06 15:05:07'),
 (10,'GHI9012', '2023-08-02 10:23:32','2023-08-02 13:03:42');
 
-#select matricula from conducen where  desde<'2023-08-16 09:54:42' and (hasta is null or hasta> '2023-08-16 12:54:42') and matricula in (select matricula from camionetas) ;
-
-
 INSERT INTO REPARTE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (3,'KLM9012','2023-09-18 12:05:00', null),
 (5,'STU5678','2023-05-12 12:56:00', '2023-05-12 14:22:00'),
@@ -355,11 +346,3 @@ INSERT INTO REPARTE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (7,'BCD7890','2023-09-01 10:20:00', '2023-09-01 14:01:00'),
 (10,'QRS7890','2023-08-16 09:54:42', '2023-08-16 12:54:42'),
 (14,'QRS7890','2023-08-07 09:45:07', '2023-08-07 12:22:42');
-/*
-select *from paquetes;
-
-
-select ALMACENES.* 
-from ALMACENES_PROPIOS 
-INNER JOIN ALMACENES on ALMACENES_PROPIOS.ID = ALMACENES.ID 
-where ALMACENES_PROPIOS.ID in (select ID_almacen from ORDENES where ID_troncal in (select troncales.ID from troncales where baja=0)) and ALMACENES.baja=0;*/
