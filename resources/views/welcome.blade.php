@@ -4,63 +4,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Surno">
     <link rel="stylesheet" href="./css/styleIndex.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Quick Carry</title>
 </head>
 
 <body>
-    <header>
-        <div>
-            <img src="./source/logoNegro.svg" alt="logo" class="" id="logo">
+    <div class="all" id="all">
+        <header>
+            <div>
+                <img src="./source/logoNegro.svg" alt="logo" class="" id="logo">
+            </div>
+            <div class="">
+                <h1>Quick Carry</h1>
+            </div>
+            <div class="">
+                <i class='bx bx-menu' id="menu"></i> 
+            </div>
+        </header>
+        <div class="sidebar" id="sidebar">
+            <div>
+                <i class='bx bx-x' id="closeMenu"></i> 
+            </div>
+            <a href="#home">Home</a>
+            <a href="#aboutUs">Sobre Nosotros</a>
         </div>
-        <div class="">
-            <h1>Piston Logistics</h1>
-        </div>
-        <div class="">
-            <i class='bx bx-menu' id="menu"></i> 
-        </div>
-    </header>
-    <div class="sidebar" id="sidebar">
-        <div>
-            <i class='bx bx-x' id="closeMenu"></i> 
-        </div>
-        <a href="#home">Home</a>
-        <a href="#aboutUs">Sobre Nosotros</a>
+        <section id="home" class="home">
+            <div class="menuRastreo">
+                <form class="rastreo" method="GET" action="">
+                    <div>
+                        <h2>¡Rastrea tu paquete!</h2>
+                        <i class='bx bxs-truck'></i>
+                    </div>
+                    <div>
+                        <label for="codPaquete">Codigo del paquete</label>
+                        <input id="codPaquete" type="number" required>
+                    </div>
+                    <input type="submit" value="Rastrear">
+                </form>
+            </div>
+        </section>
+        <section id="aboutUs" class="aboutUs">
+            <h3 class="animar sobreNosotros">Sobre Nosotros</h3>
+            <div class="textoAbout">
+                <p class="animar">En Quick Carry, nos dedicamos al transporte de paquetería en distribución nacional. Somos una empresa
+                    líder en el sector logístico, con una amplia red de plataformas estratégicamente ubicadas en la
+                    proximidad de las principales ciudades y centros poblados en la casi totalidad de los departamentos.</p>
+                <br>
+                <p class="animar">Contamos con un equipo altamente capacitado de profesionales en logística y transporte que se dedican a
+                    garantizar la entrega oportuna y segura de cada paquete. Nuestros conductores, administradores y
+                    personal de atención al cliente están comprometidos con la excelencia en el servicio, brindando una
+                    experiencia excepcional a nuestros clientes en cada etapa del proceso de transporte.</p>
+            </div>
+            <h3 class="animar preguntas">Preguntas Frecuentes</h3>
+            <div class="textoPreguntas1">
+                <div class="animar">
+                    <h3>¿Cuál es el alcance geográfico de sus servicios de logística y transporte?</h3>
+                    <p>Ofrecemos servicios de logística y transporte en todo Uruguay, cubriendo todo el país de manera eficiente.</p>
+                </div>
+                <div class="animar">
+                    <h3>¿Cuáles son sus tiempos de entrega estándar?</h3>
+                    <p>Nuestros tiempos de entrega están diseñados para ser rápidos, de acuerdo a nuestra filosofía de servicio.</p>
+                </div>
+                <div class="animar">
+                    <h3>¿Ofrecen servicios de seguimiento en tiempo real para los envíos?</h3>
+                    <p>Ofrecemos servicios de seguimiento en tiempo real para que los clientes puedan rastrear sus envíos desde el punto de recogida hasta su destino final.</p>
+                </div>
+            </div>
+            <div class="textoPreguntas2">
+                <div class="animar">
+                        <h3>¿Cómo manejan situaciones de pérdida o daño de mercancía durante el transporte?</h3>
+                        <p>En caso de pérdida o daño de mercancía, tenemos políticas claras de indemnización y trabajamos para resolver cualquier problema de manera rápida y justa.</p>
+                    </div>
+                    <div class="animar">
+                        <h3>¿Cuáles son sus políticas de facturación y tarifas?</h3>
+                        <p>Nuestras políticas de facturación son transparentes y nuestras tarifas son competitivas, adaptadas a las necesidades de cada cliente.</p>
+                    </div>
+                    <div class="animar">
+                        <h3>¿Qué medidas de seguridad implementan para proteger los envíos?</h3>
+                        <p>Implementamos estrictas medidas de seguridad para proteger los envíos, desde el manejo seguro de la mercancía hasta la seguridad en nuestras instalaciones y durante el transporte.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer id="footer">
+            <span>
+                © 2023, Quick Carry, Inc.
+            </span>
+        </footer>
     </div>
-    <section id="home" class="home">
-        <div class="menuRastreo">
-            <form class="rastreo" method="GET" action="">
-                <div>
-                    <h2>¡Rastrea tu paquete!</h2>
-                    <i class='bx bxs-truck'></i>
-                </div>
-                <div>
-                    <label for="codPaquete">Codigo del paquete</label>
-                    <input id="codPaquete" type="number" required>
-                </div>
-                <input type="submit" value="Rastrear">
-            </form>
+
+    <div class="animacionInicio" id="animacionInicio">
+        <div class="divInicio" id="divInicio">
+            <h1>¡Quick Carry!</h1>
+            <img src="./source/logoNegro.svg" alt="logo" class="" id="logo">
+            <h1>Tu Solución de Transporte</h1>
         </div>
-    </section>
-    <section id="aboutUs" class="aboutUs">
-        <h3>Sobre Nosotros</h3>
-        <div class="texto">
-            <p>En Quick Carry, nos dedicamos al transporte de paquetería en distribución nacional. Somos una empresa
-                líder en el sector logístico, con una amplia red de plataformas estratégicamente ubicadas en la
-                proximidad de las principales ciudades y centros poblados en la casi totalidad de los departamentos.</p>
-            <br>
-            <p>Contamos con un equipo altamente capacitado de profesionales en logística y transporte que se dedican a
-                garantizar la entrega oportuna y segura de cada paquete. Nuestros conductores, administradores y
-                personal de atención al cliente están comprometidos con la excelencia en el servicio, brindando una
-                experiencia excepcional a nuestros clientes en cada etapa del proceso de transporte.</p>
-        </div>
-    </section>
-    <footer>
-        <span>
-            © 2023, Quick Carry, Inc.
-        </span>
-    </footer>
+    </div>
 
     <script defer src="./javascript/scriptIndex.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
