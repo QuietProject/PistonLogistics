@@ -109,7 +109,7 @@ DELIMITER ;
 
 /* 6 Trigger cuando se carga un lote al camion actualiza el estado del paquete*/
 DROP TRIGGER IF EXISTS trigger_lleva_lote_carga;
-
+select * from lleva;
 DELIMITER //
 CREATE TRIGGER trigger_lleva_lote_carga
 AFTER INSERT
@@ -118,9 +118,9 @@ FOR EACH ROW
 BEGIN
 UPDATE PAQUETES 
 	SET estado =5 
-	WHERE ID IN (SELECT ID
-	FROM PAQUETES_LOTES
-    WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
+	WHERE ID IN (SELECT ID_paquete
+				FROM PAQUETES_LOTES
+				WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
 END //
 DELIMITER ;
 
@@ -137,7 +137,7 @@ BEGIN
     THEN
 		UPDATE PAQUETES 
 			SET estado =6
-			WHERE ID = (SELECT ID
+			WHERE ID = (SELECT ID_paquete
 			FROM PAQUETES_LOTES
 			WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
     END IF;
