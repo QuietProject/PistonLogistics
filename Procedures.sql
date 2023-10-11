@@ -176,6 +176,38 @@ BEGIN
 END //
 DELIMITER ;
 
+/* PARA DESCARGAR UN PAQUETE EN EL ALMACEN DESPUES NO HABER SIDO RECIBIO AL REPARTIR */
+DROP PROCEDURE IF exists descargar_reparte;
+DELIMITER //
+CREATE PROCEDURE descargar_reparte(IN paquete INT, IN almacen INT, OUT error bit)
+BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
+	-- Inicio de la transacción
+	START TRANSACTION;
+	SET error =0;
+    
+	-- Paso 2: Descargar el paquete
+	UPDATE REPARTE SET fecha_descarga=CURRENT_TIMESTAMP() WHERE ID_paquete=paquete AND fecha_descarga IS NULL;
+	SET error = IF(row_count()!=1, 1, error);
+    
+	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
+    INSERT INTO PAQUETES_ALMACENES values (paquete, almacen);
+	SET error = IF(row_count()!=1, 1, error);
+    IF error=1 THEN
+    
+	/* UPDATE PAQUETE SET DIRECCION = NULL ???*/
+       rollback;
+    ELSE
+		commit;
+    END IF;
+END //
+DELIMITER ;
+-- CALL descargar_trae(19,1,@error);
+
 -- CALL descargar_trae(19,1,@error);
 
 DROP PROCEDURE IF exists entregar_paquete;
