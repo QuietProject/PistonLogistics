@@ -16,9 +16,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID_troncal
  * @property int|null $orden
  * 
- * @property AlmacenesPropio $almacenes_propio
- * @property Troncale $troncale
- * @property Collection|DestinoLote[] $destino_lotes
+ * @property AlmacenPropio $almacen_propio
+ * @property Troncal $troncal
+ * @property Collection|DestinoLote[] $destinos_lotes
  * @property Collection|Lote[] $lotes
  *
  * @package App\Models
@@ -49,7 +49,7 @@ class Orden extends Model
 		return $this->belongsTo(Troncal::class, 'ID_troncal');
 	}
 
-	public function destino_lotes()
+	public function destinos_lotes()
 	{
 		return $this->hasMany(DestinoLote::class, 'ID_almacen');
 	}

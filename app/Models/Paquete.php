@@ -17,9 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID_almacen
  * @property Carbon $fecha_registrado
  * @property int $ID_pickup
- * @property string|null $calle
- * @property string|null $numero
- * @property string|null $ciudad
+ * @property string|null $direccion
  * @property int|null $peso
  * @property int|null $volumen
  * @property Carbon|null $fecha_recibido

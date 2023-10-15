@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Conducen extends Model
+class Conduce extends Model
 {
 	protected $table = 'conducen';
 	public $incrementing = false;
