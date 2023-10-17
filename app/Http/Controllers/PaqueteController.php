@@ -11,10 +11,15 @@ use App\Models\PaqueteLote;
 use App\Models\DestinoLote;
 use Illuminate\Http\Request;
 use App\Http\Resources\PaqueteResource;
+use App\Models\AlmacenCliente;
+use App\Models\AlmacenPropio;
 use App\Models\Lleva;
+use Illuminate\Support\Facades\Http;
 
 class PaqueteController extends Controller
 {
+
+    private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
     /**
      * Display a listing of the resource.
      *
@@ -27,18 +32,6 @@ class PaqueteController extends Controller
 
     public function paquetesLote($id)
     {
-        
-        $latestDateSubquery = PaqueteLote::where('ID_lote', $id)
-            ->selectRaw('MAX(fecha)');
-
-        dd($latestDateSubquery);
-
-        $latestPaquete = PaqueteLote::where('ID_lote', $id)
-            ->where('fecha', '=', $latestDateSubquery)
-            ->with('paquete')
-            ->get();
-
-        return PaqueteResource::collection($latestPaquete);
     }
 
     /**
@@ -57,22 +50,55 @@ class PaqueteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $idAlmacen)
     {
+        // Valido los datos del paquete
         $validated = request()->validate([
-            "ID_almacen" => "required",
-            "ID_pickup" => "required",
-            "calle" => "required",
-            "numero" => "required|numeric",
-            "ciudad" => "required",
-            "peso" => "required",
-            "volumen" => "required",
+            "direccion" => "required|string",
             "mail" => "required|email",
-            "cedula" => "required|numeric|length:8",
+            "cedula" => "required|numeric|digits:8",
         ]);
 
-        $paquete = Paquete::create($validated);
-        return new PaqueteResource($paquete);
+        // Valido que el almacen exista
+        if (AlmacenCliente::find($idAlmacen) === null) {
+            return response()->json([
+                "message" => "El almacen no existe"
+            ], 404);
+        }
+
+        // Obtengo las coordenadas la de direccion del paquete
+        $direccion = $validated["direccion"];
+        $coordenadasPaquete = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
+
+        // genero una array con las coordenadas de todos los almacenes propios y sus respectivas ID, y otro igual sin las ID
+        $arrayAlmacenes = [];
+        $coordenadasAlmacenes = [];
+        foreach (AlmacenPropio::all() as $almacen) {
+            $almacenData = $almacen->almacen()->select("ID", "longitud", "latitud")->first();
+            $arrayAlmacenes[] = $almacenData;
+
+            // Creo la copia de $almacenData sin la ID
+            $dataWithoutID = $almacenData;
+            unset($dataWithoutID['ID']);
+            $coordenadasAlmacenes[] = $dataWithoutID;
+        }
+        return $coordenadasAlmacenes;
+
+        // Calculo la distancia entre la direccion del paquete y cada almacen propio
+        return Http::post("https://matrix.router.hereapi.com/v8/matrix?async=false", [
+            "origins" => [
+                "lat" => $coordenadasPaquete["lat"],
+                "lng" => $coordenadasPaquete["lng"]
+            ],
+            "destinations" => $coordenadasAlmacenes,
+            "regionDefinition" => [
+                "type" => "world"
+            ],
+            "matrixAttributes" => [
+                "distances"
+            ],
+            ]);
+        // return new PaqueteResource($paquete);
     }
 
     /**
