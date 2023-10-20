@@ -6,7 +6,7 @@
     @csrf
     <div>
         <label for="tipo">Tipo</label>
-        <select name="tipo" id="tipo" onchange="tipo()">
+        <select name="tipo" id="tipo" >
             <option value="propio">Propio</option>
             <option value="cliente" {{ old('tipo') == 'cliente' ? 'selected' : '' }}>Cliente</option>
         </select>

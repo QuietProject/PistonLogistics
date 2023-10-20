@@ -19,6 +19,9 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $user
  * @property string $password
  * @property int $rol
+ * @property string|null $email
+ * @property Carbon|null $email_verified_at
+ * @property string|null $remember_token
  *
  * @package App\Models
  */
@@ -32,7 +35,8 @@ class User extends Authenticatable
 	public $timestamps = false;
 
 	protected $casts = [
-		'rol' => 'int'
+		'rol' => 'int',
+		'email_verified_at' => 'datetime'
 	];
 
 	protected $hidden = [
@@ -43,6 +47,8 @@ class User extends Authenticatable
 	protected $fillable = [
 		'user',
         'password',
+		'email',
+		'email_verified_at',
 		'rol'
 	];
 }

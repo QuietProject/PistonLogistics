@@ -53,7 +53,7 @@ class AlmacenesController extends Controller
         if ($nuevo->fallo != 0) {
             return redirect()->back()->with('error', 'Ha ocurrido un error');
         }
-        return to_route('almacenes.show', $nuevo->id)->with('success', 'El vehiculo se agrego correctamente');
+        return to_route('almacenes.show', $nuevo->id)->with('success', 'El almacen se agrego correctamente');
     }
 
     /**
@@ -62,9 +62,8 @@ class AlmacenesController extends Controller
      * @param  \App\Models\Almacen  $almacenhi
      * @return \Illuminate\Http\Response
      */
-    public function show($almacen)
+    public function show(Almacen $almacen)
     {
-        $almacen = Almacen::findOrFail($almacen);
         $tipo = (DB::table('almacenes_propios')->where('ID', $almacen->ID)->exists()) ? 'propio' : 'cliente';
 
         if ($tipo == 'propio') {
@@ -165,9 +164,8 @@ class AlmacenesController extends Controller
      * @param  \App\Models\Almacen  $almacen
      * @return \Illuminate\Http\Response
      */
-    public function update(SaveAlmacenRequest $request, $almacen)
+    public function update(SaveAlmacenRequest $request, Almacen $almacen)
     {
-        $almacen = Almacen::findOrFail($almacen);
         $almacen->update($request->validated());
         return redirect()->back()->with('success', 'El almacen se ha actualizado correctamete');
     }

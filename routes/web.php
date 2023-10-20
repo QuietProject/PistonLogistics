@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\camionerosController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\ConducenController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehiculosController;
 use App\Models\Vehiculo;
 use Illuminate\Support\Facades\Hash;
@@ -44,7 +45,9 @@ Route::patch('/conducen/desde',[ConducenController::class, 'desde'])->name('cond
 
 Route::resource('clientes', ClientesController::class)->middleware('auth')->except(['create','edit']);
 
-Route::resource('almacenes', AlmacenesController::class)->middleware('auth')->except(['create','edit']);
+Route::resource('almacenes', AlmacenesController::class)->middleware('auth')->except(['create','edit'])->parameters(['almacenes' => 'almacen']);;;
 
+Route::resource('usuarios', UsersController::class)->middleware('auth')->except(['create','edit'])->parameters(['usuarios' => 'user']);;
+//Route::get('/usuarios/{user}',[UsersController::class, 'show'])->name('usuarios.show')->middleware('auth');
 
 
