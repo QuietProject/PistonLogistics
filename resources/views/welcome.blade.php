@@ -61,7 +61,9 @@
                     personal de atención al cliente están comprometidos con la excelencia en el servicio, brindando una
                     experiencia excepcional a nuestros clientes en cada etapa del proceso de transporte.</p>
             </div>
-            <h3 class="animar preguntas" id="preguntas">Preguntas Frecuentes</h3>
+            <div style="width: 100%;display: flex; justify-content:center; align-items:end; height:20vh" id="preguntas">
+                <h3 class="animar preguntas">Preguntas Frecuentes</h3>
+            </div>
             <div class="textoPreguntas">
                 <div class="animar">
                     <h3>¿Cuál es el alcance geográfico de sus servicios de logística y transporte?</h3>
@@ -96,9 +98,27 @@
             </div>
         </section>
         <footer id="footer">
-            <span>
-                © 2023, Quick Carry, Inc.
-            </span>
+            <div>
+                <form action="">
+                    <h1>¡Contáctenos!</h1>
+                    <input type="text" placeholder="Nombre">
+                    <input type="email" name="" id="" placeholder="Correo Electrónico">
+                    <textarea name="" id="" cols="30" rows="10" placeholder="Mensaje"></textarea>
+                    <div>
+                        <input type="submit" value="Enviar">
+                    </div>
+                    
+                </form>
+            </div>
+                
+            <div>
+                <p>© 2023, Quick Carry, Inc.</p>
+                <p>Todos los derechos reservados.</p>
+            </div>
+
+            <div>
+
+            </div>
         </footer>
     </div>
 

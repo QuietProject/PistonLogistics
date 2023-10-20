@@ -59,13 +59,33 @@ const observer = new IntersectionObserver((entries, observer) => {
 observer.observe(textoAbout);
 
 
+document.getElementById("homeLink").addEventListener("click", function (event) {
+  event.preventDefault();
+  const offset = 100;
+  const target = document.querySelector("#home");
+  const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({
+    top: targetPosition,
+    behavior: "smooth"
+  });
+});
+
 document.getElementById("aboutUsLink").addEventListener("click", function (event) {
   event.preventDefault();
-
   const offset = 100;
-  const target = document.querySelector(this.getAttribute("href"));
+  const target = document.querySelector("#aboutUs");
   const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({
+    top: targetPosition,
+    behavior: "smooth"
+  });
+});
 
+document.getElementById("preguntasLink").addEventListener("click", function (event) {
+  event.preventDefault();
+  const offset = 100;
+  const target = document.querySelector("#preguntas");
+  const targetPosition = target.getBoundingClientRect().top + window.scrollY - offset;
   window.scrollTo({
     top: targetPosition,
     behavior: "smooth"
