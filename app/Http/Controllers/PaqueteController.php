@@ -71,24 +71,23 @@ class PaqueteController extends Controller
         $coordenadasPaquete = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
 
         // genero una array con las coordenadas de todos los almacenes propios y sus respectivas ID, y otro igual sin las ID
-        $arrayAlmacenes = [];
+        // $arrayAlmacenes = [];
         $coordenadasAlmacenes = [];
+        $arrayAlmacenes = AlmacenPropio::all()->pluck("ID");
+        // return $arrayAlmacenes;
         foreach (AlmacenPropio::all() as $almacen) {
-            $almacenData = $almacen->almacen()->select("ID", "longitud", "latitud")->first();
-            $arrayAlmacenes[] = $almacenData;
-
             // Creo la copia de $almacenData sin la ID
-            $dataWithoutID = $almacenData;
-            unset($dataWithoutID['ID']);
-            $coordenadasAlmacenes[] = $dataWithoutID;
+            $coordenadasAlmacenes[] = $almacen->almacen()->select("longitud as lng", "latitud as lat")->first();
         }
-        return $coordenadasAlmacenes;
+        // return $coordenadasAlmacenes;
 
         // Calculo la distancia entre la direccion del paquete y cada almacen propio
-        return Http::post("https://matrix.router.hereapi.com/v8/matrix?async=false", [
+        $distancias = Http::acceptJson()->withOptions(['verify' => false])->post("https://matrix.router.hereapi.com/v8/matrix?async=false&apiKey=$this->apiKey", [
             "origins" => [
-                "lat" => $coordenadasPaquete["lat"],
-                "lng" => $coordenadasPaquete["lng"]
+                [
+                    "lat" => $coordenadasPaquete["lat"],
+                    "lng" => $coordenadasPaquete["lng"]
+                ]
             ],
             "destinations" => $coordenadasAlmacenes,
             "regionDefinition" => [
@@ -97,8 +96,19 @@ class PaqueteController extends Controller
             "matrixAttributes" => [
                 "distances"
             ],
-            ]);
-        // return new PaqueteResource($paquete);
+            ])->json()["matrix"]["distances"];
+
+        // return $distancias;
+        $idPickUp = $arrayAlmacenes[array_search(min($distancias), $distancias)];
+        // return $idPickUp;
+        $paquete = Paquete::create([
+            "direccion" => $validated["direccion"],
+            "mail" => $validated["mail"],
+            "cedula" => $validated["cedula"],
+            "ID_almacen" => $idAlmacen,
+            "ID_pickup" => $idPickUp,
+        ]);
+        return new PaqueteResource($paquete);
     }
 
     /**
