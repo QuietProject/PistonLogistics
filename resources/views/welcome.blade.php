@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Surno">
+    <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="./css/styleIndex.css">
+    <link rel="stylesheet" href="../CSS/styleMenu.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Quick Carry</title>
 </head>
@@ -19,17 +21,27 @@
             <div class="">
                 <h1>Quick Carry</h1>
             </div>
-            <div class="">
-                <i class='bx bx-menu' id="menu"></i>
+            <div style="height: 2vh">
+
             </div>
         </header>
-        <div class="sidebar" id="sidebar">
+
+        <!-- Ham Menu -->
+        <div class="menuIcon" id="menuIcon" style="color: black">
             <div>
-                <i class='bx bx-x' id="closeMenu"></i>
+                <i class='bx bx-menu' id="menu"></i>
             </div>
-            <a href="#home" id="homeLink">Home</a>
-            <a href="#aboutUs" id="aboutUsLink">Sobre Nosotros</a>
-            <a href="#preguntas" id="preguntasLink">Preguntas Frecuentes</a>
+        </div>
+
+        <div class="sideMenu" id="sideMenu">
+            <div>
+                <div>
+                    <div></div>
+                    <a href="#home" id="homeLink">Home</a>
+                    <a href="#aboutUs" id="aboutUsLink">Sobre Nosotros</a>
+                    <a href="#preguntas" id="preguntasLink">Preguntas Frecuentes</a>
+                </div>
+            </div>
         </div>
         <section id="home" class="home">
             <div class="menuRastreo">
@@ -131,10 +143,8 @@
     </div>
 
     <script defer src="./javascript/scriptIndex.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
-        integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script defer src="../JavaScript/scriptMenu.js"></script>
 </body>
 
 </html>

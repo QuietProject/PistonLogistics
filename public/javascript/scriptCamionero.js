@@ -1,33 +1,7 @@
-
+const color = "black";
 const body = document.getElementsByTagName('body');
 let i = 0;
 let y = 0;
-
-let isTransitionInProgress = false;
-
-document.getElementById('menu').addEventListener('click', () => {
-    const sidebar = document.getElementById('sidebar');
-    const menu = document.getElementById('menu');
-
-    if (isTransitionInProgress) {
-        return;
-    }
-
-    sidebar.classList.toggle("opened");
-
-    setTimeout(() => {
-        menu.classList.toggle("bx-menu");
-        menu.classList.toggle("fixed");
-        menu.classList.toggle("bx-x");
-    },100);
-    
-
-    isTransitionInProgress = true;
-
-    sidebar.addEventListener('transitionend', () => {
-        isTransitionInProgress = false;
-    });
-});
 
 let radios = document.forms["estado"].elements["estado"];
 let labels = document.querySelectorAll(".radioBtnEstados label");
@@ -54,10 +28,6 @@ function enviarInformacion() {
 }
 
 
-
-
-
-
 const section = document.getElementById('section');
 const divs = section.querySelectorAll('div');
 
@@ -72,7 +42,6 @@ divs.forEach((div, index) => {
     div.appendChild(newDiv);
 
     let a = `div${index + 1}`;
-            
 
     div.addEventListener('click', () => {
         let info = document.querySelector(`.${a}`);
@@ -115,8 +84,6 @@ divs.forEach((div, index) => {
         e.stopPropagation();
     });
 });
-
-
 
 
 

@@ -1,0 +1,89 @@
+.menuIcon{
+    font-size: 4em;
+    position: fixed;
+    top: 2%;
+    right: 1%;
+    cursor: pointer;
+    color: white;
+    z-index: 10;
+    transition: color .2s ease-in-out;
+}
+
+.menuIcon > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sideMenu{
+    position: fixed;
+    top: 0%;
+    right: -400px;
+    max-width: 400px;
+    min-height: 60vh;
+    width: 100%;
+    background-color: var(--baseDark);
+    transition: right .2s ease-in-out;
+    z-index: 9;
+    border-bottom-left-radius: 10px;
+}
+
+.sideMenu > div{
+    width: 100%;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sideMenu > div > div:nth-child(1){
+    display: flex;
+    flex-direction: column;
+
+}
+
+.sideMenu > div > div:nth-child(1) > div{
+    width: 100%;
+    height: 8vh;
+
+}
+
+.sideMenu > div > div:nth-child(1) > a {
+    min-height: 6vh;
+    text-decoration: none;
+    color: var(--highlight);
+    font-size: 2.5em;
+    margin: 10px;
+    margin-left: 15px;
+    transition: all .2s ease-in-out;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px -1px black;
+    padding: 5px;
+    width: 80%;
+}
+
+.sideMenu > div > div:nth-child(1) > a:hover{
+    margin-left: 30px;
+}
+
+.sideMenu > div > div:nth-child(2){
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.sideMenu > div > div:nth-child(2) > a {
+    text-decoration: none;
+    color: var(--highlight);
+    font-size: 2.5em;
+    margin: 10px;
+    border-radius: 15px;
+    width: 50%;
+    text-align: center;
+    border: 2px solid var(--highlight);
+}
+
+.sideMenu > div > div:nth-child(2) > a:hover{
+    box-shadow: 0px 0px 10px -1px var(--highlight);
+}

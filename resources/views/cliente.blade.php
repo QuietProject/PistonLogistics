@@ -7,6 +7,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/styleCliente.css">
+    <link rel="stylesheet" href="../CSS/styleMenu.css">
     <title>Cliente</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -62,14 +63,25 @@
         <input name="ticketInfo" class="ticketInfo" id="ticketInfo" value="No scanned content yet" readonly>
 
     </form>
-    <div class="hamMenu" id="hamMenu">
-        <i class='bx bx-menu' id="menu"></i>
+    <div class="menuIcon" id="menuIcon">
+        <div>
+            <i class='bx bx-menu' id="menu"></i>
+        </div>
     </div>
-    <div class="sideMenu" id="sideMenu" style="right: -20vw;" tabindex="-1">
-        <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu" tabindex="-1">
+
+    <div class="sideMenu" id="sideMenu">
+        <div>
+            <div>
+            </div>
+
+            <div>
+                <a href="">Log Out</a>
+            </div>
+        </div>
     </div>
     <script src="/javascript/instascan.min.js"></script>
     <script src="/javascript/scriptCliente.js"></script>
+    <script defer src="../JavaScript/scriptMenu.js"></script>
 </body>
 
 </html>

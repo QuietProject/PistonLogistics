@@ -7,33 +7,45 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../CSS/style.css">
     <link rel="stylesheet" href="../CSS/styleAlmacen.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"
-        integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="../JavaScript/scriptAlmacen.js"></script>
+    <link rel="stylesheet" href="../CSS/styleMenu.css">
+    
     <title>App para Almacen</title>
 </head>
 
 <body>
     <!-- Ham Menu -->
-    <div class="hamMenu" id="hamMenu">
-        <i class='bx bx-menu' id="menu"></i>
+    <div class="menuIcon" id="menuIcon">
+        <div>
+            <i class='bx bx-menu' id="menu"></i>
+        </div>
     </div>
-    <div class="sideMenu" id="sideMenu" style="right: -20vw; height: 48.1vh;" tabindex="-1">
-        <a href="" class="itemSideMenu" tabindex="-1">Carga</a>
-        <a href="" class="itemSideMenu" tabindex="-1">Descarga</a>
-        <a href="" class="itemSideMenu" tabindex="-1">Paquetes</a>
-        <a href="" class="itemSideMenu" tabindex="-1">Lotes</a>
-        <a href="" class="itemSideMenu" tabindex="-1">Crear Lotes</a>
-        <input type="button" id="BtnLogOut" value="Log Out" class="itemSideMenu" tabindex="-1">
+
+    <div class="sideMenu" id="sideMenu">
+        <div>
+            <div>
+                <div></div>
+                <a href="">Paquetes</a>
+                <a href="">Lotes</a>
+                <a href="">Crear Lote</a>
+                <a href="">QR Scanner</a>
+            </div>
+
+            <div>
+                <a href="">Log Out</a>
+            </div>
+        </div>
     </div>
 
     <!-- Main Container -->
     <div class="scanContainer">
+        <h1><i class='bx bxs-truck'></i>Almacen<i class='bx bxs-truck'></i></h1>
         <img src="../source/logoNegro.svg" alt="Logo" class="containerLogo">
         <a href="../almacenCarga" class="accessButton">Carga</a>
         <a href="../almacenDescarga" class="accessButton">Descarga</a>
     </div>
+
+    <script defer src="../JavaScript/scriptAlmacen.js"></script>
+    <script defer src="../JavaScript/scriptMenu.js"></script>
 </body>
 
 </html>
