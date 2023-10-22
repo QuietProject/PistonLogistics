@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <div>
+        <div id="logoDiv">
             <img src="./source/logoNegro.svg" alt="logo" class="" id="logo">
         </div>
         <div class="">
@@ -56,21 +56,17 @@
     </div>
 
     <section id="section">
-        <div>Placeholder</div>
-        <div>Placeholder</div>
-        <div>Placeholder</div>
-        <div>Placeholder</div>
-        <div>Placeholder</div>
-        <div>Placeholder</div>
-        <div>Placeholder</div>
-        <div>Placeholder</div>
+
     </section>
-    <div id="blank">
+    
+    <div id="disableDivs">
 
     </div>
+
     <footer id="footer">
         <div>
-            © 2023, Quick Carry, Inc.
+            <p>© 2023, Quick Carry, Inc.</p>
+            <p>Todos los derechos reservados.</p>
         </div>
     </footer>
 

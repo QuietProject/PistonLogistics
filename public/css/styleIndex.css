@@ -464,6 +464,7 @@ footer > div > form > div {
     transition: opacity 1s, transform 1s;
     animation: crecer 1.25s ease 0.75s forwards, fade 1s ease 0.75s forwards;
     -webkit-user-drag: none;
+    filter: drop-shadow(0px 0px 10px);
 }
 
 @keyframes crecer {

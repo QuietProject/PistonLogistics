@@ -1,9 +1,16 @@
 const color = "black";
-
 const all = document.getElementById("all");
 const animacionInicio = document.getElementById("animacionInicio");
 const divInicio = document.getElementById("divInicio");
 const footer = document.getElementById("footer");
+
+const maxPageScroll = document.body.scrollHeight - document.documentElement.clientHeight;
+
+document.addEventListener("scroll", (event) => {
+  const scrollPos = window.scrollY * 15 / maxPageScroll
+  document.getElementById("logo").style.transform = `translateX(${scrollPos}vw)`
+});
+
 
 all.style.display = "none";
 setTimeout(() => {

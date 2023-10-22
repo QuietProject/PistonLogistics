@@ -1,5 +1,5 @@
 const color = "black";
-const body = document.getElementsByTagName('body');
+const body = document.getElementsByTagName("body");
 let i = 0;
 let y = 0;
 
@@ -7,7 +7,7 @@ let radios = document.forms["estado"].elements["estado"];
 let labels = document.querySelectorAll(".radioBtnEstados label");
 
 for (let i = 0, max = radios.length; i < max; i++) {
-    radios[i].addEventListener("change", function() {
+    radios[i].addEventListener("change", function () {
         labels.forEach((label, index) => {
             if (radios[index].checked) {
                 label.classList.add("checked");
@@ -17,78 +17,147 @@ for (let i = 0, max = radios.length; i < max; i++) {
                 label.classList.add("notChecked");
             }
         });
-        
         enviarInformacion();
-        
     });
 }
 
-function enviarInformacion() {
-    alert("Información enviada.");
+function enviarInformacion() {}
+
+const section = document.getElementById("section");
+const cantidadRutas = [
+    [["Artigas", "7:00 AM", "16:00 PM"], ["Salto", "8:30 AM", "17:15 PM"]],
+    [["Canelones", "8:30 AM", "15:45 PM"], ["Florida", "9:15 AM", "17:30 PM"], ["Durazno", "9:00 AM", "16:15 PM"]],
+    [["Pedro", "9:30 AM", "17:15 PM"], ["Laura", "8:45 AM", "16:30 PM"], ["Diego", "10:00 AM", "17:45 PM"]],
+    [["Marta", "8:15 AM", "16:30 PM"], ["José", "7:45 AM", "16:00 PM"], ["Camila", "9:30 AM", "17:45 PM"]],
+    [["Paysandú", "7:30 AM", "16:45 PM"], ["Rocha", "7:15 AM", "16:30 PM"]],
+    [["Andrés", "8:00 AM", "17:15 PM"]],
+    [["Carmen", "9:15 AM", "16:30 PM"], ["Ramón", "8:30 AM", "17:45 PM"]],
+    [["Dolores", "9:45 AM", "17:00 PM"], ["Lavalleja", "8:45 AM", "17:00 PM"]]
+];
+
+
+
+
+for (let i = 0; i < cantidadRutas.length; i++) {
+    const divEnvio = document.createElement("div");
+    section.appendChild(divEnvio);
 }
+const divs = section.querySelectorAll("div");
+const disableDivs = document.getElementById("disableDivs");
 
-
-const section = document.getElementById('section');
-const divs = section.querySelectorAll('div');
-
-let elementoAbierto = null;
+let h = 0;
 
 divs.forEach((div, index) => {
-    const newDiv = document.createElement('div');
-    newDiv.className = `div${index + 1}`;
-    const info = document.createElement('div');
-    info.textContent = 'Informacion Pedido ' + (index + 1);
-    newDiv.appendChild(info);
-    div.appendChild(newDiv);
+    const newDiv = document.createElement("div");
+    newDiv.className = `div${index + 1} trabajos`;
 
-    let a = `div${index + 1}`;
+    const container = document.createElement("div");
 
-    div.addEventListener('click', () => {
-        let info = document.querySelector(`.${a}`);
-    
-        if (elementoAbierto !== null && elementoAbierto !== div) {
-            let infoAbierto = elementoAbierto.querySelector(`div`);
-            elementoAbierto.style.transform = "translateX(0%)";
-            infoAbierto.style.transform = "translateY(0%)";
-            infoAbierto.style.opacity = "0";
-            infoAbierto.style.height = "0";
-        }
-    
-        if (elementoAbierto !== div) {
-            div.style.transform = "translateX(115%)";
-            info.style.transform = "translateY(68.5%)";
-            info.style.height = "300%";
-            info.style.opacity = "1";
-            elementoAbierto = div;
-            document.getElementById("blank").style.height = "0";
-            if (divs.length - index == 3) {
-                document.getElementById("blank").style.height = "20vh";
-            }else if (divs.length - index == 2) {
-                document.getElementById("blank").style.height = "40vh";
-            }else if (divs.length - index == 1) {
-                document.getElementById("blank").style.height = "65vh";
-            }
-        } else {
-            div.style.transform = "translateX(0%)";
-            info.style.transform = "translateY(0%)";
-            info.style.opacity = "0";
-            info.style.height = "0";
-            elementoAbierto = null;
-            if (!document.querySelector('.div')) {
-                document.getElementById("blank").style.height = "0";
-            }
-        }
-    });  
-    
-    info.addEventListener("click", (e) => {
-        e.stopPropagation();
+    const rutas = document.createElement("div");
+
+    const btnVerCarga = document.createElement("input");
+    btnVerCarga.type = "button";
+    btnVerCarga.value = "Ver Carga";
+
+    const btnMapa = document.createElement("input");
+    btnMapa.type = "button";
+    btnMapa.value = "Mapa";
+
+    const btnComenzar = document.createElement("input");
+    btnComenzar.type = "submit";
+    btnComenzar.value = "Comenzar";
+
+    const divBtns = document.createElement("div");
+
+    const cerrar = document.createElement("i");
+    cerrar.className = "bx bx-x-circle";
+
+    document.body.appendChild(newDiv);
+    newDiv.appendChild(container);
+    newDiv.appendChild(cerrar);
+    container.appendChild(rutas);
+    container.appendChild(divBtns);
+    divBtns.appendChild(btnVerCarga);
+    divBtns.appendChild(btnMapa);
+    divBtns.appendChild(btnComenzar);
+
+    div.addEventListener("click", () => {
+        newDiv.style.zIndex = "2";
+        section.style.filter = "blur(10px)";
+        disableDivs.style.zIndex = "1";
     });
+
+    cerrar.addEventListener("click", () => {
+        newDiv.style.zIndex = "-1";
+        section.style.filter = "none";
+        disableDivs.style.zIndex = "-1";
+    });
+
+    for (let i = 0; i < cantidadRutas[h].length; i++) {
+        const ruta = document.createElement("p");
+        ruta.textContent = cantidadRutas[h][i][0];
+        rutas.appendChild(ruta);
+    }
+
+    const newDivMapa = document.createElement("div");
+    newDivMapa.className = `${"mapa" + index} mapa`;
+
+    const cerrarMapa = document.createElement("i");
+    cerrarMapa.className = "bx bx-x-circle";
+
+    const volver = document.createElement("i");
+    volver.className = "bx bx-left-arrow-alt";
+
+    const mapaContainerDiv = document.createElement("div");
+    const mapaContainer = document.createElement("div");
+    mapaContainer.className = 'mapaContainer';
+
+    document.body.appendChild(newDivMapa);
+    newDivMapa.appendChild(cerrarMapa);
+    newDivMapa.appendChild(volver);
+    newDivMapa.appendChild(mapaContainerDiv);
+
+    const horaRetiro = document.createElement("input");
+    horaRetiro.type = "text";
+    horaRetiro.disabled = true;
+    horaRetiro.value = cantidadRutas[h][i][1];
+
+    const horaEntrega = document.createElement("input");
+    horaEntrega.type = "text";
+    horaEntrega.disabled = true;
+    horaEntrega.value = cantidadRutas[h][i][2];
+
+    const finalizado = document.createElement("input");
+    finalizado.type = "checkbox";
+
+    const infoMapa = document.createElement("div");
+    infoMapa.className = "infoMapa";
+    mapaContainerDiv.appendChild(mapaContainer);
+    const horas = document.createElement("div");
+    horas.appendChild(horaRetiro);
+    horas.appendChild(horaEntrega);
+    infoMapa.appendChild(horas);
+    infoMapa.appendChild(finalizado);
+    mapaContainerDiv.appendChild(infoMapa);
+    mapaContainerDiv.appendChild(infoMapa);
+
+    btnMapa.addEventListener("click", () => {
+        newDiv.style.zIndex = "-1";
+        newDivMapa.style.zIndex = "3";
+        disableDivs.style.zIndex = "1";
+    });
+
+    cerrarMapa.addEventListener("click", () => {
+        newDivMapa.style.zIndex = "-1";
+        disableDivs.style.zIndex = "-1";
+        section.style.filter = "none";
+    });
+
+    volver.addEventListener("click", () => {
+        newDiv.style.zIndex = "2";
+        newDivMapa.style.zIndex = "-1";
+        disableDivs.style.zIndex = "-1";
+    });
+
+    h++;
 });
-
-
-
-
-
-
-
-
