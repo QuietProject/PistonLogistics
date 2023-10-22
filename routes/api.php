@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource("paquetes", PaqueteController::class);
 Route::post("paquetes/create/{id}", [PaqueteController::class, "store"]);
 Route::get("cliente/carga/{id}/{matricula}", [PaqueteController::class, "cargaCliente"]);
-Route::get("almacen/descarga/{id}", [PaqueteController::class, "descarga"]);
+Route::get("almacen/descarga/{id}/{almacen}", [PaqueteController::class, "descarga"]);
 Route::get("almacen/carga/{id}/{matricula}", [PaqueteController::class, "cargaAlmacen"]);
 Route::get("lotes/{id}", [PaqueteController::class, "paquetesLote"]);
 Route::get("lotes", [LoteController::class, "index"]);
