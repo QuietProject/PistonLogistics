@@ -69,6 +69,7 @@ class PaqueteController extends Controller
 
         // Obtengo las coordenadas de la direccion del paquete
         $direccion = $validated["direccion"];
+        // return $direccion;
         $coordenadasPaquete = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
 
         // Genero una array con los ID de los almacenes propios
@@ -99,7 +100,7 @@ class PaqueteController extends Controller
         // Selecciono la ID del almacen más cercano a la direccion del paquete
         $idPickUp = $arrayAlmacenes[array_search(min($distancias), $distancias)];
         $paquete = Paquete::create([
-            "direccion" => $validated["direccion"],
+            "direccion" => $direccion,
             "mail" => $validated["mail"],
             "cedula" => $validated["cedula"],
             "ID_almacen" => $idAlmacen,
@@ -185,117 +186,59 @@ class PaqueteController extends Controller
         ], 200);
     }
 
-
-
-    // public function descarga($id, $almacen)
-    // {
-    //     if (!is_numeric($id)) {
-    //         return response()->json([
-    //             "message" => "ID debe ser numérico"
-    //         ], 400);
-    //     }
-
-    //     if (Paquete::find($id) === null) {
-    //         return response()->json([
-    //             "message" => "Paquete no encontrado"
-    //         ], 404);
-    //     }
-
-    //     if (Trae::find($id) === null) {
-    //         return response()->json([
-    //             "message" => "Paquete no cargado"
-    //         ], 400);
-    //     }
-
-    //     if (AlmacenPropio::find($almacen) === null) {
-    //         return response()->json([
-    //             "message" => "Almacen no encontrado"
-    //         ], 404);
-    //     }
-
-
-    //     DB::select("CALL descargar_trae($id, $almacen, @error)");
-    //     if (DB::select("SELECT @error as error")[0]->error != 0) {
-    //         return response()->json([
-    //             "message" => "Error al descargar paquete"
-    //         ], 400);
-    //     }
-
-    //     $paquete = Paquete::find($id);
-    //     // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete
-    //     $destinoLote = DestinoLote::where("ID_almacen", $paquete->ID_pickup)->first();
-    //     // Busco una troncal que tenga el mismo almacen que el paquete y agarro su ID
-    //     $troncal = Orden::where("ID_almacen", $almacen)->first()->troncal->ID;
-    //     // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
-    //     if ($destinoLote === null || $destinoLote->lote->tipo == 1) {
-
-    //         $lote = Lote::create([
-    //             "ID_troncal" => $troncal,
-    //             "ID_almacen" => $almacen,
-    //             "tipo" => 0,
-    //         ]);
-    //     } else {
-    //         // Si hay un lote con el mismo almacen destino que el paquete, lo agarro
-    //         $lote = $destinoLote->lote;
-    //     }
-
-    //     PaqueteLote::create([
-    //         "ID_paquete" => $id,
-    //         "ID_lote" => $lote->ID,
-    //     ]);
-
-
-    //     return response()->json([
-    //         "message" => "Paquete descargado y lote asignado",
-    //         "ID_lote" => $lote->ID,
-    //         "paquete" => $paquete,
-    //     ], 200);
-    // }
     public function descarga($id, $almacen)
     {
+        // return $this->getOrCreateLote($almacen, Paquete::find($id)->ID_pickup);
         try {
             if (!is_numeric($id)) {
-                throw new \InvalidArgumentException("ID debe ser numérico", 400);
+                return response()->json([
+                    "message" => "ID debe ser numérico"
+                ], 400);
             }
 
-            $paquete = Paquete::find($id);
-            if ($paquete === null) {
-                throw new \RuntimeException("Paquete no encontrado", 404);
+            if (Paquete::find($id) === null) {
+                return response()->json([
+                    "message" => "Paquete no encontrado"
+                ], 404);
             }
 
-            $trae = Trae::where("ID", $id)->whereNull("fecha_descarga")->first();
-            if ($trae === null) {
-                throw new \RuntimeException("Paquete no cargado", 400);
+            if (Trae::find($id) === null) {
+                return response()->json([
+                    "message" => "Paquete no cargado"
+                ], 400);
             }
 
-            $almacenPropio = AlmacenPropio::find($almacen);
-            if ($almacenPropio === null) {
-                throw new \RuntimeException("Almacen no encontrado", 404);
+            if (Trae::where("ID_paquete", $id)->whereNull("fecha_descarga")->first() === null) {
+                return response()->json([
+                    "message" => "Paquete ya descargado"
+                ], 400);
             }
+
+            if (AlmacenPropio::find($almacen) === null) {
+                return response()->json([
+                    "message" => "Almacen no encontrado"
+                ], 404);
+            }
+
 
             DB::select("CALL descargar_trae($id, $almacen, @error)");
             $error = DB::select("SELECT @error as error")[0]->error;
             if ($error !== 0) {
-                throw new \RuntimeException("Error al descargar paquete", 400);
+                return response()->json([
+                    "message" => "Error al descargar paquete"
+                ], 400);
             }
 
             $paquete = Paquete::find($id);
             $lote = $this->getOrCreateLote($almacen, $paquete->ID_pickup);
-            $this->assignarPaqueteToLote($id, $lote->ID);
+            return [$id, $lote->ID];   
+            $this->asignarPaqueteToLote($id, $lote->ID);
 
             return response()->json([
                 "message" => "Paquete descargado y lote asignado",
                 "ID_lote" => $lote->ID,
                 "paquete" => $paquete,
             ], 200);
-        } catch (\InvalidArgumentException $e) {
-            return response()->json([
-                "message" => $e->getMessage()
-            ], $e->getCode());
-        } catch (\RuntimeException $e) {
-            return response()->json([
-                "message" => $e->getMessage()
-            ], $e->getCode());
         } catch (\Exception $e) {
             return response()->json([
                 "message" => "Error inesperado"
@@ -306,24 +249,35 @@ class PaqueteController extends Controller
     // Método para obtener o crear un lote
     private function getOrCreateLote($almacen, $paquetePickup)
     {
-        $destinoLote = DestinoLote::where("ID_almacen", $paquetePickup)->first();
-        $troncal = Orden::where("ID_almacen", $almacen)->first()->troncal->ID;
+        // tomo todas las troncales que contengan el almacen de origen y de destino del paquete
+        $troncales = Orden::whereIn("ID_almacen", [$almacen, $paquetePickup])->pluck("ID_troncal");
+        $troncales = array_values(array_unique(array_diff_assoc($troncales->toArray(), array_unique($troncales->toArray()))));
 
-        if ($destinoLote === null || $destinoLote->lote->tipo == 1) {
-            $lote = Lote::create([
-                "ID_troncal" => $troncal,
-                "ID_almacen" => $almacen,
-                "tipo" => 0,
-            ]);
-        } else {
+        // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete y la misma troncal
+        $destinoLote = DestinoLote::where("ID_almacen", $paquetePickup)->where("ID_troncal", $troncales)->first();
+        // $troncal = Orden::where("ID_almacen", $almacen)->first()->troncal->ID;
+
+        // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
+        if ($destinoLote !== null && $destinoLote->lote->tipo == 0) {
             $lote = $destinoLote->lote;
+            
+        // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
+        } else {
+            DB::select("CALL lote_0($almacen, $paquetePickup, $troncales[0], @id_lote, @error)");
+            $error = DB::select("SELECT @error as error")[0]->error;
+            if ($error !== 0) {
+                return response()->json([
+                    "message" => "Error al crear lote"
+                ], 400);
+            }
+            $lote = Lote::find(DB::select("SELECT @id_lote as id_lote")[0]->id_lote);
         }
 
         return $lote;
     }
 
     // Método para asignar un paquete a un lote
-    private function assignarPaqueteToLote($id, $loteId)
+    private function asignarPaqueteToLote($id, $loteId)
     {
         PaqueteLote::create([
             "ID_paquete" => $id,
