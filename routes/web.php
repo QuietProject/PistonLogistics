@@ -30,6 +30,8 @@ Route::post("/cliente", [PackageController::class, "carga"])->name("cliente.scan
 Route::view("/almacen", "almacen")->name("almacen");
 
 Route::view("/almacenCarga", "almacenCarga")->name("almacenCarga");
+Route::post("/almacenCarga", [PackageController::class, "cargaAlmacen"])->name("almacenCarga.scan");
 Route::view("/almacenDescarga", "almacenDescarga")->name("almacenDescarga");
+Route::post("/almacenDescarga", [PackageController::class, "descargaAlmacen"])->name("almacenDescarga.scan");
 
 Route::view("/administrador", "administrador") ->name("administrador");

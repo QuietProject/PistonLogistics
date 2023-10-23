@@ -4,6 +4,8 @@
     margin: 0;
     border: 0;
     padding: 0;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 *::-webkit-scrollbar {
@@ -11,106 +13,134 @@
 }
 
 body {
-    height: 100%;
-    width: 100%;
+    min-height: 100vh;
+    width: 100vw;
     background-color: var(--base);
+}
+
+body > form{
+    min-width: 100vw;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: row;
+}
+
+
+
+.qrContainer {
+    max-width: 40vw;
+    min-width: 40vw;
+    width: 100%;
+    height: 80vh;
     overflow: hidden;
-}
-
-.container{
-    position: relative;
-    display: flex;
-    width: 90vw;
-    height: 90vh;
-    border-radius: 10px;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.inputContainer {
-    position: relative;
-    width: 40%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    margin-left: 20px;
 }
 
-.matricula {
-    width: 28%;
-    height: 8%;
+.qrContainer > *{
+    box-shadow: 0px 0px 10px -1px black;
+}
+
+
+.qrContainer > .qr{
     display: flex;
-    font-size: xx-large;
-    font-weight: bolder;
     justify-content: center;
-}
-
-.qrContainer {
-    position: relative;
-    background-color: var(--baseLighter);
-    aspect-ratio: 1/1;
-    max-height: 35.5vw;
-    width: 30.5vw;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
     align-items: center;
-    justify-content: center;
+    width: 80%;
+    min-height: 85%;
+    background-color: var(--baseLighter);
+    border-radius: 10px;
 }
 
-.qrContainer:hover{
-    cursor: pointer;
+a {
+    text-decoration: none;
+    color: black;
 }
 
 .ticketInfo {
-    position: relative;
-    background-color: var(--baseLighter);
     height: 80vh;
-    width: 50vw;
-    border-radius: 10px;
-    padding: 2.5vh;
-}
-
-.ticketInfo:focus{
-    outline: none;
-}
-
-.ticketInfo:hover{
-    cursor: default;
-}
-
-.preview{
-    position: relative;
-    height: 100%;
+    max-width: 60vw;
+    min-width: 60vw;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ticketInfo > *{
+    background-color: var(--baseLighter);
+    max-width: 80%;
+    width: 100%;
+    height: 100%;
     border-radius: 10px;
-    object-fit: cover;
-    object-position: center;
+    box-shadow: 0px 0px 10px -1px black;
 }
 
 .confirmButton {
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
     background-color: var(--baseLighter);
-    height: 10.5vh;
-    width: 35.5vw;
+    min-height: 8vh;
+    max-width: 80%;
+    width: 100%;
     border-radius: 10px;
     font-weight: bolder;
-    font-size: 200%;
+    font-size: xx-large;
 }
 
-.confirmButton:hover {
+.confirmButton:hover{
     cursor: pointer;
 }
 
-.confirmButton:active {
+.confirmButton:active{
     transform: scale(98%);
 }
 
-/* Responsive */
-@media screen and (orientation:portrait){
+#preview{
+    border-radius: 5px;
+    min-height: fit-content;
+    width: 100%;
+}
+
+
+@media (max-width: 1200px) {
+    body > form{
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .qrContainer {
+        max-width: 900px;
+        min-width: 100vw;
+        min-height: 100vh;
+        justify-content: space-evenly;
+        margin-left: 0px;
+    }
+
+    .qrContainer > .qr{
+        display: flex;
+        justify-content: center;
+        align-items: center;
         
+    }
+
+    #preview{
+        border-radius: 0;
+        min-height: fit-content;
+        width: 90%;
+    }
+
+    .ticketInfo{
+        min-height: 80vh;
+        max-width: 900px;
+        min-width: 100vw;
+        margin-bottom: 20px;
+    }
 }

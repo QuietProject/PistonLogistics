@@ -284,6 +284,7 @@ section > div {
     justify-content: space-between;
     width: 90%;
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .infoMapa > div{
@@ -321,6 +322,8 @@ section > div {
     appearance: none;
     border-color: crimson;
     cursor: pointer;
+    justify-content: center;
+    align-content: center;
 }
 .infoMapa > input[type="checkbox"]:checked{
     border-color: greenyellow;
@@ -386,6 +389,31 @@ footer > div {
         width: 90%;
     }
 }
+
+@media (max-width: 330px) {
+
+    .infoMapa{
+        justify-content: center;
+    }
+
+    .infoMapa > div{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .infoMapa > div > input{
+        max-width: none;
+        width: 100%;
+    }
+
+    .infoMapa > input[type="checkbox"] {
+        height: 3.5vh;
+    }
+
+}
+
 
 body::-webkit-scrollbar {
     display: none;

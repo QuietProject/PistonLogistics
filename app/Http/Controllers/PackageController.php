@@ -19,6 +19,18 @@ class PackageController extends Controller
     public function carga(Request $request){    
 
         return to_route("cliente")->with("status", "Paquete cargado correctamente");
-        
+    
+    }
+
+    public function cargaAlmacen(Request $request){    
+
+        return to_route("almacenCarga")->with("status", "Paquete cargado correctamente");
+    
+    }
+
+    public function descargaAlmacen(Request $request){    
+
+        return to_route("almacenDescarga")->with("status", "Paquete cargado correctamente");
+    
     }
 }
