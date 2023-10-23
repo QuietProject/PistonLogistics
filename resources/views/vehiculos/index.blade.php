@@ -108,7 +108,7 @@
         <!-- Add Trucks -->
         <div class="addInterface" id="addTruckInterface" style="display: none">
             <!-- Close Button -->
-            <div class="cornerButton"></div>
+            <div class="cornerButton" id="closeButtonCornerTrucks"></div>
             <div class="closeButton" id="closeButtonTrucks">
                 <div class="xLine" style="rotate: 45deg;"></div>
                 <div class="xLine" style="rotate: -45deg;"></div>
@@ -121,25 +121,43 @@
                     document.getElementById("addTruckInterface").style.display = "flex";
                 </script>
                 @endif
-                <h2>Ingresar Vehiculo</h2>
+                <h2 class="adderTitle">Ingresar Vehiculo</h2>
                 <form action="{{ route('vehiculos.store') }}" method="POST">
                     @csrf
-                    <div>
+                    <div class="inputBox">
                         <label for="tipo">Tipo</label>
                         <select name="tipo" id="tipo">
                             <option value="camion">Camion</option>
                             <option value="camioneta">Camioneta</option>
                         </select>
                     </div>
-                    <div>
+                    <div class="inputBox">
                         <label for="matricula">Matricula</label>
                         <input type="text" name="matricula" id="matricula" maxlength="7" minlength="7" 
-                        requiredvalue="{{ old('matricula') }}" pattern="[A-Za-z]{3}[0-9]{4}">
+                        requiredvalue="{{ old('matricula') }}" pattern="[A-Za-z]{3}[0-9]{4}" autocomplete="off">
                         @error('matricula')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    @include('vehiculos.form-fields')
+                    <div class="inputBox">
+                        <label for="peso_max">Peso Maximo</label>
+                        <input type="number" name="peso_max" id="peso_max" required
+                        value="{{ old('peso_max',$vehiculo->peso_max) }}" autocomplete="off">
+                        <span>kg</span>
+                        @error('peso_max')
+                            <span style="color: red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="inputBox">
+                        <label for="vol_max">Volumen Maximo</label>
+                        <input type="number" name="vol_max" id="vol_max" step="0.1" required
+                        value="{{ old('vol_max',$vehiculo->vol_max) }}" autocomplete="off">
+                        <span>m3</span>
+                        @error('vol_max')
+                            <span style="color: red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <button type="submit">Submit</button>
                 </form>
             </div>
         </div>

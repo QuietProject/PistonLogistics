@@ -12,6 +12,11 @@ document.getElementById("closeButtonTrucks").addEventListener("click", function 
     document.getElementById("addTruckInterface").style.display = "none";
 })
 
+document.getElementById("closeButtonCornerTrucks").addEventListener("click", function myFunction() {
+    document.getElementById("addBackdrop").style.display = "none";
+    document.getElementById("addTruckInterface").style.display = "none";
+})
+
 
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
