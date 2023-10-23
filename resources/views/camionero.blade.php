@@ -70,6 +70,19 @@
         </div>
     </footer>
 
+    <div id="envioComenzado">
+        <div>
+            <i class='bx bx-check-circle' ></i>
+            <h1>¡Comenzando Envio!</h1>
+        </div>
+    </div>
+    <div id="envioFinalizado">
+        <div>
+            <i class='bx bx-check-circle' ></i>
+            <h1>¡Envio Finalizado Exitosamente!</h1>
+        </div>
+    </div>
+
     <script defer src="../Javascript/scriptMenu.js"></script>
     <script defer src="../JavaScript/scriptCamionero.js"></script>
 </body>
