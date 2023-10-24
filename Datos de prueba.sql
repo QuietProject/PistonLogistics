@@ -1,13 +1,15 @@
 use surno;
 
+ALTER TABLE PAQUETES
+DROP CONSTRAINT ESTADO_ENTREGADO;
 
-INSERT INTO USERS (user, password, rol, mail) VALUES
-('usuario1', 'contraseña1', 0, 'mail@mail.com'),
-('usuario2', 'contraseña2', 1, 'mail@mail.com'),
-('usuario3', 'contraseña3', 2, 'mail@mail.com'),
-('usuario4', 'contraseña4', 0, 'mail@mail.com'),
-('usuario5', 'contraseña5', 1, 'mail@mail.com'),
-('usuario6', 'contraseña6', 2, 'mail@mail.com');
+INSERT INTO USERS (user, password, rol, email) VALUES
+('usuario1', 'contraseña1', 0, 'mail1@mail.com'),
+('usuario2', 'contraseña2', 1, 'mail2@mail.com'),
+('usuario3', 'contraseña3', 2, 'mail3@mail.com'),
+('usuario4', 'contraseña4', 0, 'mail4@mail.com'),
+('usuario5', 'contraseña5', 1, 'mail5@mail.com'),
+('usuario6', 'contraseña6', 2, 'mail6@mail.com');
 
 
 INSERT INTO CAMIONEROS (CI, nombre, baja) VALUES
@@ -212,26 +214,26 @@ INSERT INTO ALMACENES_CLIENTES (RUT, ID) VALUES
 ('987654321012', 19),
 ('456789123012', 20);
 
-INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, direccion, peso, volumen, fecha_entregado, mail, cedula) VALUES
-(16, '2023-09-15 07:37:40', 2 ,'Calle 123, florida', 1000, 2000, NULL, 'correo1@example.com', NULL), -- 1 ok
-(16, '2023-09-14 07:34:40', 11,'Calle 456, punta del este', 1500, 2500, NULL, 'correo2@example.com', NULL),  -- 2 ok
-(16, '2023-09-14 23:32:40', 2 ,'Calle 789, chuy', 1200, 2200, NULL,	'correo3@example.com', NULL), -- 3 ok
-(16, '2023-08-26 16:28:20', 4 ,'Calle 101, melo', 800, 1800, NULL, 'correo4@example.com', NULL), -- 4 ok
-(16, '2023-05-04 05:25:35', 11,'Calle 202, melo', 1400, 2400, '2023-05-12 14:22:00', 'correo5@example.com', '56789012'), -- 5 ok
-(16, '2023-05-10 17:06:01', 11,'Calle 404, melo', 1300, 2300, '2023-05-12 16:26:00', 'correo6@example.com', '78901234'), -- 6 ok
-(16, '2023-08-27 18:22:58', 1 ,'Calle 303, salto', 1100, 2100, '2023-09-01 14:01:00', 'correo7@example.com', '67890123'), -- 7 ok
-(16, '2023-07-23 05:37:47', 8 ,'Calle 505, canelones', 900,	1900, NULL, 'correo8@example.com', NULL), -- 8 ok
-(16, '2023-09-11 01:38:22', 7 ,'Calle 606, montevideo',	1600, 2600,	NULL, 'correo9@example.com', NULL), -- 9 ok
-(16, '2023-08-13 04:06:42', 12,'Calle 707, montevideo', 700, 1700,	'2023-08-16 12:54:42', 'correo10@example.com', '01234567'), -- 10 ok
-(17, '2023-08-02 04:22:08', 14,'Calle 808, colonia del sacramento', 1800,	2800, NULL, 'correo11@example.com',	NULL), -- 11 ok
-(18, '2023-08-29 11:42:52', 5 ,null, 1100, 2500, null, 'correo13@example.com', NULL), -- 12 ok 
-(18, '2023-09-05 10:42:49', 5 ,null, 1500, 2000, '2023-09-15 16:34:14', 'correo12@example.com', '22345669'), -- 13 ok
-(18, '2023-07-30 05:22:07', 4,'Calle 111, montevideo', 1400, 2100, '2023-08-01 05:22:07',	'correo14@example.com',	'44567871'), -- 14 ok
-(19, '2023-09-13 23:29:45', 5,'Calle 212, montevideo', 900, 2400,	NULL, 'correo15@example.com', NULL), -- 15 ok
-(19, '2023-08-28 23:54:46', 7,'Calle 313, montevideo', 1700, 1900, NULL, 'correo16@example.com', '66789073'), -- 16
-(20, '2023-07-29 19:17:39', 8,'Calle 414, minas',	1200, 2700,	NULL, 'correo17@example.com', NULL), -- 17
-(20, '2023-07-29 19:18:39', 8, null , 1200,	2200, NULL,	'correo18@example.com',	NULL), -- 18
-(20, '2023-09-20 12:18:39', 14, 'Calle 413, florida' , 1200,	2200, NULL,	'correo19@example.com',	NULL); -- 18
+INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, direccion, peso, volumen, fecha_entregado, mail) VALUES
+(16, '2023-09-15 07:37:40', 2 ,'Calle 123, florida', 1000, 2000, NULL, 'correo1@example.com'), -- 1 ok
+(16, '2023-09-14 07:34:40', 11,'Calle 456, punta del este', 1500, 2500, NULL, 'correo2@example.com'),  -- 2 ok
+(16, '2023-09-14 23:32:40', 2 ,'Calle 789, chuy', 1200, 2200, NULL,	'correo3@example.com'), -- 3 ok
+(16, '2023-08-26 16:28:20', 4 ,'Calle 101, melo', 800, 1800, NULL, 'correo4@example.com'), -- 4 ok
+(16, '2023-05-04 05:25:35', 11,'Calle 202, melo', 1400, 2400, '2023-05-12 14:22:00', 'correo5@example.com'), -- 5 ok
+(16, '2023-05-10 17:06:01', 11,'Calle 404, melo', 1300, 2300, '2023-05-12 16:26:00', 'correo6@example.com'), -- 6 ok
+(16, '2023-08-27 18:22:58', 1 ,'Calle 303, salto', 1100, 2100, '2023-09-01 14:01:00', 'correo7@example.com'), -- 7 ok
+(16, '2023-07-23 05:37:47', 8 ,'Calle 505, canelones', 900,	1900, NULL, 'correo8@example.com'), -- 8 ok
+(16, '2023-09-11 01:38:22', 7 ,'Calle 606, montevideo',	1600, 2600,	NULL, 'correo9@example.com'), -- 9 ok
+(16, '2023-08-13 04:06:42', 12,'Calle 707, montevideo', 700, 1700,	'2023-08-16 12:54:42', 'correo10@example.com'), -- 10 ok
+(17, '2023-08-02 04:22:08', 14,'Calle 808, colonia del sacramento', 1800,	2800, NULL, 'correo11@example.com'), -- 11 ok
+(18, '2023-08-29 11:42:52', 5 ,null, 1100, 2500, null, 'correo13@example.com'), -- 12 ok 
+(18, '2023-09-05 10:42:49', 5 ,null, 1500, 2000, '2023-09-15 16:34:14', 'correo12@example.com'), -- 13 ok
+(18, '2023-07-30 05:22:07', 4,'Calle 111, montevideo', 1400, 2100, '2023-08-01 05:22:07',	'correo14@example.com'), -- 14 ok
+(19, '2023-09-13 23:29:45', 5,'Calle 212, montevideo', 900, 2400,	NULL, 'correo15@example.com'), -- 15 ok
+(19, '2023-08-28 23:54:46', 7,'Calle 313, montevideo', 1700, 1900, NULL, 'correo16@example.com'), -- 16
+(20, '2023-07-29 19:17:39', 8,'Calle 414, minas',	1200, 2700,	NULL, 'correo17@example.com'), -- 17
+(20, '2023-07-29 19:18:39', 8, null , 1200,	2200, NULL,	'correo18@example.com'), -- 18
+(20, '2023-09-20 12:18:39', 14, 'Calle 413, florida' , 1200,	2200, NULL,	'correo19@example.com'); -- 18
 
 INSERT INTO TRAE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (1,'NOP3456','2023-09-17 09:37:40','2023-09-17 12:23:40'),
@@ -289,7 +291,7 @@ INSERT INTO DESTINO_LOTE (ID_lote,ID_troncal,ID_almacen) VALUES
 (9,5,4),
 (10,4,8);
 
-INSERT INTO PAQUETES_LOTES(ID_lote,ID_paquete,fecha) VALUES
+INSERT INTO PAQUETES_LOTES(ID_lote,ID_paquete,desde) VALUES
 (1,1,'2023-09-17 12:27:40'),
 (1,2,'2023-09-17 12:27:40'),
 (1,3,'2023-09-17 12:27:40'),
@@ -333,3 +335,7 @@ INSERT INTO REPARTE (ID_paquete, matricula,fecha_carga, fecha_descarga) VALUES
 (7,'BCD7890','2023-09-01 10:20:00', '2023-09-01 14:01:00'),
 (10,'QRS7890','2023-08-16 09:54:42', '2023-08-16 12:54:42'),
 (14,'QRS7890','2023-08-07 09:45:07', '2023-08-07 12:22:42');
+
+update PAQUETES set estado=0 where id in (select ID from paquetes where fecha_entregado is not null);
+ALTER TABLE PAQUETES
+    ADD CONSTRAINT ESTADO_ENTREGADO CHECK ((fecha_entregado is not null AND estado = 0) or (fecha_entregado is null AND estado != 0));

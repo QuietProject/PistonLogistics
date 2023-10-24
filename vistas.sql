@@ -10,5 +10,5 @@ SELECT ID as paquete, paquetes_lotes.ID_lote as almacen, paquetes_lotes.desde as
 FROM PAQUETES
 INNER JOIN (select * from paquetes_lotes where hasta is null) as paquetes_lotes ON paquetes_lotes.ID_paquete=paquetes.ID;
 
-select * from paquetes_en_almacenes;
+-- select * from paquetes_en_almacenes;
 

@@ -138,6 +138,9 @@ CREATE TABLE PAQUETES (
 );
 
 ALTER TABLE PAQUETES
+    ADD CONSTRAINT ESTADO_ENTREGADO CHECK ((fecha_entregado is not null AND estado = 0) or (fecha_entregado is null AND estado != 0));
+
+ALTER TABLE PAQUETES
 	ADD CONSTRAINT FECHAS_TRAE CHECK (fecha_registrado<fecha_entregado);
 
 CREATE TABLE LOTES (
