@@ -1,3 +1,12 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+    max-height: 100%;
+    word-break:break-word;
+}
+
 html,
 body {
     height: 100%;
@@ -280,6 +289,7 @@ section > div {
 .infoMapa {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 90%;
     margin-bottom: 10px;
     margin-top: 10px;
@@ -292,11 +302,10 @@ section > div {
     flex-direction: row;
 }
 
-.infoMapa > div > input {
-    max-width: 50%;
-    width: 100%;
-    margin: 5px;
-    min-height: 2vh;
+.infoMapa > div > p {
+    margin-right: 5px;
+    border-radius: 5px;
+    padding: 5px;
     background-color: transparent;
     border: 2px solid var(--highlight);
     color: var(--highlight);
@@ -305,7 +314,6 @@ section > div {
 }
 
 .infoMapa > input[type="radio"] {
-    margin: 5px;
     min-height: 2vh;
     background-color: transparent;
     border: 2px solid var(--highlight);
@@ -322,6 +330,7 @@ section > div {
     cursor: pointer;
     justify-content: center;
     align-content: center;
+    border-radius: 5px;
 }
 .infoMapa > input[type="radio"]:checked{
     border-color: greenyellow;
@@ -452,29 +461,7 @@ footer > div {
     }
 }
 
-@media (max-width: 330px) {
 
-    .infoMapa{
-        justify-content: center;
-    }
-
-    .infoMapa > div{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
-
-    .infoMapa > div > input{
-        max-width: none;
-        width: 100%;
-    }
-
-    .infoMapa > input[type="checkbox"] {
-        height: 3.5vh;
-    }
-
-}
 
 
 body::-webkit-scrollbar {

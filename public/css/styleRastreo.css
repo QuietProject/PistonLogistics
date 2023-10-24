@@ -1,0 +1,260 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+    max-height: 100%;
+    word-break:break-word;
+}
+
+body {
+    background-image: url(../source/fondo.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: var(--sidebar);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+header {
+    display: flex;
+    width: 100%;
+    height: 100px;
+    background-color: var(--color);
+    padding: 0 .5rem;
+    box-shadow: 0px 0px 10px -1px black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+header div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+header div h1 {
+    text-align: center;
+    line-height: 70px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+header div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+header div:nth-child(3) {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+header div i {
+    font-size: 3rem;
+    cursor: pointer;
+    z-index: 4;
+}
+
+header div img {
+    height: 100%;
+}
+
+section{
+    height: calc(100vh - 100px);
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+section > div{
+    max-width: 600px;
+    max-height: 800px;
+    height: 90%;
+    width: 90%;
+    box-shadow: 0px 0px 10px -1px black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+}
+
+section > div > h1{
+    font-size: 3em;
+    padding: 10px;
+    width: 80%;
+    border-bottom: 1px solid white;
+    text-shadow: 0px 0px 5px white;
+}
+
+section > div > div{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    text-shadow: 0px 0px 5px white;
+    flex-wrap: wrap;
+    width: 80%;
+}
+
+
+section > div > div > p:nth-child(1){
+    font-size: 2em;
+    color: black;
+    background-color: transparent;
+    min-height: 3vh;
+}
+
+section > div > div > p:nth-child(2){
+    font-size: 2em;
+    color: black;
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    word-break:break-word;
+}
+
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+footer > *{
+    max-width: 33.3%;
+    width: 33.3%;
+}
+
+footer > div:nth-child(1){
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+footer > div:nth-child(2){
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer > div:nth-child(1) > form{
+    min-width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+footer > div:nth-child(1) > form > *{
+    margin: 5px;
+}
+
+footer > div:nth-child(1) > form > h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    max-width: 100%;
+    border-bottom: 2px solid var(--color);
+}
+
+footer > div:nth-child(1) > form > input[type="text"], input[type="email"]{
+    width: 100%;
+    height: 4vh;
+    font-size: 1em;
+    background-color: transparent;
+    border: 2px solid var(--color);
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+}
+
+footer > div:nth-child(1) > form > textarea{
+    width: 100%;
+    min-height: 8vh;
+    font-size: 1em;
+    background-color: transparent;
+    border: 2px solid var(--color);
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    padding: 5px;
+    resize: none;
+}
+
+footer input:focus, footer textarea:focus{
+    outline: 1px solid red;
+    animation: focus .8s infinite alternate-reverse;
+}
+
+
+footer input:-webkit-autofill,
+footer input:-webkit-autofill:focus,
+footer textarea:-webkit-autofill,
+footer textarea:-webkit-autofill:focus{
+    transition: background-color 0s 600000s, color 0s 600000s;
+}
+
+footer input[type="submit"]{
+    width: 50%;
+    min-height: 4vh;
+    font-size: 1em;
+    background-color: transparent;
+    border: 2px solid var(--color);
+    border-radius: 5px;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+}
+
+footer input[type="submit"]:hover{
+    box-shadow: 0px 0px 10px -1px red;
+    font-size: 1.1em;
+}
+
+footer > div > form > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 6vh;
+    width: 100%;
+}
+
+@media (max-width: 700px) {
+    header div:nth-child(2) {
+        display: none;
+    }
+}
+
+@media (max-width: 320px) {
+    section > div > div{
+        justify-content: center;
+    }
+    section > div > div > p:nth-child(2){
+        margin-top: 10px;
+    }
+}

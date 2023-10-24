@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\PackageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view("/", "welcome")->name("home");
+Route::view("/rastreo", "rastreo")->name("rastreoView");
+Route::post("/", [TransitController::class, "rastreo"])->name("rastreo");
+
 
 Route::view("/login", "login")->name("login");
 Route::post("/login", [AuthenticatedSessionController::class, "store"])->name("login.algo");

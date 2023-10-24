@@ -27,7 +27,6 @@
                 <a href="">Paquetes</a>
                 <a href="">Lotes</a>
                 <a href="">Crear Lote</a>
-                <a href="">QR Scanner</a>
             </div>
 
             <div>

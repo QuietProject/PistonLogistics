@@ -199,15 +199,11 @@ divs.forEach((div, index) => {
     newDivMapa.appendChild(volver);
     newDivMapa.appendChild(mapaContainerDiv);
 
-    const horaRetiro = document.createElement("input");
-    horaRetiro.type = "text";
-    horaRetiro.disabled = true;
-    horaRetiro.value = cantidadRutas[h][i][1];
+    const horaRetiro = document.createElement("p");
+    horaRetiro.textContent = cantidadRutas[h][i][1];
 
-    const horaEntrega = document.createElement("input");
-    horaEntrega.type = "text";
-    horaEntrega.disabled = true;
-    horaEntrega.value = cantidadRutas[h][i][2];
+    const horaEntrega = document.createElement("p");
+    horaEntrega.textContent = cantidadRutas[h][i][2];
 
     const finalizado = document.createElement("input");
     finalizado.type = "radio";

@@ -45,14 +45,16 @@
         </div>
         <section id="home" class="home">
             <div class="menuRastreo">
-                <form class="rastreo" method="GET" action="">
+                <form class="rastreo" method="POST" action="{{ route('rastreo') }}">
+                    @csrf
                     <div>
+                        <i class='bx bxs-truck'></i>
                         <h2>¡Rastrea tu paquete!</h2>
                         <i class='bx bxs-truck'></i>
                     </div>
                     <div>
                         <label for="codPaquete">Codigo del paquete</label>
-                        <input id="codPaquete" type="number" required>
+                        <input id="codPaquete" type="number" name="codigoPaquete" required>
                     </div>
                     <input type="submit" value="Rastrear">
                 </form>

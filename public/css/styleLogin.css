@@ -120,3 +120,9 @@ input:-webkit-autofill:focus {
         outline: 1px solid red;
     }
 }
+
+@media (max-width: 350px) {
+    .logInContainer > div:nth-child(2) > i{
+        display: none;
+    }
+}
