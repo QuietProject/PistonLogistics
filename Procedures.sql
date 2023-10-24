@@ -160,11 +160,15 @@ BEGIN
 	START TRANSACTION;
 	SET error =0;
     
-	-- Paso 2: Descargar el paquete
+    -- Paso 2: Eliminar la direccion de paquete
+    UPDATE PAQUETES SET direccion=null where ID=paquete;
+    SET error = IF(row_count()!=1, 1, error);
+    
+	-- Paso 3: Descargar el paquete
 	UPDATE TRAE SET fecha_descarga=CURRENT_TIMESTAMP() WHERE ID_paquete=paquete AND fecha_descarga IS NULL;
 	SET error = IF(row_count()!=1, 1, error);
     
-	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
+	-- Paso 4: Insertar paquete en PAQUETES_ALMACENES
     INSERT INTO PAQUETES_ALMACENES(ID_paquete,ID_almacen) values (paquete, almacen);
 	SET error = IF(row_count()!=1, 1, error);
 
@@ -253,6 +257,10 @@ BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
 	SET error =0;
+    
+    -- Paso 1: Sacar el paquete del lote
+    UPDATE PAQUETES_LOTES SET hasta=current_timestamp() where ID_paquete=paquete and hasta is null;
+    SET error = IF(row_count()!=1, 1, error);
     
 	-- Paso 2: Entregar el paquete
 	UPDATE PAQUETES SET fecha_entregado=CURRENT_TIMESTAMP(), estado=0 WHERE ID=paquete;

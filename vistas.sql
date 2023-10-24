@@ -10,7 +10,6 @@ SELECT lotes.*, paquetes.estado
 FROM (SELECT id_paquete, id_lote ,MAX(fecha) AS fecha FROM paquetes_lotes GROUP BY id_paquete ) AS lotes
 INNER JOIN PAQUETES ON PAQUETES.ID = LOTES.ID_paquete
 WHERE PAQUETES.estado in (4,5,6,9);*/
-
 CREATE OR REPLACE VIEW paquetes_en_lotes AS
 SELECT lotes.*, paquetes.estado
 FROM (SELECT pl1.ID_paquete, pl1.ID_lote, pl1.fecha

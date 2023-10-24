@@ -3,16 +3,17 @@ drop database IF EXISTS surno;
 CREATE DATABASE surno;
 
 USE surno;
-
 CREATE TABLE USERS (
     user VARCHAR(20) PRIMARY KEY NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(255) DEFAULT NULL,
     rol TINYINT NOT NULL,
+    email VARCHAR(64) NOT NULL UNIQUE,
+    email_verified_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL DEFAULT NULL
 );
 
 ALTER TABLE USERS
-    ADD CONSTRAINT rol CHECK ( 0<=rol AND rol<=2);
+    ADD CONSTRAINT rol CHECK ( 0<=rol AND rol<=3);
 
 CREATE TABLE CAMIONEROS (
     CI CHAR(8) PRIMARY KEY NOT NULL,
@@ -127,7 +128,6 @@ CREATE TABLE PAQUETES (
     volumen INT UNSIGNED NULL DEFAULT NULL,
     fecha_entregado TIMESTAMP NULL DEFAULT NULL,
     mail VARCHAR(64) NULL,
-    cedula VARCHAR(8) NULL DEFAULT NULL,
     estado int NOT NULL default 1,
     FOREIGN KEY (ID_almacen)
         REFERENCES ALMACENES_CLIENTES (ID)
@@ -159,7 +159,8 @@ CREATE TABLE LOTES (
 CREATE TABLE PAQUETES_LOTES (
     ID_paquete INT NOT NULL,
     ID_lote INT NOT NULL,
-    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    desde TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    hasta TIMESTAMP NULL DEFAULT NULL,
     PRIMARY KEY (ID_paquete , ID_lote),
     FOREIGN KEY (ID_paquete)
         REFERENCES PAQUETES (ID)
@@ -232,10 +233,10 @@ ALTER TABLE TRAE
 CREATE TABLE PAQUETES_ALMACENES (
     ID_paquete INT NOT NULL,
     ID_almacen INT NOT NULL,
-desde TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    desde TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     hasta TIMESTAMP NULL DEFAULT NULL,
-    PRIMARY KEY (ID_paquete,ID_almacen,desde),
-	FOREIGN KEY (ID_paquete)
+    PRIMARY KEY (ID_paquete , ID_almacen , desde),
+    FOREIGN KEY (ID_paquete)
         REFERENCES PAQUETES (ID)
         ON DELETE RESTRICT ON UPDATE RESTRICT,
     FOREIGN KEY (ID_almacen)
@@ -246,13 +247,13 @@ desde TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 RNE 1: En conduce en cada nuevo registro fecha desde>max(fecha_hasta) de la seleccionde conduce con el camionero a ingresar
 RNE 2: Un paquete no puede estar en mas de un lote que no tenga estado.tipo = 0
 RNE 3: Paquete no puede estar en Reparte si esta en un lote que tenga estado.tipo = 0
-RNE 4: El orden de la relacion Destino_Lote debe estar relacionado con la misma troncal con la que esta relacionado el origen del lote pero no con el mismo almacen
-RNE 5: Almacen no puede ser  Almacen de cliente y Almacen propio a la vez
-RNE 6: Vehiculo no puede ser camion y camioneta a la vez
-IMPLEMENTADO RNE 7: En paquete fecha de registro<fecha entregado
-IMPLEMENTADO RNE 8: En trae fecha carga<fecha descarga
-IMPLEMENTADO RNE 9: En reparte fecha carga<fecha descarga
-IMPLEMENTADO RNE 10: En conduce fecha desde<fecha hasta
-IMPLEMENTADO RNE 11 : Fecha de registro de paquete < Fecha carga de trae
-Destino lote tipo tiene que ser = 0
+IMPLEMENTADO PROCEDURES RNE 4: El orden de la relacion Destino_Lote debe estar relacionado con la misma troncal con la que esta relacionado el origen del lote pero no con el mismo almacen
+IMPLEMENTADO PROCEDURES RNE 5: Almacen no puede ser  Almacen de cliente y Almacen propio a la vez
+IMPLEMENTADO PROCEDURES RNE 6: Vehiculo no puede ser camion y camioneta a la vez
+IMPLEMENTADO CHECK RNE 7: En paquete fecha de registro<fecha entregado
+IMPLEMENTADO CHECK RNE 8: En trae fecha carga<fecha descarga
+IMPLEMENTADO CHECK RNE 9: En reparte fecha carga<fecha descarga
+IMPLEMENTADO CHECK RNE 10: En conduce fecha desde<fecha hasta
+IMPLEMENTADO CHECK RNE 11 : Fecha de registro de paquete < Fecha carga de trae
+IMPLEMENTADO PROCEDURES RNE 12: Para que un lote teste en DESTINP_LOTE tiene que tener tipo=0
 */

@@ -52,6 +52,9 @@ BEGIN
 			FROM PAQUETES
             INNER JOIN PAQUETES_LOTES ON PAQUETES.ID = PAQUETES_LOTES.ID_paquete
             WHERE PAQUETES_LOTES.ID_lote = OLD.ID AND ID_pickup = @almacen);
+		UPDATE PAQUETES_LOTES 
+			SET hasta=current_timestamp()
+            WHERE ID_lote = OLD.ID;
 	END IF;
 END //
 DELIMITER ;

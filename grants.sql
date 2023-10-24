@@ -35,7 +35,7 @@ GRANT SELECT ON surno.PAQUETES_EN_ALMACENES TO 'almacen'@'%';
 GRANT SELECT ON surno.PAQUETES_EN_LOTES TO 'almacen'@'%';
 
 GRANT INSERT(ID_almacen, ID_pickup, direccion , mail) ON surno.PAQUETES TO 'almacen'@'%';
-GRANT UPDATE(peso, volumen, cedula) ON surno.PAQUETES TO 'almacen'@'%';
+GRANT UPDATE(peso, volumen) ON surno.PAQUETES TO 'almacen'@'%';
 
 GRANT INSERT (ID_almacen, ID_troncal, tipo) ON surno.LOTES TO 'almacen'@'%';
 GRANT UPDATE (fecha_pronto,fecha_cerrado) ON surno.LOTES TO 'almacen'@'%';
@@ -68,7 +68,7 @@ GRANT SELECT ON surno.ALMACENES TO 'camionero'@'%';
 GRANT SELECT ON surno.ALMACENES_PROPIOS TO 'camionero'@'%';
 GRANT SELECT ON surno.ALMACENES_CLIENTES TO 'camionero'@'%';
 GRANT SELECT ON surno.ORDENES TO 'camionero'@'%';
-GRANT SELECT (ID, ID_almacen, fecha_registrado, peso, volumen, fecha_entregado, cedula, direccion,ID_pickup, estado) ON surno.PAQUETES TO 'camionero'@'%';
+GRANT SELECT (ID, ID_almacen, fecha_registrado, peso, volumen, fecha_entregado, direccion,ID_pickup, estado) ON surno.PAQUETES TO 'camionero'@'%';
 GRANT SELECT ON surno.LOTES TO 'camionero'@'%';
 GRANT SELECT ON surno.PAQUETES_LOTES TO  'camionero'@'%';
 GRANT SELECT ON surno.DESTINO_LOTE TO 'camionero'@'%';
@@ -79,7 +79,6 @@ GRANT SELECT ON surno.PAQUETES_ALMACENES TO 'camionero'@'%';
 
 GRANT INSERT (CI, matricula) ON surno.CONDUCEN TO 'camionero'@'%';
 GRANT UPDATE (hasta) ON surno.CONDUCEN TO 'camionero'@'%';
-GRANT UPDATE (cedula) ON surno.PAQUETES TO 'camionero'@'%';
 
 GRANT EXECUTE ON PROCEDURE surno.entregar_paquete TO 'camionero'@'%';
 -- BACKOFFICE

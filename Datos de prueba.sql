@@ -1,27 +1,14 @@
 use surno;
 
 
-INSERT INTO USERS (user, password, rol) VALUES
-('usuario1', 'contraseña1', 0),
-('usuario2', 'contraseña2', 1),
-('usuario3', 'contraseña3', 2),
-('usuario4', 'contraseña4', 0),
-('usuario5', 'contraseña5', 1),
-('usuario6', 'contraseña6', 2),
-('usuario7', 'contraseña7', 0),
-('usuario8', 'contraseña8', 1),
-('usuario9', 'contraseña9', 2),
-('usuario10', 'contraseña10', 0),
-('usuario11', 'contraseña11', 1),
-('usuario12', 'contraseña12', 2),
-('usuario13', 'contraseña13', 0),
-('usuario14', 'contraseña14', 1),
-('usuario15', 'contraseña15', 2),
-('usuario16', 'contraseña16', 0),
-('usuario17', 'contraseña17', 1),
-('usuario18', 'contraseña18', 2),
-('usuario19', 'contraseña19', 0),
-('usuario20', 'contraseña20', 1);
+INSERT INTO USERS (user, password, rol, mail) VALUES
+('usuario1', 'contraseña1', 0, 'mail@mail.com'),
+('usuario2', 'contraseña2', 1, 'mail@mail.com'),
+('usuario3', 'contraseña3', 2, 'mail@mail.com'),
+('usuario4', 'contraseña4', 0, 'mail@mail.com'),
+('usuario5', 'contraseña5', 1, 'mail@mail.com'),
+('usuario6', 'contraseña6', 2, 'mail@mail.com');
+
 
 INSERT INTO CAMIONEROS (CI, nombre, baja) VALUES
 ('12345678', 'Juan Perez', 0),
