@@ -66,6 +66,6 @@ class Lote extends Model
 	public function paquetes()
 	{
 		return $this->hasMany(Paquete::class, 'paquetes_lotes', 'ID_lote', 'ID_paquete')
-					->withPivot('fecha');
+        ->select('paquetes.*', 'paquetes_lotes.fecha as fecha_pivot');
 	}
 }

@@ -21,6 +21,7 @@ class PaqueteController extends Controller
 {
 
     private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
+    
     /**
      * Display a listing of the resource.
      *
@@ -30,20 +31,8 @@ class PaqueteController extends Controller
     {
         return Paquete::all();
     }
-
-    public function paquetesLote($id)
-    {
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    
+/*************************************************************************************************************************************/
 
     /**
      * Store a newly created resource in storage.
@@ -111,7 +100,7 @@ class PaqueteController extends Controller
             "ID" => $paquete->ID,
         ], 201);
     }
-
+/*************************************************************************************************************************************/
     /**
      * Display the specified resource.
      *
@@ -122,28 +111,7 @@ class PaqueteController extends Controller
     {
         return new PaqueteResource($paquete);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Paquete  $paquete
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Paquete $paquete)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Paquete  $paquete
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Paquete $paquete)
-    {
-        //
-    }
+/*************************************************************************************************************************************/
 
     public function cargaCliente($id, $matricula)
     {
@@ -186,7 +154,9 @@ class PaqueteController extends Controller
         ], 200);
     }
 
-    public function descarga($id, $almacen)
+/*************************************************************************************************************************************/
+
+    public function descargaPaquete($id, $almacen)
     {
         // return $this->getOrCreateLote($almacen, Paquete::find($id)->ID_pickup);
         try {
@@ -231,7 +201,6 @@ class PaqueteController extends Controller
 
             $paquete = Paquete::find($id);
             $lote = $this->getOrCreateLote($almacen, $paquete->ID_pickup);
-            return [$id, $lote->ID];   
             $this->asignarPaqueteToLote($id, $lote->ID);
 
             return response()->json([
@@ -270,6 +239,7 @@ class PaqueteController extends Controller
                     "message" => "Error al crear lote"
                 ], 400);
             }
+            // Agarro el lote completo
             $lote = Lote::find(DB::select("SELECT @id_lote as id_lote")[0]->id_lote);
         }
 
@@ -279,14 +249,18 @@ class PaqueteController extends Controller
     // Método para asignar un paquete a un lote
     private function asignarPaqueteToLote($id, $loteId)
     {
-        PaqueteLote::create([
-            "ID_paquete" => $id,
-            "ID_lote" => $loteId,
-        ]);
+        try{
+        DB::select("INSERT INTO paquetes_lotes (ID_paquete, ID_lote) VALUES ($id, $loteId)");
+        } catch (\Exception $e) {
+            return response()->json([
+                "message" => $e->getMessage()
+            ], 500);
+        }
     }
 
+/*************************************************************************************************************************************/
 
-    public function cargaAlmacen($id, $matricula)
+    public function cargaAlmacenLote($id, $matricula)
     {
         if (!is_numeric($id)) {
             return response()->json([
@@ -295,10 +269,29 @@ class PaqueteController extends Controller
         }
 
         $lote = Lote::find($id);
+        // return $lote["fecha_pronto"];
         if ($lote === null) {
             return response()->json([
                 "message" => "Lote no encontrado"
             ], 404);
+        }
+
+        if ($lote->tipo == 1) {
+            return response()->json([
+                "message" => "Lote no se reparte"
+            ], 400);
+        }
+
+        if (Lleva::find($id) !== null) {
+            return response()->json([
+                "message" => "Lote ya está cargado"
+            ], 400);
+        }
+
+        if ($lote["fecha_pronto"] === null){
+            return response()->json([
+                "message" => "Lote no está listo"
+            ], 400);
         }
 
         // Find a vehiculo by its matricula (license plate)
