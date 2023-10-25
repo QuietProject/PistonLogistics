@@ -12,3 +12,4 @@ INNER JOIN (select * from paquetes_lotes where hasta is null) as paquetes_lotes 
 
 -- select * from paquetes_en_almacenes;
 
+

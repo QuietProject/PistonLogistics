@@ -5,6 +5,7 @@ SELECT * FROM paquetes_en_lotes;
 select @error;
 select @ID;
 use surno;
+select * from almacenes_clientes;
 
 #paquete 20
 insert into paquetes (id_almacen,id_pickup,direccion) values (18,1,'casa');
@@ -20,7 +21,6 @@ insert into paquetes (id_almacen,id_pickup,direccion) values (18,1,'casa');
 insert into trae (matricula,ID_paquete) values('ABC1234',21);
 SELECT SLEEP(1);
 call descargar_trae(21,3,@error);
-
 call lote_0(3,2,5,@ID,@error);
 select @error, @ID;
 SELECT SLEEP(1);
@@ -47,12 +47,11 @@ update lleva set fecha_descarga = CURRENT_TIMESTAMP() where ID_lote=13;
 SELECT SLEEP(1);
 update lotes set fecha_cerrado= CURRENT_TIMESTAMP()where ID=13;
 SELECT SLEEP(1);
-
+-- ACA
 insert into reparte (matricula,ID_paquete) values ('ABD2399',21);
 SELECT SLEEP(1);
 call descargar_reparte(21,1,@error);
 select @error, @ID;
-#insert into lotes(ID_almacen,ID_troncal,tipo) values (1,2,1);
 call lote_1(1,@error,@ID);
 SELECT SLEEP(1);
 insert into paquetes_lotes(ID_paquete,ID_lote) values(21,14);
@@ -67,23 +66,6 @@ SELECT SLEEP(1);
 call descargar_trae(22,3,@error);
 call lote_0(3,1,5,@ID,@error);
 insert into paquetes_lotes(ID_lote,ID_paquete) values(15,22);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

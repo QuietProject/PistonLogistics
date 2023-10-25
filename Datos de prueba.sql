@@ -125,32 +125,33 @@ INSERT INTO TRONCALES (nombre, baja) VALUES
 ('Troncal 6', 0),
 ('Troncal 7', 1);
 
-INSERT INTO ALMACENES (nombre, direccion, baja) VALUES
-('Almacén 1', 'Calle A 123',0),
-('Almacén 2', 'Calle B 456',0),
-('Almacén 3', 'Calle C 789',0),
-('Almacén 4', 'Calle D 101',0),
-('Almacén 5', 'Calle E 202',0),
-('Almacén 6', 'Calle F 303',0),
-('Almacén 7', 'Calle G 404',0),
-('Almacén 8', 'Calle H 505',0),
-('Almacén 9', 'Calle I 606',0),
-('Almacén 10', 'Calle J 707',0),
-('Almacén 11', 'Calle K 808',0),
-('Almacén 12', 'Calle L 909',0),
-('Almacén 13', 'Calle M 010',0),
-('Almacén 14', 'Calle N 111',0),
-('Almacén 15', 'Calle O 212',0),
-('Almacén 16', 'Calle P 313',0),
-('Almacén 17', 'Calle Q 414',0),
-('Almacén 18', 'Calle R 515',0),
-('Almacén 19', 'Calle S 616',0),
-('Almacén 20', 'Calle T 717',0),
-('Almacén 21', 'Calle U 515',0),
-('Almacén 22', 'Calle V 616',0),
-('Almacén 23', 'Calle X 717',0),
-('Almacén 24', 'Calle Y 717',0);
+INSERT INTO ALMACENES (nombre, direccion,latitud, longitud, baja) VALUES
+('Almacén 1', 'Calle A 123', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 2', 'Calle B 456', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 3', 'Calle C 789', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 4', 'Calle D 101', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 5', 'Calle E 202', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 6', 'Calle F 303', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 7', 'Calle G 404', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 8', 'Calle H 505', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 9', 'Calle I 606', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 10', 'Calle J 707', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 11', 'Calle K 808', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 12', 'Calle L 909', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 13', 'Calle M 010', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 14', 'Calle N 111', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 15', 'Calle O 212', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 16', 'Calle P 313', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 17', 'Calle Q 414', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 18', 'Calle R 515', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 19', 'Calle S 616', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 20', 'Calle T 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 21', 'Calle U 515', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 22', 'Calle V 616', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 23', 'Calle X 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
+('Almacén 24', 'Calle Y 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0);
 
+select * from almacenes;
 
 INSERT INTO ALMACENES_PROPIOS (ID) VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15),(21),(22),(23);
 

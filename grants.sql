@@ -91,7 +91,7 @@ GRANT SELECT, DELETE ON surno.CAMIONETAS TO 'backoffice'@'%';
 GRANT SELECT, INSERT(CI, matricula), UPDATE(hasta) ON surno.CONDUCEN TO 'backoffice'@'%';
 GRANT SELECT, INSERT(nombre), UPDATE(nombre,baja) ON surno.TRONCALES TO 'backoffice'@'%';
 GRANT SELECT, INSERT(RUT, NOMBRE), UPDATE ON surno.CLIENTES TO 'backoffice'@'%';
-GRANT SELECT, INSERT(nombre, direccion), UPDATE(nombre, direccion, baja) ON surno.ALMACENES TO 'backoffice'@'%';
+GRANT SELECT, INSERT(nombre, direccion), UPDATE(nombre, direccion, latitud, longitud, baja) ON surno.ALMACENES TO 'backoffice'@'%';
 GRANT SELECT, DELETE ON surno.ALMACENES_PROPIOS TO 'backoffice'@'%';
 GRANT SELECT, DELETE ON surno.ALMACENES_CLIENTES TO 'backoffice'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON surno.ORDENES TO 'backoffice'@'%';

@@ -40,6 +40,11 @@ DROP PROCEDURE IF exists camion;
 DELIMITER //
 CREATE PROCEDURE camion (IN matricula char(7), IN vol_max int unsigned, IN peso_max int unsigned, OUT fallo bit)
 BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
 	-- Inicio de la transacción
 	START TRANSACTION;
 	SET @error =0;
@@ -70,6 +75,11 @@ DROP PROCEDURE IF EXISTS camioneta;
 DELIMITER //
 CREATE PROCEDURE camioneta (IN matricula char(7), vol_max int unsigned, peso_max int unsigned, OUT fallo bit)
 BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
 	-- Inicio de la transacción
 	START TRANSACTION;
 	SET @error =0;
@@ -97,14 +107,19 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS almacen_cliente;
 DELIMITER //
-CREATE PROCEDURE almacen_cliente (IN nombre varchar(32), IN direccion varchar(128), IN RUT char(12), OUT ID int, OUT error bit)
+CREATE PROCEDURE almacen_cliente (IN nombre varchar(32), IN direccion varchar(128), IN longitud decimal(7,5), IN latitud decimal(7,5), IN RUT char(12), OUT ID int, OUT error bit)
 BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
 	-- Inicio de la transacción
 	START TRANSACTION;
 	SET error =0;
     
 	-- Paso 1: Crear el almacen
-	insert into almacenes (nombre, direccion) values (nombre, direccion);
+	insert into almacenes (nombre, direccion, longitud, latitud) values (nombre, direccion, longitud, latitud);
 	SET error = IF(row_count()=0, 1, @error);
     SET ID = LAST_INSERT_ID();
     
@@ -121,16 +136,24 @@ BEGIN
 END //
 DELIMITER ;
 
+call almacen_cliente('perepe','asdasd',121.212328,3.122,456789123012,@id,@error);
+select * from almacenes where ID=@id;
 DROP PROCEDURE IF EXISTS almacen_propio;
 DELIMITER //
-CREATE PROCEDURE almacen_propio (IN nombre varchar(32), IN direccion varchar(128), OUT ID int, OUT error bit)
+CREATE PROCEDURE almacen_propio (IN nombre varchar(32), IN direccion varchar(128), IN longitud decimal(7,5), IN latitud decimal(7,5), OUT ID int, OUT error bit)
 BEGIN
+  DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
+    BEGIN
+	  SET error = 1;
+      ROLLBACK;
+  END;
+  
 	-- Inicio de la transacción
 	START TRANSACTION;
 	SET error =0;
     
 	-- Paso 1: Crear el almacen
-	insert into almacenes (nombre, direccion) values (nombre, direccion);
+	insert into almacenes (nombre, direccion,longitud, latitud) values (nombre, direccion);
 	SET error = IF(row_count()=0, 1, @error);
     SET ID = LAST_INSERT_ID();
     

@@ -73,6 +73,8 @@ CREATE TABLE ALMACENES (
     ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     nombre VARCHAR(32) NOT NULL,
     direccion VARCHAR(128) NOT NULL,
+    longitud decimal(7,5) NOT NULL,
+    latitud decimal(7,5) NOT NULL,
     baja BIT DEFAULT 0 NOT NULL
 );
 
