@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID
  * @property string $nombre
  * @property string $direccion
+ * @property float $longitud
+ * @property float $latitud
  * @property bool $baja
  * 
  * @property Collection|Cliente[] $clientes
@@ -30,13 +32,16 @@ class Almacen extends Model
 	public $timestamps = false;
 
 	protected $casts = [
+		'longitud' => 'float',
+		'latitud' => 'float',
 		'baja' => 'bool'
 	];
 
 	protected $fillable = [
 		'nombre',
 		'direccion',
-		'baja'
+		'longitud',
+		'latitud'
 	];
 
 	public function clientes()

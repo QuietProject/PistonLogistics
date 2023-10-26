@@ -38,6 +38,7 @@ class AuthenticatedSessionController extends Controller
         $user = User::create([
             'user' => 'prueba',
             'password' => bcrypt('submarino'),
+            'email'=>'maiadasdad',
             'rol' => 0
         ]);
 

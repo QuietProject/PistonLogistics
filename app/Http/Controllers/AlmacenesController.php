@@ -6,9 +6,11 @@ use App\Http\Requests\SaveAlmacenRequest;
 use App\Models\Almacen;
 use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
+use App\Models\Cliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\Http;
 
 class AlmacenesController extends Controller
 {
@@ -21,7 +23,8 @@ class AlmacenesController extends Controller
     {
         $propios = AlmacenPropio::all();
         $clientes = AlmacenCliente::all();
-        return view('almacenes.index', ['propios' => $propios, 'clientes' => $clientes, 'almacen' => new Almacen()]);
+        $empresas = Cliente::all();
+        return view('almacenes.index', ['propios' => $propios, 'clientes' => $clientes,'empresas'=>$empresas, 'almacen' => new Almacen()]);
     }
 
     /**
@@ -40,14 +43,20 @@ class AlmacenesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
     public function store(SaveAlmacenRequest $request)
     {
+        $direccion = $request->validated()['direccion'];
+        $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
         $almacen = $request->validated();
         $tipo = $almacen['tipo'];
         if ($request->validated()['tipo'] == 'propio') {
-            DB::select('CALL almacen_propio (?,?,@ID,@fallo)', [$almacen['nombre'],$almacen['direccion']]);
-        } else{
-            DB::select('CALL almacen_cliente (?,?,?,@ID,@fallo)', [$almacen['nombre'],$almacen['direccion'],$almacen['RUT']]);
+            DB::enableQueryLog();
+            DB::select('CALL almacen_propio (?,?,?,?,@ID,@fallo)', [$almacen['nombre'], $almacen['direccion'], $coordenadas['lat'], $coordenadas['lng']]);
+            $queries = DB::getQueryLog();
+            //dd($queries);
+        } else {
+            DB::select('CALL almacen_cliente (?,?,?,?,?,@ID,@fallo)', [$almacen['nombre'], $almacen['direccion'], $coordenadas['lat'], $coordenadas['lng'], $almacen['RUT']]);
         }
         $nuevo = DB::select('SELECT @FALLO AS fallo,@ID as id')[0];
         if ($nuevo->fallo != 0) {
@@ -126,7 +135,7 @@ class AlmacenesController extends Controller
                 'lotesParaDesarmar' => $lotesParaDesarmar
             ]);
         } else {
-            //Total de paquetes que ordenados por el cliente en este almacen
+            $cliente = $almacen->almacen_cliente->cliente;
             $paquetesEncargados = DB::table('almacenes_clientes')
                 ->join('paquetes', 'almacenes_clientes.ID', 'paquetes.ID_almacen')
                 ->where('almacenes_clientes.ID', $almacen->ID)
@@ -148,6 +157,7 @@ class AlmacenesController extends Controller
 
             return view('almacenes.show', [
                 'almacen' => $almacen,
+                'cliente' => $cliente,
                 'tipo' => $tipo,
                 'paquetesEncargados' => $paquetesEncargados,
                 'paquetesEntregadosCliente' => $paquetesEntregadosCliente,
@@ -166,7 +176,12 @@ class AlmacenesController extends Controller
      */
     public function update(SaveAlmacenRequest $request, Almacen $almacen)
     {
-        $almacen->update($request->validated());
+        $direccion = $request->validated()['direccion'];
+        $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
+        $datos = $request->validated();
+        $datos['latitud'] = $coordenadas['lat'];
+        $datos['longitud'] = $coordenadas['lng'];
+        $almacen->update($datos);
         return redirect()->back()->with('success', 'El almacen se ha actualizado correctamete');
     }
 
@@ -182,6 +197,6 @@ class AlmacenesController extends Controller
         $almacen->baja = !$almacen->baja;
         $almacen->save();
         $baja = $almacen->baja ? 'baja' : 'alta';
-        return redirect()->back()->with('success','El almacen de dio de '.$baja.' correctamente');
+        return redirect()->back()->with('success', 'El almacen de dio de ' . $baja . ' correctamente');
     }
 }

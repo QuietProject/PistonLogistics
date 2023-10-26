@@ -6,19 +6,22 @@
     @csrf
     <div>
         <label for="tipo">Tipo</label>
-        <select name="tipo" id="tipo" >
+        <select name="tipo" id="tipo">
             <option value="propio">Propio</option>
             <option value="cliente" {{ old('tipo') == 'cliente' ? 'selected' : '' }}>Cliente</option>
         </select>
     </div>
     @include('almacenes.form-fields')
-    <label for="RUT">RUT</label>
-    <input type="number" name="RUT" id="RUT" maxlength="12" minlength="12" value="{{ old('RUT') }}">
+    <label for="RUT">Cliente</label>
+    <select name="RUT" id="RUT">
+        @foreach ($empresas as $cliente)
+            <option value="{{ $cliente->RUT }}">{{ $cliente->nombre }} - {{ $cliente->RUT }}</option>
+        @endforeach
+    </select>
     @error('RUT')
         <span style="color: red">{{ $message }}</span>
     @enderror
-    </div> 
+    </div>
     <button type="submit">Submit</button>
 
 </form>
-
