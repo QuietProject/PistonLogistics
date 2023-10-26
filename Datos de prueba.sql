@@ -151,7 +151,6 @@ INSERT INTO ALMACENES (nombre, direccion,latitud, longitud, baja) VALUES
 ('Almacén 23', 'Calle X 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
 ('Almacén 24', 'Calle Y 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0);
 
-select * from almacenes;
 
 INSERT INTO ALMACENES_PROPIOS (ID) VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15),(21),(22),(23);
 

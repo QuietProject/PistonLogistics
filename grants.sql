@@ -118,9 +118,11 @@ GRANT EXECUTE ON PROCEDURE surno.entregar_paquete_pickup TO 'backoffice'@'%';
 GRANT EXECUTE ON PROCEDURE surno.lote_0 TO 'backoffice'@'%';
 GRANT EXECUTE ON PROCEDURE surno.lote_1 TO 'backoffice'@'%';
 
+select @fallo;
 -- SHOW GRANTS FOR 'backoffice'@'%';
 -- SHOW GRANTS FOR 'almacen'@'%';
 -- SHOW GRANTS FOR 'autentificacion'@'%';
 -- SHOW GRANTS FOR 'camionero'@'%';
 -- show procedure status;
 -- REPAIR TABLE mysql.procs_priv;
+

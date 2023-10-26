@@ -103,7 +103,9 @@ BEGIN
 END //
 DELIMITER ;
 
--- CALL camioneta("ead3342",10,10, @fallo);
+CALL almacen_propio ("casa","julio sosa 4515",-34.88526,-56.11027,@ID,@fallo);
+CALL almacen_propio ("casa","julio sosa 4515",-34.8526,-56.1027,@ID,@fallo);
+select @fallo, @ID;
 
 DROP PROCEDURE IF EXISTS almacen_cliente;
 DELIMITER //
@@ -140,7 +142,7 @@ call almacen_cliente('perepe','asdasd',121.212328,3.122,456789123012,@id,@fallo)
 select * from almacenes where ID=@id;
 DROP PROCEDURE IF EXISTS almacen_propio;
 DELIMITER //
-CREATE PROCEDURE almacen_propio (IN nombre varchar(32), IN direccion varchar(128), IN longitud decimal(7,5), IN latitud decimal(7,5), OUT ID int, OUT fallo bit)
+CREATE PROCEDURE almacen_propio (IN nombre varchar(32), IN direccion varchar(128), IN longitud decimal(7,5), IN latitud decimal(7,5), OUT ID int, OUT fallo INT)
 BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -153,14 +155,15 @@ BEGIN
 	SET fallo =0;
     
 	-- Paso 1: Crear el almacen
-	insert into almacenes (nombre, direccion,longitud, latitud) values (nombre, direccion);
-	SET fallo = IF(row_count()=0, 1, @fallo);
+	insert into almacenes (nombre, direccion,longitud, latitud) values (nombre, direccion, longitud, latitud);
+	SET fallo = IF(row_count()=0, 1, fallo);
     SET ID = LAST_INSERT_ID();
-    
+    select row_count(), fallo, LAST_INSERT_ID(), ID;
 	-- Paso 2: Insertar almacen en almacenes_propios
 	INSERT INTO almacenes_propios (ID) values (ID);
 	SET @row= row_count();
-	SET fallo = IF(@row=0, 1, @fallo);
+	SET fallo = IF(@row=0, 1, fallo);
+    select @row, fallo;
 
     IF fallo=1 THEN
        rollback;
@@ -169,6 +172,12 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+/*CALL almacen_propio ("casa","",-34.88526,-56.11027,@ID,@fallo);
+CALL almacen_propio ("casa","",-34.8526,-56.1027,@ID,@fallo);
+select @fallo, @ID;
+select * from almacenes where ID=@ID;
+select * from almacenes_propios where ID=@ID;*/
 
 DROP PROCEDURE IF EXISTS descargar_trae;
 DELIMITER //
