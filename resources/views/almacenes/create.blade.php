@@ -12,15 +12,18 @@
         </select>
     </div>
     @include('almacenes.form-fields')
-    <label for="RUT">Cliente</label>
-    <select name="RUT" id="RUT">
-        @foreach ($empresas as $cliente)
-            <option value="{{ $cliente->RUT }}">{{ $cliente->nombre }} - {{ $cliente->RUT }}</option>
-        @endforeach
-    </select>
-    @error('RUT')
-        <span style="color: red">{{ $message }}</span>
-    @enderror
+    <div>
+        <label for="RUT">Cliente</label>
+        <select name="RUT" id="RUT">
+            @foreach ($empresas as $cliente)
+                @if ($cliente->baja == 0)
+                    <option value="{{ $cliente->RUT }}">{{ $cliente->nombre }} - {{ $cliente->RUT }}</option>
+                @endif
+            @endforeach
+        </select>
+        @error('RUT')
+            <span style="color: red">{{ $message }}</span>
+        @enderror
     </div>
     <button type="submit">Submit</button>
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AlmacenCliente;
+use App\Models\AlmacenPropio;
+use App\Models\Camionero;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,7 +18,15 @@ class UsersController extends Controller
     public function index()
     {
         $usuarios = User::all('user', 'rol', 'email', 'email_verified_at');
-        return view('usuarios.index', ['usuarios' => $usuarios, 'user' => new User()]);
+        $camioneros = Camionero::all();
+        $almacenesPropios = AlmacenPropio::all();
+        $almacenesClientes = AlmacenCliente::all();
+        return view('usuarios.index', [
+            'usuarios' => $usuarios, 
+            'camioneros' => $camioneros, 
+            'almacenesPropios' => $almacenesPropios, 
+            'almacenesClientes' => $almacenesClientes, 
+            'user' => new User()]);
     }
 
     /**

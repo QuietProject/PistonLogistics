@@ -17,15 +17,56 @@
         <label for="CI">CI</label>
         <input type="number" name="CI" id="CI" maxlength="8" minlength="8" required
             value="{{ old('CI   ') }}">
-        @error('RUT')
+        @error('CI')
             <span style="color: red">{{ $message }}</span>
         @enderror
     </div>
     <div>
-        <label for="CI">CI</label>
-        <input type="number" name="CI" id="CI" maxlength="8" minlength="8" required
-            value="{{ old('CI   ') }}">
-        @error('RUT')
+        <label for="camionero">Camionero</label>
+        <select name="camionero" id="camionero">
+            @foreach ($camioneros as $camionero)
+                @if ($camionero->baja == 0)
+                    <option value="{{ $camionero->CI }}">{{ $camionero->CI }} - {{ $camionero->nombre }}</option>
+                @endif
+            @endforeach
+        </select>
+        @error('camionero')
+            <span style="color: red">{{ $message }}</span>
+        @enderror
+    </div>
+    <div>
+        <label for="almacenPropio">Almacen</label>
+        <select name="almacenPropio" id="almacenPropio">
+            @foreach ($almacenesClientes as $cliente)
+                @php $almacen = $cliente->almacen @endphp
+                @if ($almacen->baja == 0)
+                    <option value="{{ $almacen->ID }}">{{ $almacen->ID }} - {{ $almacen->nombre }}</option>
+                @endif
+            @endforeach
+        </select>
+        @error('camionero')
+            <span style="color: red">{{ $message }}</span>
+        @enderror
+    </div>
+    <div>
+        <label for="almacenCliente">Almacen</label>
+        <select name="almacenCliente" id="almacenCliente">
+            @foreach ($almacenesPropios as $cliente)
+                @php $almacen = $cliente->almacen @endphp
+                @if ($almacen->baja == 0)
+                    <option value="{{ $almacen->ID }}">{{ $almacen->ID }} - {{ $almacen->nombre }}</option>
+                @endif
+            @endforeach
+        </select>
+        @error('camionero')
+            <span style="color: red">{{ $message }}</span>
+        @enderror
+    </div>
+    <div>
+        <label for="email">Email</label>
+        <input type="mail" name="email" id="email" maxlength="8" minlength="8" required
+            value="{{ old('email   ') }}">
+        @error('email')
             <span style="color: red">{{ $message }}</span>
         @enderror
     </div>
