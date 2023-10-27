@@ -6,7 +6,9 @@ use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
 use App\Models\Camionero;
 use App\Models\User;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
@@ -22,11 +24,12 @@ class UsersController extends Controller
         $almacenesPropios = AlmacenPropio::all();
         $almacenesClientes = AlmacenCliente::all();
         return view('usuarios.index', [
-            'usuarios' => $usuarios, 
-            'camioneros' => $camioneros, 
-            'almacenesPropios' => $almacenesPropios, 
-            'almacenesClientes' => $almacenesClientes, 
-            'user' => new User()]);
+            'usuarios' => $usuarios,
+            'camioneros' => $camioneros,
+            'almacenesPropios' => $almacenesPropios,
+            'almacenesClientes' => $almacenesClientes,
+            'user' => new User()
+        ]);
     }
 
     /**
@@ -47,7 +50,48 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tipo = $request->input('tipo');
+        switch ($tipo) {
+                //ADMINISTRADOR
+            case 0:
+                $validated = $request->validate([
+                    'CI' => ['bail', 'required', 'digits:8', 'integer', 'unique:users,user'],
+                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                ]);
+                break;
+            case 1:
+                $validated = $request->validate([
+                    'CI' => ['bail', 'required', 'digits:8', 'integer'],
+                    'almacenPropio' => ['required', 'integer','exists:ALMACENES_PROPIOS,ID', Rule::exists('ALMACENES', 'ID')->where(function (Builder $query) {
+                        return $query->where('baja', 0);
+                    })],
+                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                ]);
+                //validar que no exista nombre de usuario
+                break;
+            case 2:
+                $validated = $request->validate([
+                    'camionero' => ['bail', 'required', 'digits:8', 'integer', 'unique:users,user', Rule::exists('CAMIONEROS', 'CI')->where(function (Builder $query) {
+                        return $query->where('baja', 0);
+                    }),],
+                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                ]);
+                break;
+            case 3:
+                $validated = $request->validate([
+                    'almacenCliente' => ['required', 'integer', 'exists:ALMACENES_CLIENTES,ID', Rule::exists('almacenes', 'ID')->where(function (Builder $query) {
+                        return $query->where('baja', 0);
+                    }),Rule::exists('ALMACENES_CLIENTES', 'ID')->where(function (Builder $query) {
+                        return $query->join('CLIENTES','CLIENTES.RUT','=','ALMACENES_CLIENTES.RUT')->where('CLIENTES.baja', 0);
+                    })],
+                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                ]);
+                break;
+            default:
+                return redirect()->back()->with('error', 'Ha ocurrido un error');
+                break;
+        }
+        dd($validated);
     }
 
     /**
