@@ -14,6 +14,7 @@ use App\Http\Resources\PaqueteResource;
 use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
 use App\Models\Lleva;
+use App\Models\Reparte;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +22,7 @@ class PaqueteController extends Controller
 {
 
     private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -31,8 +32,8 @@ class PaqueteController extends Controller
     {
         return Paquete::all();
     }
-    
-/*************************************************************************************************************************************/
+
+    /*************************************************************************************************************************************/
 
     /**
      * Store a newly created resource in storage.
@@ -46,7 +47,6 @@ class PaqueteController extends Controller
         $validated = request()->validate([
             "direccion" => "required|string",
             "mail" => "required|email",
-            "cedula" => "required|numeric|digits:8",
         ]);
 
         // Valido que el almacen exista
@@ -63,11 +63,14 @@ class PaqueteController extends Controller
 
         // Genero una array con los ID de los almacenes propios
         $arrayAlmacenes = AlmacenPropio::all()->pluck("ID");
-        $coordenadasAlmacenes = [];
         // Genero una array con las coordenadas de los almacenes propios
-        foreach (AlmacenPropio::all() as $almacen) {
-            $coordenadasAlmacenes[] = $almacen->almacen()->select("longitud as lng", "latitud as lat")->first();
-        }
+        $almacenesPropios = AlmacenPropio::all();
+        $coordenadasAlmacenes = $almacenesPropios->map(function ($almacenPropio) {
+            return [
+                'lng' => $almacenPropio->almacen->longitud,
+                'lat' => $almacenPropio->almacen->latitud,
+            ];
+        });
 
         // Calculo la distancia entre la direccion del paquete y cada almacen propio
         $distancias = Http::acceptJson()->withOptions(['verify' => false])->post("https://matrix.router.hereapi.com/v8/matrix?async=false&apiKey=$this->apiKey", [
@@ -91,7 +94,6 @@ class PaqueteController extends Controller
         $paquete = Paquete::create([
             "direccion" => $direccion,
             "mail" => $validated["mail"],
-            "cedula" => $validated["cedula"],
             "ID_almacen" => $idAlmacen,
             "ID_pickup" => $idPickUp,
         ]);
@@ -100,7 +102,7 @@ class PaqueteController extends Controller
             "ID" => $paquete->ID,
         ], 201);
     }
-/*************************************************************************************************************************************/
+    /*************************************************************************************************************************************/
     /**
      * Display the specified resource.
      *
@@ -111,7 +113,7 @@ class PaqueteController extends Controller
     {
         return new PaqueteResource($paquete);
     }
-/*************************************************************************************************************************************/
+    /*************************************************************************************************************************************/
 
     public function cargaCliente($id, $matricula)
     {
@@ -154,7 +156,7 @@ class PaqueteController extends Controller
         ], 200);
     }
 
-/*************************************************************************************************************************************/
+    /*************************************************************************************************************************************/
 
     public function descargaPaquete($id, $almacen)
     {
@@ -188,6 +190,10 @@ class PaqueteController extends Controller
                 return response()->json([
                     "message" => "Almacen no encontrado"
                 ], 404);
+            }
+
+            if (Reparte::find($id) !== null) {
+                reparteRebotado($id, $almacen);
             }
 
 
@@ -229,8 +235,8 @@ class PaqueteController extends Controller
         // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
         if ($destinoLote !== null && $destinoLote->lote->tipo == 0) {
             $lote = $destinoLote->lote;
-            
-        // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
+
+            // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
         } else {
             DB::select("CALL lote_0($almacen, $paquetePickup, $troncales[0], @id_lote, @error)");
             $error = DB::select("SELECT @error as error")[0]->error;
@@ -249,8 +255,8 @@ class PaqueteController extends Controller
     // Método para asignar un paquete a un lote
     private function asignarPaqueteToLote($id, $loteId)
     {
-        try{
-        DB::select("INSERT INTO paquetes_lotes (ID_paquete, ID_lote) VALUES ($id, $loteId)");
+        try {
+            DB::select("INSERT INTO paquetes_lotes (ID_paquete, ID_lote) VALUES ($id, $loteId)");
         } catch (\Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()
@@ -258,7 +264,21 @@ class PaqueteController extends Controller
         }
     }
 
-/*************************************************************************************************************************************/
+    private function reparteRebotado($idPaquete, $idAlmacen)
+    {
+        DB::select("CALL descargar_reparte($idPaquete, $idAlmacen, @error)");
+        $error = DB::select("SELECT @error as error")[0]->error;
+        if ($error !== 0) {
+            return response()->json([
+                "message" => "Error al descargar paquete"
+            ], 400);
+        }
+
+        $lote = Lote::where("ID_almacen", $idAlmacen)->where("tipo", 1)->first();
+        if $lote
+    }
+
+    /*************************************************************************************************************************************/
 
     public function cargaAlmacenLote($id, $matricula)
     {
@@ -288,7 +308,7 @@ class PaqueteController extends Controller
             ], 400);
         }
 
-        if ($lote["fecha_pronto"] === null){
+        if ($lote["fecha_pronto"] === null) {
             return response()->json([
                 "message" => "Lote no está listo"
             ], 400);
@@ -312,4 +332,30 @@ class PaqueteController extends Controller
             "message" => "Lote cargado"
         ], 200);
     }
+
+/*************************************************************************************************************************************/
+
+    public function agregarPaqueteToLote(){
+        $validated = request()->validate([
+            "ID_paquete" => "required|numeric|exists:paquetes,ID",
+            "ID_lote" => "required|numeric|exists:lotes,ID",
+        ]);
+
+        $paquetesEnLotes = PaqueteLote::where("ID_paquete", $validated["ID_paquete"])->whereNull("hasta")->get();
+        if ($paquetesEnLotes !== null){
+            return response()->json([
+                "message" => "Paquete ya en un lote"
+            ], 400);
+        }
+
+        $this->asignarPaqueteToLote($validated["ID_paquete"], $validated["ID_lote"]);
+
+        return response()->json([
+            "message" => "Paquete agregado a lote"
+        ], 200);
+    }
+
+/*************************************************************************************************************************************/
+
+
 }

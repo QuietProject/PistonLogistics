@@ -20,12 +20,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $direccion
  * @property int|null $peso
  * @property int|null $volumen
- * @property Carbon|null $fecha_recibido
+ * @property Carbon|null $fecha_entregado
  * @property string|null $mail
- * @property string|null $cedula
+ * @property int $estado
  * 
  * @property AlmacenCliente $almacen_cliente
  * @property AlmacenPropio $almacen_propio
+ * @property Collection|PaqueteAlmacen[] $paquetes_almacenes
  * @property Collection|Lote[] $lotes
  * @property Reparte $reparte
  * @property Trae $trae
@@ -44,7 +45,8 @@ class Paquete extends Model
 		'ID_pickup' => 'int',
 		'peso' => 'int',
 		'volumen' => 'int',
-		'fecha_recibido' => 'datetime'
+		'fecha_entregado' => 'datetime',
+		'estado' => 'int'
 	];
 
 	protected $fillable = [
@@ -54,9 +56,9 @@ class Paquete extends Model
 		'direccion',
 		'peso',
 		'volumen',
-		'fecha_recibido',
+		'fecha_entregado',
 		'mail',
-		'cedula'
+		'estado'
 	];
 
 	public function almacen_cliente()
@@ -66,13 +68,18 @@ class Paquete extends Model
 
 	public function almacen_propio()
 	{
-		return $this->belongsTo(AlmacenesPropio::class, 'ID_pickup');
+		return $this->belongsTo(AlmacenPropio::class, 'ID_pickup');
+	}
+
+	public function paquetes_almacenes()
+	{
+		return $this->hasMany(PaqueteAlmacen::class, 'ID_paquete');
 	}
 
 	public function lotes()
 	{
 		return $this->belongsToMany(Lote::class, 'paquetes_lotes', 'ID_paquete', 'ID_lote')
-					->withPivot('fecha');
+					->withPivot('desde', 'hasta');
 	}
 
 	public function reparte()

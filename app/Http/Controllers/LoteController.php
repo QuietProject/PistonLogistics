@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Lote;
 use App\Http\Resources\LoteResource;
 use App\Models\AlmacenPropio;
+use App\Models\PaqueteLote;
 use Illuminate\Support\Facades\DB;
 
 
@@ -103,16 +104,54 @@ class LoteController extends Controller
                 "message" => "Lote no existe"
             ], 400);
         }
-        $paquetesEnLotes = [];
 
-        foreach ($lotes as $lote) {
-            $paquetesEnLotes[$lote->ID] = $lote->paquetes;
-            // Accede a la columna pivot fecha_pivot de cada paquete
-            foreach ($paquetesEnLotes[$lote->ID] as $paquete) {
-                $fechaPivot = $paquete->pivot->fecha_pivot;
-            }
+        $paquetesEnLotes = PaqueteLote::whereIn("ID_lote", $idsLote)->get();
+
+        // Verifica si se encontraron registros
+        if ($paquetesEnLotes->isEmpty()) {
+            return response()->json([
+                "message" => "No se encontraron paquetes en los lotes especificados"
+            ], 400);
         }
 
-        return response()->json($paquetesEnLotes, 200);
+        // Organiza los paquetes por lote
+        $paquetesPorLote = [];
+
+        foreach ($paquetesEnLotes as $paqueteEnLote) {
+            $loteID = $paqueteEnLote->ID_lote;
+            $paquete = $paqueteEnLote->paquete;
+
+            if (!isset($paquetesPorLote[$loteID])) {
+                $paquetesPorLote[$loteID] = [];
+            }
+
+            $paquetesPorLote[$loteID][] = $paquete;
+        }
+
+        return response()->json($paquetesPorLote, 200);
+    }
+
+/*************************************************************************************************************************************/
+
+    public function quitarPaquete(){
+        $validated = request()->validate([
+            "ID_lote" => "required|numeric|exists:lotes,ID",
+            "ID_paquete" => "required|numeric|exists:paquetes,ID",
+        ]);
+
+        $lote = Lote::find($validated["ID_lote"]);
+        $paquete = $lote->paquetes()->where("ID", $validated["ID_paquete"])->first();
+
+        if ($paquete == null) {
+            return response()->json([
+                "message" => "Paquete no existe en el lote"
+            ], 400);
+        }
+
+        $lote->paquetes()->detach($validated["ID_paquete"]);
+
+        return response()->json([
+            "message" => "Paquete quitado del lote"
+        ], 200);
     }
 }
