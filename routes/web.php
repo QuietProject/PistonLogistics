@@ -10,6 +10,7 @@ use App\Http\Controllers\VehiculosController;
 use App\Models\Vehiculo;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::get('/prueba', [AuthenticatedSessionController::class, 'prueba']);
 
 
@@ -48,6 +51,8 @@ Route::resource('clientes', ClientesController::class)->middleware('auth')->exce
 Route::resource('almacenes', AlmacenesController::class)->middleware('auth')->except(['create','edit'])->parameters(['almacenes' => 'almacen']);;;
 
 Route::resource('usuarios', UsersController::class)->middleware('auth')->except(['create','edit'])->parameters(['usuarios' => 'user']);;
-//Route::get('/usuarios/{user}',[UsersController::class, 'show'])->name('usuarios.show')->middleware('auth');
+Route::post('/usuarios/{user}/reenviarNotificacion',[UsersController::class, 'resendNotification'])->name('usuarios.resendNotification')->middleware('auth','throttle:6,1');
+Route::get('/email/verify/{id}/{hash}',[UsersController::class, 'verify'])->name('verification.verify')->middleware('signed');
+
 
 

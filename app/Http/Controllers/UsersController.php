@@ -6,9 +6,11 @@ use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
 use App\Models\Camionero;
 use App\Models\User;
-use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 
 class UsersController extends Controller
 {
@@ -37,9 +39,23 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function verify($id, $hash)
     {
-        //
+        $user = User::findOrFail($id);
+        if (!hash_equals((string) $user->getKey(), (string) $id)) {
+            return 'pollo 1';
+        }
+
+        if (!hash_equals(sha1($user->getEmailForVerification()), (string) $hash)) {
+            return 'pollo 2';
+        }
+
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
+
+            event(new Verified($user));
+        }
+        return 'ajam?';
     }
 
     /**
@@ -50,22 +66,29 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $tipo = $request->input('tipo');
-        switch ($tipo) {
+        switch ($request->input('tipo')) {
                 //ADMINISTRADOR
             case 0:
                 $validated = $request->validate([
                     'CI' => ['bail', 'required', 'digits:8', 'integer', 'unique:users,user'],
-                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                    'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
+
+                $user = new User();
+                $user->rol = 0;
+                $user->user = $validated['CI'];
+                $user->email = $validated['email'];
+                $user->password = bcrypt('password');
+                $user->save();
+                event(new Registered($user));
                 break;
             case 1:
                 $validated = $request->validate([
                     'CI' => ['bail', 'required', 'digits:8', 'integer'],
-                    'almacenPropio' => ['required', 'integer','exists:ALMACENES_PROPIOS,ID', Rule::exists('ALMACENES', 'ID')->where(function (Builder $query) {
+                    'almacenPropio' => ['required', 'integer', 'exists:ALMACENES_PROPIOS,ID', Rule::exists('ALMACENES', 'ID')->where(function (Builder $query) {
                         return $query->where('baja', 0);
                     })],
-                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                    'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
                 //validar que no exista nombre de usuario
                 break;
@@ -74,24 +97,28 @@ class UsersController extends Controller
                     'camionero' => ['bail', 'required', 'digits:8', 'integer', 'unique:users,user', Rule::exists('CAMIONEROS', 'CI')->where(function (Builder $query) {
                         return $query->where('baja', 0);
                     }),],
-                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                    'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
+                $user = new User();
+                $user->rol = 2;
+                $user->user = $validated['camionero'];
+                $user->email = $validated['email'];
+                $user->password = bcrypt('password');
+                $user->save();
+                event(new Registered($user));
                 break;
             case 3:
                 $validated = $request->validate([
-                    'almacenCliente' => ['required', 'integer', 'exists:ALMACENES_CLIENTES,ID', Rule::exists('almacenes', 'ID')->where(function (Builder $query) {
-                        return $query->where('baja', 0);
-                    }),Rule::exists('ALMACENES_CLIENTES', 'ID')->where(function (Builder $query) {
-                        return $query->join('CLIENTES','CLIENTES.RUT','=','ALMACENES_CLIENTES.RUT')->where('CLIENTES.baja', 0);
-                    })],
-                    'email' => ['required', 'email', 'max:64', 'unique:users,email']
+                    'almacenCliente' => ['required', 'integer', 'exists:ALMACENES_CLIENTES_DE_ALTA'],
+                    'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
                 break;
+                //validar que no exista nombre de usuario
             default:
                 return redirect()->back()->with('error', 'Ha ocurrido un error');
                 break;
         }
-        dd($validated);
+        return redirect()->back()->with('success', 'Si');
     }
 
     /**
@@ -111,11 +138,14 @@ class UsersController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function resendNotification(User $user)
     {
-        //
+        if ($user->hasVerifiedEmail()) {
+            return back()->with('error', 'El usuario ya verificó su email');
+        }
+        $user->sendEmailVerificationNotification();
+        return back()->with('success', 'Se reenvió el correo de verificación');
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -136,6 +166,7 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+        return to_route('usuarios.index')->with('success', 'El usuario se ha eliminado correctamente');
     }
 }

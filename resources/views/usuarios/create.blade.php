@@ -25,7 +25,8 @@
         <select name="camionero" id="camionero">
             @foreach ($camioneros as $camionero)
                 @if ($camionero->baja == 0)
-                    <option value="{{ $camionero->CI }}">{{ $camionero->CI }} - {{ $camionero->nombre }}</option>
+                    <option value="{{ $camionero->CI }}" {{ old('camionero') == $camionero->CI ? 'selected' : '' }}>
+                        {{ $camionero->CI }} - {{ $camionero->nombre }}</option>
                 @endif
             @endforeach
         </select>
@@ -36,10 +37,14 @@
     <div>
         <label for="almacenCliente">Almacen</label>
         <select name="almacenCliente" id="almacenCliente">
-            @foreach ($almacenesClientes as $cliente)
-                @php $almacen = $cliente->almacen @endphp
-                @if ($almacen->baja == 0 || 1==1)
-                    <option value="{{ $almacen->ID }}">{{ $almacen->ID }} - {{ $almacen->nombre }}</option>+
+            @foreach ($almacenesClientes as $almacenCliente)
+                @php
+                    $almacen = $almacenCliente->almacen;
+                    $cliente = $almacenCliente->cliente;
+                @endphp
+                @if ($almacen->baja == 0 && $cliente->baja == 0)
+                    <option value="{{ $almacen->ID }}" {{ old('almacenCliente') == $almacen->ID ? 'selected' : '' }}>
+                        {{ $almacen->ID }} - {{ $almacen->nombre }}</option>
                 @endif
             @endforeach
         </select>
@@ -53,7 +58,8 @@
             @foreach ($almacenesPropios as $cliente)
                 @php $almacen = $cliente->almacen @endphp
                 @if ($almacen->baja == 0)
-                    <option value="{{ $almacen->ID }}">{{ $almacen->ID }} - {{ $almacen->nombre }}</option>
+                    <option value="{{ $almacen->ID }}" {{ old('almacenPropio') == $almacen->ID ? 'selected' : '' }}>
+                        {{ $almacen->ID }} - {{ $almacen->nombre }}</option>
                 @endif
             @endforeach
         </select>

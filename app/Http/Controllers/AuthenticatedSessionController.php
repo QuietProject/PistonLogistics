@@ -18,7 +18,7 @@ class AuthenticatedSessionController extends Controller
         if (!Auth::attemptWhen($credentials, function ($user) {
             return $user->rol==0;
         }, $request->has('remember'))) {
-            return redirect()->back()->withErrors(['authError' => 'El usuario o la contraseña son incorrectose']);
+            return redirect()->back()->withErrors(['authError' => 'El usuario o la contraseña son incorrectos']);
         }
         return to_route('inicio');
     }

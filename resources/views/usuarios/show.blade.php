@@ -23,9 +23,13 @@
     </p>
     <p>Correo: {{ $user->email }}</p>
     <p>Correo verificado: {{ $user->email_verified_at  ? $user->email_verified_at :'No esta verificado' }}</p>
-    <p>
-    <p>
-    <form action="{{ route('usuarios.destroy', $user->user) }}" method="POST">
+    <form action="{{ route('usuarios.resendNotification', $user) }}" method="POST">
+        @csrf
+        <button type="submit">
+            Reenviar mail de verificacion
+        </button>
+    </form>
+    <form action="{{ route('usuarios.destroy', $user) }}" method="POST">
         @csrf
         @method('DELETE')
         <button type="submit">
