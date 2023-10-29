@@ -35,6 +35,20 @@
         @enderror
     </div>
     <div>
+        <label for="cliente">Cliente</label>
+        <select id="cliente" name="cliente">
+            @foreach ($clientes as $cliente)
+                @if ($cliente->baja == 0)
+                    <option value="{{ $cliente->RUT }}" {{ old('cliente') == $cliente->RUT ? 'selected' : '' }}>
+                        {{ $cliente->RUT }} - {{ $cliente->nombre }}</option>
+                @endif
+            @endforeach
+        </select>
+        @error('almacenCliente')
+            <span style="color: red">{{ $message }}</span>
+        @enderror
+    </div>
+    <div>
         <label for="almacenCliente">Almacen</label>
         <select name="almacenCliente" id="almacenCliente">
             @foreach ($almacenesClientes as $almacenCliente)
@@ -69,7 +83,7 @@
     </div>
     <div>
         <label for="email">Email</label>
-        <input type="mail" name="email" id="email" required value="{{ old('email') }}">
+        <input type="email" name="email" id="email" required value="{{ old('email') }}">
         @error('email')
             <span style="color: red">{{ $message }}</span>
         @enderror

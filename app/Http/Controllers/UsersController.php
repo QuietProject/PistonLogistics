@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
 use App\Models\Camionero;
+use App\Models\Cliente;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Validation\Rule;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Support\Facades\Password;
 
 class UsersController extends Controller
 {
@@ -25,11 +27,13 @@ class UsersController extends Controller
         $camioneros = Camionero::all();
         $almacenesPropios = AlmacenPropio::all();
         $almacenesClientes = AlmacenCliente::all();
+        $clientes = Cliente::all();
         return view('usuarios.index', [
             'usuarios' => $usuarios,
             'camioneros' => $camioneros,
             'almacenesPropios' => $almacenesPropios,
             'almacenesClientes' => $almacenesClientes,
+            'clientes' => $clientes,
             'user' => new User()
         ]);
     }
@@ -66,6 +70,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        $user = new User();
         switch ($request->input('tipo')) {
                 //ADMINISTRADOR
             case 0:
@@ -74,13 +79,8 @@ class UsersController extends Controller
                     'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
 
-                $user = new User();
                 $user->rol = 0;
                 $user->user = $validated['CI'];
-                $user->email = $validated['email'];
-                $user->password = bcrypt('password');
-                $user->save();
-                event(new Registered($user));
                 break;
             case 1:
                 $validated = $request->validate([
@@ -90,7 +90,13 @@ class UsersController extends Controller
                     })],
                     'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
-                //validar que no exista nombre de usuario
+                $name = $validated['CI'] . '.' . $validated['almacenPropio'];
+                $usuarios = User::where('user', $name)->count();
+                if ($usuarios != 0) {
+                    return redirect()->back()->withErrors('CI', 'El usuario ya existe');
+                }
+                $user->rol = 1;
+                $user->user = $name;
                 break;
             case 2:
                 $validated = $request->validate([
@@ -118,7 +124,17 @@ class UsersController extends Controller
                 return redirect()->back()->with('error', 'Ha ocurrido un error');
                 break;
         }
-        return redirect()->back()->with('success', 'Si');
+
+        $user->email = $validated['email'];
+        $user->save();
+
+        $status = Password::sendResetLink(
+            ['email' => $user->email]
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->with('error', __($status));
     }
 
     /**
@@ -168,5 +184,23 @@ class UsersController extends Controller
     {
         $user->delete();
         return to_route('usuarios.index')->with('success', 'El usuario se ha eliminado correctamente');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 }

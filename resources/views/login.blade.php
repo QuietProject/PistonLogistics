@@ -33,6 +33,7 @@
         <span style="color: red">{{ $message }}</span>
     @enderror
     </form>
-    <span>Usuario: prueba Constraseña: submarino</span>
+    <p>Usuario: prueba Constraseña: submarino</p>
+    <a href="{{ route('password.request') }}">Olvidaste tu contraseña?</a>
 </body>
 </html>

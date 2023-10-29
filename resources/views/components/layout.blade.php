@@ -18,6 +18,7 @@
     <a href="{{ route('vehiculos.index') }}"">Vehiculos</a>
     <a href="{{ route('clientes.index') }}"">Clientes</a>
     <a href="{{ route('logout') }}">Cerrar Sesion</a>
+    <span>user: {{ auth()->user()->user }}</span>
 
     @if (session('success'))
         <h4 style="color: green;">{{ session('success') }}</h4>
