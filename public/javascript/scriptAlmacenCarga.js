@@ -4,15 +4,15 @@ preview.className = "qr";
 preview.setAttribute("id", "preview");
 const qrContainer = document.getElementById("qrContainer");
 const qr = document.getElementById("qr");
+const qrSvg = document.getElementById("qrSvg");
 const confirmButton = document.getElementById("confirmButton");
 let ticketInfo = document.getElementById('ticketInfo');
 
 
 
 qrContainer.addEventListener("click", function () {
-    qrContainer.removeChild(qr);
-    qrContainer.removeChild(confirmButton);
-    qrContainer.appendChild(preview);
+    qr.appendChild(preview);
+    qr.removeChild(qrSvg);
     qrContainer.appendChild(confirmButton);
 
     qrContainer.style.justifyContent = "center";

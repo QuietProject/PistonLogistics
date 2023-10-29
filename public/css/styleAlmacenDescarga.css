@@ -27,35 +27,44 @@ body > form{
     flex-direction: row;
 }
 
-
-
 .qrContainer {
-    max-width: 40vw;
-    min-width: 40vw;
-    width: 100%;
+    width: 500px;
     height: 80vh;
-    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: space-between;
-    margin-left: 20px;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;   
+    margin-left: 20px; 
 }
 
-.qrContainer > *{
+.qrContainer > *:nth-child(2) {
     box-shadow: 0px 0px 10px -1px black;
 }
 
-
-.qrContainer > .qr{
+.qrContainer > .qr {
+    min-width: 800px;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80%;
-    min-height: 85%;
-    background-color: var(--baseLighter);
-    border-radius: 10px;
+    margin-bottom: 10px;
 }
+
+.qrContainer > .qr > img{
+    filter: invert(68%) sepia(0%) saturate(186%) hue-rotate(201deg) brightness(89%) contrast(86%);
+    cursor: pointer;
+}
+
+.qrContainer > .qr > img:hover{
+    filter: invert(72%) sepia(66%) saturate(4614%) hue-rotate(1deg) brightness(105%) contrast(104%);
+}
+
+#preview{
+    height: 69vh;
+    max-width: none;
+}
+
 
 a {
     text-decoration: none;
@@ -103,38 +112,19 @@ a {
     transform: scale(98%);
 }
 
-#preview{
-    border-radius: 5px;
-    min-height: fit-content;
-    width: 100%;
-}
 
 
-@media (max-width: 1200px) {
+
+@media (max-width: 700px) {
     body > form{
         flex-direction: column;
         justify-content: space-evenly;
     }
 
-    .qrContainer {
-        max-width: 900px;
-        min-width: 100vw;
-        min-height: 100vh;
-        justify-content: space-evenly;
-        margin-left: 0px;
-    }
-
-    .qrContainer > .qr{
-        display: flex;
+    .qrContainer{
+        height: 100vh;
         justify-content: center;
-        align-items: center;
-        
-    }
-
-    #preview{
-        border-radius: 0;
-        min-height: fit-content;
-        width: 90%;
+        margin-left: 0px;
     }
 
     .ticketInfo{
