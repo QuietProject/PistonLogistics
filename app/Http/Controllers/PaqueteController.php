@@ -9,19 +9,35 @@ use App\Models\Lote;
 use App\Models\Orden;
 use App\Models\PaqueteLote;
 use App\Models\DestinoLote;
-use Illuminate\Http\Request;
-use App\Http\Resources\PaqueteResource;
 use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
 use App\Models\Lleva;
+use App\Models\PaqueteAlmacen;
 use App\Models\Reparte;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use App\Http\Resources\PaqueteResource;
 
 class PaqueteController extends Controller
 {
 
     private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
+
+    /*************************************************************************************************************************************/
+
+    private function validacion($validator){
+        if ($validator->fails()) {
+            $response = [
+                'message' => 'Error en la validación',
+                'errors' => $validator->errors()
+            ];
+    
+            return response()->json($response, 422); // Puedes ajustar el código de respuesta (HTTP status code) según tus necesidades
+        }
+    }
 
     /**
      * Display a listing of the resource.
@@ -160,7 +176,6 @@ class PaqueteController extends Controller
 
     public function descargaPaquete($id, $almacen)
     {
-        // return $this->getOrCreateLote($almacen, Paquete::find($id)->ID_pickup);
         try {
             if (!is_numeric($id)) {
                 return response()->json([
@@ -193,7 +208,7 @@ class PaqueteController extends Controller
             }
 
             if (Reparte::find($id) !== null) {
-                reparteRebotado($id, $almacen);
+                $this->reparteRebotado($id, $almacen);
             }
 
 
@@ -266,6 +281,7 @@ class PaqueteController extends Controller
 
     private function reparteRebotado($idPaquete, $idAlmacen)
     {
+        //Se descarga el paquetes de reparte y se asigna a paquetes_almacenes
         DB::select("CALL descargar_reparte($idPaquete, $idAlmacen, @error)");
         $error = DB::select("SELECT @error as error")[0]->error;
         if ($error !== 0) {
@@ -274,8 +290,24 @@ class PaqueteController extends Controller
             ], 400);
         }
 
-        $lote = Lote::where("ID_almacen", $idAlmacen)->where("tipo", 1)->first();
-        if $lote
+        //Se toma un lote de tipo 1(no se reparte) en el almacen donde se descargaron los paquetes y si no existe se crea
+        $lote = Lote::where("ID_almacen", $idAlmacen)->where("tipo", 1)->first()->ID;
+        if ($lote == null) {
+            DB::select("CALL lote_1($idAlmacen, @id_lote, @error)");
+            $error = DB::select("SELECT @error as error")[0]->error;
+            if ($error !== 0) {
+                return response()->json([
+                    "message" => "Error al crear lote"
+                ], 400);
+            }
+        }
+        //Se asigna el paquete al lote
+        $this->asignarPaqueteToLote($idPaquete, $lote->ID);
+        return response()->json([
+            "message" => "Paquete descargado y lote asignado",
+            "ID_lote" => $lote->ID,
+            "paquete" => Paquete::find($idPaquete),
+        ], 200);
     }
 
     /*************************************************************************************************************************************/
@@ -333,16 +365,88 @@ class PaqueteController extends Controller
         ], 200);
     }
 
-/*************************************************************************************************************************************/
 
-    public function agregarPaqueteToLote(){
+    /*************************************************************************************************************************************/
+
+    public function descargaAlmacenLote(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                "ID_lote" => ["required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
+                "matricula" => "required|string|size:7|exists:vehiculos,ID",
+            ]);
+            $this->validacion($validator);
+
+            //descarga el lote de lleva
+            $idLote = $request->validated("ID_lote");
+            $lleva = Lleva::where("ID_lote", $idLote)->whereNull("fecha_descarga")->first();
+            $lleva->fecha_descarga = now();
+            $lleva->save();
+
+            //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
+            $lote = Lote::find($idLote);
+            $lote->fecha_cerrado = now();
+            $lote->save();
+
+            
+
+            
+
+            return response()->json([
+                "message" => "Lote descargado y paquetes asignados",
+                "ID_lote" => $lote->ID,
+                "paquetes" => $paquetes,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                "message" => "Error inesperado"
+            ], 500);
+        }
+    }
+
+    /*************************************************************************************************************************************/
+    public function cargaReparte()
+    {
+        $validated = request()->validate([
+            "ID_paquete" => "required|numeric|exists:paquetes,ID",
+            "matricula" => "required|string|size:7|exists:vehiculos,ID",
+        ]);
+
+        $paquete = PaqueteAlmacen::find($validated["ID_paquete"]);
+        if ($paquete === null) {
+            return response()->json([
+                "message" => "Paquete no encontrado"
+            ], 404);
+        }
+
+        if (Reparte::find($validated["ID_paquete"]) !== null) {
+            return response()->json([
+                "message" => "Paquete ya cargado"
+            ], 400);
+        }
+
+        Reparte::create([
+            "ID_paquete" => $validated["ID_paquete"],
+            "matricula" => $validated["matricula"],
+        ]);
+
+        return response()->json([
+            "message" => "Paquete cargado correctamente ",
+        ], 200);
+    }
+
+
+    /*************************************************************************************************************************************/
+
+    public function agregarPaqueteToLote()
+    {
         $validated = request()->validate([
             "ID_paquete" => "required|numeric|exists:paquetes,ID",
             "ID_lote" => "required|numeric|exists:lotes,ID",
         ]);
 
         $paquetesEnLotes = PaqueteLote::where("ID_paquete", $validated["ID_paquete"])->whereNull("hasta")->get();
-        if ($paquetesEnLotes !== null){
+        if ($paquetesEnLotes !== null) {
             return response()->json([
                 "message" => "Paquete ya en un lote"
             ], 400);
@@ -355,7 +459,5 @@ class PaqueteController extends Controller
         ], 200);
     }
 
-/*************************************************************************************************************************************/
-
-
+    /*************************************************************************************************************************************/
 }
