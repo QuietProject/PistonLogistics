@@ -13,6 +13,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\Console\Input\Input;
 
 class UsersController extends Controller
 {
@@ -72,7 +74,6 @@ class UsersController extends Controller
     {
         $user = new User();
         switch ($request->input('tipo')) {
-                //ADMINISTRADOR
             case 0:
                 $validated = $request->validate([
                     'CI' => ['bail', 'required', 'digits:8', 'integer', 'unique:users,user'],
@@ -81,6 +82,7 @@ class UsersController extends Controller
 
                 $user->rol = 0;
                 $user->user = $validated['CI'];
+                $user->password = bcrypt('password');
                 break;
             case 1:
                 $validated = $request->validate([
@@ -93,7 +95,7 @@ class UsersController extends Controller
                 $name = $validated['CI'] . '.' . $validated['almacenPropio'];
                 $usuarios = User::where('user', $name)->count();
                 if ($usuarios != 0) {
-                    return redirect()->back()->withErrors('CI', 'El usuario ya existe');
+                    return redirect()->back()->withErrors(['CI' => 'El usuario ya existe'])->withInput();
                 }
                 $user->rol = 1;
                 $user->user = $name;
@@ -105,23 +107,24 @@ class UsersController extends Controller
                     }),],
                     'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
-                $user = new User();
                 $user->rol = 2;
                 $user->user = $validated['camionero'];
-                $user->email = $validated['email'];
-                $user->password = bcrypt('password');
-                $user->save();
-                event(new Registered($user));
                 break;
             case 3:
                 $validated = $request->validate([
                     'almacenCliente' => ['required', 'integer', 'exists:ALMACENES_CLIENTES_DE_ALTA'],
                     'email' => ['required', 'email', 'max:255', 'unique:users,email']
                 ]);
+                $name = $validated['almacenCliente'] . '.' . AlmacenCliente::find($validated['almacenCliente'])->cliente->nombre;
+                $usuarios = User::where('user', $name)->count();
+                if ($usuarios != 0) {
+                    return redirect()->back()->withErrors(['error' => 'El usuario ya existe'])->withInput();
+                }
+                $user->rol = 1;
+                $user->user = $name;
                 break;
-                //validar que no exista nombre de usuario
             default:
-                return redirect()->back()->with('error', 'Ha ocurrido un error');
+                return redirect()->back()->with('error', 'Ha ocurrido un errorrr');
                 break;
         }
 
@@ -131,10 +134,12 @@ class UsersController extends Controller
         $status = Password::sendResetLink(
             ['email' => $user->email]
         );
-
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->with('error', __($status));
+        if ($status === Password::RESET_LINK_SENT) {
+            return to_route('usuarios.show', $user->user)->with('success', 'Se ha creado el usuario correctamente');
+        } else {
+            $user->delete();
+            return redirect()->back()->with('error', 'Ha ocurrido un error: ' . $status)->withInput();
+        }
     }
 
     /**
@@ -149,18 +154,34 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     *
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function resendNotification(User $user)
+    public function resendEmailNotification(User $user)
     {
         if ($user->hasVerifiedEmail()) {
             return back()->with('error', 'El usuario ya verificó su email');
         }
         $user->sendEmailVerificationNotification();
         return back()->with('success', 'Se reenvió el correo de verificación');
+    }
+
+    /**
+     *
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function resendPasswordNotification(User $user)
+    {
+        $status = Password::sendResetLink(
+            ['email' => $user->email]
+        );
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with('success', __($status))
+            : back()->withErrors('error', 'Ha ocurrido un error: '.__($status));
     }
     /**
      * Update the specified resource in storage.
@@ -171,7 +192,13 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $email = $request->validate([
+            'email' => ['required', 'email', 'max:255', 'unique:users,email']
+        ]);
+        $email['email_verified_at'] = null;
+        $user->update($email);
+        $user->sendEmailVerificationNotification();
+        return redirect()->back()->with('success', 'El usuario se actualizo correctamente');
     }
 
     /**
@@ -195,6 +222,16 @@ class UsersController extends Controller
     public function forgotPassword(Request $request)
     {
         $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->input('email'))->get();
+        if (count($user) == 0 || $user[0]->rol != 0) {
+            return redirect()->back()->withErrors(['email' => 'No hemos podido encontrar el email'])->withInput();
+        }
+        if (!$user->hasVerifiedEmail()) {
+            return redirect()->back()->withErrors(['email' => 'El email no esta verificado, comunequese con un administrador'])->withInput();
+        }
+
+
         $status = Password::sendResetLink(
             $request->only('email')
         );

@@ -1,5 +1,5 @@
 <x-layout titulo='Usuarios'>
-    {{-- @include('usuarios.edit') --}}
+    @include('usuarios.edit')
     <h2>Usuario</h2>
 
     <p>Usuario: {{ $user->user }}</p>
@@ -22,13 +22,24 @@
         @endswitch
     </p>
     <p>Correo: {{ $user->email }}</p>
-    <p>Correo verificado: {{ $user->email_verified_at  ? $user->email_verified_at :'No esta verificado' }}</p>
-    <form action="{{ route('usuarios.resendNotification', $user) }}" method="POST">
-        @csrf
-        <button type="submit">
-            Reenviar mail de verificacion
-        </button>
-    </form>
+    <p>Correo verificado: {{ $user->hasVerifiedEmail() ? $user->email_verified_at : 'No esta verificado' }}</p>
+    @if (!$user->hasVerifiedEmail())
+        @if (is_null($user->password))
+            <form action="{{ route('usuarios.resendPasswordNotification', $user) }}" method="POST">
+                @csrf
+                <button type="submit">
+                    Reenviar mail de verificacion
+                </button>
+            </form>
+        @else
+            <form action="{{ route('usuarios.resendEmailNotification', $user) }}" method="POST">
+                @csrf
+                <button type="submit">
+                    Reenviar mail de verificacion
+                </button>
+            </form>
+        @endif
+    @endif
     <form action="{{ route('usuarios.destroy', $user) }}" method="POST">
         @csrf
         @method('DELETE')

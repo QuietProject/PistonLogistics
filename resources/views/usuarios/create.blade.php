@@ -44,14 +44,14 @@
                 @endif
             @endforeach
         </select>
-        @error('almacenCliente')
+        @error('cliente')
             <span style="color: red">{{ $message }}</span>
         @enderror
     </div>
     <div>
         <label for="almacenCliente">Almacen</label>
         <select name="almacenCliente" id="almacenCliente">
-            @foreach ($almacenesClientes as $almacenCliente)
+            @foreach ($almacenesClientes as $almacenCliente)`
                 @php
                     $almacen = $almacenCliente->almacen;
                     $cliente = $almacenCliente->cliente;
@@ -88,6 +88,5 @@
             <span style="color: red">{{ $message }}</span>
         @enderror
     </div>
-    {{-- ALMACENES --}}
     <button type="submit">Submit</button>
 </form>

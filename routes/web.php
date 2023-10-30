@@ -55,15 +55,14 @@ Route::resource('clientes', ClientesController::class)->middleware('auth')->exce
 Route::resource('almacenes', AlmacenesController::class)->middleware('auth')->except(['create', 'edit'])->parameters(['almacenes' => 'almacen']);;;
 
 Route::resource('usuarios', UsersController::class)->middleware('auth')->except(['create', 'edit'])->parameters(['usuarios' => 'user']);;
-Route::post('/usuarios/{user}/reenviarNotificacion', [UsersController::class, 'resendNotification'])->name('usuarios.resendNotification')->middleware('auth', 'throttle:6,1');
+Route::post('/usuarios/{user}/reenviarNotificacionEmail', [UsersController::class, 'resendEmailNotification'])->name('usuarios.resendEmailNotification')->middleware('auth', 'throttle:6,1');
+Route::post('/usuarios/{user}/reenviarNotificacionPassword', [UsersController::class, 'resendPasswordNotification'])->name('usuarios.resendPasswordNotification')->middleware('auth', 'throttle:6,1');
 Route::get('/email/verify/{id}/{hash}', [UsersController::class, 'verify'])->name('verification.verify')->middleware('signed');
 
 Route::view('/forgot-password', 'password.request')->middleware('guest')->name('password.request');
 Route::post('/forgot-password', [UsersController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
 
-Route::get('/reset-password/{token}', function ($token) {
-    return view('password.reset-password', ['token' => $token]);
-})->middleware('guest')->name('password.reset');
+Route::view('/reset-password/{token}', 'password.reset-password')->middleware('guest')->name('password.reset');
 
 Route::post('/reset-password', function (Request $request) {
     $request->validate([

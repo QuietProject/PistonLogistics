@@ -12,15 +12,21 @@ class AuthenticatedSessionController extends Controller
     {
 
         $credentials = $request->validate([
-            "user" => ["required", "string", "max:20"],
-            "password" => ["required", "string", "max:24", "min:8"],
+            "user" => ["required", "string"],
+            "password" => ["required", "string"],
         ]);
         if (!Auth::attemptWhen($credentials, function ($user) {
             return $user->rol==0;
         }, $request->has('remember'))) {
             return redirect()->back()->withErrors(['authError' => 'El usuario o la contraseña son incorrectos']);
         }
-        return to_route('inicio');
+        if(is_null(Auth::user()->email_verified_at)){
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->back()->withErrors(['authError' => 'El usuario no verificó su email']);
+        }
+               return to_route('inicio');
     }
 
     public function destroy(Request $request)
@@ -39,6 +45,7 @@ class AuthenticatedSessionController extends Controller
             'user' => 'prueba',
             'password' => bcrypt('submarino'),
             'email'=>'maiadasdad',
+            'email_verified_at'=>'2023-10-29 19:49:20',
             'rol' => 0
         ]);
 

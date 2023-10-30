@@ -10,7 +10,7 @@
     <h2>Contraseña olvidada</h2>
     <form action="{{ route('password.update') }}" method="POST">
         @csrf
-        <input type="hidden" name="token" value="{{ $token }}">
+        <input type="hidden" name="token" value="{{ request()->route('token') }}">
         <div>
             <label for="email">Email</label>
             <input type="email" name="email" id="email" required value="{{ old('email') }}">
