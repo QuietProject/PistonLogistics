@@ -37,6 +37,6 @@ class Troncal extends Model
 
 	public function ordenes()
 	{
-		return $this->hasMany(Ordene::class, 'ID_troncal');
+		return $this->hasMany(Orden::class, 'ID_troncal');
 	}
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\camionerosController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\ConducenController;
+use App\Http\Controllers\TroncalesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehiculosController;
 use Illuminate\Support\Facades\Route;
@@ -24,13 +25,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/prueba', [AuthenticatedSessionController::class, 'prueba']);
 
 
-
 Route::view('/login', 'login')->name('login')->middleware('guest');
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
 Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
-Route::get('/home', function () {
-    return to_route('inicio');
-});
+Route::get('/home', function () { return to_route('inicio'); });
 
 Route::view('/', 'index')->name('inicio')->middleware('auth');
 
@@ -48,6 +46,8 @@ Route::patch('/conducen/desde', [ConducenController::class, 'desde'])->name('con
 Route::resource('clientes', ClientesController::class)->middleware('auth')->except(['create', 'edit']);
 
 Route::resource('almacenes', AlmacenesController::class)->middleware('auth')->except(['create', 'edit'])->parameters(['almacenes' => 'almacen']);;;
+
+Route::resource('troncales', TroncalesController::class)->middleware('auth')->except(['create', 'edit'])->parameters(['troncales' => 'troncal']);;;
 
 Route::resource('usuarios', UsersController::class)->middleware('auth')->except(['create', 'edit'])->parameters(['usuarios' => 'user']);;
 Route::post('/usuarios/{user}/reenviarNotificacionEmail', [UsersController::class, 'resendEmailNotification'])->name('usuarios.resendEmailNotification')->middleware('auth', 'throttle:6,1');

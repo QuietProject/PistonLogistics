@@ -15,6 +15,7 @@
     <a href="{{ route('camioneros.index') }}">Camioneros</a>
     <a href="{{ route('usuarios.index') }}">Usuarios</a>
     <a href="{{ route('almacenes.index') }}"">Almacenes</a>
+    <a href="{{ route('troncales.index') }}"">Troncales</a>
     <a href="{{ route('vehiculos.index') }}"">Vehiculos</a>
     <a href="{{ route('clientes.index') }}"">Clientes</a>
     <a href="{{ route('logout') }}">Cerrar Sesion</a>
