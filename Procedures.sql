@@ -183,16 +183,12 @@ BEGIN
 	START TRANSACTION;
 	SET fallo =0;
     
-	-- Paso 2: Eliminar la direccion de paquete
-    UPDATE PAQUETES SET direccion=null where ID=paquete;
-    SET fallo = IF(row_count()!=1, 1, fallo);
-    
-	-- Paso 3: Descargar el paquete
+	-- Paso 2: Descargar el paquete
 	UPDATE TRAE SET fecha_descarga=CURRENT_TIMESTAMP() WHERE ID_paquete=paquete AND fecha_descarga IS NULL;
 	SET fallo = IF(row_count()!=1, 1, fallo);
     
-	-- Paso 4: Insertar paquete en PAQUETES_ALMACENES
-    INSERT INTO PAQUETES_ALMACENES(ID_paquete,ID_almacen) values (paquete, almacen);
+	-- Paso 3: Insertar paquete en PAQUETES_ALMACENES
+    	INSERT INTO PAQUETES_ALMACENES(ID_paquete,ID_almacen) values (paquete, almacen);
 	SET fallo = IF(row_count()!=1, 1, fallo);
 
     IF fallo=1 THEN
@@ -216,12 +212,16 @@ BEGIN
 	-- Inicio de la transacción
 	START TRANSACTION;
 	SET fallo =0;
+
+	-- Paso 2: Eliminar la direccion de paquete
+    	UPDATE PAQUETES SET direccion=null where ID=paquete;
+    	SET fallo = IF(row_count()!=1, 1, fallo);
     
-	-- Paso 2: Descargar el paquete
+	-- Paso 3: Descargar el paquete
 	UPDATE REPARTE SET fecha_descarga=CURRENT_TIMESTAMP() WHERE ID_paquete=paquete AND fecha_descarga IS NULL;
 	SET fallo = IF(row_count()!=1, 1, fallo);
     
-	-- Paso 2: Insertar paquete en PAQUETES_ALMACENES
+	-- Paso 4: Insertar paquete en PAQUETES_ALMACENES
     INSERT INTO PAQUETES_ALMACENES(ID_paquete,ID_almacen) values (paquete, almacen);
 	SET fallo = IF(row_count()!=1, 1, fallo);
     
