@@ -35,7 +35,7 @@
             <tbody>
                 @foreach ($cliente->almacenes as $almacen)
                     <tr>
-                        <td><a href="#">{{ $almacen->ID }}</a></td>
+                        <td><a href="{{ route('almacenes.show',$almacen) }}">{{ $almacen->ID }}</a></td>
                         <td>{{ $almacen->nombre }}</td>
                         <td>{{ $almacen->direccion }}</td>
                         <td>{{ $almacen->baja ? 'baja' : 'alta' }}</td>
