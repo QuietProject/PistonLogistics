@@ -125,32 +125,31 @@ INSERT INTO TRONCALES (nombre, baja) VALUES
 ('Troncal 6', 0),
 ('Troncal 7', 1);
 
-INSERT INTO ALMACENES (nombre, direccion,latitud, longitud, baja) VALUES
-('Almacén 1', 'Calle A 123', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 2', 'Calle B 456', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 3', 'Calle C 789', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 4', 'Calle D 101', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 5', 'Calle E 202', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 6', 'Calle F 303', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 7', 'Calle G 404', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 8', 'Calle H 505', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 9', 'Calle I 606', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 10', 'Calle J 707', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 11', 'Calle K 808', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 12', 'Calle L 909', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 13', 'Calle M 010', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 14', 'Calle N 111', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 15', 'Calle O 212', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 16', 'Calle P 313', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 17', 'Calle Q 414', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 18', 'Calle R 515', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 19', 'Calle S 616', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 20', 'Calle T 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 21', 'Calle U 515', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 22', 'Calle V 616', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 23', 'Calle X 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0),
-('Almacén 24', 'Calle Y 717', CAST(RAND() * 180 - 90 AS DECIMAL(7,5)),  CAST(RAND() * 360 - 180 AS DECIMAL(7,5)),0);
-
+INSERT INTO `almacenes` (`ID`, `nombre`, `direccion`, `longitud`, `latitud`, `baja`) VALUES
+(1, 'Almacén 1', 'Calle A 123', -56.1949, -34.9109, b'0'),
+(2, 'Almacén 2', 'Calle B 456', -56.2821, -34.5224, b'0'),
+(3, 'Almacén 3', 'Calle C 789', -56.8973, -33.5137, b'0'),
+(4, 'Almacén 4', 'Calle D 101', -56.7068, -34.3392, b'0'),
+(5, 'Almacén 5', 'Calle E 202', -57.807, -34.4452, b'0'),
+(6, 'Almacén 6', 'Calle F 303', -54.9587, -34.906, b'0'),
+(7, 'Almacén 7', 'Calle G 404', -55.9865, -31.7176, b'0'),
+(8, 'Almacén 8', 'Calle H 505', -56.2167, -34.0974, b'0'),
+(9, 'Almacén 9', 'Calle I 606', -54.382, -33.2331, b'0'),
+(10, 'Almacén 10', 'Calle J 707', -55.2375, -34.3747, b'0'),
+(11, 'Almacén 11', 'Calle K 808', -54.3358, -34.4788, b'0'),
+(12, 'Almacén 12', 'Calle L 909', -54.1617, -32.3696, b'0'),
+(13, 'Almacén 13', 'Calle M 010', -57.9552, -31.3899, b'0'),
+(14, 'Almacén 14', 'Calle N 111', -56.4794, -30.4094, b'0'),
+(15, 'Almacén 15', 'Calle O 212', -58.0612, -32.3141, b'0'),
+(16, 'Almacén 16', 'Calle P 313', -56.15738, -34.92371, b'0'),
+(17, 'Almacén 17', 'Calle Q 414', -56.15235, -34.91862, b'0'),
+(18, 'Almacén 18', 'Calle R 515', -56.19272, -34.91068, b'0'),
+(19, 'Almacén 19', 'Calle S 616', -56.21064, -34.9094, b'0'),
+(20, 'Almacén 20', 'Calle T 717', -56.2048, -34.90368, b'0'),
+(21, 'Almacén 21', 'Calle U 515', -58.0362, -33.2524, b'0'),
+(22, 'Almacén 22', 'Calle V 616', -54.3837, -33.227, b'0'),
+(23, 'Almacén 23', 'Calle X 717', -57.6279, -32.7038, b'0'),
+(24, 'Almacén 24', 'Calle Y 717', -56.18581, -34.89437, b'0');
 
 INSERT INTO ALMACENES_PROPIOS (ID) VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12), (13), (14), (15),(21),(22),(23);
 

@@ -52,7 +52,7 @@ insert into reparte (matricula,ID_paquete) values ('ABD2399',21);
 SELECT SLEEP(1);
 call descargar_reparte(21,1,@error);
 select @error, @ID;
-call lote_1(1,@error,@ID);
+call lote_1(1,@ID,@error);
 SELECT SLEEP(1);
 insert into paquetes_lotes(ID_paquete,ID_lote) values(21,14);
 SELECT SLEEP(1);
@@ -66,7 +66,6 @@ SELECT SLEEP(1);
 call descargar_trae(22,3,@error);
 call lote_0(3,1,5,@ID,@error);
 insert into paquetes_lotes(ID_lote,ID_paquete) values(15,22);
-
 
 
 

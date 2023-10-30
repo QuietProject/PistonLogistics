@@ -93,7 +93,6 @@ DELIMITER ;
 */
 
 DROP TRIGGER IF EXISTS trigger_estado_PAQUETE_ALMACENES;
-DROP TRIGGER IF EXISTS trigger_estado_PAQUETE_ALMACENES;
 DELIMITER //
 CREATE TRIGGER trigger_estado_PAQUETE_ALMACENES
 AFTER INSERT
@@ -112,7 +111,6 @@ DELIMITER ;
 
 /* 6 Trigger cuando se carga un lote al camion actualiza el estado del paquete*/
 DROP TRIGGER IF EXISTS trigger_lleva_lote_carga;
-select * from lleva;
 DELIMITER //
 CREATE TRIGGER trigger_lleva_lote_carga
 AFTER INSERT
@@ -175,27 +173,5 @@ ESTADOS DE LOS PAQUETES
 7 = Almacen destino ok
 8 = Repartiendo a destino ok
 9 = Esperando en pick UP ok
-
-
-
-describe PAQUETES_ALMACENES;
-select @error;
-select * from PAQUETES_ALMACENES;
-INSERT INTO PAQUETES (ID_almacen, ID_pickup, direccion, mail) VALUES
-(16, 2 ,'Calle 123, florida', 'correo1@example.com');
-select LAST_INSERT_ID();
-insert into TRAE (ID_paquete, matricula) values (20, 'abc1234');
-
-
-/*
-insert into paquetes_lotes (ID_lote, ID_paquete) values (1,20);
-set @almacen = (Select ID_almacen from destino_lote where id_lote=2);
-			SELECT ID_paquete, @almacen
-			FROM paquetes_lotes
-			WHERE ID_lote = 2;
-select @almacen;
-describe lotes;
-update lotes set fecha_cerrado=current_timestamp() where ID=2;*/
-
-
+*/
 

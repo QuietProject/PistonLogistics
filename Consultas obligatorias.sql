@@ -4,31 +4,11 @@ USE surno;
 select * from paquetes where direccion like('% melo') AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
 
 -- 2. MOSTRAR TODOS LOS ALMACENES Y LOS PAQUETES QUE FUERON ENTREGADOS EN LOS MISMOS DURANTE EL 2023, ORDENARLOS ADEMAS DE LOS QUE RECIBIERON MAS PAQUETES A LOS QUE RECIBIERON MENOS.
-/*select *
-from paquetes_lotes
-inner join
-where YEAR(lotes) = 2023;
-
-select * 
-from paquetes_lotes
-inner join_lotes
-;
-SELECT
-*
-    lote.ID_almacen AS NombreAlmacen,
-    paquetes_lotes.ID_paquete AS NombrePaquete,
-    COUNT(*) AS CantidadPaquetesEntregados
-FROM lotes
-inner join paquetes_lotes ON lotes.ID = paquetes_lotes.ID_lote
-inner join estados on estados.ID_lote=lotes.ID
-/*WHERE
-    YEAR(estados.fecha) = 2023
-GROUP BY
-    A.Nombre, P.Nombre
-ORDER BY
-    CantidadPaquetesEntregados DESC;
-
-*/
+select cantidad.* , PAQUETES_ALMACENES.ID_paquete
+from (select ID_almacen,  count(*) as "cantidad" from PAQUETES_ALMACENES group by ID_almacen) cantidad
+inner join PAQUETES_ALMACENES on PAQUETES_ALMACENES.ID_almacen = cantidad.ID_almacen
+where YEAR(PAQUETES_ALMACENES.desde)= 2023 OR YEAR(PAQUETES_ALMACENES.hasta)= 2023
+order by CANTIDAD.cantidad DESC;
 -- 3. MOSTRAR TODOS LOS CAMIONES REGISTRADOS Y QUE TAREA SE ENCUENTRAN REALIZANDO EN ESTE MOMENTO 
 
 select distinct vehiculos.*,
@@ -77,7 +57,7 @@ CASE
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN trae.matricula
     WHEN lleva.matricula is not null and lleva.fecha_descarga is null THEN lleva.matricula
     WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN reparte.matricula
-    ELSE null
+    ELSE null 
   END AS MATRICULA,
   destino_lote.ID_almacen as 'ALMACEN DESTINO', paquetes.direccion, paquetes.id_pickup,
   CASE
@@ -122,8 +102,6 @@ from ordenes
 inner join ALMACENES on ordenes.ID_almacen=ALMACENES.ID
 where ordenes.ID_troncal=2 and almacenes.baja=0;
 
+-- CONSULTAS OPCIONALES
 
-describe camioneros;
-
-
-
+-- 1 MOSTRAR LOS LOTES QUE LLEGARON A UN ALMACEN ESPECIFICO DURANE EL MES DE AGOSTO DE 2023

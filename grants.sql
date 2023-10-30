@@ -11,6 +11,7 @@ CREATE USER 'backoffice'@'%' IDENTIFIED BY 'backoffice';
 -- AUTENTIFICACION
 
 GRANT SELECT ON surno.USERS TO 'autentificacion'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON surno.password_resets TO 'autentificacion'@'%';
 
 -- ALMACEN
 
@@ -103,9 +104,11 @@ GRANT SELECT, INSERT(ID_lote, matricula), UPDATE(fecha_descarga) ON surno.LLEVA 
 GRANT SELECT, INSERT(ID_paquete, matricula) ON surno.TRAE TO 'backoffice'@'%';
 GRANT SELECT, INSERT(ID_paquete, matricula) ON surno.REPARTE TO 'backoffice'@'%';
 GRANT SELECT, INSERT(ID_paquete, ID_almacen)ON surno.PAQUETES_ALMACENES TO 'backoffice'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON surno.password_resets TO 'backoffice'@'%';
 
 GRANT SELECT ON surno.PAQUETES_EN_ALMACENES TO 'backoffice'@'%';
 GRANT SELECT ON surno.PAQUETES_EN_LOTES TO 'backoffice'@'%';
+GRANT SELECT ON surno.ALMACENES_CLIENTES_DE_ALTA TO 'backoffice'@'%';
 
 GRANT EXECUTE ON PROCEDURE surno.almacen_cliente TO 'backoffice'@'%';
 GRANT EXECUTE ON PROCEDURE surno.almacen_propio TO 'backoffice'@'%';
@@ -117,12 +120,7 @@ GRANT EXECUTE ON PROCEDURE surno.entregar_paquete TO 'backoffice'@'%';
 GRANT EXECUTE ON PROCEDURE surno.entregar_paquete_pickup TO 'backoffice'@'%';
 GRANT EXECUTE ON PROCEDURE surno.lote_0 TO 'backoffice'@'%';
 GRANT EXECUTE ON PROCEDURE surno.lote_1 TO 'backoffice'@'%';
-
-select @fallo;
 -- SHOW GRANTS FOR 'backoffice'@'%';
 -- SHOW GRANTS FOR 'almacen'@'%';
 -- SHOW GRANTS FOR 'autentificacion'@'%';
 -- SHOW GRANTS FOR 'camionero'@'%';
--- show procedure status;
--- REPAIR TABLE mysql.procs_priv;
-
