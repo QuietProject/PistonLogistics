@@ -69,4 +69,3 @@ insert into paquetes_lotes(ID_lote,ID_paquete) values(15,22);
 
 
 
-

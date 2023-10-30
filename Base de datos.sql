@@ -7,11 +7,18 @@ CREATE TABLE USERS (
     user VARCHAR(20) PRIMARY KEY NOT NULL,
     password VARCHAR(255) DEFAULT NULL,
     rol TINYINT NOT NULL,
-    email VARCHAR(64) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
     remember_token VARCHAR(100) NULL DEFAULT NULL
 );
 
+CREATE TABLE password_resets (
+  email varchar(255) PRIMARY KEY NOT NULL ,
+  token varchar(255) NOT NULL,
+  created_at timestamp NULL DEFAULT NULL
+);
+
+select * from users;
 ALTER TABLE USERS
     ADD CONSTRAINT rol CHECK ( 0<=rol AND rol<=3);
 
