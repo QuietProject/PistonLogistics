@@ -1,8 +1,8 @@
 .menuIcon{
     font-size: 4em;
     position: fixed;
-    top: 2%;
-    right: 1%;
+    top: 20px;
+    right: 10px;
     cursor: pointer;
     color: white;
     z-index: 10;

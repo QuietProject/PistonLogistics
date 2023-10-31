@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../CSS/style.css">
-    <link rel="stylesheet" href="../CSS/styleMenu.css">
-    <link rel="stylesheet" href="../CSS/styleCamionero.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/styleMenu.css">
+    <link rel="stylesheet" href="./css/styleCamionero.css">
     <title>App para camioneros</title>
 </head>
 <body>
@@ -83,7 +83,7 @@
         </div>
     </div>
 
-    <script defer src="../Javascript/scriptMenu.js"></script>
-    <script defer src="../JavaScript/scriptCamionero.js"></script>
+    <script defer src="./javascript/scriptMenu.js"></script>
+    <script defer src="./javascript/scriptCamionero.js"></script>
 </body>
 </html>

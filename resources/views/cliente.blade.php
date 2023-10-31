@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/styleCliente.css">
-    <link rel="stylesheet" href="../CSS/styleMenu.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/styleCliente.css">
+    <link rel="stylesheet" href="./css/styleMenu.css">
     <title>Cliente</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -85,7 +85,7 @@
     </div>
     <script src="/javascript/instascan.min.js"></script>
     <script src="/javascript/scriptCliente.js"></script>
-    <script defer src="../JavaScript/scriptMenu.js"></script>
+    <script defer src="./javascript/scriptMenu.js"></script>
 </body>
 
 </html>

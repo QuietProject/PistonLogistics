@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Surno">
-    <link rel="stylesheet" href="../CSS/style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleIndex.css">
-    <link rel="stylesheet" href="../CSS/styleMenu.css">
+    <link rel="stylesheet" href="./css/styleMenu.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Quick Carry</title>
 </head>
@@ -146,7 +146,7 @@
 
     <script defer src="./javascript/scriptIndex.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script defer src="../JavaScript/scriptMenu.js"></script>
+    <script defer src="./javascript/scriptMenu.js"></script>
 </body>
 
 </html>
