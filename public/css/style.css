@@ -18,8 +18,3 @@
     scroll-behavior: smooth;
     font-family: var(--font);
 }
-
-/* Responsive */
-@media screen and (orientation:portrait){
-
-}

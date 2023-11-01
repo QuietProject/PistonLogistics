@@ -129,9 +129,9 @@ body {
 .tableContainer {
     position: absolute;
     top: 30vh;
-    left: 4vw;
+    left: 7.5vw;
     max-height: 65vh;
-    width: 42vw;
+    width: 80vw;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
@@ -139,7 +139,7 @@ body {
 }
 
 .tableView {
-    width: 42vw;
+    width: 80vw;
     background-color: rgb(140, 140, 140);
     border-collapse: collapse;
 }
@@ -260,10 +260,42 @@ tr:nth-child(even) {
     font-weight: bold;
     color: rgb(225, 225, 225);
     text-shadow: 0 0 5px var(--baseDark);
-
+    left: 20%;
+    top: 15%;
+    margin-top: 7%;
 }
 
-select,input:focus{
+select,
+input:focus {
     border: none;
     outline: none;
+}
+
+.submitBtn {
+    position: relative;
+    left: 37.5%;
+    margin-top: 7.5%;
+    height: 2.5vw;
+    width: 25%;
+    border-radius: 10px;
+    background-color: var(--highlight);
+    font-size: medium;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.switchBtn {
+    height: 2.5vh;
+    width: 5vw;
+    border-radius: 15px;
+    background-color: var(--color);
+    font-weight: 500;
 }

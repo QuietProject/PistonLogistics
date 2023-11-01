@@ -1,0 +1,293 @@
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.navDiv {
+    position: absolute;
+    height: 100%;
+    width: 3vw;
+    background-color: var(--base);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.button {
+    height: 2.5vw;
+    width: 2.5vw;
+    margin-top: 0.5vw;
+    margin-left: 0.25vw;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button:active {
+    transform: scale(95%);
+}
+
+.disabled {
+    display: none;
+}
+
+.inactive {
+    border-radius: 50%;
+    background-color: var(--color);
+}
+
+.active {
+    border-radius: 50%;
+    background-color: var(--highlight);
+}
+
+.display {
+    position: absolute;
+    right: 0;
+    height: 100vh;
+    width: 97vw;
+    background-color: var(--baseLight);
+}
+
+.welcomeText {
+    position: absolute;
+    font-size: 5vh;
+    width: 100vw;
+    top: 45vh;
+    text-align: center;
+}
+
+.titleText {
+    position: absolute;
+    font-size: 5vh;
+    top: 5vh;
+    left: 10vh;
+    color: white;
+    text-shadow: 0 0 10px var(--base);
+    user-select: none;
+}
+
+.addButton {
+    position: absolute;
+    height: 7.5vh;
+    width: 7.5vw;
+    top: 5vh;
+    right: 5vh;
+    background-color: var(--highlight);
+    border-radius: 2vh;
+    font-size: 3vh;
+}
+
+.addButton:hover {
+    cursor: pointer;
+}
+
+.filterText {
+    position: absolute;
+    height: 5vh;
+    width: 20vw;
+    top: 15vh;
+    left: 7.5vw;
+    border-radius: 2vh;
+    text-indent: 5%;
+    background-color: rgb(200, 200, 200);
+    box-shadow: 0 0 10px 0 var(--base);
+}
+
+.filterText:focus {
+    outline: none;
+    background-color: white;
+}
+
+.tableTitle {
+    position: absolute;
+    top: 22.25vh;
+    left: 21vw;
+    color: rgb(225, 225, 225);
+    font-size: 5vh;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--base);
+    user-select: none;
+}
+
+.tableContainer {
+    position: absolute;
+    top: 30vh;
+    left: 4vw;
+    max-height: 65vh;
+    width: 42vw;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+}
+
+.tableView {
+    width: 42vw;
+    background-color: rgb(140, 140, 140);
+    border-collapse: collapse;
+}
+
+a {
+    text-decoration: none;
+    color: var(--highlight);
+    text-shadow: 0 0 5px var(--base);
+}
+
+tr {
+    height: 4.5vh;
+}
+
+th {
+    background-color: var(--base);
+    color: white;
+    position: sticky;
+    top: 0;
+    text-align: center;
+    font-size: large;
+    user-select: none;
+}
+
+td {
+    text-align: center;
+    font-size: medium
+}
+
+tr:nth-child(even) {
+    background-color: rgb(165, 165, 165);
+}
+
+.addBackdrop {
+    position: absolute;
+    z-index: 1;
+    height: 100vh;
+    width: 100vw;
+    left: 0;
+    backdrop-filter: blur(0.5vh);
+}
+
+.addInterface {
+    position: absolute;
+    z-index: 2;
+    height: 75vh;
+    width: 50vw;
+    left: 25vw;
+    top: 12.5vh;
+    background-color: var(--base);
+    border-radius: 1vw;
+    display: flex;
+    overflow: hidden;
+}
+
+.closeButton {
+    position: relative;
+    display: flex;
+    height: 4vh;
+    width: 4vh;
+    background-color: var(--highlight);
+    top: 1vh;
+    left: 1vh;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.closeButton:hover {
+    cursor: pointer;
+}
+
+.cornerButton {
+    position: absolute;
+    top: -6vw;
+    left: -6vw;
+    height: 10vw;
+    aspect-ratio: 1/1;
+    background-color: var(--highlight);
+    transform: rotate(45deg);
+    z-index: 5;
+}
+
+.cornerButton:hover {
+    cursor: pointer;
+}
+
+.xLine {
+    position: absolute;
+    height: 0.5vh;
+    width: 3.5vh;
+    border-radius: 1vh;
+    background-color: black;
+    pointer-events: none;
+}
+
+.adderTitle {
+    position: relative;
+    font-size: 5vh;
+    text-align: center;
+    top: 3vh;
+    color: white;
+    text-shadow: 0 0 5px var(--base);
+}
+
+.addForm {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 4;
+}
+
+.inputBox {
+    position: relative;
+    margin-top: 2.5vh;
+    font-size: 4vh;
+    font-weight: bold;
+    color: rgb(225, 225, 225);
+    text-shadow: 0 0 5px var(--baseDark);
+    left: 20%;
+    top: 15%;
+    margin-top: 7%;
+}
+
+select,
+input:focus {
+    border: none;
+    outline: none;
+}
+
+.submitBtn {
+    position: relative;
+    left: 37.5%;
+    margin-top: 7.5%;
+    height: 2.5vw;
+    width: 25%;
+    border-radius: 10px;
+    background-color: var(--highlight);
+    font-size: medium;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

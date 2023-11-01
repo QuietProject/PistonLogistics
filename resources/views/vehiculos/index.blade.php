@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#">
     <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleAdministrador.css">
+    <link rel="stylesheet" href="../css/styleVehiculos.css">
     <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
     <title>Piston Logistics</title>
 </head>
@@ -157,7 +157,7 @@
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit">Submit</button>
+                    <button type="submit" class="submitBtn">Submit</button>
                 </form>
             </div>
         </div>
