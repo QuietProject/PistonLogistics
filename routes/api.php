@@ -26,10 +26,12 @@ Route::resource("paquetes", PaqueteController::class);
 Route::post("paquetes/create/{id}", [PaqueteController::class, "store"]);
 Route::get("cliente/carga/{id}/{matricula}", [PaqueteController::class, "cargaCliente"]);
 Route::get("almacen/descarga/{id}/{almacen}", [PaqueteController::class, "descargaPaquete"]);
-Route::get("almacen/carga/{id}/{matricula}", [PaqueteController::class, "cargaAlmacen"]);
 
+Route::get("lotes/cargar", [LoteController::class, "cargaLote"]);
+Route::get("lotes/descargar", [LoteController::class, "descargaLote"]);
 Route::get("lotes/contenido", [LoteController::class, "paquetesEnLote"]);
 Route::get("lotes", [LoteController::class, "index"]);
 Route::post("lotes/create", [LoteController::class, "store"]);
 Route::post("lotes/agregar/paquete", [PaqueteController::class, "agregarPaqueteToLote"]);
 Route::post("lotes/eliminar/paquete", [LoteController::class, "quitarPaquete"]);
+Route::get("/lotes/pronto", [LoteController::class, "lotePronto"]);

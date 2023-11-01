@@ -37,6 +37,7 @@ class Lleva extends Model
 
 	protected $fillable = [
 		'matricula',
+		'ID_lote',
 		'fecha_carga',
 		'fecha_descarga'
 	];

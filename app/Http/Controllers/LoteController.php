@@ -8,7 +8,11 @@ use App\Models\Lote;
 use App\Http\Resources\LoteResource;
 use App\Models\AlmacenPropio;
 use App\Models\PaqueteLote;
+use App\Models\Lleva;
+use App\Models\Paquete;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 
 class LoteController extends Controller
@@ -21,15 +25,6 @@ class LoteController extends Controller
     public function index()
     {
         return Lote::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
     }
 
     /**
@@ -131,9 +126,10 @@ class LoteController extends Controller
         return response()->json($paquetesPorLote, 200);
     }
 
-/*************************************************************************************************************************************/
+    /*************************************************************************************************************************************/
 
-    public function quitarPaquete(){
+    public function quitarPaquete()
+    {
         $validated = request()->validate([
             "ID_lote" => "required|numeric|exists:lotes,ID",
             "ID_paquete" => "required|numeric|exists:paquetes,ID",
@@ -154,4 +150,140 @@ class LoteController extends Controller
             "message" => "Paquete quitado del lote"
         ], 200);
     }
+
+    /*************************************************************************************************************************************/
+
+    public function lotePronto(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "idLote" => [
+                "bail",
+                "required",
+                "numeric",
+                function ($attribute, $value, $fail) {
+                    $lotExists = DB::table('lotes')->where('ID', $value)->exists();
+                    $lotIsReady = DB::table('lotes')->where('ID', $value)->whereNull('fecha_pronto')->exists();
+
+                    if (!$lotExists) {
+                        $fail("El lote no existe");
+                    } elseif (!$lotIsReady) {
+                        $fail("El lote ya está pronto");
+                    }
+                },
+            ],
+        ], [
+            "idLote.required" => "El id del lote es requerido",
+            "idLote.numeric" => "El id del lote debe ser un número",
+        ]);
+        if ($this->validacion($validator)) {
+            return $this->validacion($validator);
+        }
+
+        $lote = lote::find($request->idLote);
+        $lote->fecha_pronto = now();
+        $lote->save();
+        return response()->json([
+            "message" => "Lote listo para enviar"
+        ], 200);
+    }
+
+    /*************************************************************************************************************************************/
+
+    public function cargaLote(Request $request)
+    {
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                "idLote" => [
+                    "bail",
+                    "required",
+                    "numeric",
+                    "unique:Lleva,ID_lote",
+                    function ($attribute, $value, $fail) {
+                        $loteExiste = DB::table('lotes')->where('ID', $value)->exists();
+                        $lotePronto = DB::table('lotes')->where('ID', $value)->whereNull('fecha_pronto')->exists();
+
+
+                        if (!$loteExiste) {
+                            $fail("El lote no existe");
+                        } elseif ($lotePronto) {
+                            $fail("El lote no está pronto");
+                        }
+                    },
+                ],
+                "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula"],
+            ],
+            [
+                "idLote.required" => "El id del lote es requerido",
+                "idLote.numeric" => "El id del lote debe ser un número",
+                "idLote.unique" => "El lote ya está cargado",
+                "matricula.required" => "La matricula es requerida",
+                "matricula.string" => "La matricula debe ser un string",
+                "matricula.size" => "La matricula debe tener 7 caracteres",
+                "matricula.exists" => "La matricula no existe",
+            ]
+        );
+        if ($this->validacion($validator)) {
+            return $this->validacion($validator);
+        }
+
+        Lleva::create([
+            "ID_lote" => $request->idLote,
+            "matricula" => $request->matricula,
+        ]);
+
+        return response()->json([
+            "message" => "Lote cargado"
+        ], 200);
+    }
+
+
+    /*************************************************************************************************************************************/
+
+    public function descargaLote(Request $request)
+    {
+        // try {
+            $validator = Validator::make($request->all(), [
+                "idLote" => ["required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
+                "matricula" => ["required", "string", "size:7", "exists:camiones,matricula"],
+            ]);
+            if ($this->validacion($validator)) {
+                return $this->validacion($validator);
+            }
+
+            //descarga el lote de lleva
+            $idLote = $request->idLote;
+            // return $idLote;
+            // $lleva = Lleva::where("ID_lote", $idLote)->whereNull("fecha_descarga")->first();
+            // $lleva->fecha_descarga = now();
+            // $lleva->save();
+
+            //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
+            $lote = Lote::find($idLote);
+            $paquetesIds = $lote->paquetes()->pluck("ID");
+            $destinoLote = $lote->destino_lote()->pluck("ID_almacen")->first();
+            // $lote->fecha_cerrado = now();
+            // $lote->save();
+
+            foreach ($paquetesIds as $paqueteId) {
+                if ($paqueteId->ID_pickup == $destinoLote){
+                    continue;
+                }
+                
+            }
+
+
+            return response()->json([
+                "message" => "Lote descargado y paquetes asignados",
+                "ID_lote" => $lote->ID,
+            ], 200);
+        // } catch (\Exception $e) {
+        //     return response()->json([
+        //         "message" => "Error inesperado"
+        //     ], 500);
+        // }
+    }
+
+    /*************************************************************************************************************************************/
 }

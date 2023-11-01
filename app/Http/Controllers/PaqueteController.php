@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Http\Resources\PaqueteResource;
+use App\Http\Controllers\Controller;
 
 class PaqueteController extends Controller
 {
@@ -27,17 +28,6 @@ class PaqueteController extends Controller
     private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
 
     /*************************************************************************************************************************************/
-
-    private function validacion($validator){
-        if ($validator->fails()) {
-            $response = [
-                'message' => 'Error en la validación',
-                'errors' => $validator->errors()
-            ];
-    
-            return response()->json($response, 422); // Puedes ajustar el código de respuesta (HTTP status code) según tus necesidades
-        }
-    }
 
     /**
      * Display a listing of the resource.
@@ -245,7 +235,6 @@ class PaqueteController extends Controller
 
         // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete y la misma troncal
         $destinoLote = DestinoLote::where("ID_almacen", $paquetePickup)->where("ID_troncal", $troncales)->first();
-        // $troncal = Orden::where("ID_almacen", $almacen)->first()->troncal->ID;
 
         // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
         if ($destinoLote !== null && $destinoLote->lote->tipo == 0) {
@@ -311,100 +300,7 @@ class PaqueteController extends Controller
     }
 
     /*************************************************************************************************************************************/
-
-    public function cargaAlmacenLote($id, $matricula)
-    {
-        if (!is_numeric($id)) {
-            return response()->json([
-                "message" => "ID debe ser numérico"
-            ], 400);
-        }
-
-        $lote = Lote::find($id);
-        // return $lote["fecha_pronto"];
-        if ($lote === null) {
-            return response()->json([
-                "message" => "Lote no encontrado"
-            ], 404);
-        }
-
-        if ($lote->tipo == 1) {
-            return response()->json([
-                "message" => "Lote no se reparte"
-            ], 400);
-        }
-
-        if (Lleva::find($id) !== null) {
-            return response()->json([
-                "message" => "Lote ya está cargado"
-            ], 400);
-        }
-
-        if ($lote["fecha_pronto"] === null) {
-            return response()->json([
-                "message" => "Lote no está listo"
-            ], 400);
-        }
-
-        // Find a vehiculo by its matricula (license plate)
-        $vehiculo = Vehiculo::where('matricula', $matricula)->first();
-
-        if ($vehiculo === null) {
-            return response()->json([
-                "message" => "Vehiculo no encontrado"
-            ], 404);
-        }
-
-        Lleva::create([
-            "ID_lote" => $id,
-            "matricula" => $matricula,
-        ]);
-
-        return response()->json([
-            "message" => "Lote cargado"
-        ], 200);
-    }
-
-
-    /*************************************************************************************************************************************/
-
-    public function descargaAlmacenLote(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(), [
-                "ID_lote" => ["required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
-                "matricula" => "required|string|size:7|exists:vehiculos,ID",
-            ]);
-            $this->validacion($validator);
-
-            //descarga el lote de lleva
-            $idLote = $request->validated("ID_lote");
-            $lleva = Lleva::where("ID_lote", $idLote)->whereNull("fecha_descarga")->first();
-            $lleva->fecha_descarga = now();
-            $lleva->save();
-
-            //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
-            $lote = Lote::find($idLote);
-            $lote->fecha_cerrado = now();
-            $lote->save();
-
-            
-
-            
-
-            return response()->json([
-                "message" => "Lote descargado y paquetes asignados",
-                "ID_lote" => $lote->ID,
-                "paquetes" => $paquetes,
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-                "message" => "Error inesperado"
-            ], 500);
-        }
-    }
-
-    /*************************************************************************************************************************************/
+    
     public function cargaReparte()
     {
         $validated = request()->validate([

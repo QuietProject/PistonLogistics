@@ -583,6 +583,7 @@ class ComposerStaticInit792178cf10064733071e3853ec2c3c23
         'App\\Models\\Lote' => __DIR__ . '/../..' . '/app/Models/Lote.php',
         'App\\Models\\Orden' => __DIR__ . '/../..' . '/app/Models/Orden.php',
         'App\\Models\\Paquete' => __DIR__ . '/../..' . '/app/Models/Paquete.php',
+        'App\\Models\\PaqueteAlmacen' => __DIR__ . '/../..' . '/app/Models/PaqueteAlmacen.php',
         'App\\Models\\PaqueteLote' => __DIR__ . '/../..' . '/app/Models/PaqueteLote.php',
         'App\\Models\\Reparte' => __DIR__ . '/../..' . '/app/Models/Reparte.php',
         'App\\Models\\Trae' => __DIR__ . '/../..' . '/app/Models/Trae.php',

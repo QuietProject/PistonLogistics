@@ -37,6 +37,7 @@ return array(
     'App\\Models\\Lote' => $baseDir . '/app/Models/Lote.php',
     'App\\Models\\Orden' => $baseDir . '/app/Models/Orden.php',
     'App\\Models\\Paquete' => $baseDir . '/app/Models/Paquete.php',
+    'App\\Models\\PaqueteAlmacen' => $baseDir . '/app/Models/PaqueteAlmacen.php',
     'App\\Models\\PaqueteLote' => $baseDir . '/app/Models/PaqueteLote.php',
     'App\\Models\\Reparte' => $baseDir . '/app/Models/Reparte.php',
     'App\\Models\\Trae' => $baseDir . '/app/Models/Trae.php',
