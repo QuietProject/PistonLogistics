@@ -261,15 +261,22 @@ class LoteController extends Controller
 
             //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
             $lote = Lote::find($idLote);
+            //tomo las ids de los paquetes del lote
             $paquetesIds = $lote->paquetes()->pluck("ID");
+            //tomo el almacen destino del lote
             $destinoLote = $lote->destino_lote()->pluck("ID_almacen")->first();
             // $lote->fecha_cerrado = now();
             // $lote->save();
 
+            //recorro los paquetes y los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
             foreach ($paquetesIds as $paqueteId) {
+                // De los paquetes que ya están en su destino final asigno los que no se reparten a un lote de tipo 1
                 if ($paqueteId->ID_pickup == $destinoLote){
-                    continue;
+                    $this->paqueteToPickup($paqueteId, $destinoLote);
                 }
+
+                // Los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
+                
                 
             }
 
@@ -283,6 +290,29 @@ class LoteController extends Controller
         //         "message" => "Error inesperado"
         //     ], 500);
         // }
+    }
+
+    private function paqueteToPickup($paqueteId, $destinoLote){
+        $paquete = Paquete::find($paqueteId);
+        //Busco si existe un lote tipo 1 en el almacen destino del paquete
+        $lote = Lote::where("ID_almacen", $destinoLote)->whereNull("fecha_cerrado")->where("tipo", 1)->first();
+        //Si no existe, lo creo
+        if ($lote == null) {
+            DB::select("CALL lote_1($destinoLote, @idLote, @error)");
+            $error = DB::select("SELECT @error as error")[0]->error;
+            if ($error != null) {
+                return response()->json([
+                    "message" => $error
+                ], 400);
+            }
+            $lote = Lote::find(DB::select("SELECT @idLote as idLote")[0]->idLote);
+        }
+        //Asigno los paquetes que no se vayan a repartir al lote tipo 1
+        if($paquete->direccion == null){
+            $this->asignarPaqueteToLote($paqueteId, $lote->ID);
+        }
+
+
     }
 
     /*************************************************************************************************************************************/

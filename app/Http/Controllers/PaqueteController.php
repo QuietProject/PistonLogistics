@@ -79,6 +79,7 @@ class PaqueteController extends Controller
         });
 
         // Calculo la distancia entre la direccion del paquete y cada almacen propio
+        Http::post(url, ["direccion" => "Artigas", "mail"=> "asdfa@gmail.com"])
         $distancias = Http::acceptJson()->withOptions(['verify' => false])->post("https://matrix.router.hereapi.com/v8/matrix?async=false&apiKey=$this->apiKey", [
             "origins" => [
                 [
@@ -235,12 +236,13 @@ class PaqueteController extends Controller
 
         // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete y la misma troncal
         $destinoLote = DestinoLote::where("ID_almacen", $paquetePickup)->where("ID_troncal", $troncales)->first();
+        $destinoLote = DB::select("SELECT lotes.ID_lote from ")
 
         // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
         if ($destinoLote !== null && $destinoLote->lote->tipo == 0) {
             $lote = $destinoLote->lote;
 
-            // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
+        // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
         } else {
             DB::select("CALL lote_0($almacen, $paquetePickup, $troncales[0], @id_lote, @error)");
             $error = DB::select("SELECT @error as error")[0]->error;
@@ -254,18 +256,6 @@ class PaqueteController extends Controller
         }
 
         return $lote;
-    }
-
-    // Método para asignar un paquete a un lote
-    private function asignarPaqueteToLote($id, $loteId)
-    {
-        try {
-            DB::select("INSERT INTO paquetes_lotes (ID_paquete, ID_lote) VALUES ($id, $loteId)");
-        } catch (\Exception $e) {
-            return response()->json([
-                "message" => $e->getMessage()
-            ], 500);
-        }
     }
 
     private function reparteRebotado($idPaquete, $idAlmacen)
