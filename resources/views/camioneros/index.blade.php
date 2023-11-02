@@ -13,11 +13,11 @@
 
 <body>
     <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive" id="btnUsers"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button active" id="btnTrucks"></a>
+        <a href="{{ route('camioneros.index') }}" class="button active" id="btnUsers"></a>
         <a href="" class="button inactive" id="btnRutes"></a>
         <a href="" class="button inactive" id="btnWarehouses"></a>
         <a href="" class="button inactive" id="btnProducts"></a>
+        <a href="{{ route('vehiculos.index') }}" class="button inactive" id="btnTrucks"></a>
         <a href="{{ route('clientes.index') }}" class="button inactive" id="btnClients"></a>
     </div>
     <!-- Backdrop Blur -->
@@ -93,10 +93,10 @@
                         document.getElementById("addTruckInterface").style.display = "flex";
                     </script>
                 @endif
-                <h2>Ingresar Camionero</h2>
+                <h2 class="adderTitle">Ingresar Camionero</h2>
                 <form action="{{ route('camioneros.store') }}" method="POST">
                     @csrf
-                    <div>
+                    <div class="inputBox" style="margin-top: 12.5vh">
                         <label for="CI">Cedula</label>
                         <input type="number" name="CI" id="CI" maxlength="8" minlength="8" required
                             value="{{ old('CI') }}">
@@ -104,7 +104,14 @@
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    @include('camioneros.form-fields')
+                    <div class="inputBox">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $camionero->nombre) }}">
+                        @error('nombre')
+                        <span style="color: red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <button type="submit" class="submitBtn">Submit</button>
                 </form>
             </div>
         </div>

@@ -14,10 +14,10 @@
 <body>
     <div class="navDiv">
         <a href="{{ route('camioneros.index') }}" class="button inactive" id="btnUsers"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button active" id="btnTrucks"></a>
         <a href="" class="button inactive" id="btnRutes"></a>
         <a href="" class="button inactive" id="btnWarehouses"></a>
         <a href="" class="button inactive" id="btnProducts"></a>
+        <a href="{{ route('vehiculos.index') }}" class="button active" id="btnTrucks"></a>
         <a href="{{ route('clientes.index') }}" class="button inactive" id="btnClients"></a>
     </div>
     <!-- Backdrop Blur -->

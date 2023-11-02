@@ -1,65 +1,110 @@
-<x-layout titulo='Camionero'>
-    @include('camioneros.edit')
-    <h2>Camionero</h2>
-    <p>Cedula: {{ $camionero->CI }}</p>
-    <p>Nombre: {{ $camionero->nombre }}</p>
-    <p>Vehiculo asignado:
-        @if (isset($vehiculos[0]) && $vehiculos[0]->hasta == null)
-            <a href="{{ route('vehiculos.show', $vehiculos[0]->matricula) }}">{{ $vehiculos[0]->matricula }}</a>
-            <form action="{{ route('conducen.hasta', ['matricula' => $vehiculos[0]->matricula, 'ci' => $camionero->CI]) }}"
-                method="POST">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="../css/style.css ">
+    <link rel="stylesheet" href="../css/styleCamioneroShow.css">
+    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
+    <title>Piston Logistics</title>
+</head>
+
+<body>
+    <div class="navDiv">
+        <a href="{{ route('camioneros.index') }}" class="button active" id="btnUsers"></a>
+        <a href="" class="button inactive" id="btnRutes"></a>
+        <a href="" class="button inactive" id="btnWarehouses"></a>
+        <a href="" class="button inactive" id="btnProducts"></a>
+        <a href="{{ route('vehiculos.index') }}" class="button inactive" id="btnTrucks"></a>
+        <a href="{{ route('clientes.index') }}" class="button inactive" id="btnClients"></a>
+    </div>
+    <div class="display">
+        <p class="titleText">Nombre: {{ $camionero->nombre }}</p>
+        <p class="titleText" style="top: 11vh">Cedula: {{ $camionero->CI }}</p>
+        <p>
+        <form action="{{ route('camioneros.destroy', $camionero->CI) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="switchBtn">
+                @if ($camionero->baja)
+                    Dar de Alta
+                @else
+                    Dar de Baja
+                @endif
+            </button>
+        </form>
+        </p>
+        {{-- <a href="{{ route('camioneros.index') }}">Volver</a> --}}
+        <h3 class="tableTitle">Historial de vehiculos</h3>
+        @if (count($vehiculos) > 0)
+            <div class="tableContainer">
+                <table class="tableView">
+                    <thead>
+                        <tr>
+                            <th>Matricula</th>
+                            <th>Desde</th>
+                            <th>Hasta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($vehiculos as $vehiculo)
+                            <tr>
+                                <td><a href="{{ route('vehiculos.show', $vehiculo->matricula) }}">
+                                        {{ $vehiculo->matricula }}</a>
+                                </td>
+                                <td>{{ $vehiculo->desde }}</td>
+                                <td>{{ $vehiculo->hasta != null ? $vehiculo->hasta : 'Conduciendo' }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <p>Este conductor/a no ha conducido ningun camion hasta el momento</p>
+        @endif
+        <div class="editContainer">
+            <p class="asignadoText">Vehiculo asignado:
+                @if (isset($vehiculos[0]) && $vehiculos[0]->hasta == null)
+                    <a
+                        href="{{ route('vehiculos.show', $vehiculos[0]->matricula) }}">{{ $vehiculos[0]->matricula }}</a>
+                    <form
+                        action="{{ route('conducen.hasta', ['matricula' => $vehiculos[0]->matricula, 'ci' => $camionero->CI]) }}"
+                        method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="assignVehicleBtn"> Dejar de conducir</button>
+                    </form>
+                @else
+                    no tiene
+                    @if (!$camionero->baja)
+                        <a href="{{ route('conducen.camionero', ['camionero' => $camionero->CI]) }}">Asignar
+                            vehiculo</a>
+                    @endif
+                @endif
+            </p>
+            @if ($errors->any())
+                abre el formulario
+            @endif
+            <h2 class="asignadoText" style="margin-top: 10vh">Editar Camionero</h2>
+            <form action="{{ route('camioneros.update', $camionero) }}" method="POST">
                 @csrf
                 @method('PATCH')
-                <button type="submit"> Dejar de conducir</button>
+                <div>
+                    <label for="nombre" style="color: white">Nombre: </label>
+                    <input type="text" name="nombre" id="nombre"
+                        value="{{ old('nombre', $camionero->nombre) }}">
+                    @error('nombre')
+                        <span style="color: red">{{ $message }}</span>
+                    @enderror
+                </div>
+                <button type="submit" class="modBtn">Submit</button>
             </form>
-        @else
-            no tiene
-            @if (!$camionero->baja)
-                <a href="{{ route('conducen.camionero', ['camionero' => $camionero->CI]) }}">Asignar vehiculo</a>
-            @endif
-        @endif
+        </div>
+    </div>
+</body>
 
-    </p>
-    <p>
-    <form action="{{ route('camioneros.destroy', $camionero->CI) }}" method="POST">
-        @csrf
-        @method('DELETE')
-        <button type="submit">
-            @if ($camionero->baja)
-                Dar de Alta
-            @else
-                Dar de Baja
-            @endif
-        </button>
-    </form>
-    </p>
+</html>
 
-    <a href="{{ route('camioneros.index') }}">Volver</a>
-
-    <h3>Historial de vehiculos</h3>
-    @if (count($vehiculos) > 0)
-        <table>
-            <thead>
-                <tr>
-                    <th>Matricula</th>
-                    <th>Desde</th>
-                    <th>Hasta</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($vehiculos as $vehiculo)
-                    <tr>
-                        <td><a href="{{ route('vehiculos.show', $vehiculo->matricula) }}">
-                                {{ $vehiculo->matricula }}</a>
-                        </td>
-                        <td>{{ $vehiculo->desde }}</td>
-                        <td>{{ $vehiculo->hasta != null ? $vehiculo->hasta : 'Conduciendo' }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @else
-        <p>Este conductor/a no ha conducido ningun camion hasta el momento</p>
-    @endif
-
-</x-layout>
+<script src="../javascript/scriptAdministrador.js"></script>
