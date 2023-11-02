@@ -35,9 +35,5 @@ class Controller extends BaseController
         }
     }
 
-    public function prueba(){
-        return response()->json([
-            "message" => "prueba"
-        ], 200);
-    }
+    
 }

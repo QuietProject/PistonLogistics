@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("prueba", [Controller::class, "prueba"]);
+Route::get("prueba", [LoteController::class, "prueba"]);
 
 Route::resource("paquetes", PaqueteController::class);
 Route::post("paquetes/create/{id}", [PaqueteController::class, "store"]);

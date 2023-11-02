@@ -316,4 +316,10 @@ class LoteController extends Controller
     }
 
     /*************************************************************************************************************************************/
+
+    public function prueba(){
+        return response()->json([
+            "message" => "prueba"
+        ], 200);
+    }
 }
