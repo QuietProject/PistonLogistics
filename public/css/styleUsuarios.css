@@ -1,0 +1,200 @@
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+input {
+    border-radius: 10px;
+    text-align: center;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.titleText {
+    position: absolute;
+    font-size: 5vh;
+    top: 10vh;
+    left: 17.5vh;
+    color: white;
+    text-shadow: 0 0 10px var(--base);
+    user-select: none;
+}
+
+.navDiv {
+    position: absolute;
+    height: 100%;
+    width: 3vw;
+    background-color: var(--base);
+    display: flex;
+    flex-direction: column;
+
+}
+
+.button {
+    height: 2.5vw;
+    width: 2.5vw;
+    margin-top: 0.5vw;
+    margin-left: 0.25vw;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button:active {
+    transform: scale(95%);
+}
+
+.disabled {
+    display: none;
+}
+
+.inactive {
+    border-radius: 50%;
+    background-color: var(--color);
+}
+
+.active {
+    border-radius: 50%;
+    background-color: var(--highlight);
+}
+
+.display {
+    position: absolute;
+    right: 0;
+    height: 100vh;
+    width: 97vw;
+    background-color: var(--baseLight);
+}
+
+.tableTitle {
+    position: relative;
+    color: white;
+    top: 25vh;
+    left: 15vw;
+    font-size: 2vw;
+}
+
+.tableContainer {
+    position: absolute;
+    top: 32.5vh;
+    left: 5vw;
+    max-height: 65vh;
+    width: 52.5vw;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+}
+
+.tableView {
+    width: 80vw;
+    background-color: rgb(140, 140, 140);
+    border-collapse: collapse;
+}
+
+a {
+    text-decoration: none;
+    color: var(--highlight);
+    text-shadow: 0 0 5px var(--base);
+}
+
+tr {
+    height: 4.5vh;
+}
+
+th {
+    background-color: var(--base);
+    color: white;
+    position: sticky;
+    top: 0;
+    text-align: center;
+    font-size: large;
+    user-select: none;
+}
+
+td {
+    text-align: center;
+    font-size: medium
+}
+
+tr:nth-child(even) {
+    background-color: rgb(165, 165, 165);
+}
+
+.editContainer {
+    position: relative;
+    height: 50vh;
+    width: 35vw;
+    left: 55vw;
+    top: 40vh;
+    text-align: center;
+}
+
+.asignadoText {
+    font-weight: 500;
+    font-size: 2.5vh;
+    color: white;
+}
+
+.modBtn {
+    background-color: var(--highlight);
+    margin-top: 2vh;
+    height: 4vh;
+    width: 10vw;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+.modBtn:hover {
+    cursor: pointer;
+}
+
+.switchBtn {
+    background-color: var(--highlight);
+    height: 2.5vh;
+    width: 5vw;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+.switchBtn:hover {
+    cursor: pointer;
+}
+
+input,
+label,
+option,
+select {
+    font-weight: 500;
+}
