@@ -21,69 +21,71 @@
         <a href="{{ route('clientes.index') }}" class="button inactive"></a>
     </div>
     <div class="display">
-        <h2>Editar Usuario</h2>
-        <form action="{{ route('usuarios.update', $user) }}" method="POST">
-            @csrf
-            @method('PATCH')
-            <div>
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" required value="{{ old('email', $user->email) }}">
-                @error('email')
-                    <span style="color: red">{{ $message }}</span>
-                @enderror
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-        <h2>Usuario</h2>
+        <h2 class="titleText">Usuario</h2>
+        <div class="tableContainer">
+            <p class="asignadoText">Usuario: {{ $user->user }}</p>
+            <p class="asignadoText">Rol: @switch($user->rol)
+                    @case(0)
+                        Administrador
+                    @break
 
-        <p>Usuario: {{ $user->user }}</p>
-        <p>Rol: @switch($user->rol)
-                @case(0)
-                    Administrador
-                @break
+                    @case(1)
+                        Almacen
+                    @break
 
-                @case(1)
-                    Almacen
-                @break
+                    @case(2)
+                        Camionero
+                    @break
 
-                @case(2)
-                    Camionero
-                @break
-
-                @case(3)
-                    Cliente
-                @break
-            @endswitch
-        </p>
-        <p>Correo: {{ $user->email }}</p>
-        <p>Correo verificado: {{ $user->hasVerifiedEmail() ? $user->email_verified_at : 'No esta verificado' }}</p>
-        @if (!$user->hasVerifiedEmail())
-            @if (is_null($user->password))
-                <form action="{{ route('usuarios.resendPasswordNotification', $user) }}" method="POST">
-                    @csrf
-                    <button type="submit">
-                        Reenviar mail de verificacion
-                    </button>
-                </form>
-            @else
-                <form action="{{ route('usuarios.resendEmailNotification', $user) }}" method="POST">
-                    @csrf
-                    <button type="submit">
-                        Reenviar mail de verificacion
-                    </button>
-                </form>
+                    @case(3)
+                        Cliente
+                    @break
+                @endswitch
+            </p>
+            <p class="asignadoText">Correo: {{ $user->email }}</p>
+            <p class="asignadoText">Correo verificado: {{ $user->hasVerifiedEmail() ? $user->email_verified_at : 'No esta verificado' }}</p>
+            @if (!$user->hasVerifiedEmail())
+                @if (is_null($user->password))
+                    <form action="{{ route('usuarios.resendPasswordNotification', $user) }}" method="POST">
+                        @csrf
+                        <button type="submit">
+                            Reenviar mail de verificacion
+                        </button>
+                    </form>
+                @else
+                    <form action="{{ route('usuarios.resendEmailNotification', $user) }}" method="POST">
+                        @csrf
+                        <button type="submit">
+                            Reenviar mail de verificacion
+                        </button>
+                    </form>
+                @endif
             @endif
-        @endif
-        <form action="{{ route('usuarios.destroy', $user) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <button type="submit">
-                Eliminar
-            </button>
-        </form>
-        </p>
-
-        <a href="{{ route('usuarios.index') }}">Volver</a>
+            <form action="{{ route('usuarios.destroy', $user) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="modBtn">
+                    Eliminar
+                </button>
+            </form>
+            </p>
+        </div>
+        <div class="editContainer">
+            <h2 class="asignadoText">Editar Usuario</h2>
+            <form action="{{ route('usuarios.update', $user) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <div>
+                    <label for="email" class="asignadoText">Email</label>
+                    <input type="email" name="email" id="email" required
+                        value="{{ old('email', $user->email) }}">
+                    @error('email')
+                        <span style="color: red">{{ $message }}</span>
+                    @enderror
+                </div>
+                <button type="submit" class="modBtn">Submit</button>
+            </form>
+        </div>
     </div>
 </body>
 
