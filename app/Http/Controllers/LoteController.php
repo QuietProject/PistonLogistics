@@ -10,6 +10,7 @@ use App\Models\AlmacenPropio;
 use App\Models\PaqueteLote;
 use App\Models\Lleva;
 use App\Models\Paquete;
+use App\Http\Controllers\PaqueteController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -35,12 +36,14 @@ class LoteController extends Controller
      */
     public function store(Request $request)
     {
-        $almacenOrigen = $request->almacenOrigen;
         $validated = request()->validate([
+            "almacenOrigen" => "required|numeric|exists:almacenes_propios,ID",
             "ID_troncal" => "numeric|exists:troncales,ID",
             "ID_almacen_destino" => "numeric|exists:almacenes_propios,ID",
             "tipo" => "required|numeric|in:0,1",
         ]);
+
+        $almacenOrigen = $validated["almacenOrigen"];
 
         if (AlmacenPropio::find($almacenOrigen) == null) {
             return response()->json([
@@ -245,8 +248,8 @@ class LoteController extends Controller
     {
         // try {
             $validator = Validator::make($request->all(), [
-                "idLote" => ["required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
-                "matricula" => ["required", "string", "size:7", "exists:camiones,matricula"],
+                "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
+                "matricula" => ["bail" ,"required", "string", "size:7", "exists:camiones,matricula", Rule::exists("lleva", "matricula")->where("ID_lote", $request->idLote)->whereNull("fecha_descarga")],
             ]);
             if ($this->validacion($validator)) {
                 return $this->validacion($validator);
@@ -254,10 +257,10 @@ class LoteController extends Controller
 
             //descarga el lote de lleva
             $idLote = $request->idLote;
-            // return $idLote;
-            // $lleva = Lleva::where("ID_lote", $idLote)->whereNull("fecha_descarga")->first();
-            // $lleva->fecha_descarga = now();
-            // $lleva->save();
+            $lleva = Lleva::where("ID_lote", $idLote)->where("matricula", $request->matricula)->whereNull("fecha_descarga")->first();
+            // return $lleva;
+            $lleva->fecha_descarga = now();
+            $lleva->save();
 
             //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
             $lote = Lote::find($idLote);
@@ -265,25 +268,37 @@ class LoteController extends Controller
             $paquetesIds = $lote->paquetes()->pluck("ID");
             //tomo el almacen destino del lote
             $destinoLote = $lote->destino_lote()->pluck("ID_almacen")->first();
-            // $lote->fecha_cerrado = now();
-            // $lote->save();
+            $lote->fecha_cerrado = now();
+            $lote->save();
 
             //recorro los paquetes y los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
             foreach ($paquetesIds as $paqueteId) {
+                $paquete = Paquete::find($paqueteId);
                 // De los paquetes que ya están en su destino final asigno los que no se reparten a un lote de tipo 1
-                if ($paqueteId->ID_pickup == $destinoLote){
-                    $this->paqueteToPickup($paqueteId, $destinoLote);
-                }
-
+                if ($paquete->ID_pickup == $destinoLote) {
+                    if ($paquete->direccion == null){
+                        $this->paqueteToPickup($paqueteId, $destinoLote);
+                        $paquetesEnPickUp[] = $paquete;
+                    }
+                    $paquetesEnDestinoFinal[] = $paquete;
                 // Los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
-                
-                
+                }else{
+                    $lote = $this->getOrCreateLote($destinoLote, $paquete->ID_pickup);
+                    $this->asignarPaqueteToLote($paqueteId, $lote->ID);
+                }
             }
 
+            $paquetesProntosParaRepartir = array_diff($paquetesEnDestinoFinal, $paquetesEnPickUp);
+
+            $paquetesARepartirNuevamente = Paquete::whereIn("ID", $paquetesIds)->where("ID_pickup", "!=", $destinoLote)->get();
 
             return response()->json([
                 "message" => "Lote descargado y paquetes asignados",
-                "ID_lote" => $lote->ID,
+                "paquetesEnDestinoFinal" => [
+                    "paquetesProntosParaRepartir" => $paquetesProntosParaRepartir,
+                    "paquetesEnPickUp" => $paquetesEnPickUp,
+                ],
+                "paquetesARepartirNuevamente" => $paquetesARepartirNuevamente,
             ], 200);
         // } catch (\Exception $e) {
         //     return response()->json([
@@ -292,34 +307,5 @@ class LoteController extends Controller
         // }
     }
 
-    private function paqueteToPickup($paqueteId, $destinoLote){
-        $paquete = Paquete::find($paqueteId);
-        //Busco si existe un lote tipo 1 en el almacen destino del paquete
-        $lote = Lote::where("ID_almacen", $destinoLote)->whereNull("fecha_cerrado")->where("tipo", 1)->first();
-        //Si no existe, lo creo
-        if ($lote == null) {
-            DB::select("CALL lote_1($destinoLote, @idLote, @error)");
-            $error = DB::select("SELECT @error as error")[0]->error;
-            if ($error != null) {
-                return response()->json([
-                    "message" => $error
-                ], 400);
-            }
-            $lote = Lote::find(DB::select("SELECT @idLote as idLote")[0]->idLote);
-        }
-        //Asigno los paquetes que no se vayan a repartir al lote tipo 1
-        if($paquete->direccion == null){
-            $this->asignarPaqueteToLote($paqueteId, $lote->ID);
-        }
-
-
-    }
-
     /*************************************************************************************************************************************/
-
-    public function prueba(){
-        return response()->json([
-            "message" => "prueba"
-        ], 200);
-    }
 }
