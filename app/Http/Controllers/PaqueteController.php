@@ -21,6 +21,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Http\Resources\PaqueteResource;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Validated;
 
 class PaqueteController extends Controller
 {
@@ -45,6 +46,10 @@ class PaqueteController extends Controller
 
         $idAlmacen = request()->idAlmacen;
 
+        if ($idAlmacen == null){
+            return PaqueteResource::collection(Paquete::all());
+        }
+
         $paquetesEnAlmacen = PaqueteAlmacen::where("ID_almacen", $idAlmacen)->whereNull("hasta")->get();
         // return $paquetesEnAlmacen->to_array();
         $lotesEnLleva = Lleva::all()->pluck("ID_lote");
@@ -65,24 +70,19 @@ class PaqueteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $idAlmacen)
+    public function store(Request $request)
     {
         // Valido los datos del paquete
         $validated = request()->validate([
             "direccion" => "required|string",
             "mail" => "required|email",
+            "seReparte" => "required|boolean",
+            "idAlmacen" => "required|numeric|exists:almacenes_clientes,ID",
         ]);
 
-        // Valido que el almacen exista
-        if (AlmacenCliente::find($idAlmacen) === null) {
-            return response()->json([
-                "message" => "El almacen no existe"
-            ], 404);
-        }
 
         // Obtengo las coordenadas de la direccion del paquete
         $direccion = $validated["direccion"];
-        // return $direccion;
         $coordenadasPaquete = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
 
         // Genero una array con los ID de los almacenes propios
@@ -115,10 +115,15 @@ class PaqueteController extends Controller
 
         // Selecciono la ID del almacen más cercano a la direccion del paquete
         $idPickUp = $arrayAlmacenes[array_search(min($distancias), $distancias)];
+
+        // Si el paquete no se reparte se le borra la direccion
+        if (!$validated["seReparte"]) {
+            $direccion = null;
+        }
         $paquete = Paquete::create([
             "direccion" => $direccion,
             "mail" => $validated["mail"],
-            "ID_almacen" => $idAlmacen,
+            "ID_almacen" => $validated["idAlmacen"],
             "ID_pickup" => $idPickUp,
         ]);
         return response()->json([
@@ -249,8 +254,8 @@ class PaqueteController extends Controller
                 $this->asignarPaqueteToLote($idPaquete, $lote->ID);
                 return response()->json([
                     "message" => "Paquete descargado y lote asignado",
-                    "ID_lote" => $lote->ID,
                     "paquete" => $paquete,
+                    "lote" => $lote,
                 ], 200);
             }
 

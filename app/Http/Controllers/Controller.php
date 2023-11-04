@@ -79,7 +79,7 @@ class Controller extends BaseController
         return $lote;
     }
 
-    private function paqueteToPickup($paqueteId, $destinoPaquete){
+    public function paqueteToPickup($paqueteId, $destinoPaquete){
         $paquete = Paquete::find($paqueteId);
         //Busco si existe un lote tipo 1 en el almacen destino del paquete
         $lote = Lote::where("ID_almacen", $destinoPaquete)->whereNull("fecha_cerrado")->where("tipo", 1)->first();
