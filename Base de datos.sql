@@ -79,8 +79,8 @@ CREATE TABLE ALMACENES (
     ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
     nombre VARCHAR(32) NOT NULL,
     direccion VARCHAR(128) NOT NULL,
-    longitud decimal(7,5) NOT NULL,
-    latitud decimal(7,5) NOT NULL,
+    longitud decimal(8,5) NOT NULL,
+    latitud decimal(8,5) NOT NULL,
     baja BIT DEFAULT 0 NOT NULL
 );
 
@@ -269,3 +269,6 @@ IMPLEMENTADO CHECK RNE 10: En conduce fecha desde<fecha hasta
 IMPLEMENTADO CHECK RNE 11 : Fecha de registro de paquete < Fecha carga de trae
 IMPLEMENTADO PROCEDURES RNE 12: Para que un lote teste en DESTINP_LOTE tiene que tener tipo=0
 */
+use surno;
+select * from lleva;
+update lleva set fecha_descarga=current_timestamp() where ID_lote=2;

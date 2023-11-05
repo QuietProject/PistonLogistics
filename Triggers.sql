@@ -42,19 +42,19 @@ BEGIN
 			WHERE ID_lote = OLD.ID;
 		UPDATE PAQUETES 
 			SET estado =3 
-			WHERE ID = (SELECT ID
+			WHERE ID IN (SELECT ID
 			FROM PAQUETES
             INNER JOIN PAQUETES_LOTES ON PAQUETES.ID = PAQUETES_LOTES.ID_paquete
             WHERE PAQUETES_LOTES.ID_lote = OLD.ID AND ID_pickup != @almacen);
 		UPDATE PAQUETES 
 			SET estado =7 
-			WHERE ID = (SELECT ID
+			WHERE ID IN (SELECT ID
 			FROM PAQUETES
             INNER JOIN PAQUETES_LOTES ON PAQUETES.ID = PAQUETES_LOTES.ID_paquete
             WHERE PAQUETES_LOTES.ID_lote = OLD.ID AND ID_pickup = @almacen);
 		UPDATE PAQUETES_LOTES 
 			SET hasta=current_timestamp()
-            WHERE ID_lote = OLD.ID;
+            WHERE ID_lote = OLD.ID AND hasta is null;
 	END IF;
 END //
 DELIMITER ;
@@ -137,8 +137,8 @@ BEGIN
 	IF NEW.fecha_descarga IS NOT NULL AND OLD.fecha_descarga IS NULL
     THEN
 		UPDATE PAQUETES 
-			SET estado =6
-			WHERE ID = (SELECT ID_paquete
+			SET estado = 6
+			WHERE ID IN (SELECT ID_paquete
 			FROM PAQUETES_LOTES
 			WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
     END IF;
@@ -164,14 +164,14 @@ DELIMITER ;
 /*
 ESTADOS DE LOS PAQUETES
 0 = entregado
-1 = En almacenes del cliente  ok
-2 = Trayendo de almacenes de cliente ok
-3 = En almacen ok?
-4 = En lote (en almacen) ok
-5 = Transportando lote de almacen a almacen ok
-6 = En lote (en almacen destino) ok
-7 = Almacen destino ok
-8 = Repartiendo a destino ok
-9 = Esperando en pick UP ok
+1 = En almacenes del cliente
+2 = Trayendo de almacenes de cliente
+3 = En almacen
+4 = En lote (en almacen)
+5 = Transportando lote de almacen a almacen
+6 = En lote (en almacen destino)
+7 = Almacen destino
+8 = Repartiendo a destino
+9 = Esperando en pick UP
 */
 
