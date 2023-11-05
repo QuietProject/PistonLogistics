@@ -51,6 +51,10 @@
             <p>Direccion: {{ $almacen->direccion }}</p>
             <p>Latitud: {{ $almacen->latitud }}</p>
             <p>Longitud: {{ $almacen->longitud }}</p>
+            @if ($tipo == 'cliente')
+                <p>Cliente: <a href="{{ route('clientes.show', $cliente) }}">{{ $cliente->nombre }}</a>
+                <p>
+            @endif
             <form action="{{ route('almacenes.destroy', $almacen->ID) }}" method="POST">
                 @csrf
                 @method('DELETE')
@@ -63,10 +67,6 @@
                 </button>
             </form>
         </div>
-        @if ($tipo == 'cliente')
-            <p>Cliente: <a href="{{ route('clientes.show', $cliente) }}">{{ $cliente->nombre }}</a>
-            <p>
-        @endif
         <div class="editTop">
             <h2>Editar Almacen {{ $tipo }}</h2>
             <form action="{{ route('almacenes.update', $almacen) }}" method="POST">

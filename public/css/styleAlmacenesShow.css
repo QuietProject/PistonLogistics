@@ -172,7 +172,7 @@ select {
 .editTop {
     position: absolute;
     top: 30vh;
-    right: 10vh;
+    left: 51vw;
     width: 41vw;
     text-align: center;
     color: white;
