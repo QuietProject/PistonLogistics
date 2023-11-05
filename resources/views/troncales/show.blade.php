@@ -1,5 +1,5 @@
 <x-layout titulo='Troncal'>
-    {{-- @include('troncales.edit') --}}
+    @include('troncales.edit')
     <h2>Troncal</h2>
     <p>ID: {{ $troncal->ID }}</p>
     <p>Nombre: {{ $troncal->nombre }}</p>
@@ -14,6 +14,7 @@
             @endif
         </button>
     </form>
+    <a href="{{ route('ordenes.edit',$troncal) }}">Editar ordenes</a>
 
     <h3>Ordenes</h3>
     <table>
@@ -27,29 +28,20 @@
         <tbody>
             @foreach ($ordenes as $orden)
                 <tr>
-                    <td><a href="{{ route('almacenes.show', $orden->ID_almacen) }}"> {{ $orden->ID_almacen }} - {{ $orden->nombre }}</a></td>
+                    <td><a href="{{ route('almacenes.show', $orden->ID_almacen) }}"> {{ $orden->ID_almacen }} -
+                            {{ $orden->nombre }}</a></td>
                     <td>{{ $orden->orden }}</td>
                     <td>
                         @if (!$orden->almacenBaja)
-                        <form action="{{ route('troncales.destroy', $troncal->ID) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">
-                                @if ($orden->ordenBaja)
-                                    Dar de Alta
-                                @else
-                                    Dar de Baja
-                                @endif
-                            </button>
-                        </form>
+                            De alta
                         @else
-                        El almacen esta dado de baja
+                            El almacen esta dado de baja
                         @endif
                     </td>
                 </tr>
             @endforeach
         </tbody>
-    </table>`
+    </table>
     <a href="{{ route('troncales.index') }}">Volver</a>
 
 </x-layout>

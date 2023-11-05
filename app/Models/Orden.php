@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Ordene
- * 
+ *
  * @property int $ID_almacen
  * @property int $ID_troncal
  * @property int|null $orden
- * 
+ *
  * @property AlmacenPropio $almacen_propio
  * @property Troncale $troncale
  * @property Collection|DestinoLote[] $destino_lotes
@@ -36,7 +36,9 @@ class Orden extends Model
 	];
 
 	protected $fillable = [
-		'orden'
+		'orden',
+        'ID_almacen',
+		'ID_troncal'
 	];
 
 	public function almacenes_propio()

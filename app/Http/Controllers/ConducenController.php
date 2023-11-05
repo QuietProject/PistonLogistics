@@ -70,7 +70,7 @@ class ConducenController extends Controller
         if ($vehiculo->baja || !$vehiculo->es_operativo) {
             return redirect()->back()->with('error', 'El vehiculo no esta operativo');
         }
-        $camioneros = DB::select('SELECT DISTINCT camioneros.CI, camioneros.nombre, camioneros.apellido FROM camioneros INNER JOIN conducen ON camioneros.ci = conducen.ci WHERE baja = 0 AND camioneros.CI NOT IN ( SELECT CI FROM conducen WHERE hasta IS NULL );');
+        $camioneros = DB::select('SELECT DISTINCT camioneros.CI, camioneros.nombre FROM camioneros INNER JOIN conducen ON camioneros.ci = conducen.ci WHERE baja = 0 AND camioneros.CI NOT IN ( SELECT CI FROM conducen WHERE hasta IS NULL );');
         if (count($camioneros) == 0) {
             return redirect()->back()->with('error', 'No hay camioneros disponibles');
         }
