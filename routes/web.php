@@ -24,16 +24,15 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/prueba', [AuthenticatedSessionController::class, 'prueba']);
+Route::get('/home', function () {
+    return to_route('inicio');
+});
 
 Route::middleware(LocaleCookieMiddleware::class)->group(function () {
 
     Route::view('/login', 'login')->name('login')->middleware('guest');
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
     Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
-    Route::view('/', 'index')->name('inicio');
-    Route::get('/home', function () {
-        return to_route('inicio');
-    });
     Route::view('/forgot-password', 'password.request')->middleware('guest')->name('password.request');
     Route::post('/forgot-password', [UsersController::class, 'forgotPassword'])->middleware('guest')->name('password.email');
     Route::view('/reset-password/{token}', 'password.reset-password')->middleware('guest')->name('password.reset');
@@ -43,10 +42,15 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
 
 Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
 
+    Route::view('/', 'index')->name('inicio');
+
     Route::resource('camioneros', CamionerosController::class)->except(['create', 'edit']);
     Route::resource('clientes', ClientesController::class)->except(['create', 'edit']);
     Route::resource('almacenes', AlmacenesController::class)->except(['create', 'edit'])->parameters(['almacenes' => 'almacen']);
-    Route::resource('troncales', TroncalesController::class)->except(['create', 'edit'])->parameters(['troncales' => 'troncal']);
+
+    Route::resource('troncales', TroncalesController::class)/*->except(['create', 'edit'])*/->parameters(['troncales' => 'troncal']);
+    Route::get('/ordenes/{troncal}/edit', [TroncalesController::class, 'ordenes'])->name('ordenes.edit');
+    Route::patch('/ordenes/{troncal}', [TroncalesController::class, 'ordenesUpdate'])->name('ordenes.update');
 
     Route::resource('vehiculos', VehiculosController::class)->except(['create', 'edit']);
     Route::patch('/vehiculo/{vehiculo}/baja', [VehiculosController::class, 'baja'])->name('vehiculos.baja');
