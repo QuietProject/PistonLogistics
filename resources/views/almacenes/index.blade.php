@@ -62,14 +62,10 @@
                 <thead>
                     <tr>
                         <th style="width: 10%;" onclick="sortTableAlternate(0);arrowsTable(4);"" id="4">ID</th>
-                        <th style="width: 25%;" onclick="sortTableAlternate(1);arrowsTable(5);"" id="5">Nombre
-                        </th>
-                        <th style="width: 25%;" onclick="sortTableAlternate(2);arrowsTable(6);"" id="6">
-                            Direccion</th>
-                        <th style="width: 20%;" onclick="sortTableAlternate(3);arrowsTable(7);"" id="7">Cliente
-                        </th>
-                        <th style="width: 20%;" onclick="sortTableAlternate(4);arrowsTable(8);"" id="7">Estado
-                        </th>
+                        <th style="width: 25%;" onclick="sortTableAlternate(1);arrowsTable(5);"" id="5">Nombre</th>
+                        <th style="width: 25%;" onclick="sortTableAlternate(2);arrowsTable(6);"" id="6">Direccion</th>
+                        <th style="width: 20%;" onclick="sortTableAlternate(3);arrowsTable(7);"" id="7">Cliente</th>
+                        <th style="width: 20%;" onclick="sortTableAlternate(4);arrowsTable(8);"" id="7">Estado</th>
                     </tr>
                 </thead>
                 <tbody>

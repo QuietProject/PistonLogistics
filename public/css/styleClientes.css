@@ -158,50 +158,75 @@ select {
     font-weight: 500;
 }
 
-.infoBox {
+.editContainer {
     position: relative;
+    height: 50vh;
+    width: 35vw;
+    left: 57.5vw;
+    top: 35vh;
     text-align: center;
-    height: 20vh;
-    width: 41vw;
-    top: 50vh;
-    color: white;
-    font-weight: 400;
-    font-size: 2.5vh;
 }
 
-.editTop {
+.filterText {
     position: absolute;
-    top: 30vh;
-    left: 51vw;
-    width: 41vw;
-    text-align: center;
-    color: white;
-    font-weight: 400;
-    font-size: 2vh;
+    height: 5vh;
+    width: 20vw;
+    top: 22.5vh;
+    left: 10vw;
+    border-radius: 2vh;
+    text-indent: 5%;
+    background-color: rgb(200, 200, 200);
+    box-shadow: 0 0 10px 0 var(--base);
+}
+
+.filterText:focus {
+    outline: none;
+    background-color: white;
 }
 
 .tableTitle {
-    position: relative;
-    color: white;
-    top: 27.5vh;
-    left: 22.5vw;
-    font-size: 2vw;
+    position: absolute;
+    top: 22.25vh;
+    left: 21vw;
+    color: rgb(225, 225, 225);
+    font-size: 5vh;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--base);
+    user-select: none;
 }
 
 .tableContainer {
     position: absolute;
-    top: 40vh;
-    left: 8.5vw;
+    top: 35vh;
+    left: 7.5vw;
     max-height: 65vh;
-    width: 40vw;
+    width: 52.5vw;
     border-radius: 10px;
-    display: flex;
-    flex-direction: row;
+    text-align: center;
     overflow-y: scroll;
 }
 
 .tableView {
-    width: 80vw;
+    width: 52.5vw;
     background-color: rgb(140, 140, 140);
     border-collapse: collapse;
+}
+
+.switchBtn {
+    background-color: var(--highlight);
+    height: 2.5vh;
+    width: 7.5vw;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+.switchBtn:hover {
+    cursor: pointer;
+}
+
+.asignadoText {
+    font-weight: 500;
+    font-size: 2.5vh;
+    color: white;
 }
