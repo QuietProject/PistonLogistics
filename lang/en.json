@@ -3,7 +3,7 @@
     "Usuario":"User",
     "¿Olvidaste tu contraseña?":"Forgot password?",
     "Contraseña":"Password",
-    "Mantener sesion inciada":"", 
+    "Mantener sesion inciada":"",
     "The :attribute must contain at least one letter.": "The :attribute must contain at least one letter.",
     "The :attribute must contain at least one number.": "The :attribute must contain at least one number.",
     "The :attribute must contain at least one symbol.": "The :attribute must contain at least one symbol.",
