@@ -1,4 +1,4 @@
-<html lang="es">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -23,9 +23,6 @@
 
     @if (session('success'))
         <h4 style="color: green;">{{ session('success') }}</h4>
-    @endif
-    @if (session('warn'))
-        <h4 style="color: orange;">{{ session('warn') }}</h4>
     @endif
     @if (session('error'))
         <h4 style="color: red;">{{ session('error') }}</h4>
