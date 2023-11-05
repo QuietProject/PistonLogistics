@@ -127,7 +127,7 @@ class PaqueteController extends Controller
             "ID_pickup" => $idPickUp,
         ]);
         return response()->json([
-            "message" => "Paquete creado",
+            "message" => "Paquete creado exitosamente",
             "ID" => $paquete->ID,
         ], 201);
     }
@@ -181,7 +181,7 @@ class PaqueteController extends Controller
         ]);
 
         return response()->json([
-            "message" => "Paquete cargado"
+            "message" => "Paquete cargado exitosamente",
         ], 200);
     }
 
@@ -343,13 +343,19 @@ class PaqueteController extends Controller
         ]);
 
         $paquetesEnLotes = PaqueteLote::where("ID_paquete", $validated["ID_paquete"])->whereNull("hasta")->get();
-        if ($paquetesEnLotes !== null) {
+        // return $paquetesEnLotes;
+        if (!empty(json_decode($paquetesEnLotes, true))) {
             return response()->json([
                 "message" => "Paquete ya en un lote"
             ], 400);
         }
 
-        $this->asignarPaqueteToLote($validated["ID_paquete"], $validated["ID_lote"]);
+        $error = $this->asignarPaqueteToLote($validated["ID_paquete"], $validated["ID_lote"]);
+        if (!empty($error)){
+            return response()->json([
+                "message" => $error
+            ], 400);
+        }
 
         return response()->json([
             "message" => "Paquete agregado a lote"

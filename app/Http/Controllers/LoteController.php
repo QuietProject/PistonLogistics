@@ -231,10 +231,7 @@ class LoteController extends Controller
             return $this->validacion($validator);
         }
 
-        Lleva::create([
-            "ID_lote" => $request->idLote,
-            "matricula" => $request->matricula,
-        ]);
+        DB::select("Insert into lleva (ID_lote, matricula) values ($request->idLote, '$request->matricula')");
 
         return response()->json([
             "message" => "Lote cargado"
@@ -255,12 +252,14 @@ class LoteController extends Controller
                 return $this->validacion($validator);
             }
 
+            // return $request->matricula;
             //descarga el lote de lleva
             $idLote = $request->idLote;
-            $lleva = Lleva::where("ID_lote", $idLote)->where("matricula", $request->matricula)->whereNull("fecha_descarga")->first();
-            // return $lleva;
+            $lleva = Lleva::where("ID_lote", $idLote)->first();
+            // // return $lleva;
             $lleva->fecha_descarga = now();
             $lleva->save();
+            // DB::select("update lleva set fecha_descarga = now() where ID_lote = $idLote and matricula = '$request->matricula' and fecha_descarga is null limit 1");
 
             //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
             $lote = Lote::find($idLote);
@@ -270,6 +269,9 @@ class LoteController extends Controller
             $destinoLote = $lote->destino_lote()->pluck("ID_almacen")->first();
             $lote->fecha_cerrado = now();
             $lote->save();
+
+            $paquetesEnDestinoFinal = [];
+            $paquetesEnPickUp = [];
 
             //recorro los paquetes y los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
             foreach ($paquetesIds as $paqueteId) {
@@ -298,7 +300,10 @@ class LoteController extends Controller
                     "paquetesProntosParaRepartir" => $paquetesProntosParaRepartir,
                     "paquetesEnPickUp" => $paquetesEnPickUp,
                 ],
-                "paquetesARepartirNuevamente" => $paquetesARepartirNuevamente,
+                "paquetesARepartirNuevamente" => [
+                    "paquetes" =>$paquetesARepartirNuevamente,
+                    "lote" => $lote,
+            ],
             ], 200);
         // } catch (\Exception $e) {
         //     return response()->json([
