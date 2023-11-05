@@ -14,15 +14,14 @@
 <body>
     <div class="navDiv">
         <a href="{{ route('camioneros.index') }}" class="button active"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive" id="btnRutes"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive" id="btnWarehouses"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive" id="btnProducts"></a>
+        <a href="{{ route('usuarios.index') }}" class="button inactive"></a>
+        <a href="{{ route('almacenes.index') }}" class="button inactive"></a>
+        <a href="{{ route('troncales.index') }}" class="button inactive"></a>
         <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
         <a href="{{ route('clientes.index') }}" class="button inactive"></a>
     </div>
     <!-- Backdrop Blur -->
-    <div class="addBackdrop disabled" id="addBackdrop">
-    </div>
+    <div class="addBackdrop disabled" id="addBackdrop"></div>
     <!-- Trucks Screen -->
     <div class="display" id="displayTrucks">
         <!-- Title -->

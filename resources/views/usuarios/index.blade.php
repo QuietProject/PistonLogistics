@@ -28,8 +28,8 @@
                     <tr>
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Usuario</th>
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Rol</th>
-                        <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Email</th>
-                        <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Verificacion email</th>
+                        <th style="width: 25%;" onclick="sortTable(0);arrowsTable(0);" id="0">Email</th>
+                        <th style="width: 20%;" onclick="sortTable(0);arrowsTable(0);" id="0">Verificacion email</th>
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0"></th>
                     </tr>
                 </thead>

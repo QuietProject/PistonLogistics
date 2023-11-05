@@ -18,6 +18,68 @@ body {
     overflow-x: hidden;
 }
 
+input {
+    border-radius: 10px;
+    text-align: center;
+}
+
+textarea:focus,
+input:focus {
+    outline: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.titleText {
+    position: absolute;
+    font-size: 5vh;
+    top: 5vh;
+    left: 17.5vh;
+    color: white;
+    text-shadow: 0 0 10px var(--base);
+    user-select: none;
+}
+
+.addButton {
+    position: absolute;
+    height: 7.5vh;
+    width: 7.5vw;
+    top: 5vh;
+    right: 5vh;
+    background-color: var(--highlight);
+    border-radius: 2vh;
+    font-size: 3vh;
+}
+
+.addButton:hover {
+    cursor: pointer;
+}
+
+.filterText {
+    position: absolute;
+    height: 5vh;
+    width: 20vw;
+    top: 15vh;
+    left: 7.5vw;
+    border-radius: 2vh;
+    text-indent: 5%;
+    background-color: rgb(200, 200, 200);
+    box-shadow: 0 0 10px 0 var(--base);
+}
+
+.filterText:focus {
+    outline: none;
+    background-color: white;
+}
+
 .navDiv {
     position: absolute;
     height: 100%;
@@ -65,73 +127,20 @@ body {
     background-color: var(--baseLight);
 }
 
-.welcomeText {
-    position: absolute;
-    font-size: 5vh;
-    width: 100vw;
-    top: 45vh;
-    text-align: center;
-}
-
-.titleText {
-    position: absolute;
-    font-size: 5vh;
-    top: 5vh;
-    left: 10vh;
-    color: white;
-    text-shadow: 0 0 10px var(--base);
-    user-select: none;
-}
-
-.addButton {
-    position: absolute;
-    height: 7.5vh;
-    width: 7.5vw;
-    top: 5vh;
-    right: 5vh;
-    background-color: var(--highlight);
-    border-radius: 2vh;
-    font-size: 3vh;
-}
-
-.addButton:hover {
-    cursor: pointer;
-}
-
-.filterText {
-    position: absolute;
-    height: 5vh;
-    width: 20vw;
-    top: 15vh;
-    left: 7.5vw;
-    border-radius: 2vh;
-    text-indent: 5%;
-    background-color: rgb(200, 200, 200);
-    box-shadow: 0 0 10px 0 var(--base);
-}
-
-.filterText:focus {
-    outline: none;
-    background-color: white;
-}
-
 .tableTitle {
-    position: absolute;
-    top: 22.25vh;
-    left: 21vw;
-    color: rgb(225, 225, 225);
-    font-size: 5vh;
-    font-weight: bold;
-    text-shadow: 0 0 5px var(--base);
-    user-select: none;
+    position: relative;
+    color: white;
+    top: 25vh;
+    left: 18vw;
+    font-size: 2vw;
 }
 
 .tableContainer {
     position: absolute;
-    top: 30vh;
+    top: 32.5vh;
     left: 8.5vw;
     max-height: 65vh;
-    width: 80vw;
+    width: 40vw;
     border-radius: 10px;
     display: flex;
     flex-direction: row;
@@ -173,6 +182,35 @@ tr:nth-child(even) {
     background-color: rgb(165, 165, 165);
 }
 
+.editContainer {
+    position: relative;
+    height: 60vh;
+    width: 35vw;
+    left: 55vw;
+    top: 15vh;
+    text-align: center;
+}
+
+.asignadoText {
+    font-weight: 500;
+    font-size: 2.5vh;
+    color: white;
+}
+
+.modBtn {
+    background-color: var(--highlight);
+    margin-top: 2vh;
+    height: 4vh;
+    width: 10vw;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+.modBtn:hover {
+    cursor: pointer;
+}
+
 .addBackdrop {
     position: absolute;
     z-index: 1;
@@ -185,10 +223,10 @@ tr:nth-child(even) {
 .addInterface {
     position: absolute;
     z-index: 2;
-    height: 50vh;
+    height: 75vh;
     width: 30vw;
     left: 32.5vw;
-    top: 25vh;
+    top: 12.5vh;
     background-color: var(--base);
     border-radius: 1vw;
     display: flex;
@@ -261,7 +299,7 @@ tr:nth-child(even) {
     color: rgb(225, 225, 225);
     text-shadow: 0 0 5px var(--baseDark);
     left: 20%;
-    top: 15%;
+    top: 10vh;
     margin-top: 7%;
 }
 
@@ -274,7 +312,7 @@ input:focus {
 .submitBtn {
     position: relative;
     left: 37.5%;
-    margin-top: 7.5%;
+    top: 20vh;
     height: 2.5vw;
     width: 25%;
     border-radius: 10px;
@@ -283,27 +321,5 @@ input:focus {
 }
 
 .submitBtn:hover {
-    cursor: pointer;
-}
-
-input[type=number] {
-    -moz-appearance: textfield;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.switchBtn {
-    height: 2.5vh;
-    width: 5vw;
-    border-radius: 15px;
-    background-color: var(--color);
-    font-weight: 500;
-}
-
-.switchBtn:hover {
     cursor: pointer;
 }

@@ -95,31 +95,6 @@ input[type=number] {
     background-color: var(--baseLight);
 }
 
-.tableTitle {
-    position: relative;
-    color: white;
-    top: 25vh;
-    left: 15vw;
-    font-size: 2vw;
-}
-
-.tableContainer {
-    position: absolute;
-    top: 40vh;
-    left: 5vw;
-    max-height: 65vh;
-    width: 52.5vw;
-    border-radius: 10px;
-    text-align: center;
-    overflow-y: scroll;
-}
-
-.tableView {
-    width: 52.5vw;
-    background-color: rgb(140, 140, 140);
-    border-collapse: collapse;
-}
-
 a {
     text-decoration: none;
     color: var(--highlight);
@@ -147,21 +122,6 @@ td {
 
 tr:nth-child(even) {
     background-color: rgb(165, 165, 165);
-}
-
-.editContainer {
-    position: relative;
-    height: 50vh;
-    width: 35vw;
-    left: 57.5vw;
-    top: 40vh;
-    text-align: center;
-}
-
-.asignadoText {
-    font-weight: 500;
-    font-size: 2.5vh;
-    color: white;
 }
 
 .modBtn {
@@ -196,4 +156,26 @@ label,
 option,
 select {
     font-weight: 500;
+}
+
+.infoBox {
+    position: relative;
+    text-align: center;
+    height: 20vh;
+    width: 41vw;
+    top: 50vh;
+    color: white;
+    font-weight: 400;
+    font-size: 2.5vh;
+}
+
+.editTop {
+    position: absolute;
+    top: 30vh;
+    right: 10vh;
+    width: 41vw;
+    text-align: center;
+    color: white;
+    font-weight: 400;
+    font-size: 2vh;
 }
