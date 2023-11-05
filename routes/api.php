@@ -34,6 +34,6 @@ Route::get("lotes/descargar", [LoteController::class, "descargaLote"]);
 Route::get("lotes/contenido", [LoteController::class, "paquetesEnLote"]);
 Route::get("lotes", [LoteController::class, "index"]);
 Route::post("lotes/create", [LoteController::class, "store"]);
-Route::post("lotes/agregar/paquete", [PaqueteController::class, "agregarPaqueteToLote"]);
+Route::get("lotes/agregar/paquete", [PaqueteController::class, "agregarPaqueteToLote"]);
 Route::post("lotes/eliminar/paquete", [LoteController::class, "quitarPaquete"]);
 Route::get("/lotes/pronto", [LoteController::class, "lotePronto"]);

@@ -338,11 +338,11 @@ class PaqueteController extends Controller
     public function agregarPaqueteToLote()
     {
         $validated = request()->validate([
-            "ID_paquete" => "required|numeric|exists:paquetes,ID",
-            "ID_lote" => "required|numeric|exists:lotes,ID",
+            "idPaquete" => "required|numeric|exists:paquetes,ID",
+            "idLote" => "required|numeric|exists:lotes,ID",
         ]);
 
-        $paquetesEnLotes = PaqueteLote::where("ID_paquete", $validated["ID_paquete"])->whereNull("hasta")->get();
+        $paquetesEnLotes = PaqueteLote::where("ID_paquete", $validated["idPaquete"])->whereNull("hasta")->get();
         // return $paquetesEnLotes;
         if (!empty(json_decode($paquetesEnLotes, true))) {
             return response()->json([
@@ -350,7 +350,7 @@ class PaqueteController extends Controller
             ], 400);
         }
 
-        $error = $this->asignarPaqueteToLote($validated["ID_paquete"], $validated["ID_lote"]);
+        $error = $this->asignarPaqueteToLote($validated["idPaquete"], $validated["idLote"]);
         if (!empty($error)){
             return response()->json([
                 "message" => $error
