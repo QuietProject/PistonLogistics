@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Orden extends Model
 {
-	protected $table = 'ordenes';
+	protected $table = 'ORDENES';
 	public $incrementing = false;
 	public $timestamps = false;
 

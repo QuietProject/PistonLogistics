@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Almacene
+ * Class Almacen
  * 
  * @property int $ID
  * @property string $nombre
@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Almacen extends Model
 {
-	protected $table = 'almacenes';
+	protected $table = 'ALMACENES';
 	protected $primaryKey = 'ID';
 	public $timestamps = false;
 

@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DestinoLote extends Model
 {
-	protected $table = 'destino_lote';
+	protected $table = 'DESTINO_LOTE';
 	protected $primaryKey = 'ID_lote';
 	public $incrementing = false;
 	public $timestamps = false;

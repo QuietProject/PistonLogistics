@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Conduce extends Model
 {
-	protected $table = 'conducen';
+	protected $table = 'CONDUCEN';
 	public $incrementing = false;
 	public $timestamps = false;
 

@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Trae extends Model
 {
-	protected $table = 'trae';
+	protected $table = 'TRAE';
 	protected $primaryKey = 'ID_paquete';
 	public $incrementing = false;
 	public $timestamps = false;
