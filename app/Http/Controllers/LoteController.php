@@ -103,7 +103,7 @@ class LoteController extends Controller
             ], 400);
         }
 
-        $paquetesEnLotes = PaqueteLote::whereIn("ID_lote", $idsLote)->get();
+        $paquetesEnLotes = PaqueteLote::whereIn("ID_lote", $idsLote)->whereNull("hasta")->get();
 
         // Verifica si se encontraron registros
         if ($paquetesEnLotes->isEmpty()) {
