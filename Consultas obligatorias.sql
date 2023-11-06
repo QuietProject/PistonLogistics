@@ -17,20 +17,13 @@ CASE
     WHEN lleva.id_lote is not null THEN 'El camion esta llevando lotes'
     WHEN trae.ID_paquete is not null THEN 'El camion esta trayendo paquetes'
     WHEN vehiculos.es_operativo=0 THEN 'El camion esta fuera de servicio'
-    ELSE 'El camion no esta realizando nunguna tarea	'
+    ELSE 'El camion no esta realizando nunguna tarea'
   END AS MATRICULA
 from vehiculos
 LEFT JOIN (select * from lleva where fecha_descarga is null) lleva ON vehiculos.matricula = lleva.matricula
 LEFT JOIN (select * from trae where fecha_descarga is null) trae ON vehiculos.matricula = trae.matricula
 where vehiculos.matricula in (select matricula from camiones)
 group by vehiculos.matricula;
-
-/*insert into lotes (ID_troncal, ID_almacen) values(1,2);
-insert into lleva (matricula,ID_lote) values ('PQR1234',12);
-insert into trae (ID_paquete,matricula) values (15,'PQR1234');
-delete from trae where ID_paquete >15;
-select* from trae;*/
-
 
 -- 4. MOSTRAR TODOS LOS CAMIONES QUE VISITARON DURANTE EL MES DE JUNIO UN ALMACEN DADO
 
@@ -51,40 +44,30 @@ LEFT JOIN lleva ON lotes.id = lleva.id_lote
 WHERE paquetes.ID= 6;
 
 -- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
--- CAMBIAR 
-SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE',
+SELECT  paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE' ,
 CASE
     WHEN trae.matricula is not null and trae.fecha_descarga is null THEN trae.matricula
     WHEN lleva.matricula is not null and lleva.fecha_descarga is null THEN lleva.matricula
     WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN reparte.matricula
     ELSE null 
   END AS MATRICULA,
-  destino_lote.ID_almacen as 'ALMACEN DESTINO', paquetes.direccion, paquetes.id_pickup,
-  CASE
-	WHEN paquetes.fecha_entregado is not null then 'Entregado'
-    WHEN reparte.matricula is not null and reparte.fecha_descarga is null THEN 'Llevando hacia el destino final'
-    WHEN lotes.ID is not null and tipo = 1 THEN 'Paquete esperando en pickUp'
-    WHEN lleva.matricula is not null and lleva.fecha_descarga is null THEN 'Transportando hacia almacen secundario'
-    WHEN trae.matricula is not null and trae.fecha_descarga is null THEN 'Trayendo hacia almacenes de QC'
-    WHEN trae.ID_paquete is null THEN 'En almacenes del proveedor'
-    ELSE 'En almacenes de QC'
-	END AS 'ESTADO ENVIO'
-  
-FROM paquetes
-LEFT JOIN (SELECT id_paquete, id_lote ,MAX(fecha) AS fecha FROM paquetes_lotes GROUP BY id_paquete) as paquetes_lotes ON paquetes.id = paquetes_lotes.id_paquete
+  paquetes.ID_pickup 'ALMACEN DESTINO', paquetes.direccion 'DIRECCION FINAL' ,paquetes.estado as 'ESTADO ENVIO'
+FROM PAQUETES
+LEFT JOIN PAQUETES_LOTES as paquetes_lotes ON paquetes.id = paquetes_lotes.id_paquete AND hasta is null
 LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
 LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
 LEFT JOIN lleva ON lotes.ID = lleva.id_lote
 LEFT JOIN trae ON paquetes.ID = trae.id_paquete
 LEFT JOIN reparte ON paquetes.ID = reparte.id_paquete
-WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY);
+WHERE PAQUETES.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 3 DAY);
 
 -- 7. MOSTRAR TODOS LOS PAQUETES A LOS QUE AÚN NO SE LES HA ASIGNADO UN LOTE Y LA FECHA EN LA QUE FUERON RECIBIDOS.
--- CAMBIAR
-select * 
-from paquetes
-where ID not in (select ID_paquete from trae where fecha_descarga is not null) and fecha_entregado is null;
 
+select PAQUETES_ALMACENES.ID_paquete PAQUETE, PAQUETES_ALMACENES.desde 'FECHA RECIBIDO'
+from paquetes_almacenes
+where PAQUETES_ALMACENES.hasta IS NULL;
+
+select * from paquetes;
 -- 8. MOSTRAR MATRICULA DE LOS CAMIONES QUE SE ENCUENTRAN FUERA DE SERVICIO.
 
 select matricula
@@ -101,7 +84,3 @@ select ALMACENES.*
 from ordenes
 inner join ALMACENES on ordenes.ID_almacen=ALMACENES.ID
 where ordenes.ID_troncal=2 and almacenes.baja=0;
-
--- CONSULTAS OPCIONALES
-
--- 1 MOSTRAR LOS LOTES QUE LLEGARON A UN ALMACEN ESPECIFICO DURANE EL MES DE AGOSTO DE 2023
