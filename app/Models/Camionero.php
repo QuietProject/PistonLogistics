@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Camionero extends Model
 {
-	protected $table = 'camioneros';
+	protected $table = 'CAMIONEROS';
 	protected $primaryKey = 'CI';
 	public $incrementing = false;
 	public $timestamps = false;

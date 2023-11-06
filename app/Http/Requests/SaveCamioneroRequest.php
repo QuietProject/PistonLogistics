@@ -25,15 +25,13 @@ class SaveCamioneroRequest extends FormRequest
     {
         if($this->isMethod('PATCH')){
             return [
-                'nombre' => ['bail', 'required', 'max:32'],
-                'apellido' => ['bail', 'required', 'max:32'],
+                'nombre' => ['bail', 'required', 'max:32']
             ];
         }
 
         return [
-            'CI' => ['bail', 'required', 'digits:8', 'integer', 'unique:camioneros,CI'],
-            'nombre' => ['bail', 'required', 'max:32'],
-            'apellido' => ['bail', 'required', 'max:32'],
+            'CI' => ['bail', 'required', 'digits:8', 'integer', 'unique:CAMIONEROS,CI'],
+            'nombre' => ['bail', 'required', 'max:32']
         ];
     }
 }

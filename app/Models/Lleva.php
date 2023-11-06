@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Lleva extends Model
 {
-	protected $table = 'lleva';
+	protected $table = 'LLEVA';
 	protected $primaryKey = 'ID_lote';
 	public $incrementing = false;
 	public $timestamps = false;

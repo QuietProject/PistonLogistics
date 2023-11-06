@@ -41,7 +41,7 @@ class TroncalesController extends Controller
      */
     public function store(Request $request)
     {
-        $nombre = $request->validate(['nombre' => ['required', 'max:32', 'unique:troncales']]);
+        $nombre = $request->validate(['nombre' => ['required', 'max:32', 'unique:TRONCALES']]);
         $troncal = Troncal::create($nombre);
         return to_route('troncales.show', $troncal)->with('success', 'La troncal se creo correctamente');
     }
@@ -76,7 +76,7 @@ class TroncalesController extends Controller
         $ordenes =  $ordenes = Orden::where('ID_troncal', $troncal->ID)
             ->join('ALMACENES', 'ALMACENES.ID', 'ORDENES.ID_almacen')
             ->where('ORDENES.baja', 0)
-            ->where('Almacenes.baja', 0)
+            ->where('ALMACENES.baja', 0)
             ->orderBy('ALMACENES.baja', 'asc')
             ->orderBy('ORDENES.baja', 'asc')
             ->orderBy('ORDENES.orden', 'asc')

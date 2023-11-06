@@ -7,7 +7,7 @@
         @csrf
         @method('PATCH')
         <input type="text" name="ordenes">
-        <button type="submit">Submit</button>
+        <button type="submit"></button>
     </form>
     <h3>Ordenes</h3>
     <table>

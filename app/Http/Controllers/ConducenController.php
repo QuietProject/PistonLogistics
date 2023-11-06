@@ -70,7 +70,7 @@ class ConducenController extends Controller
         if ($vehiculo->baja || !$vehiculo->es_operativo) {
             return redirect()->back()->with('error', 'El vehiculo no esta operativo');
         }
-        $camioneros = DB::select('SELECT DISTINCT camioneros.CI, camioneros.nombre FROM camioneros INNER JOIN conducen ON camioneros.ci = conducen.ci WHERE baja = 0 AND camioneros.CI NOT IN ( SELECT CI FROM conducen WHERE hasta IS NULL );');
+        $camioneros = DB::select('SELECT DISTINCT CAMIONEROS.CI, CAMIONEROS.nombre FROM CAMIONEROS INNER JOIN CONDUCEN ON CAMIONEROS.ci = CONDUCEN.ci WHERE baja = 0 AND CAMIONEROS.CI NOT IN ( SELECT CI FROM CONDUCEN WHERE hasta IS NULL );');
         if (count($camioneros) == 0) {
             return redirect()->back()->with('error', 'No hay camioneros disponibles');
         }
@@ -88,7 +88,7 @@ class ConducenController extends Controller
         if ($camionero->baja) {
             return redirect()->back()->with('error', 'El camionero no esta dado de baja');
         }
-        $vehiculos = DB::select("SELECT DISTINCT vehiculos.matricula, IF (Exists (select 1 from camiones where camiones.matricula=vehiculos.matricula),'Camion','Camioneta') AS tipo FROM vehiculos INNER JOIN conducen ON vehiculos.matricula = conducen.matricula WHERE baja = 0 AND es_operativo = 1 AND vehiculos.matricula NOT IN (SELECT matricula FROM conducen WHERE hasta IS NULL);");
+        $vehiculos = DB::select("SELECT DISTINCT VEHICULOS.matricula, IF (Exists (select 1 from CAMIONES where CAMIONES.matricula=VEHICULOS.matricula),'Camion','Camioneta') AS tipo FROM VEHICULOS INNER JOIN CONDUCEN ON VEHICULOS.matricula = CONDUCEN.matricula WHERE baja = 0 AND es_operativo = 1 AND VEHICULOS.matricula NOT IN (SELECT matricula FROM CONDUCEN WHERE hasta IS NULL);");
         if (count($vehiculos) == 0) {
             return redirect()->back()->with('error', 'No hay vehiculo disponibles');
         }
@@ -108,8 +108,9 @@ class ConducenController extends Controller
         $vehiculo = Vehiculo::where('matricula', $request->input('matricula'))->where('baja', 0)->where('es_operativo', 1)->firstOrFail();
 
         $a = Conducen::where('CI', $camionero->CI)->whereNull('hasta')->Orwhere('matricula', $vehiculo->matricula)->whereNull('hasta')->get();
-
+        
         $ruta = app('router')->getRoutes()->match(app('request')->create(url()->previous()))->getName();
+
         if (count($a) > 0) {
             return redirect()->back()->with('error', 'Error');
         }

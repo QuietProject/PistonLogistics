@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PaquetesLote extends Model
 {
-	protected $table = 'paquetes_lotes';
+	protected $table = 'PAQUETES_LOTES';
 	public $incrementing = false;
 	public $timestamps = false;
 

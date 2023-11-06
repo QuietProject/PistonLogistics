@@ -29,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Vehiculo extends Model
 {
-	protected $table = 'vehiculos';
+	protected $table = 'VEHICULOS';
 	protected $primaryKey = 'matricula';
 	public $incrementing = false;
 	public $timestamps = false;

@@ -25,12 +25,12 @@ class SaveClienteRequest extends FormRequest
     {
         if ($this->isMethod('PATCH')) {
             return [
-                'nombre' => ['bail', 'required', 'max:32', 'unique:clientes,nombre']
+                'nombre' => ['bail', 'required', 'max:32', 'unique:CLIENTES,nombre']
             ];    
         }
         return [
-            'RUT' => ['bail', 'required', 'int', 'digits:12', 'unique:clientes,RUT'],
-            'nombre' => ['bail', 'required', 'max:32', 'unique:clientes,nombre']
+            'RUT' => ['bail', 'required', 'int', 'digits:12', 'unique:CLIENTES,RUT'],
+            'nombre' => ['bail', 'required', 'max:32', 'unique:CLIENTES,nombre']
         ];
     }
 }

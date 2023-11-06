@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Camioneta extends Model
 {
-	protected $table = 'camionetas';
+	protected $table = 'CAMIONETAS';
 	protected $primaryKey = 'matricula';
 	public $incrementing = false;
 	public $timestamps = false;

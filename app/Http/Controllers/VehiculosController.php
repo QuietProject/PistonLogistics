@@ -22,11 +22,11 @@ class VehiculosController extends Controller
      */
     public function index()
     {
-        $camionetas = DB::table('vehiculos')
-            ->join('camionetas', 'vehiculos.matricula', 'camionetas.matricula')->get();
+        $camionetas = DB::table('VEHICULOS')
+            ->join('CAMIONETAS', 'VEHICULOS.matricula', 'CAMIONETAS.matricula')->get();
 
-        $camiones = DB::table('vehiculos')
-            ->join('camiones', 'vehiculos.matricula', 'camiones.matricula')->get();
+        $camiones = DB::table('VEHICULOS')
+            ->join('CAMIONES', 'VEHICULOS.matricula', 'CAMIONES.matricula')->get();
 
         return view('vehiculos.index', ['camionetas' => $camionetas, 'camiones' => $camiones, 'vehiculo' => new Vehiculo()]);
     }
@@ -56,15 +56,15 @@ class VehiculosController extends Controller
      */
     public function show(Vehiculo $vehiculo)
     {
-        $tipo = (DB::table('camiones')->where('matricula', $vehiculo->matricula)->exists()) ? 'Camion' : 'Camioneta';
-        $camioneros = DB::table('conducen')
-            ->join('camioneros', 'conducen.CI', 'camioneros.CI')
-            ->where('conducen.matricula', $vehiculo->matricula)
+        $tipo = (DB::table('CAMIONES')->where('matricula', $vehiculo->matricula)->exists()) ? 'Camion' : 'Camioneta';
+        $camioneros = DB::table('CONDUCEN')
+            ->join('CAMIONEROS', 'CONDUCEN.CI', 'CAMIONEROS.CI')
+            ->where('CONDUCEN.matricula', $vehiculo->matricula)
             ->orderBy('desde', 'desc')
             ->get();
-        $trae = Trae::where('trae.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
-        $lleva = Lleva::where('lleva.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
-        $reparte = Reparte::where('reparte.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
+        $trae = Trae::where('TRAE.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
+        $lleva = Lleva::where('LLEVA.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
+        $reparte = Reparte::where('REPARTE.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->get();
         return view('vehiculos.show', [
             'vehiculo' => $vehiculo,
             'tipo' => $tipo,
