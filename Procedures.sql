@@ -1,4 +1,4 @@
-USE SURNO;
+USE surno;
 /*
 DELIMITER //
 CREATE PROCEDURE ejecutar_accion()
@@ -50,11 +50,11 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET @fallo =0;
     
 	-- Paso 1: Crear el vehiculo
-	insert into vehiculos (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
+	insert into VEHICULOS (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
 	SET @fallo = IF(row_count()=0, 1, @fallo);
 
 	-- Paso 2: Crear un camion
-	INSERT INTO camiones (matricula) values (matricula);
+	INSERT INTO CAMIONES (matricula) values (matricula);
 	SET @row= row_count();
 	SET @fallo = IF(@row=0, 1, @fallo);
 
@@ -85,11 +85,11 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET @fallo =0;
     
 	-- Paso 1: Crear el vehiculo
-	insert into vehiculos (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
+	insert into VEHICULOS (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
 	SET @fallo = IF(row_count()=0, 1, @fallo);
 
 	-- Paso 2: Crear un camion
-	INSERT INTO camionetas (matricula) values (matricula);
+	INSERT INTO CAMIONETAS (matricula) values (matricula);
 	SET @row= row_count();
 	SET @fallo = IF(@row=0, 1, @fallo);
 
@@ -121,12 +121,12 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET fallo =0;
     
 	-- Paso 1: Crear el almacen
-	insert into almacenes (nombre, direccion, longitud, latitud) values (nombre, direccion, longitud, latitud);
+	insert into ALMACENES (nombre, direccion, longitud, latitud) values (nombre, direccion, longitud, latitud);
 	SET fallo = IF(row_count()=0, 1, @fallo);
     SET ID = LAST_INSERT_ID();
     
 	-- Paso 2: Insertar almacen en almacenes_clientes
-	INSERT INTO almacenes_clientes (rut,ID) values (RUT, ID);
+	INSERT INTO ALMACENES_CLIENTES (rut,ID) values (RUT, ID);
 	SET @row= row_count();
 	SET fallo = IF(@row=0, 1, @fallo);
 
@@ -153,12 +153,12 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET fallo =0;
     
 	-- Paso 1: Crear el almacen
-	insert into almacenes (nombre, direccion,longitud, latitud) values (nombre, direccion, longitud, latitud);
+	insert into ALMACENES (nombre, direccion,longitud, latitud) values (nombre, direccion, longitud, latitud);
 	SET fallo = IF(row_count()=0, 1, fallo);
     SET ID = LAST_INSERT_ID();
 
 	-- Paso 2: Insertar almacen en almacenes_propios
-	INSERT INTO almacenes_propios (ID) values (ID);
+	INSERT INTO ALMACENES_PROPIOS (ID) values (ID);
 	SET @row= row_count();
 	SET fallo = IF(@row=0, 1, fallo);
 
@@ -240,7 +240,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF exists entregar_paquete;
 DELIMITER //
-CREATE PROCEDURE entregar_paquete(IN paquete INT(128), OUT fallo bit)
+CREATE PROCEDURE entregar_paquete(IN paquete INT, OUT fallo bit)
 BEGIN
 /* No funciona si el paquete ya fue descargado o entregado anteriormente*/
   DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
@@ -270,7 +270,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF exists entregar_paquete_pickup;
 DELIMITER //
-CREATE PROCEDURE entregar_paquete_pickup(IN paquete INT(128), OUT fallo bit)
+CREATE PROCEDURE entregar_paquete_pickup(IN paquete INT, OUT fallo bit)
 BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -313,7 +313,7 @@ BEGIN
     SET ID = 0;
     
 	-- Paso 2: Obtener troncal
-	Set @troncal = (Select ID_troncal from ordenes where ID_almacen=almacen limit 1);
+	Set @troncal = (Select ID_troncal from ORDENES where ID_almacen=almacen limit 1);
 	SET fallo = IF(found_rows()!=1, 1, fallo);
     
     

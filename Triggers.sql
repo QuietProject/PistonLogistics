@@ -8,7 +8,7 @@ drop trigger if exists trigger_paquete_lote;
 DELIMITER //
 CREATE TRIGGER trigger_paquete_lote
 before INSERT
-ON paquetes_lotes FOR EACH ROW
+ON PAQUETES_LOTES FOR EACH ROW
 BEGIN
 UPDATE PAQUETES_ALMACENES SET hasta=current_timestamp() where ID_paquete=NEW.ID_paquete AND hasta is null;
 
@@ -31,26 +31,26 @@ drop TRIGGER if exists trigger_cerrar_lote;
 DELIMITER //
 CREATE TRIGGER trigger_cerrar_lote
 AFTER UPDATE
-ON lotes FOR EACH ROW
+ON LOTES FOR EACH ROW
 BEGIN
 	IF NEW.fecha_cerrado IS NOT NULL AND OLD.fecha_cerrado IS NULL AND OLD.tipo=0
 	THEN
-		set @almacen = (Select ID_almacen from destino_lote where id_lote=OLD.ID);
+		set @almacen = (Select ID_almacen from DESTINO_LOTE where id_lote=OLD.ID);
 		INSERT INTO PAQUETES_ALMACENES (ID_paquete,ID_almacen)
 			SELECT ID_paquete, @almacen
-			FROM paquetes_lotes
+			FROM PAQUETES_LOTES
 			WHERE ID_lote = OLD.ID;
 		UPDATE PAQUETES 
 			SET estado =3 
 			WHERE ID IN (SELECT ID
-			FROM PAQUETES
-            INNER JOIN PAQUETES_LOTES ON PAQUETES.ID = PAQUETES_LOTES.ID_paquete
+			FROM PAQUETES_LOTES
+            INNER JOIN (SELECT * FROM PAQUETES)PAQUETES ON PAQUETES.ID = PAQUETES_LOTES.ID_paquete
             WHERE PAQUETES_LOTES.ID_lote = OLD.ID AND ID_pickup != @almacen);
 		UPDATE PAQUETES 
 			SET estado =7 
 			WHERE ID IN (SELECT ID
-			FROM PAQUETES
-            INNER JOIN PAQUETES_LOTES ON PAQUETES.ID = PAQUETES_LOTES.ID_paquete
+			FROM PAQUETES_LOTES
+            INNER JOIN (SELECT * FROM PAQUETES)PAQUETES ON PAQUETES.ID = PAQUETES_LOTES.ID_paquete
             WHERE PAQUETES_LOTES.ID_lote = OLD.ID AND ID_pickup = @almacen);
 		UPDATE PAQUETES_LOTES 
 			SET hasta=current_timestamp()
@@ -67,7 +67,7 @@ drop TRIGGER if exists trigger_repartir_paquete;
 DELIMITER //
 CREATE TRIGGER trigger_repartir_paquete
 BEFORE INSERT
-ON reparte FOR EACH ROW
+ON REPARTE FOR EACH ROW
 BEGIN
 	UPDATE PAQUETES_ALMACENES SET hasta=current_timestamp() where ID_paquete=NEW.ID_paquete AND hasta is null;
     UPDATE PAQUETES SET estado=8 where ID=NEW.ID_paquete;
@@ -82,7 +82,7 @@ DROP TRIGGER IF EXISTS trigger_traer_paquete;
 DELIMITER //
 CREATE TRIGGER trigger_traer_paquete
 AFTER INSERT
-ON trae FOR EACH ROW
+ON TRAE FOR EACH ROW
 BEGIN
 	UPDATE PAQUETES SET estado=2 where ID=NEW.ID_paquete;
 END //
