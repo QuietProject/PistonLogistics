@@ -17,37 +17,22 @@
         <div class="">
             <h1>Piston Logistics</h1>
         </div>
-        <div style="height: 2vh">
-
+        <div>
+            <div class="menuIcon" id="menuIcon" style="color: black">
+                <div>
+                    <i class='bx bx-menu' id="menu"></i>
+                </div>
+            </div>
         </div>
     </header>
 
     <!-- Ham Menu -->
-    <div class="menuIcon" id="menuIcon" style="color: black">
-        <div>
-            <i class='bx bx-menu' id="menu"></i>
-        </div>
-    </div>
+    
 
     <div class="sideMenu" id="sideMenu">
         <div>
             <div>
-                <div></div>
-                <h4>Estado</h4>
-                <form class="radioBtnEstados" name="estado">
-                    <div>
-                        <input type="radio" name="estado" id="manejando">
-                        <label for="manejando" name="label" class="notChecked">Manejando</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="estado" id="descansando">
-                        <label for="descansando" name="label" class="notChecked">Descansando</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="estado" id="fueraDeServicio">
-                        <label for="fueraDeServicio" name="label" class="notChecked">Fuera de servicio</label>
-                    </div>
-                </form>
+                
             </div>
             <div>
                 <a href="">Log Out</a>
@@ -59,9 +44,6 @@
 
     </section>
     
-    <div id="disableDivs">
-
-    </div>
 
     <footer id="footer">
         <div>

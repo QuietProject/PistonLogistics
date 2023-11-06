@@ -3,67 +3,44 @@ const body = document.getElementsByTagName("body");
 let i = 0;
 let y = 0;
 
-let radios = document.forms["estado"].elements["estado"];
-let labels = document.querySelectorAll(".radioBtnEstados label");
+// let radios = document.forms["estado"].elements["estado"];
+// let labels = document.querySelectorAll(".radioBtnEstados label");
 
-for (let i = 0, max = radios.length; i < max; i++) {
-    radios[i].addEventListener("change", function () {
-        labels.forEach((label, index) => {
-            if (radios[index].checked) {
-                label.classList.add("checked");
-                label.classList.remove("notChecked");
-            } else {
-                label.classList.remove("checked");
-                label.classList.add("notChecked");
-            }
-        });
-        enviarInformacion();
-    });
-}
+// for (let i = 0, max = radios.length; i < max; i++) {
+//     radios[i].addEventListener("change", function () {
+//         labels.forEach((label, index) => {
+//             if (radios[index].checked) {
+//                 label.classList.add("checked");
+//                 label.classList.remove("notChecked");
+//             } else {
+//                 label.classList.remove("checked");
+//                 label.classList.add("notChecked");
+//             }
+//         });
+//         enviarInformacion();
+//     });
+// }
 
-function enviarInformacion() {}
+// function enviarInformacion() {}
 
 const section = document.getElementById("section");
 let botonComenzarPrevio = null;
-const cantidadRutas = [
-    [
-        ["Artigas", "7:00 AM", "16:00 PM"],
-        ["Salto", "8:30 AM", "17:15 PM"],
-    ],
-    [
-        ["Canelones", "8:30 AM", "15:45 PM"],
-        ["Florida", "9:15 AM", "17:30 PM"],
-        ["Durazno", "9:00 AM", "16:15 PM"],
-    ],
-    [
-        ["Pedro", "9:30 AM", "17:15 PM"],
-        ["Laura", "8:45 AM", "16:30 PM"],
-        ["Diego", "10:00 AM", "17:45 PM"],
-    ],
-    [
-        ["Marta", "8:15 AM", "16:30 PM"],
-        ["José", "7:45 AM", "16:00 PM"],
-        ["Camila", "9:30 AM", "17:45 PM"],
-    ],
-    [
-        ["Paysandú", "7:30 AM", "16:45 PM"],
-        ["Rocha", "7:15 AM", "16:30 PM"],
-    ],
-    [["Andrés", "8:00 AM", "17:15 PM"]],
-    [
-        ["Carmen", "9:15 AM", "16:30 PM"],
-        ["Ramón", "8:30 AM", "17:45 PM"],
-    ],
-    [
-        ["Dolores", "9:45 AM", "17:00 PM"],
-        ["Lavalleja", "8:45 AM", "17:00 PM"],
-    ],
-];
 
-for (let i = 0; i < cantidadRutas.length; i++) {
-    const divEnvio = document.createElement("div");
-    section.appendChild(divEnvio);
-}
+const rutaActual = [
+    ["Canelones", "8:30 AM", "15:45 PM"],
+    ["Florida", "9:15 AM", "17:30 PM"],
+    ["Durazno", "9:00 AM", "16:15 PM"],
+    ["Montevideo", "8:00 AM", "17:15 PM"],
+    ["Paysandú", "9:45 AM", "18:00 PM"],
+    ["Salto", "8:30 AM", "16:45 PM"],
+    ["Maldonado", "10:15 AM", "19:30 PM"],
+    ["Rocha", "9:30 AM", "18:15 PM"]
+]
+
+
+const divEnvio = document.createElement("div");
+section.appendChild(divEnvio);
+
 const divs = section.querySelectorAll("div");
 const disableDivs = document.getElementById("disableDivs");
 const envioComenzado = document.getElementById("envioComenzado");
@@ -75,6 +52,12 @@ let h = 0;
 divs.forEach((div, index) => {
     const newDiv = document.createElement("div");
     newDiv.className = `div${index + 1} trabajos`;
+
+    window.addEventListener("resize", () => {
+        const alturaContenedor = newDiv.clientHeight;
+        newDivMapa.style.height = alturaContenedor + "px";
+    });
+    
 
     const container = document.createElement("div");
 
@@ -96,6 +79,9 @@ divs.forEach((div, index) => {
 
     btnComenzar.addEventListener("click", () => {
         finalizado.disabled = false;
+
+        newDiv.style.zIndex = "-1";
+        newDivMapa.style.zIndex = "0";
 
         if (botonComenzarPrevio == null) {
             botonComenzarPrevio = btnComenzar;
@@ -121,12 +107,12 @@ divs.forEach((div, index) => {
 
         finalizado.addEventListener("click", () => {
             if (finalizado.checked) {
-                cantidadRutas.splice(h, 1);
 
                 h = 0;
                 finalizado.disabled = true;
 
                 volver.style.display = "none";
+                cerrarMapa.style.display = "";
 
                 envioFinalizado.style.display = "";
                 setTimeout(() => {
@@ -154,7 +140,7 @@ divs.forEach((div, index) => {
     const cerrar = document.createElement("i");
     cerrar.className = "bx bx-x-circle";
 
-    document.body.appendChild(newDiv);
+    section.appendChild(newDiv);
     newDiv.appendChild(container);
     newDiv.appendChild(cerrar);
     container.appendChild(rutas);
@@ -163,29 +149,32 @@ divs.forEach((div, index) => {
     divBtns.appendChild(btnMapa);
     divBtns.appendChild(btnComenzar);
 
-    div.addEventListener("click", () => {
-        newDiv.style.zIndex = "2";
-        section.style.filter = "blur(10px)";
-        disableDivs.style.zIndex = "1";
-    });
+    // div.addEventListener("click", () => {
+    //     newDiv.style.zIndex = "2";
+    //     section.style.filter = "blur(10px)";
+    //     disableDivs.style.zIndex = "1";
+    // });
 
-    cerrar.addEventListener("click", () => {
-        newDiv.style.zIndex = "-1";
-        section.style.filter = "none";
-        disableDivs.style.zIndex = "-1";
-    });
+    // cerrar.addEventListener("click", () => {
+    //     newDiv.style.zIndex = "-1";
+    //     section.style.filter = "none";
+    //     disableDivs.style.zIndex = "-1";
+    // });
 
-    for (let i = 0; i < cantidadRutas[h].length; i++) {
+    for (let i = 0; i < rutaActual.length; i++) {
         const ruta = document.createElement("p");
-        ruta.textContent = cantidadRutas[h][i][0];
+        ruta.textContent = rutaActual[i][0];
         rutas.appendChild(ruta);
     }
 
     const newDivMapa = document.createElement("div");
     newDivMapa.className = `${"mapa" + index} mapa`;
+    const alturaContenedor = newDiv.clientHeight;
+    newDivMapa.style.height = alturaContenedor + "px";
 
     const cerrarMapa = document.createElement("i");
     cerrarMapa.className = "bx bx-x-circle";
+    cerrarMapa.style.display = "none";
 
     const volver = document.createElement("i");
     volver.className = "bx bx-left-arrow-alt";
@@ -194,16 +183,17 @@ divs.forEach((div, index) => {
     const mapaContainer = document.createElement("div");
     mapaContainer.className = "mapaContainer";
 
-    document.body.appendChild(newDivMapa);
+    section.appendChild(newDivMapa);
     newDivMapa.appendChild(cerrarMapa);
     newDivMapa.appendChild(volver);
     newDivMapa.appendChild(mapaContainerDiv);
 
+
     const horaRetiro = document.createElement("p");
-    horaRetiro.textContent = cantidadRutas[h][i][1];
+    horaRetiro.textContent = rutaActual[0][1];
 
     const horaEntrega = document.createElement("p");
-    horaEntrega.textContent = cantidadRutas[h][i][2];
+    horaEntrega.textContent = rutaActual[rutaActual.length - 1][2];
 
     const finalizado = document.createElement("input");
     finalizado.type = "radio";
@@ -222,8 +212,7 @@ divs.forEach((div, index) => {
 
     btnMapa.addEventListener("click", () => {
         newDiv.style.zIndex = "-1";
-        newDivMapa.style.zIndex = "3";
-        disableDivs.style.zIndex = "1";
+        newDivMapa.style.zIndex = "0";
     });
 
     cerrarMapa.addEventListener("click", () => {
@@ -233,10 +222,26 @@ divs.forEach((div, index) => {
     });
 
     volver.addEventListener("click", () => {
-        newDiv.style.zIndex = "2";
+        newDiv.style.zIndex = "0";
         newDivMapa.style.zIndex = "-1";
-        disableDivs.style.zIndex = "-1";
     });
 
     h++;
 });
+
+menu.addEventListener("click", () =>{
+    const sideMenu = document.getElementById("sideMenu");
+    const computedStyles = window.getComputedStyle(sideMenu);
+    const rightValue = computedStyles.getPropertyValue("right");
+
+    if (rightValue === "-400px") {
+        sideMenu.style.right = "0";
+        menu.style.color = "var(--highlight)";
+        menu.style.position = "fixed";
+    }else{
+        sideMenu.style.right = "-400px";
+        menu.style.color = `${color}`;
+        menu.style.position = "static";
+    }
+});
+

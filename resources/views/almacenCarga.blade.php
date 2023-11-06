@@ -59,10 +59,9 @@
         <div>
             <div>
                 <div></div>
-                <a href="">Paquetes</a>
-                <a href="">Lotes</a>
-                <a href="">Crear Lote</a>
-                <a href="">QR Scanner</a>
+                <a href="../verPaquetes">Paquetes</a>
+                <a href="../verLotes">Lotes</a>
+                <a href="../crearLote">Crear Lote</a>
             </div>
 
             <div>
