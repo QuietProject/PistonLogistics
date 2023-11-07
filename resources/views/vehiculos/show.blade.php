@@ -92,20 +92,10 @@ if ($vehiculo->baja) {
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div class="inputBox">
-                    <label for="vol_max" class="asignadoText">Volumen Maximo</label>
-                    <input type="number" name="vol_max" id="vol_max" step="0.1" required style="font-weight: 500"
-                        value="{{ old('vol_max', $vehiculo->vol_max) }}" autocomplete="off">
-                    <span class="asignadoText">m3</span>
-                    @error('vol_max')
-                        <span style="color: red">{{ $message }}</span>
-                    @enderror
-                </div>
                 <button type="submit" class="modBtn">Submit</button>
             </form>
             <p class="asignadoText" style="margin-top: 15vh">Matricula: {{ $vehiculo->matricula }}</p>
             <p class="asignadoText">Peso Maximo: {{ $vehiculo->peso_max }} kg</p>
-            <p class="asignadoText">Volumen Maximo: {{ $vehiculo->vol_max }} m3</p>
             <p class="asignadoText">Conductor:
                 @if (isset($camioneros[0]) && $camioneros[0]->hasta == null)
                     <a href="{{ route('camioneros.show', $camioneros[0]->CI) }}">{{ $camioneros[0]->nombre }}</a>

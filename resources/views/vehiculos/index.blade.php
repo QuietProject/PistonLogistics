@@ -43,7 +43,6 @@
                     <tr>
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Matricula </th>
                         <th style="width: 30%;" onclick="sortTable(1);arrowsTable(1);" id="1">Peso Maximo </th>
-                        <th style="width: 30%;" onclick="sortTable(2);arrowsTable(2);" id="2">Volumen Maximo </th>
                         <th style="width: 25%;" onclick="sortTable(3);arrowsTable(3);" id="3">Estado </th>
                     </tr>
                 </thead>
@@ -54,7 +53,6 @@
                                     {{ $camion->matricula }}</a>
                             </td>
                             <td>{{ $camion->peso_max }}kg</td>
-                            <td>{{ $camion->vol_max }}m3</td>
                             <td>
                                 @if ($camion->baja)
                                     De Baja
@@ -77,7 +75,6 @@
                     <tr>
                         <th style="width: 15%;" onclick="sortTableAlternate(0);arrowsTable(4);"" id="4">Matricula</th>
                         <th style="width: 30%;" onclick="sortTableAlternate(1);arrowsTable(5);"" id="5">Peso Maximo</th>
-                        <th style="width: 30%;" onclick="sortTableAlternate(2);arrowsTable(6);"" id="6">Volumen Maximo</th>
                         <th style="width: 25%;" onclick="sortTableAlternate(3);arrowsTable(7);"" id="7">Estado</th>
                     </tr>
                 </thead>
@@ -88,7 +85,6 @@
                                     {{ $camioneta->matricula }}</a>
                             </td>
                             <td>{{ $camioneta->peso_max }}kg</td>
-                            <td>{{ $camioneta->vol_max }}m3</td>
                             <td>
                                 @if ($camioneta->baja)
                                     De Baja
@@ -145,15 +141,6 @@
                         value="{{ old('peso_max',$vehiculo->peso_max) }}" autocomplete="off">
                         <span>kg</span>
                         @error('peso_max')
-                            <span style="color: red">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="inputBox">
-                        <label for="vol_max">Volumen Maximo</label>
-                        <input type="number" name="vol_max" id="vol_max" step="0.1" required
-                        value="{{ old('vol_max',$vehiculo->vol_max) }}" autocomplete="off">
-                        <span>m3</span>
-                        @error('vol_max')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>

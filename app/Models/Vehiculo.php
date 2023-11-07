@@ -13,7 +13,6 @@ use Illuminate\Database\Eloquent\Model;
  * Class Vehiculo
  *
  * @property string $matricula
- * @property int $vol_max
  * @property int $peso_max
  * @property bool $es_operativo
  * @property bool $baja
@@ -35,7 +34,6 @@ class Vehiculo extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'vol_max' => 'int',
 		'peso_max' => 'int',
 		'es_operativo' => 'bool',
 		'baja' => 'bool'
@@ -43,7 +41,6 @@ class Vehiculo extends Model
 
 	protected $fillable = [
 		'matricula',
-        'vol_max',
 		'peso_max',
 		'es_operativo',
 		'baja'
