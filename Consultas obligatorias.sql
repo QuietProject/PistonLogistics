@@ -1,4 +1,4 @@
-USE surno;
+USE mauricio_lapido;
 -- 1. MOSTRAR LOS PAQUETES ENTREGADOS EN EL MES DE MAYO DEL 2023 CON DESTINO A LA CIUDAD DE MELO
 
 select * from PAQUETES where direccion like('% melo') AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';

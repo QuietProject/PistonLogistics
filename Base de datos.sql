@@ -1,5 +1,6 @@
 /*
-ALTER DATABASE surno CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;*/
+ALTER DATABASE surno CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE surno CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;*/
 USE surno;
 
 DROP TABLE IF EXISTS users;
@@ -55,7 +56,6 @@ ALTER TABLE CAMIONEROS
 
 CREATE TABLE VEHICULOS (
     matricula CHAR(7) PRIMARY KEY NOT NULL,
-    vol_max INT UNSIGNED NOT NULL,
     peso_max INT UNSIGNED NOT NULL,
     es_operativo BIT DEFAULT 1 NOT NULL,
     baja BIT DEFAULT 0 NOT NULL
@@ -128,8 +128,6 @@ CREATE TABLE ORDENES (
         ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
--- TRIGGER NO PODER INSERTAR ALMACENES O TRONCALES DADOS DE BAJA
-
 CREATE TABLE CLIENTES (
     RUT CHAR(12) PRIMARY KEY,
     nombre VARCHAR(32) NOT NULL UNIQUE,
@@ -157,7 +155,7 @@ CREATE TABLE PAQUETES (
     ID_pickup INT NOT NULL,
     direccion VARCHAR(128) NULL DEFAULT NULL,
     peso INT UNSIGNED NULL DEFAULT NULL,
-    volumen INT UNSIGNED NULL DEFAULT NULL,
+    cedula VARCHAR(8) NOT NULL,
     fecha_entregado TIMESTAMP NULL DEFAULT NULL,
     mail VARCHAR(64) NULL,
     estado int NOT NULL default 1,
@@ -220,7 +218,9 @@ CREATE TABLE DESTINO_LOTE (
 CREATE TABLE LLEVA (
     ID_lote INT PRIMARY KEY,
     matricula CHAR(7),
-    fecha_carga TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_estimada TIMESTAMP NULL DEFAULT NULL,
+    fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (ID_lote)
         REFERENCES LOTES (ID)
@@ -230,13 +230,18 @@ CREATE TABLE LLEVA (
         ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
+ALTER TABLE LLEVA 
+	ADD CONSTRAINT LLEVA_FECHAS_CARGA CHECK ((fecha_carga<fecha_descarga and fecha_carga is not null and fecha_descarga is not null )OR fecha_descarga is null );
 ALTER TABLE LLEVA
-	ADD CONSTRAINT FECHAS_LLEVA CHECK (fecha_carga<fecha_descarga);
+	ADD CONSTRAINT LLEVA_FECHAS_ESTIMADA CHECK ((fecha_carga<fecha_estimada and fecha_carga is not null and fecha_estimada is not null )OR fecha_estimada is null );
+ALTER TABLE LLEVA
+	ADD CONSTRAINT LLEVA_FECHAS_ASIGNADO CHECK (fecha_asignado<fecha_carga);
 
 CREATE TABLE REPARTE (
     ID_paquete INT PRIMARY KEY,
     matricula CHAR(7),
-    fecha_carga TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (ID_paquete)
         REFERENCES PAQUETES (ID)
@@ -247,12 +252,15 @@ CREATE TABLE REPARTE (
 );
 
 ALTER TABLE REPARTE 
-	ADD CONSTRAINT FECHAS_REPARTE CHECK (fecha_carga<fecha_descarga);
-
+	ADD CONSTRAINT REPARTE_FECHAS_CARGA CHECK ((fecha_carga<fecha_descarga and fecha_carga is not null and fecha_descarga is not null )OR fecha_descarga is null );
+ALTER TABLE REPARTE
+	ADD CONSTRAINT REPARTE_FECHAS_ASIGNADO CHECK (fecha_asignado<fecha_carga);
+    
 CREATE TABLE TRAE (
     ID_paquete INT PRIMARY KEY,
     matricula CHAR(7),
-    fecha_carga TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (ID_paquete)
         REFERENCES PAQUETES (ID)
@@ -263,7 +271,9 @@ CREATE TABLE TRAE (
 );
 
 ALTER TABLE TRAE 
-	ADD CONSTRAINT FECHAS_TRAE CHECK (fecha_carga<fecha_descarga);
+	ADD CONSTRAINT TRAE_FECHAS_CARGA CHECK ((fecha_carga<fecha_descarga and fecha_carga is not null and fecha_descarga is not null )OR fecha_descarga is null );
+ALTER TABLE TRAE
+	ADD CONSTRAINT TRAE_FECHAS_ASIGNADO CHECK (fecha_asignado<fecha_carga);
     
 CREATE TABLE PAQUETES_ALMACENES (
     ID_paquete INT NOT NULL,
@@ -281,7 +291,7 @@ CREATE TABLE PAQUETES_ALMACENES (
 /*    
 RNE 1: En conduce en cada nuevo registro fecha desde>max(fecha_hasta) de la seleccionde conduce con el camionero a ingresar
 RNE 2: Un paquete no puede estar en mas de un lote que no tenga estado.tipo = 0
-RNE 3: Paquete no puede estar en Reparte si esta en un lote que tenga estado.tipo = 0
+RNE 3: Para asignarle un camion en reparte a un paquete, este tine que estar en un almacen
 IMPLEMENTADO PROCEDURES RNE 4: El orden de la relacion Destino_Lote debe estar relacionado con la misma troncal con la que esta relacionado el origen del lote pero no con el mismo almacen
 IMPLEMENTADO PROCEDURES RNE 5: Almacen no puede ser  Almacen de cliente y Almacen propio a la vez
 IMPLEMENTADO PROCEDURES RNE 6: Vehiculo no puede ser camion y camioneta a la vez

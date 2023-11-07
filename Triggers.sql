@@ -66,11 +66,14 @@ drop TRIGGER if exists trigger_repartir_paquete;
 
 DELIMITER //
 CREATE TRIGGER trigger_repartir_paquete
-BEFORE INSERT
+AFTER UPDATE
 ON REPARTE FOR EACH ROW
 BEGIN
-	UPDATE PAQUETES_ALMACENES SET hasta=current_timestamp() where ID_paquete=NEW.ID_paquete AND hasta is null;
-    UPDATE PAQUETES SET estado=8 where ID=NEW.ID_paquete;
+	IF(OLD.fecha_carga is null and NEW.fecha_carga is not null)
+	THEN
+		UPDATE PAQUETES_ALMACENES SET hasta=current_timestamp() where ID_paquete=NEW.ID_paquete AND hasta is null;
+		UPDATE PAQUETES SET estado=8 where ID=NEW.ID_paquete;
+	END IF;
 END //
 DELIMITER ;
 
@@ -81,10 +84,13 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS trigger_traer_paquete;
 DELIMITER //
 CREATE TRIGGER trigger_traer_paquete
-AFTER INSERT
+AFTER UPDATE
 ON TRAE FOR EACH ROW
 BEGIN
-	UPDATE PAQUETES SET estado=2 where ID=NEW.ID_paquete;
+	IF(OLD.fecha_carga is null and NEW.fecha_carga is not null)
+	THEN
+		UPDATE PAQUETES SET estado=2 where ID=NEW.ID_paquete;
+    END IF;
 END //
 DELIMITER ;
 
@@ -113,15 +119,18 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS trigger_lleva_lote_carga;
 DELIMITER //
 CREATE TRIGGER trigger_lleva_lote_carga
-AFTER INSERT
+AFTER UPDATE
 ON LLEVA
 FOR EACH ROW
 BEGIN
-UPDATE PAQUETES 
-	SET estado =5 
-	WHERE ID IN (SELECT ID_paquete
-				FROM PAQUETES_LOTES
-				WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
+IF(OLD.fecha_carga is null and NEW.fecha_carga is not null)
+	THEN
+		UPDATE PAQUETES 
+		SET estado =5 
+		WHERE ID IN (SELECT ID_paquete
+					FROM PAQUETES_LOTES
+					WHERE PAQUETES_LOTES.ID_lote = NEW.ID_lote);
+	END IF;
 END //
 DELIMITER ;
 
@@ -134,7 +143,7 @@ AFTER UPDATE
 ON LLEVA
 FOR EACH ROW
 BEGIN
-	IF NEW.fecha_descarga IS NOT NULL AND OLD.fecha_descarga IS NULL
+	IF (NEW.fecha_descarga IS NOT NULL AND OLD.fecha_descarga IS NULL)
     THEN
 		UPDATE PAQUETES 
 			SET estado = 6
@@ -144,22 +153,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
-/*
-/* 8 Al marcar un paquete como entregado su estado cambia a entregado
-DROP TRIGGER IF EXISTS trigger_estado_paquete_entregado;
-DELIMITER //
-CREATE TRIGGER trigger_estado_paquete_entregado
-BEFORE UPDATE
-ON PAQUETES
-FOR EACH ROW
-BEGIN
-	IF NEW.fecha_entregado IS NOT NULL AND OLD.fecha_entregado IS NULL
-	THEN
-		SET NEW.estado=0;
-	END IF;
-END //
-DELIMITER ;
-*/
 
 /*
 ESTADOS DE LOS PAQUETES
@@ -173,5 +166,68 @@ ESTADOS DE LOS PAQUETES
 7 = Almacen destino
 8 = Repartiendo a destino
 9 = Esperando en pick UP
+*/
+
+DROP TRIGGER IF EXISTS asignar_reparte;
+-- RNE 3: Para asignarle un camion en reparte a un paquete, este tine que estar en un almacen
+DELIMITER //
+CREATE TRIGGER asignar_reparte
+BEFORE INSERT
+ON REPARTE
+FOR EACH ROW
+BEGIN
+	IF NOT EXISTS(SELECT 1 FROM PAQUETES_ALMACENES WHERE ID_paquete=NEW.ID_paquete AND hasta is null)
+    THEN
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'El paquete debe estar en un almacen';
+    END IF;
+END //
+DELIMITER ;
+/*
+DROP TRIGGER IF EXISTS paquetes_lotes_insert;
+-- RNE 2: Un paquete no puede estar en mas de un lote a la vez(en mas de uno que tenga hasta=null)
+DELIMITER //
+CREATE TRIGGER paquetes_lotes_insert
+BEFORE INSERT
+ON PAQUETES_LOTES
+FOR EACH ROW
+BEGIN
+	SELECT count(*) FROM PAQUETES_ALMACENES WHERE ID_paquete=NEW.ID_paquete AND hasta is null AND ID_almacen=(SELECT ID_almacen
+																													FROM LOTES
+																													WHERE ID=NEW.ID_lote);
+	SET @EXISTE = found_rows();
+	/*IF EXISTS(SELECT 1 FROM PAQUETES_ALMACENES WHERE ID_paquete=NEW.ID_paquete AND hasta is null AND ID_almacen=(SELECT ID_almacen
+																													FROM LOTES
+																													WHERE ID=NEW.ID_lote))
+    SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = @EXISTE;
+    /*THEN
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'EXISTE';
+	ELSE
+    SIGNAL SQLSTATE '45000'
+	SET MESSAGE_TEXT = 'NO EXISTE';
+    END IF;
+	IF EXISTS(SELECT 1 FROM LOTES WHERE ID=NEW.ID_lote AND fecha_pronto is null)
+    THEN
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'El lote ya esta pronto';
+    END IF;
+END //
+DELIMITER ;
+select * from PAQUETES_ALMACENES;
+select * from PAQUETES;
+insert into PAQUETES (id_almacen,id_pickup,direccion,cedula) values (18,1,'casa','12343223');
+insert into TRAE (matricula,ID_paquete) values('ABC1234',24);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=24;
+SELECT SLEEP(1);
+call descargar_trae(24,3,@error);
+call lote_0(3,2,5,@ID,@error);
+select @error, @ID;
+SELECT SLEEP(1);
+insert into PAQUETES_LOTES(ID_paquete,ID_lote) values(9,15);
+SELECT SLEEP(1);
+update LOTES set fecha_pronto=current_timestamp() where ID=13;
 */
 

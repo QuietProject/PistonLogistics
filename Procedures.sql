@@ -38,7 +38,7 @@ CALL ejecutar_accion();
 
 DROP PROCEDURE IF exists camion;
 DELIMITER //
-CREATE PROCEDURE camion (IN matricula char(7), IN vol_max int unsigned, IN peso_max int unsigned, OUT fallo bit)
+CREATE PROCEDURE camion (IN matricula char(7), IN peso_max int unsigned, OUT fallo bit)
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -50,7 +50,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET @fallo =0;
     
 	-- Paso 1: Crear el vehiculo
-	insert into VEHICULOS (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
+	insert into VEHICULOS (matricula, peso_max) values (matricula, peso_max);
 	SET @fallo = IF(row_count()=0, 1, @fallo);
 
 	-- Paso 2: Crear un camion
@@ -73,7 +73,7 @@ DELIMITER ;
 
 DROP PROCEDURE IF EXISTS camioneta;
 DELIMITER //
-CREATE PROCEDURE camioneta (IN matricula char(7), vol_max int unsigned, peso_max int unsigned, OUT fallo bit)
+CREATE PROCEDURE camioneta (IN matricula char(7), peso_max int unsigned, OUT fallo bit)
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -85,7 +85,7 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET @fallo =0;
     
 	-- Paso 1: Crear el vehiculo
-	insert into VEHICULOS (matricula, vol_max, peso_max) values (matricula, vol_max, peso_max);
+	insert into VEHICULOS (matricula, peso_max) values (matricula, peso_max);
 	SET @fallo = IF(row_count()=0, 1, @fallo);
 
 	-- Paso 2: Crear un camion
@@ -102,11 +102,8 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     END IF;
 END //
 DELIMITER ;
-/*
-CALL almacen_propio ("casa","julio sosa 4515",-34.88526,-56.11027,@ID,@fallo);
-CALL almacen_propio ("casa","julio sosa 4515",-34.8526,-56.1027,@ID,@fallo);
-select @fallo, @ID;
-*/
+
+
 DROP PROCEDURE IF EXISTS almacen_cliente;
 DELIMITER //
 CREATE PROCEDURE almacen_cliente (IN nombre varchar(32), IN direccion varchar(128), IN longitud decimal(7,5), IN latitud decimal(7,5), IN RUT char(12), OUT ID int, OUT fallo bit)
