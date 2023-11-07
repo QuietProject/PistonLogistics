@@ -31,7 +31,7 @@ class Controller extends BaseController
     public function asignarPaqueteToLote($id, $loteId)
     {
         try {
-            DB::select("INSERT INTO paquetes_lotes (ID_paquete, ID_lote) VALUES ($id, $loteId)");
+            DB::select("INSERT INTO PAQUETES_LOTES (ID_paquete, ID_lote) VALUES ($id, $loteId)");
         } catch (\Exception $e) {
             return response()->json([
                 "message" => $e->getMessage()
@@ -41,43 +41,42 @@ class Controller extends BaseController
 
 
     // Método para obtener o crear un lote
-    public function getOrCreateLote($loteAlmacenOrigen, $paqueteAlmacenDestino)
-    {
-        // $validated = request()->validate([
-        //     "loteAlmacenOrigen" => "required|numeric",
-        //     "paqueteAlmacenDestino" => "required|numeric",
-        // ]);
+    // public function getOrCreateLote($loteAlmacenOrigen, $paqueteAlmacenDestino)
+    // {
+    //     // $validated = request()->validate([
+    //     //     "loteAlmacenOrigen" => "required|numeric",
+    //     //     "paqueteAlmacenDestino" => "required|numeric",
+    //     // ]);
 
-        // $loteAlmacenOrigen = $validated["loteAlmacenOrigen"];
-        // $paqueteAlmacenDestino = $validated["paqueteAlmacenDestino"];
+    //     // $loteAlmacenOrigen = $validated["loteAlmacenOrigen"];
+    //     // $paqueteAlmacenDestino = $validated["paqueteAlmacenDestino"];
 
-        // // tomo todas las troncales que contengan el almacen de origen y de destino del paquete
-        $troncales = Orden::whereIn("ID_almacen", [$loteAlmacenOrigen, $paqueteAlmacenDestino])->pluck("ID_troncal");
-        $troncales = array_values(array_unique(array_diff_assoc($troncales->toArray(), array_unique($troncales->toArray()))));
+    //     // // tomo todas las troncales que contengan el almacen de origen y de destino del paquete
+    //     $troncales = Orden::whereIn("ID_almacen", [$loteAlmacenOrigen, $paqueteAlmacenDestino])->pluck("ID_troncal");
+    //     $troncales = array_values(array_unique(array_diff_assoc($troncales->toArray(), array_unique($troncales->toArray()))));
 
-        // // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete y la misma troncal
-        // $destinoLote = DestinoLote::where("ID_almacen", $paquetePickup)->where("ID_troncal", $troncales)->first();
-        $idLote = DB::select("SELECT lotes.ID from lotes join destino_lote on destino_lote.ID_lote = lotes.ID where destino_lote.ID_almacen = $paqueteAlmacenDestino and destino_lote.ID_troncal = $troncales[0] and lotes.ID_almacen = $loteAlmacenOrigen and lotes.fecha_pronto is null");
+    //     // // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete y la misma troncal
+    //     $idLote = DB::select("SELECT LOTES.ID from LOTES join DESTINO_LOTE on DESTINO_LOTE.ID_lote = LOTES.ID where DESTINO_LOTE.ID_almacen = $paqueteAlmacenDestino and DESTINO_LOTE.ID_troncal = $troncales[0] and LOTES.ID_almacen = $loteAlmacenOrigen and LOTES.fecha_pronto is null");
 
-        // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
-        if ($idLote != null) {
-            $lote = Lote::find($idLote[0]->ID);
+    //     // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
+    //     if ($idLote != null) {
+    //         $lote = Lote::find($idLote[0]->ID);
 
-            // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
-        } else {
-            DB::select("CALL lote_0($loteAlmacenOrigen, $paqueteAlmacenDestino, $troncales[0], @id_lote, @error)");
-            $error = DB::select("SELECT @error as error")[0]->error;
-            if ($error !== 0) {
-                return response()->json([
-                    "message" => "Error al crear lote"
-                ], 400);
-            }
-            // Agarro el lote completo
-            $lote = Lote::find(DB::select("SELECT @id_lote as id_lote")[0]->id_lote);
-        }
+    //         // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
+    //     } else {
+    //         DB::select("CALL lote_0($loteAlmacenOrigen, $paqueteAlmacenDestino, $troncales[0], @id_lote, @error)");
+    //         $error = DB::select("SELECT @error as error")[0]->error;
+    //         if ($error !== 0) {
+    //             return response()->json([
+    //                 "message" => "Error al crear lote"
+    //             ], 400);
+    //         }
+    //         // Agarro el lote completo
+    //         $lote = Lote::find(DB::select("SELECT @id_lote as id_lote")[0]->id_lote);
+    //     }
 
-        return $lote;
-    }
+    //     return $lote;
+    // }
 
     public function paqueteToPickup($paqueteId, $destinoPaquete){
         $paquete = Paquete::find($paqueteId);
