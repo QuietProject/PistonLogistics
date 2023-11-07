@@ -35,18 +35,41 @@
             r = r.replace("idLote", idLote);
             return r;
         }
-
     </script>
 
 </head>
 
 <body>
+    <div id="alertContainer"></div>
+    <div id="confirmacionContainer" class="confirmacionContainer">
+        <div class="confirmacion">
+            <p>¿Estás seguro de asignar este paquete?</p>
+            <button id="btnConfirmAsignar">Aceptar</button>
+            <button id="btnCancelAsignar">Cancelar</button>
+        </div>
+    </div>
 
     @if (session('message'))
         <script>
-            alert( "{{ session('message')}}")
+            const message = "{{ session('message') }}";
+            const alertContainer = document.getElementById("alertContainer");
+            const customAlert = document.createElement("div");
+            customAlert.className = "custom-alert";
+            customAlert.textContent = message;
+            alertContainer.appendChild(customAlert);
+
+            if(message == "Paquete ya en un lote"){
+                customAlert.style.backgroundColor = "crimson";
+            }else{
+                customAlert.style.backgroundColor = "#4CAF50";
+            }
+
+            setTimeout(() => {
+                alertContainer.removeChild(customAlert);
+            }, 2000);
         </script>
     @endif
+
 
     <!-- Ham Menu -->
     <div class="menuIcon" id="menuIcon">

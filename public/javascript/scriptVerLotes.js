@@ -108,15 +108,17 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
             }
             const data = await response.json();
             const dataArray = Object.values(data); // Convierte las propiedades en un arreglo
-            if(dataArray[0] == "Mensaje personalizado para JavaScript"){
-                divArray.style.marginTop = "0px"
-                divArray.innerHTML =`<h1 class="noPaquetes">No hay paquetes en el Lote con ID: ${ID}</h1>`;
-            }else{
+            if (
+                dataArray[0] ==
+                "No se encontraron paquetes en los lotes especificados"
+            ) {
+                divArray.style.marginTop = "0px";
+                divArray.innerHTML = `<h1 class="noPaquetes">No hay paquetes en el Lote con ID: ${ID}</h1>`;
+            } else {
+                const miArray = dataArray.flatMap((value) => value); // Aplanar el arreglo de objetos
 
-            const miArray = dataArray.flatMap((value) => value); // Aplanar el arreglo de objetos
-            
-            if (Array.isArray(miArray) && miArray.length > 0) {
-                divArray.innerHTML = `<h1 class="idLote">ID del lote: ${ID}</h1>
+                if (Array.isArray(miArray) && miArray.length > 0) {
+                    divArray.innerHTML = `<h1 class="idLote">ID del lote: ${ID}</h1>
             <table id="miTabla">
                 <thead>
                     <tr>
@@ -197,11 +199,11 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
                         
                 </tbody>
             </table>`;
-            } else {
-                // Maneja el caso en que miArray no es un arreglo
-                divArray.innerHTML = "No se encontraron datos";
+                } else {
+                    // Maneja el caso en que miArray no es un arreglo
+                    divArray.innerHTML = "No se encontraron datos";
+                }
             }
-        }
         } catch (error) {
             console.error("Error al obtener datos:", error);
         }
@@ -210,5 +212,38 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
         paquetes.style.zIndex = "-1";
         verPaquete.style.display = "none";
         all.style.filter = "blur(0px)";
+    });
+});
+const btnPronto = document.querySelectorAll(".btnPronto");
+
+btnPronto.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const route = btn.getAttribute("data-route");
+        const origen = btn.getAttribute("data-origen");
+
+        e.preventDefault();
+
+        // Show the custom modal
+        confirmacionContainer.style.display = "block";
+
+        btnConfirmAsignar.addEventListener("click", () => {
+            // Perform the assignment action
+            fetch(route)
+            .then((response) => response.json())
+            .then((data) => {
+                location.href = origen;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        });
+
+        btnCancelAsignar.addEventListener("click", () => {
+            // Close the custom modal
+            confirmacionContainer.style.display = "none";
+        });
+
+        // Realiza una solicitud Fetch a la ruta
+        
     });
 });

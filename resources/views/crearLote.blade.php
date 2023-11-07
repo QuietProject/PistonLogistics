@@ -34,6 +34,13 @@
         </div>
     </div>
 
+    <div class="formulario">
+        <select name="" id="">
+            <option value=""></option>
+        </select>
+    </div>
+
+
 
     <script defer src="./javascript/scriptMenu.js"></script>
     <script defer src="./javascript/scriptCrearLote.js"></script>

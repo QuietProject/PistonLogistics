@@ -23,3 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get("/getLotes", [PackageController::class, "getLotesAsignar"])->name('getLotes');
 
 Route::get("/paquetesLote", [PackageController::class, "getPaquetesLote"])->name("getPaquetesLote");
+
+Route::get("/pronto/{idLote}", [PackageController::class, "lotePronto"])->name("lotePronto");

@@ -118,6 +118,11 @@ td{
     cursor: pointer;
 }
 
+.btnAsignarDentroDeLote > a{
+    color: black;
+    text-decoration: none;
+}
+
 .btnAsignarDentroDeLote:hover{
     box-shadow: 0px 0px 10px -1px black;
 }
@@ -147,10 +152,8 @@ td{
     box-shadow: 0px 0px 15px 0px black;
     border: 1px solid black;
     background-color: var(--base);
-    max-width: fit-content;
     max-height: 60%;
-    min-width: fit-content;
-    max-width: 60%;
+    max-width: 80%;
     width: fit-content;
     position: absolute;
     border-radius: 10px;
@@ -184,6 +187,72 @@ td{
 .idPaquete{
     color: white;
     padding: 10px;
+}
+
+.confirmacionContainer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.confirmacion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--base);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px -1px black;
+    text-align: center;
+}
+
+.confirmacion > p{
+    margin: 15px;
+    color:white;
+}
+
+#btnConfirmAsignar {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#btnCancelAsignar {
+    background-color: crimson;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#btnConfirmAsignar:hover, #btnCancelAsignar:hover{
+    box-shadow: 0px 0px 10px -1px black;
+}
+
+.custom-alert {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: crimson; /* Fondo rojo para errores */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000; /* Ajusta el valor de z-index según sea necesario */
 }
 
 .hoverRow:hover{

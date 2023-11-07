@@ -51,13 +51,6 @@ class PackageController extends Controller
     public function showLotes()
     {
         $lotes = Http::get(env("API_URL") . 'lotes')->json();
-        $paquetes = Http::get(env("API_URL") . 'paquetes')->json()['data'];
-
-
-        for ($i = 0; $i < count($paquetes); $i++) {
-            $fechaRegistrado = Carbon::parse($paquetes[$i]['fecha_registrado']);
-            $paquetes[$i]['fecha_registrado'] = $fechaRegistrado->format('d/m/y H:i');
-        }
 
         for ($i = 0; $i < count($lotes); $i++) {
             if($lotes[$i]['fecha_pronto']){
@@ -75,8 +68,16 @@ class PackageController extends Controller
         }
 
         // Devuelve la vista "verPaquetes" y pasa los datos de los paquetes a la vista
-        return view('verLotes', ['paquetes' => $paquetes], ['lotes' => $lotes]);
+        return view('verLotes', ['lotes' => $lotes]);
     }
+
+    public function lotePronto($idLote) {
+        $url = env("API_URL") . "lotes/pronto?idLote=$idLote";
+        $response = file_get_contents($url);
+
+        return $response;
+    }
+    
 
     public function asignar($idPaquete, $idLote)
     {
@@ -127,7 +128,7 @@ class PackageController extends Controller
         $responseData = $response->json();
         if (isset($responseData['message']) && $responseData['message'] == "No se encontraron paquetes en los lotes especificados") {
             return response()->json([
-                'custom_message' => 'Mensaje personalizado para JavaScript',
+                'custom_message' => 'No se encontraron paquetes en los lotes especificados',
             ]);
         }
         return response()->json([

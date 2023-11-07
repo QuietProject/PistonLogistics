@@ -13,6 +13,14 @@
 </head>
 
 <body>
+    <div id="confirmacionContainer" class="confirmacionContainer">
+        <div class="confirmacion">
+            <p>¿Estás seguro de aprontar este lote?</p>
+            <button id="btnConfirmAsignar">Aceptar</button>
+            <button id="btnCancelAsignar">Cancelar</button>
+        </div>
+    </div>
+
     <!-- Ham Menu -->
     <div class="menuIcon" id="menuIcon">
         <div>
@@ -86,10 +94,18 @@
                             <td data-columna="ID_troncal">{{ $lote['ID_troncal'] }}</td>
                             <td data-columna="ID_almacen">{{ $lote['ID_almacen'] }}</td>
                             <td data-columna="fecha_creacion">{{ $lote['fecha_creacion'] }}</td>
-                            <td data-columna="fecha_pronto">{{ $lote['fecha_pronto'] }}</td>
+                            @if ($lote['fecha_pronto'] === null)
+                                <td class='btnPronto' data-route="{{ route('lotePronto', ['idLote' => $lote['ID']]) }}" data-origen="{{ route('verLotes.show') }}">
+                                    Pronto</td>
+                            @else
+                                <td data-columna="fecha_pronto">{{ $lote['fecha_pronto'] }}</td>
+                            @endif
                             <td data-columna="fecha_cerrado">{{ $lote['fecha_cerrado'] }}</td>
                             <td data-columna="tipo">{{ $lote['tipo'] ? 'pickup' : 'comun' }}</td>
-                            <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}" data-idlote="{{ $lote['ID'] }}">Ver paquetes</td>
+                            <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}"
+                                data-idlote="{{ $lote['ID'] }}">Ver paquetes</td>
+
+
 
                         </tr>
                     @endforeach

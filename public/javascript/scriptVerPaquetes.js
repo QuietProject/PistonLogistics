@@ -101,6 +101,7 @@ btnsAsignar.forEach((btnAsignar, index) => {
 
         try {
             let miArray = await getStatus();
+            console.log(miArray);
 
             divArray.innerHTML = `<h1 class="idPaquete">ID de paquete: ${ID}</h1>
     <table id="miTabla">
@@ -138,14 +139,17 @@ btnsAsignar.forEach((btnAsignar, index) => {
             .map(
                 (array) => `
                 <tr style="display: ${
-                    !direccion && array.tipo === false ? "none" : ""
+                    !direccion && array.tipo === false ? "none" : "" 
                 }">
                 <td data-columna="ID">${array.ID}</td>
                 <td data-columna="ID_troncal">${array.ID_troncal}</td>
                 <td data-columna="ID_almacen">${array.ID_almacen}</td>
                 <td data-columna="fecha_creacion">${array.fecha_creacion}</td>
                 <td data-columna="tipo">${array.tipo ? "pickup" : "comun"}</td>
-                <td class="btnAsignarDentroDeLote"><a href='${getRoute(ID, array.ID)}'>Asignar</a></td>
+                <td class="btnAsignarDentroDeLote"><a href='${getRoute(
+                    ID,
+                    array.ID
+                )}'>Asignar</a></td>
             </tr>
         `
             )
@@ -155,6 +159,33 @@ btnsAsignar.forEach((btnAsignar, index) => {
         } catch (error) {
             console.error("Error al obtener datos:", error);
         }
+
+        const btnAsignarDentroDeLote = divArray.querySelectorAll(
+            ".btnAsignarDentroDeLote"
+        );
+
+        const confirmacionContainer = document.getElementById("confirmacionContainer");
+        const btnConfirmAsignar = document.getElementById("btnConfirmAsignar");
+        const btnCancelAsignar = document.getElementById("btnCancelAsignar");
+
+        btnAsignarDentroDeLote.forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                // Show the custom modal
+                confirmacionContainer.style.display = "block";
+
+                btnConfirmAsignar.addEventListener("click", () => {
+                    // Perform the assignment action
+                    window.location.href = e.target.getAttribute("href");
+                });
+
+                btnCancelAsignar.addEventListener("click", () => {
+                    // Close the custom modal
+                    confirmacionContainer.style.display = "none";
+                });
+            });
+        });
     });
 
     cerrar.addEventListener("click", () => {
@@ -163,7 +194,3 @@ btnsAsignar.forEach((btnAsignar, index) => {
         all.style.filter = "blur(0px)";
     });
 });
-
-function as(){
-    return "a";
-}
