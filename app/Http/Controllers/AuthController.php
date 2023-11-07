@@ -23,26 +23,12 @@ class AuthController extends Controller
             return $this->error("Credenciales incorrectas", 401);
         }
 
-        $user = User::where("user", $request->user)->firstOrFail();
+        $user = User::where("user", $credentials["user"])->firstOrFail();
 
-        switch($user->rol) {
-            case 0:
-                $redirect = env("BACKOFFICE_URL");
-                break;
-            case 1:
-                $redirect = env("ALMACEN_URL");
-                break;
-            case 2:
-                $redirect = env("CAMIONERO_URL");
-                break;
-            case 3:
-                $redirect = env("CLIENTE_URL");
-                break;
-        }
-        
-        return redirect($redirect)->with([
-            "user" => $user,
-            "token" => $user->createToken("API token of " . $user->user)->plainTextToken
+        return $this->success([
+            "user" => $user->user,
+            "rol" => $user->rol,
+            "token" => $user->createToken($user->user)->plainTextToken,
         ]);
     }
 
@@ -51,14 +37,15 @@ class AuthController extends Controller
         $credentials = $request->validate([
             "user" => ["required", "string", "max:20"],
             "rol" => ["required", "integer", "numeric", "between:0,3"],
-            "password" => ["required", "confirmed", "max:24", "min:8", Rules\Password::defaults()]
+            "password" => ["required", "confirmed", "max:24", "min:8", Rules\Password::defaults()],
+            "email" => ["required", "email", "max:255", "unique:users"],
         ]);
 
         $user = User::create($credentials);
 
         return $this->success([
             "user" => $user->user,
-            "token" => $user->createToken("API token of " . $user->user)->plainTextToken,
+            "token" => $user->createToken($user->user)->plainTextToken,
         ]);
     }
 
