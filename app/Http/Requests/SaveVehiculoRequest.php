@@ -32,7 +32,7 @@ class SaveVehiculoRequest extends FormRequest
 
         return [
              'matricula' => ['bail', 'regex:^[A-Za-z]{3}[0-9]{4}$^',  'unique:VEHICULOS,matricula'],
-             'peso_max' => ['bail', 'required', 'integer', 'gt:0']
+             'peso_max' => ['bail', 'required', 'integer', 'gt:0'],
              'tipo' => [ 'required', Rule::in(['camion', 'camioneta'])]
         ];
     }
