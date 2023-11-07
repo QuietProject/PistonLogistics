@@ -1,47 +1,40 @@
 <?php
-
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public $timestamps = false;
+	public $timestamps = false;
     protected $primaryKey = 'user';
+	public $incrementing = false;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'user',
-        'rol',
+	protected $casts = [
+		'rol' => 'int',
+		'email_verified_at' => 'datetime'
+	];
+
+	protected $hidden = [
+		'password',
+        'remember_token'
+	];
+
+	protected $fillable = [
+		'user',
         'password',
-    ];
+		'email',
+		'email_verified_at',
+		'rol'
+	];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-    ];
-
-    /**
-     * Always encrypt the password when it is updated.
-     *
-     * @param $value
-     * @return string
-     */
-    public function setPasswordAttribute($value)
+	public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }
