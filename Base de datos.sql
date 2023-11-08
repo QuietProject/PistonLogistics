@@ -1,10 +1,12 @@
 /*
-ALTER DATABASE surno CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-CREATE DATABASE surno CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;*/
+ALTER DATABASE surno CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;*/
+drop database surno;
+CREATE DATABASE surno CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE surno;
 
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS password_resets;
+DROP TABLE IF EXISTS personal_access_tokens;
 DROP TABLE IF EXISTS PAQUETES_ALMACENES;
 DROP TABLE IF EXISTS LLEVA;
 DROP TABLE IF EXISTS REPARTE;
@@ -27,7 +29,8 @@ DROP TABLE IF EXISTS CAMIONEROS;
 
 
 CREATE TABLE users (
-    user VARCHAR(20) PRIMARY KEY NOT NULL,
+	ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    user VARCHAR(20) UNIQUE NOT NULL,
     password VARCHAR(255) DEFAULT NULL,
     rol TINYINT NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -43,6 +46,20 @@ CREATE TABLE password_resets (
   created_at timestamp NULL DEFAULT NULL
 );
 
+CREATE TABLE personal_access_tokens (
+id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+tokenable_type varchar(255) NOT NULL,
+tokenable_id bigint(20) unsigned NOT NULL,
+name varchar(255) NOT NULL,
+token varchar(64) NOT NULL,
+abilities text DEFAULT NULL,
+last_used_at timestamp NULL DEFAULT NULL,
+created_at timestamp NULL DEFAULT NULL,
+updated_at timestamp NULL DEFAULT NULL,
+PRIMARY KEY (id),
+UNIQUE KEY personal_access_tokens_token_unique (token),
+KEY personal_access_tokens_tokenable_type_tokenable_id_index (tokenable_type,tokenable_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 CREATE TABLE CAMIONEROS (
@@ -217,7 +234,7 @@ CREATE TABLE DESTINO_LOTE (
 
 CREATE TABLE LLEVA (
     ID_lote INT PRIMARY KEY,
-    matricula CHAR(7) NOT NULL,
+    matricula CHAR(7),
     fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_estimada TIMESTAMP NULL DEFAULT NULL,
     fecha_carga TIMESTAMP NULL DEFAULT NULL,
@@ -239,7 +256,7 @@ ALTER TABLE LLEVA
 
 CREATE TABLE REPARTE (
     ID_paquete INT PRIMARY KEY,
-    matricula CHAR(7) NOT NULL,
+    matricula CHAR(7),
     fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
@@ -258,7 +275,7 @@ ALTER TABLE REPARTE
     
 CREATE TABLE TRAE (
     ID_paquete INT PRIMARY KEY,
-    matricula CHAR(7) NOT NULL,
+    matricula CHAR(7),
     fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
