@@ -13,8 +13,9 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
 
 	public $timestamps = false;
-    protected $primaryKey = 'user';
-	public $incrementing = false;
+    protected $primaryKey = 'id';
+    protected $autoIncrement = true;
+
 
 	protected $casts = [
 		'rol' => 'int',
