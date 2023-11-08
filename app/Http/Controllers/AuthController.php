@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 
+use function PHPSTORM_META\map;
+
 class AuthController extends Controller
 {
     use HttpResponses;
@@ -25,10 +27,22 @@ class AuthController extends Controller
 
         $user = User::where("user", $credentials["user"])->firstOrFail();
 
+        if ($user->email_verified_at === null) {
+            return $this->error("Email no verificado", 401);
+        }
+
+        $roleToAbilities = [
+            0 => ["admin"],
+            1 => ["almacen"],
+            2 => ["camionero"],
+            3 => ["cliente"],
+        ];
+        $tokenAbilities = $roleToAbilities[$user->rol];
+
         return $this->success([
             "user" => $user->user,
             "rol" => $user->rol,
-            "token" => $user->createToken($user->user)->plainTextToken,
+            "token" => $user->createToken($user->user, $tokenAbilities)->plainTextToken,
         ]);
     }
 
@@ -43,18 +57,40 @@ class AuthController extends Controller
 
         $user = User::create($credentials);
 
+        $roleToAbilities = [
+            0 => ["admin"],
+            1 => ["almacen"],
+            2 => ["camionero"],
+            3 => ["cliente"],
+        ];
+        $tokenAbilities = $roleToAbilities[$user->rol];
+
         return $this->success([
             "user" => $user->user,
-            "token" => $user->createToken($user->user)->plainTextToken,
+            "rol" => $user->rol,
+            "token" => $user->createToken($user->user, $tokenAbilities)->plainTextToken,
         ]);
     }
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        $request->user()->tokens()->delete();
+        return $this->success("Sesión cerrada");
+    }
 
-        $request->session()->invalidate();
+    public function authenticated(Request $request){
+        $user = $request->user();
 
-        $request->session()->regenerateToken();
+        if ($user === null) {
+            return "No hay usuario";
+        }
+
+        if ($user->email_verified_at === null) {
+            return 0;
+        }
+        return $this->success([
+            "user" => $user->user,
+            "rol" => $user->rol,
+        ]);
     }
 }
