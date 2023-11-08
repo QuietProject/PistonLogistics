@@ -217,7 +217,7 @@ CREATE TABLE DESTINO_LOTE (
 
 CREATE TABLE LLEVA (
     ID_lote INT PRIMARY KEY,
-    matricula CHAR(7),
+    matricula CHAR(7) NOT NULL,
     fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_estimada TIMESTAMP NULL DEFAULT NULL,
     fecha_carga TIMESTAMP NULL DEFAULT NULL,
@@ -239,7 +239,7 @@ ALTER TABLE LLEVA
 
 CREATE TABLE REPARTE (
     ID_paquete INT PRIMARY KEY,
-    matricula CHAR(7),
+    matricula CHAR(7) NOT NULL,
     fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
@@ -258,7 +258,7 @@ ALTER TABLE REPARTE
     
 CREATE TABLE TRAE (
     ID_paquete INT PRIMARY KEY,
-    matricula CHAR(7),
+    matricula CHAR(7) NOT NULL,
     fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
@@ -290,8 +290,8 @@ CREATE TABLE PAQUETES_ALMACENES (
 );
 /*    
 RNE 1: En conduce en cada nuevo registro fecha desde>max(fecha_hasta) de la seleccionde conduce con el camionero a ingresar
-RNE 2: Un paquete no puede estar en mas de un lote que no tenga estado.tipo = 0
-RNE 3: Para asignarle un camion en reparte a un paquete, este tine que estar en un almacen
+RNE 2: Un paquete no puede estar en mas de un lote a la vez(en mas de uno que tenga hasta=null)
+RNE 3: Para asignarle un camion en reparte a un paquete, este tine que estar en un almacen TRIGGER OK
 IMPLEMENTADO PROCEDURES RNE 4: El orden de la relacion Destino_Lote debe estar relacionado con la misma troncal con la que esta relacionado el origen del lote pero no con el mismo almacen
 IMPLEMENTADO PROCEDURES RNE 5: Almacen no puede ser  Almacen de cliente y Almacen propio a la vez
 IMPLEMENTADO PROCEDURES RNE 6: Vehiculo no puede ser camion y camioneta a la vez

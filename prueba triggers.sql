@@ -38,7 +38,9 @@ update LOTES set fecha_pronto=current_timestamp() where ID=12;
 SELECT SLEEP(1);
 insert into LLEVA(matricula,ID_lote) values('ABC1234',12);
 SELECT SLEEP(1);
-update LLEVA set fecha_descarga=DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 1 SECOND) where ID_lote=@12;
+update LLEVA set fecha_carga=DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 1 SECOND) where ID_lote=12;
+SELECT SLEEP(1);
+update LLEVA set fecha_descarga=DATE_ADD(CURRENT_TIMESTAMP(), INTERVAL 1 SECOND) where ID_lote=12;
 SELECT SLEEP(1);
 update LOTES set fecha_cerrado=current_timestamp() where ID=12;
 
