@@ -55,12 +55,12 @@ class PaqueteController extends Controller
 
         $paquetesEnAlmacen = PaqueteAlmacen::where("ID_almacen", $idAlmacen)->whereNull("hasta")->get();
         // return $paquetesEnAlmacen->to_array();
-        $lotesEnLleva = Lleva::all()->pluck("ID_lote");
-        $lotesEnAlmacen = Lote::where("ID_almacen", $idAlmacen)->whereNull("fecha_cerrado")->whereNotIn("ID", $lotesEnLleva)->pluck("ID");
+        // $lotesEnLleva = Lleva::all()->pluck("ID_lote");
+        // $lotesEnAlmacen = Lote::where("ID_almacen", $idAlmacen)->whereNull("fecha_cerrado")->whereNotIn("ID", $lotesEnLleva)->pluck("ID");
 
-        $paquetesEnLoteEnAlmacen = PaqueteLote::whereIn("ID_lote", $lotesEnAlmacen)->get();
+        // $paquetesEnLoteEnAlmacen = PaqueteLote::whereIn("ID_lote", $lotesEnAlmacen)->get();
 
-        $paquetesEnAlmacen = $paquetesEnAlmacen->concat($paquetesEnLoteEnAlmacen)->sort();
+        // $paquetesEnAlmacen = $paquetesEnAlmacen->concat($paquetesEnLoteEnAlmacen)->sort();
 
         return PaqueteResource::collection($paquetesEnAlmacen);
     }
