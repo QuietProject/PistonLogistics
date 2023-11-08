@@ -11,12 +11,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Trae
- * 
+ *
  * @property int $ID_paquete
- * @property string|null $matricula
- * @property Carbon $fecha_carga
+ * @property string $matricula
+ * @property Carbon $fecha_asignado
+ * @property Carbon|null $fecha_carga
  * @property Carbon|null $fecha_descarga
- * 
+ *
+ *
  * @property Paquete $paquete
  * @property Vehiculo|null $vehiculo
  *
@@ -31,12 +33,14 @@ class Trae extends Model
 
 	protected $casts = [
 		'ID_paquete' => 'int',
+		'fecha_asignado' => 'datetime',
 		'fecha_carga' => 'datetime',
 		'fecha_descarga' => 'datetime'
 	];
 
 	protected $fillable = [
 		'matricula',
+		'fecha_asignado',
 		'fecha_carga',
 		'fecha_descarga'
 	];

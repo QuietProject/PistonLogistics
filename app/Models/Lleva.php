@@ -11,12 +11,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Lleva
- * 
+ *
  * @property int $ID_lote
  * @property string|null $matricula
- * @property Carbon $fecha_carga
+ * @property Carbon $fecha_asignado
+ * @property Carbon|null $fecha_estimada
+ * @property Carbon|null $fecha_carga
  * @property Carbon|null $fecha_descarga
- * 
+ *
  * @property Lote $lote
  * @property Camion|null $camion
  *
@@ -31,12 +33,15 @@ class Lleva extends Model
 
 	protected $casts = [
 		'ID_lote' => 'int',
+		'fecha_asignado' => 'datetime',
+		'fecha_estimada' => 'datetime',
 		'fecha_carga' => 'datetime',
 		'fecha_descarga' => 'datetime'
 	];
 
 	protected $fillable = [
-		'matricula',
+		'fecha_asignado',
+		'fecha_estimada',
 		'fecha_carga',
 		'fecha_descarga'
 	];

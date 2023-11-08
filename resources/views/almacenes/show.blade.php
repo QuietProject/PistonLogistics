@@ -39,6 +39,31 @@
                 <p>Lotes en preparacion en el almacen: {{ $lotesEnPreparacion }}</p>
                 <p>Total de lotes recibidos en el almacen: {{ $lotesRecibidos }}</p>
                 <p>Total de lotes creados en el almacen: {{ $lotesCreados }}</p>
+                <p>Troncales en las que esta el lote:</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (count($troncales )== 0)
+                            {
+                            <p>El almacen no se encuentra en ninguna troncal</p>
+                            }
+                        @else
+                        @foreach ($troncales as $troncal)
+                            <tr>
+                                <td><a href="{{ route('troncales.show',$troncal->ID) }}">{{ $troncal->ID }}</a></td>
+                                <td>{{ $troncal->nombre }}</td>
+                            </tr>
+                        @endforeach
+                        @endif
+                    </tbody>
+                </table>
+                </tbody>
             @else
                 <p>Paquetes esperando en el almacenen: {{ $paquetesEnCliente }}</p>
                 <p>Paquetes encargados por almacen que ya fueron entregados: {{ $paquetesEntregadosCliente }}</p>

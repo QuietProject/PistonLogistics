@@ -24,17 +24,7 @@ class AlmacenesController extends Controller
         $propios = AlmacenPropio::all();
         $clientes = AlmacenCliente::all();
         $empresas = Cliente::all();
-        return view('almacenes.index', ['propios' => $propios, 'clientes' => $clientes,'empresas'=>$empresas, 'almacen' => new Almacen()]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('almacenes.index', ['propios' => $propios, 'clientes' => $clientes, 'empresas' => $empresas, 'almacen' => new Almacen()]);
     }
 
     /**
@@ -77,11 +67,23 @@ class AlmacenesController extends Controller
 
         if ($tipo == 'propio') {
 
+            //Troncales en las que esta el almacen
+            $troncales = DB::table('ORDENES')
+                ->join('TRONCALES','TRONCALES.ID','ORDENES.ID_troncal')
+                ->where('TRONCALES.baja',0)
+                ->where('ORDENES.baja',0)
+                ->where('ID_almacen',$almacen->ID)
+                ->get(['TRONCALES.ID AS ID','TRONCALES.nombre AS nombre']);
             //Total de paquetes en almacen
             $paquetesEnAlmacen = DB::table('PAQUETES_ALMACENES')
                 ->where('ID_almacen', $almacen->ID)
                 ->whereNull('hasta')
                 ->count();
+
+            //Lotes en el almacen
+            /*$lotesEnAlmacen = DB::table('LOTES_EN_ALMACENES')
+            ->where('ID_almacen', $almacen->ID)
+            ->get();*/
 
             //Total de paquetes que pasaron por el almacen
             $paquetesRecibidos = DB::table('PAQUETES_ALMACENES')
@@ -94,7 +96,7 @@ class AlmacenesController extends Controller
                 ->whereNull('fecha_pronto')
                 ->count();
 
-            //Total de lotes prontos que estan esperando a ser cargados
+            //Total de lotes prontos
             $lotesProntos = DB::table('LOTES')
                 ->leftJoin('LLEVA', 'LLEVA.ID_lote', 'LOTES.ID')
                 ->where('LOTES.ID_almacen', $almacen->ID)
@@ -112,6 +114,7 @@ class AlmacenesController extends Controller
                 ->join('LLEVA', 'LOTES.ID', 'LLEVA.ID_lote')
                 ->join('DESTINO_LOTE', 'LOTES.ID', 'DESTINO_LOTE.ID_lote')
                 ->where('DESTINO_LOTE.ID_almacen', $almacen->ID)
+                ->whereNotNull('LLEVA.fecha_descarga')
                 ->count();
 
             // Total de lotes recibidos en el almacen que no fueron desarmados
@@ -126,6 +129,8 @@ class AlmacenesController extends Controller
             return view('almacenes.show', [
                 'almacen' => $almacen,
                 'tipo' => $tipo,
+                'troncales' => $troncales,
+                //'lotesEnAlmacen' => $lotesEnAlmacen,
                 'paquetesEnAlmacen' => $paquetesEnAlmacen,
                 'paquetesRecibidos' => $paquetesRecibidos,
                 'lotesEnPreparacion' => $lotesEnPreparacion,
@@ -136,6 +141,8 @@ class AlmacenesController extends Controller
             ]);
         } else {
             $cliente = $almacen->almacen_cliente->cliente;
+
+            // Total de paquetes ordenados por este almacen
             $paquetesEncargados = DB::table('ALMACENES_CLIENTES')
                 ->join('PAQUETES', 'ALMACENES_CLIENTES.ID', 'PAQUETES.ID_almacen')
                 ->where('ALMACENES_CLIENTES.ID', $almacen->ID)
@@ -144,7 +151,7 @@ class AlmacenesController extends Controller
             $paquetesEntregadosCliente = DB::table('ALMACENES_CLIENTES')
                 ->join('PAQUETES', 'ALMACENES_CLIENTES.ID', 'PAQUETES.ID_almacen')
                 ->where('ALMACENES_CLIENTES.ID', $almacen->ID)
-                ->whereNull('PAQUETES.fecha_entregado',)
+                ->whereNotNull('PAQUETES.fecha_entregado',)
                 ->count();
 
             //Total de paquetes que estan esperando en este almacen
@@ -153,7 +160,7 @@ class AlmacenesController extends Controller
                 ->join('PAQUETES', 'ALMACENES_CLIENTES.ID', 'PAQUETES.ID_almacen')
                 ->leftJoin('TRAE', 'PAQUETES.id', '=', 'TRAE.ID_paquete')
                 ->where('ALMACENES_CLIENTES.ID', $almacen->ID)
-                ->whereNull('TRAE.matricula')->count();
+                ->whereNull('TRAE.fecha_carga')->count();
 
             return view('almacenes.show', [
                 'almacen' => $almacen,
