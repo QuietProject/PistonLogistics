@@ -78,19 +78,47 @@ class AuthController extends Controller
         return $this->success("Sesión cerrada");
     }
 
-    public function authenticated(Request $request){
-        $user = $request->user();
+    public function isAdmin(Request $request)
+    {
+    $user = $request->user();
 
-        if ($user === null) {
-            return "No hay usuario";
+        if ($user->tokenCan("admin")) {
+            return $this->success(1);
+        }else{
+            return $this->success(0);
         }
+    }
 
-        if ($user->email_verified_at === null) {
-            return 0;
+    public function isAlmacen(Request $request)
+    {
+    $user = $request->user();
+
+        if ($user->tokenCan("almacen")) {
+            return $this->success(1);
+        }else{
+            return $this->success(0);
         }
-        return $this->success([
-            "user" => $user->user,
-            "rol" => $user->rol,
-        ]);
+    }
+
+    public function isCamionero(Request $request)
+    {
+    $user = $request->user();
+
+        if ($user->tokenCan("camionero")) {
+            return $this->success(1);
+        }else{
+            return $this->success(0);
+        }
+    }
+
+    public function isCliente(Request $request)
+    {
+    $user = $request->user();
+
+        if ($user->tokenCan("cliente")) {
+            return $this->success(1);
+        }else{
+            return $this->success(0);
+        }
     }
 }
