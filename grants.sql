@@ -18,6 +18,7 @@ CREATE USER 'administrador'@'%' IDENTIFIED BY 'admin';
 
 GRANT SELECT ON surno.users TO 'autentificacion'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON surno.password_resets TO 'autentificacion'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON surno.personal_access_tokens TO 'autentificacion'@'%';
 
 -- ALMACEN
 
