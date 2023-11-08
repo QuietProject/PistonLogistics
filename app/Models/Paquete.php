@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Paquete extends Model
 {
-	protected $table = 'paquetes';
+	protected $table = 'PAQUETES';
 	protected $primaryKey = 'ID';
 	public $timestamps = false;
 

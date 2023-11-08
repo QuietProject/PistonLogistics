@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class AlmacenesPropio
+ * Class AlmacenPropio
  * 
  * @property int $ID
  * 
@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AlmacenPropio extends Model
 {
-	protected $table = 'almacenes_propios';
+	protected $table = 'ALMACENES_PROPIOS';
 	protected $primaryKey = 'ID';
 	public $incrementing = false;
 	public $timestamps = false;

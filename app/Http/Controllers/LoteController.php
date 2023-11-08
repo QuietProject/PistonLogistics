@@ -18,22 +18,11 @@ use Illuminate\Validation\Rule;
 
 class LoteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return Lote::all();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validated = request()->validate([
@@ -78,12 +67,6 @@ class LoteController extends Controller
 
     /**************************************************************************************************************************/
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         return Lote::find($id);
@@ -164,8 +147,8 @@ class LoteController extends Controller
                 "required",
                 "numeric",
                 function ($attribute, $value, $fail) {
-                    $lotExists = DB::table('lotes')->where('ID', $value)->exists();
-                    $lotIsReady = DB::table('lotes')->where('ID', $value)->whereNull('fecha_pronto')->exists();
+                    $lotExists = DB::table('LOTES')->where('ID', $value)->exists();
+                    $lotIsReady = DB::table('LOTES')->where('ID', $value)->whereNull('fecha_pronto')->exists();
 
                     if (!$lotExists) {
                         $fail("El lote no existe");
@@ -204,8 +187,8 @@ class LoteController extends Controller
                     "numeric",
                     "unique:Lleva,ID_lote",
                     function ($attribute, $value, $fail) {
-                        $loteExiste = DB::table('lotes')->where('ID', $value)->exists();
-                        $lotePronto = DB::table('lotes')->where('ID', $value)->whereNull('fecha_pronto')->exists();
+                        $loteExiste = DB::table('LOTES')->where('ID', $value)->exists();
+                        $lotePronto = DB::table('LOTES')->where('ID', $value)->whereNull('fecha_pronto')->exists();
 
 
                         if (!$loteExiste) {
@@ -231,10 +214,10 @@ class LoteController extends Controller
             return $this->validacion($validator);
         }
 
-        DB::select("Insert into lleva (ID_lote, matricula) values ($request->idLote, '$request->matricula')");
+        DB::select("Insert into LLEVA (ID_lote, matricula) values ($request->idLote, '$request->matricula')");
 
         return response()->json([
-            "message" => "Lote cargado"
+            "message" => "Lote cargado exitosamente"
         ], 200);
     }
 
@@ -256,10 +239,8 @@ class LoteController extends Controller
             //descarga el lote de lleva
             $idLote = $request->idLote;
             $lleva = Lleva::where("ID_lote", $idLote)->first();
-            // // return $lleva;
             $lleva->fecha_descarga = now();
             $lleva->save();
-            // DB::select("update lleva set fecha_descarga = now() where ID_lote = $idLote and matricula = '$request->matricula' and fecha_descarga is null limit 1");
 
             //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
             $lote = Lote::find($idLote);
@@ -310,6 +291,35 @@ class LoteController extends Controller
         //         "message" => "Error inesperado"
         //     ], 500);
         // }
+    }
+
+    /*************************************************************************************************************************************/
+
+    public function agregarPaqueteToLote()
+    {
+        $validated = request()->validate([
+            "idPaquete" => "required|numeric|exists:paquetes,ID",
+            "idLote" => "required|numeric|exists:lotes,ID",
+        ]);
+
+        $paquetesEnLotes = PaqueteLote::where("ID_paquete", $validated["idPaquete"])->whereNull("hasta")->get();
+        // return $paquetesEnLotes;
+        if (!empty(json_decode($paquetesEnLotes, true))) {
+            return response()->json([
+                "message" => "Paquete ya en un lote"
+            ], 400);
+        }
+
+        $error = $this->asignarPaqueteToLote($validated["idPaquete"], $validated["idLote"]);
+        if (!empty($error)){
+            return response()->json([
+                "message" => $error
+            ], 400);
+        }
+
+        return response()->json([
+            "message" => "Paquete agregado a lote"
+        ], 200);
     }
 
     /*************************************************************************************************************************************/

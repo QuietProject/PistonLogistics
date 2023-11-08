@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Lote extends Model
 {
-	protected $table = 'lotes';
+	protected $table = 'LOTES';
 	protected $primaryKey = 'ID';
 	public $timestamps = false;
 

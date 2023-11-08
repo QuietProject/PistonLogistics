@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Reparte extends Model
 {
-	protected $table = 'reparte';
+	protected $table = 'REPARTE';
 	protected $primaryKey = 'ID_paquete';
 	public $incrementing = false;
 	public $timestamps = false;
