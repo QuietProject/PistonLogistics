@@ -120,4 +120,15 @@ class AuthController extends Controller
             return $this->success(0);
         }
     }
+
+    public function isClienteOrAlmacen(Request $request)
+    {
+    $user = $request->user();
+
+        if ($user->tokenCan("cliente") || $user->tokenCan("almacen")) {
+            return $this->success(1);
+        }else{
+            return $this->success(0);
+        }
+    }
 }

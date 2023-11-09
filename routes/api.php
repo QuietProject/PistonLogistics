@@ -11,4 +11,4 @@ Route::post("register", [AuthController::class, "register"]);
 Route::post("admin", [AuthController::class, "isAdmin"])->middleware("auth:sanctum");
 Route::post("almacen", [AuthController::class, "isAlmacen"])->middleware("auth:sanctum");
 Route::post("camionero", [AuthController::class, "isCamionero"])->middleware("auth:sanctum");
-Route::post("cliente", [AuthController::class, "isCliente"])->middleware("auth:sanctum");
+Route::post("clienteOrAlmacen", [AuthController::class, "isClienteOrAlmacen"])->middleware("auth:sanctum");
