@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class authorize
 {
@@ -17,12 +18,22 @@ class authorize
     public function handle(Request $request, Closure $next, $role)
     {
         if ($role == "13") {
-            return response($request->bearerToken());
+            $response = Http::withHeaders(["Authorization" => "Bearer " . $request->bearerToken()])->acceptJson()->post(env("AUTH_API_URL"). "clienteOrAlmacen");
 
+            if ($response->status() != 200) {
+                return response()->json(["message" => "No autorizado"], 401);
+            }
+        }
+
+        if ($role == "1"){
+            $response = Http::withHeaders(["Authorization" => "Bearer " . $request->bearerToken()])->acceptJson()->post(env("AUTH_API_URL"). "almacen");
+
+            if ($response->status() != 200) {
+                return response()->json(["message" => "No autorizado"], 401);
+            }
         }
 
 
-        return response($role);
 
         return $next($request);
     }

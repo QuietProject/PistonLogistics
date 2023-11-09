@@ -25,6 +25,7 @@ Route::middleware("authorize:1")->group(function (){
     Route::get("lotes/agregar/paquete", [PaqueteController::class, "agregarPaqueteToLote"]);
     Route::post("lotes/eliminar/paquete", [LoteController::class, "quitarPaquete"]);
     Route::get("/lotes/pronto", [LoteController::class, "lotePronto"]);
+    Route::get("ordenes/almacen/{id}", [OrdenController::class, "almacenlmacen"]);
 });
 
 Route::middleware("authorize:13")->group(function (){
