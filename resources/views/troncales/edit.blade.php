@@ -1,16 +1,19 @@
-@if ($errors->any())
-    abre el formulario
-@endif
-<h2>Editar Troncal</h2>
-<form action="{{ route('troncales.update', $troncal) }}" method="POST">
-    @csrf
-    @method('PATCH')
-    <div>
-        <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" id="nombre" required value="{{ old('nombre',$troncal->nombre) }}">
-        @error('nombre')
-            <span style="color: red">{{ $message }}</span>
-        @enderror
-    </div>
-    <button type="submit">Submit</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="{{env("APP_URL")}}/css/style.css">
+    <link rel="stylesheet" href="{{env("APP_URL")}}/css/styleTroncalesShow.css">
+    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
+    <title>Piston Logistics</title>
+</head>
+<body>
+   {{env("APP_URL")}}
+</body>
+
+</html>
+
+<script src="../javascript/scriptAdministrador.js"></script>

@@ -31,8 +31,7 @@
                     <tr>
                         <th style="width: 10%;" onclick="sortTable(0);arrowsTable(0);" id="0">ID</th>
                         <th style="width: 30%;" onclick="sortTable(0);arrowsTable(0);" id="0">Nombre</th>
-                        <th style="width: 30%;" onclick="sortTable(0);arrowsTable(0);" id="0">Cantidad almacenes
-                        </th>
+                        <th style="width: 30%;" onclick="sortTable(0);arrowsTable(0);" id="0">Cantidad almacenes</th>
                         <th style="width: 30%;" onclick="sortTable(0);arrowsTable(0);" id="0">Estado</th>
                     </tr>
                 </thead>
