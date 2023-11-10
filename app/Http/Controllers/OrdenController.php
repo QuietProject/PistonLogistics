@@ -58,6 +58,44 @@ class OrdenController extends Controller
     }
 
 
+    public static function si($almacen)
+    {
+        $almacen = AlmacenPropio::find($almacen);
+        if (empty($almacen)) {
+            return response()->json([
+                "message" => "Almacen no existe"
+            ], 400);
+        }
+
+        $troncales = DB::table('ORDENES')
+        ->join('TRONCALES','TRONCALES.ID','ORDENES.ID_troncal')
+        ->where('TRONCALES.baja',0)
+        ->where('ORDENES.baja',0)
+        ->where('ID_almacen',$almacen->ID)
+        ->get(['TRONCALES.ID AS ID']);
+
+        if (count($troncales)==0) {
+            return response()->json([
+                "message" => "El almacen no se encuentra en ninguna troncal"
+            ], 400);
+        }
+
+        foreach ($troncales as $index => $troncal) {
+            $idsTroncales[$index]=$troncal->ID;
+        }
+        $ordenes= DB::table('ORDENES')
+        ->join('TRONCALES','TRONCALES.ID','ORDENES.ID_troncal')
+        ->join('ALMACENES','ALMACENES.ID','ORDENES.ID_almacen')
+        ->where('TRONCALES.baja',0)
+        ->where('ORDENES.baja',0)
+        ->where('ALMACENES.baja',0)
+        ->whereIn('ORDENES.ID_troncal',$idsTroncales)
+        ->where('ORDENES.ID_almacen','!=',$almacen->ID)
+        ->get(['ORDENES.ID_almacen as ID_almacen','ORDENES.ID_troncal as ID_troncal']);
+
+        return $ordenes;
+    }
+
     /**
      * Store a newly created resource in storage.
      *

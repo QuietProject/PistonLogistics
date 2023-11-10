@@ -13,9 +13,11 @@ use App\Models\Paquete;
 
 Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware();
 
-Route::middleware("authorize:1")->group(function (){
+// Route::middleware("authorize:1")->group(function (){
     Route::resource("paquetes", PaqueteController::class);
+    Route::get("paquetes/{codigo}", [PaqueteController::class, "show"]);
     Route::get("almacen/descarga/{id}/{almacen}", [PaqueteController::class, "descargaPaquete"]);
+    Route::post("almacen/carga", [PaqueteController::class, "cargaReparte"]);
 
     Route::get("lotes/cargar", [LoteController::class, "cargaLote"]);
     Route::get("lotes/descargar", [LoteController::class, "descargaLote"]);
@@ -24,12 +26,12 @@ Route::middleware("authorize:1")->group(function (){
     Route::post("lotes/create", [LoteController::class, "store"]);
     Route::get("lotes/agregar/paquete", [PaqueteController::class, "agregarPaqueteToLote"]);
     Route::post("lotes/eliminar/paquete", [LoteController::class, "quitarPaquete"]);
-    Route::get("/lotes/pronto", [LoteController::class, "lotePronto"]);
+    Route::get("lotes/pronto", [LoteController::class, "lotePronto"]);
     Route::get("ordenes/almacen/{id}", [OrdenController::class, "almacen"]);
-});
+// });
 
-Route::middleware("authorize:13")->group(function (){
+// Route::middleware("authorize:13")->group(function (){
     Route::post("paquetes/create", [PaqueteController::class, "store"]);
     Route::get("cliente/carga/{id}/{matricula}", [PaqueteController::class, "cargaCliente"]);
-});
+// });
 
