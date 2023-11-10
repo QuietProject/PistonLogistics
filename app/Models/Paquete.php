@@ -9,6 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Paquete
@@ -23,6 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $fecha_entregado
  * @property string|null $mail
  * @property int $estado
+ * @property string $codigo
  * 
  * @property AlmacenCliente $almacen_cliente
  * @property AlmacenPropio $almacen_propio
@@ -37,6 +39,7 @@ class Paquete extends Model
 {
 	protected $table = 'PAQUETES';
 	protected $primaryKey = 'ID';
+	protected $autoIncrement = true;
 	public $timestamps = false;
 
 	protected $casts = [
@@ -46,7 +49,8 @@ class Paquete extends Model
 		'peso' => 'int',
 		'volumen' => 'int',
 		'fecha_entregado' => 'datetime',
-		'estado' => 'int'
+		'estado' => 'int',
+		'codigo' => 'string'
 	];
 
 	protected $fillable = [
@@ -58,8 +62,22 @@ class Paquete extends Model
 		'volumen',
 		'fecha_entregado',
 		'mail',
-		'estado'
+		'estado',
+		'codigo'
 	];
+
+	protected static function boot()
+	{
+		parent::boot();
+
+		static::creating(function ($model) {
+			do {
+				$codigo = "P" . Str::random(7);
+			} while (self::where('codigo', $codigo)->exists());
+
+			$model->codigo = $codigo;
+		});
+	}
 
 	public function almacen_cliente()
 	{
@@ -79,7 +97,7 @@ class Paquete extends Model
 	public function lotes()
 	{
 		return $this->belongsToMany(Lote::class, 'paquetes_lotes', 'ID_paquete', 'ID_lote')
-					->withPivot('desde', 'hasta');
+			->withPivot('desde', 'hasta');
 	}
 
 	public function reparte()

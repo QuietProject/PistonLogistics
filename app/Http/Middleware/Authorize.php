@@ -20,7 +20,7 @@ class authorize
         if ($role == "13") {
             $response = Http::withHeaders(["Authorization" => "Bearer " . $request->bearerToken()])->acceptJson()->post(env("AUTH_API_URL"). "clienteOrAlmacen");
 
-            if ($response->status() != 200) {
+            if ($response->status() != 200 || $response["data"] == 0) {
                 return response()->json(["message" => "No autorizado"], 401);
             }
         }
@@ -28,7 +28,7 @@ class authorize
         if ($role == "1"){
             $response = Http::withHeaders(["Authorization" => "Bearer " . $request->bearerToken()])->acceptJson()->post(env("AUTH_API_URL"). "almacen");
 
-            if ($response->status() != 200) {
+            if ($response->status() != 200 || $response["data"] == 0) {
                 return response()->json(["message" => "No autorizado"], 401);
             }
         }

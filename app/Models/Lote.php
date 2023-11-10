@@ -9,6 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Lote
@@ -51,6 +52,19 @@ class Lote extends Model
 		'fecha_cerrado',
 		'tipo'
 	];
+
+	protected static function boot()
+	{
+		parent::boot();
+
+		static::creating(function ($model) {
+			do {
+				$codigo = "L" . Str::random(7);
+			} while (self::where('codigo', $codigo)->exists());
+
+			$model->codigo = $codigo;
+		});
+	}
 
 	public function orden()
 	{

@@ -14,6 +14,7 @@ use App\Http\Controllers\PaqueteController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 
 class LoteController extends Controller
@@ -44,12 +45,16 @@ class LoteController extends Controller
             $idTroncal = $validated["ID_troncal"];
         }
 
+        do {
+            $codigo = "L" . Str::random(7);
+        } while (Lote::where('codigo', $codigo)->exists());
+
 
         if ($validated["tipo"] == 0) {
-            DB::select("CALL lote_0($almacenOrigen, $idAlmacenDestino, $idTroncal, @idLote, @error)");
+            DB::select("CALL lote_0(?, $almacenOrigen, $idAlmacenDestino, $idTroncal, @idLote, @error)", [$codigo]);
             $error = DB::select("SELECT @error as error")[0]->error;
         } else {
-            DB::select("CALL lote_1($almacenOrigen, @idLote, @error)");
+            DB::select("CALL lote_1($codigo, $almacenOrigen, @idLote, @error)");
             $error = DB::select("SELECT @error as error")[0]->error;
         }
 
@@ -214,7 +219,7 @@ class LoteController extends Controller
             return $this->validacion($validator);
         }
 
-        DB::select("Insert into LLEVA (ID_lote, matricula) values ($request->idLote, '$request->matricula')");
+        DB::select("INSERT into LLEVA (ID_lote, matricula) values ($request->idLote, '$request->matricula')");
 
         return response()->json([
             "message" => "Lote cargado exitosamente"

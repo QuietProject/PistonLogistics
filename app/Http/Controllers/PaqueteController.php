@@ -23,6 +23,7 @@ use App\Http\Resources\PaqueteResource;
 use App\Http\Controllers\Controller;
 use App\Models\Troncal;
 use Illuminate\Auth\Events\Validated;
+use Illuminate\Support\Str;
 
 use function PHPSTORM_META\type;
 
@@ -40,6 +41,8 @@ class PaqueteController extends Controller
      */
     public function index()
     {
+
+        return STR::random(7);
         $validator = Validator([
             "idAlmacen" => "bail|required|numeric|exists:almacenes_propios,ID",
         ]);
@@ -81,6 +84,7 @@ class PaqueteController extends Controller
             "mail" => "required|email",
             "seReparte" => "required|boolean",
             "idAlmacen" => "required|numeric|exists:almacenes_clientes,ID",
+            "cedula" => "required|numeric|size:8"
         ]);
 
 
@@ -128,10 +132,12 @@ class PaqueteController extends Controller
             "mail" => $validated["mail"],
             "ID_almacen" => $validated["idAlmacen"],
             "ID_pickup" => $idPickUp,
+            "cedula" => $validated["cedula"],
         ]);
         return response()->json([
             "message" => "Paquete creado exitosamente",
             "ID" => $paquete->ID,
+            "codigo" => $paquete->codigo,
         ], 201);
     }
     /*************************************************************************************************************************************/
