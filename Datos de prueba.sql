@@ -212,26 +212,27 @@ INSERT INTO ALMACENES_CLIENTES (RUT, ID) VALUES
 ('987654321012', 19),
 ('456789123012', 20);
 
-INSERT INTO PAQUETES (ID_almacen, fecha_registrado, ID_pickup, direccion, peso, fecha_entregado, mail, estado,cedula) VALUES
-(16, '2023-09-15 07:37:40', 2 ,'Calle 123, florida', 1000, NULL, 'correo1@example.com',1,'47283726'), -- 1 ok
-(16, '2023-09-14 07:34:40', 11,'Calle 456, punta del este', 2500, NULL, 'correo2@example.com',1,'47283726'),  -- 2 ok
-(16, '2023-09-14 23:32:40', 2 ,'Calle 789, chuy', 1200, NULL,	'correo3@example.com',1,'47283726'), -- 3 ok
-(16, '2023-08-26 16:28:20', 4 ,'Calle 101, melo', 800, NULL, 'correo4@example.com',1,'47283726'), -- 4 ok
-(16, '2023-05-04 05:25:35', 11,'Calle 202, melo', 2400, '2023-05-12 14:22:00', 'correo5@example.com',0,'47283726'), -- 5 ok
-(16, '2023-05-10 17:06:01', 11,'Calle 404, melo', 1300, '2023-05-12 16:26:00', 'correo6@example.com',0,'47283726'), -- 6 ok
-(16, '2023-08-27 18:22:58', 1 ,'Calle 303, salto', 2100, '2023-09-01 14:01:00', 'correo7@example.com',0,'47283726'), -- 7 ok
-(16, '2023-07-23 05:37:47', 8 ,'Calle 505, canelones', 900, NULL, 'correo8@example.com',1,'47283726'), -- 8 ok
-(16, '2023-09-11 01:38:22', 7 ,'Calle 606, montevideo', 2600,	NULL, 'correo9@example.com',1,'47283726'), -- 9 ok
-(16, '2023-08-13 04:06:42', 12,'Calle 707, montevideo', 700,	'2023-08-16 12:54:42', 'correo10@example.com',0,'47283726'), -- 10 ok
-(17, '2023-08-02 04:22:08', 14,'Calle 808, colonia del sacramento', 1800, NULL, 'correo11@example.com',1,'47283726'), -- 11 ok
-(18, '2023-08-29 11:42:52', 5 ,null, 1100, null, 'correo13@example.com',1,'47283726'), -- 12 ok 
-(18, '2023-09-05 10:42:49', 5 ,null, 1500, '2023-09-15 16:34:14', 'correo12@example.com',0,'47283726'), -- 13 ok
-(18, '2023-07-30 05:22:07', 4,'Calle 111, montevideo', 1400, '2023-08-01 05:22:07',	'correo14@example.com',0,'47283726'), -- 14 ok
-(19, '2023-09-13 23:29:45', 5,'Calle 212, montevideo', 900,	NULL, 'correo15@example.com',1,'47283726'), -- 15 ok
-(19, '2023-08-28 23:54:46', 7,'Calle 313, montevideo', 1700, NULL, 'correo16@example.com',1,'47283726'), -- 16
-(20, '2023-07-29 19:17:39', 8,'Calle 414, minas',	1200,	NULL, 'correo17@example.com',1,'47283726'), -- 17
-(20, '2023-07-29 19:18:39', 8, null , 1200, NULL,	'correo18@example.com',1,'47283726'), -- 18
-(20, '2023-09-20 12:18:39', 14, 'Calle 413, florida' , 1200, NULL,	'correo19@example.com',1,'47283726'); -- 18
+INSERT INTO PAQUETES (codigo, ID_almacen, fecha_registrado, ID_pickup, direccion, peso, fecha_entregado, mail, estado,cedula) VALUES
+("PeUiL3dt" ,16, '2023-09-15 07:37:40', 2 ,'Calle 123, florida', 1000, NULL, 'correo1@example.com',1,'47283726'), -- 1 ok
+("P4Y0UHoZ" ,16, '2023-09-14 07:34:40', 11,'Calle 456, punta del este', 2500, NULL, 'correo2@example.com',1,'47283726'),  -- 2 ok
+("P7gzsOw9" ,16, '2023-09-14 23:32:40', 2 ,'Calle 789, chuy', 1200, NULL,	'correo3@example.com',1,'47283726'), -- 3 ok
+("PB1hUxFW" ,16, '2023-08-26 16:28:20', 4 ,'Calle 101, melo', 800, NULL, 'correo4@example.com',1,'47283726'), -- 4 ok
+("Pq6sMi3a" ,16, '2023-05-04 05:25:35', 11,'Calle 202, melo', 2400, '2023-05-12 14:22:00', 'correo5@example.com',0,'47283726'), -- 5 ok
+("P98FMPuC" ,16, '2023-05-10 17:06:01', 11,'Calle 404, melo', 1300, '2023-05-12 16:26:00', 'correo6@example.com',0,'47283726'), -- 6 ok
+("PXj3nua8" ,16, '2023-08-27 18:22:58', 1 ,'Calle 303, salto', 2100, '2023-09-01 14:01:00', 'correo7@example.com',0,'47283726'), -- 7 ok
+("PcL8rRfq" ,16, '2023-07-23 05:37:47', 8 ,'Calle 505, canelones', 900, NULL, 'correo8@example.com',1,'47283726'), -- 8 ok
+("PJ3iINW6" ,16, '2023-09-11 01:38:22', 7 ,'Calle 606, montevideo', 2600,	NULL, 'correo9@example.com',1,'47283726'), -- 9 ok
+("PiezIuvP" ,16, '2023-08-13 04:06:42', 12,'Calle 707, montevideo', 700,	'2023-08-16 12:54:42', 'correo10@example.com',0,'47283726'), -- 10 ok
+("PpdApo4S" ,17, '2023-08-02 04:22:08', 14,'Calle 808, colonia del sacramento', 1800, NULL, 'correo11@example.com',1,'47283726'), -- 11 ok
+("PeJrh4wD" ,18, '2023-08-29 11:42:52', 5 ,null, 1100, null, 'correo13@example.com',1,'47283726'), -- 12 ok 
+("Ppu5yUJU" ,18, '2023-09-05 10:42:49', 5 ,null, 1500, '2023-09-15 16:34:14', 'correo12@example.com',0,'47283726'), -- 13 ok
+("PKWv4WX8" ,18, '2023-07-30 05:22:07', 4,'Calle 111, montevideo', 1400, '2023-08-01 05:22:07',	'correo14@example.com',0,'47283726'), -- 14 ok
+("PFFcejqf" ,19, '2023-09-13 23:29:45', 5,'Calle 212, montevideo', 900,	NULL, 'correo15@example.com',1,'47283726'), -- 15 ok
+("PUrhucHD" ,19, '2023-08-28 23:54:46', 7,'Calle 313, montevideo', 1700, NULL, 'correo16@example.com',1,'47283726'), -- 16
+("PkkAuuHQ" ,20, '2023-07-29 19:17:39', 8,'Calle 414, minas',	1200,	NULL, 'correo17@example.com',1,'47283726'), -- 17
+("PGhc0UiI" ,20, '2023-07-29 19:18:39', 8, null , 1200, NULL,	'correo18@example.com',1,'47283726'), -- 18
+("PAz1MnEf" ,20, '2023-09-20 12:18:39', 14, 'Calle 413, florida' , 1200, NULL,	'correo19@example.com',1,'47283726'); -- 18
+
 
 INSERT INTO TRAE (ID_paquete, matricula,fecha_asignado,fecha_carga, fecha_descarga) VALUES
 (1,'NOP3456','2023-09-17 09:30:40','2023-09-17 09:37:40','2023-09-17 12:23:40'),
@@ -258,24 +259,18 @@ INSERT INTO TRAE (ID_paquete, matricula,fecha_asignado,fecha_carga, fecha_descar
 (19,'GHI9012','2023-09-22 11:10:39','2023-09-22 11:18:39',null);
 
 
-INSERT INTO LOTES (ID_troncal,ID_almacen,fecha_creacion,fecha_pronto,fecha_cerrado, tipo) values 
-/* 1 */(4,15,'2023-09-17 12:23:40','2023-09-17 13:23:40','2023-09-18 10:50:40', 0), -- 1,2,3
-/* 2 */(1,2,'2023-09-18 10:45:40','2023-09-18 11:20:40',null,0), -- 2
-
-/* 3 */(1,2,'2023-05-11 13:10:35','2023-05-11 15:15:35','2023-05-12 11:40:40',0), -- 5 , 6
-
-/* 4 */(6,9,'2023-08-29 14:26:35', '2023-08-29 18:24:00','2023-08-31 15:24:00',0), -- 7
-
-/* 5 */(5,4,'2023-08-4 14:23:08', '2023-08-5 14:23:08', null,0), -- 11
-
-/* 6 */(1,14, '2023-09-04 15:32:42', '2023-09-07 11:45:49', '2023-09-10 15:32:42',0), -- 12 13
-/* 7 */(1,2, '2023-09-10 15:32:47', '2023-09-11 08:45:21', '2023-09-12 10:57:14',0),
-/* 8 */(2,5, '2023-09-12 10:57:14', null, null,1),
-
-/* 9 */(5,3, '2023-08-02 16:13:07', '2023-08-03 08:04:07', '2023-08-06 15:13:07',0), -- 14
-
-/* 10 */(4,15, '2023-07-30 16:12:07', '2023-07-31 09:23:31', '2023-08-02 13:23:42',0), -- 17 18
-/* 11 */(4,8, '2023-07-30 16:12:07', null, null,1);-- 18
+INSERT INTO LOTES (codigo, ID_troncal,ID_almacen,fecha_creacion,fecha_pronto,fecha_cerrado, tipo) values 
+/* 1 */("LPUSbjKE" ,4,15,'2023-09-17 12:23:40','2023-09-17 13:23:40','2023-09-18 10:50:40', 0), -- 1,2,3
+/* 2 */("L8vmzZ8k" ,1,2,'2023-09-18 10:45:40','2023-09-18 11:20:40',null,0), -- 2
+/* 3 */("L9P9ipQI" ,1,2,'2023-05-11 13:10:35','2023-05-11 15:15:35','2023-05-12 11:40:40',0), -- 5 , 6
+/* 4 */("Ldjflryi" ,6,9,'2023-08-29 14:26:35', '2023-08-29 18:24:00','2023-08-31 15:24:00',0), -- 7
+/* 5 */("L37dl834" ,5,4,'2023-08-4 14:23:08', '2023-08-5 14:23:08', null,0), -- 11
+/* 6 */("Lfi480t5" ,1,14, '2023-09-04 15:32:42', '2023-09-07 11:45:49', '2023-09-10 15:32:42',0), -- 12 13
+/* 7 */("LFJ47Kf3" ,1,2, '2023-09-10 15:32:47', '2023-09-11 08:45:21', '2023-09-12 10:57:14',0),
+/* 8 */("Ldjku47D" ,2,5, '2023-09-12 10:57:14', null, null,1),
+/* 9 */("Ldfnu78J" ,5,3, '2023-08-02 16:13:07', '2023-08-03 08:04:07', '2023-08-06 15:13:07',0), -- 14
+/* 10 */("LFDHJ89" ,4,15, '2023-07-30 16:12:07', '2023-07-31 09:23:31', '2023-08-02 13:23:42',0), -- 17 18
+/* 11 */("LfdsI54" ,4,8, '2023-07-30 16:12:07', null, null,1);-- 18
 
 
 INSERT INTO DESTINO_LOTE (ID_lote,ID_troncal,ID_almacen) VALUES
