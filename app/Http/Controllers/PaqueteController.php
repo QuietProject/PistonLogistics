@@ -83,8 +83,8 @@ class PaqueteController extends Controller
             "direccion" => "required|string",
             "mail" => "required|email",
             "seReparte" => "required|boolean",
-            "idAlmacen" => "required|numeric|exists:almacenes_clientes,ID",
-            "cedula" => "required|numeric|size:8"
+            "idAlmacen" => "required|int|exists:almacenes_clientes,ID",
+            "cedula" => "required|int|digits:8"
         ]);
 
 

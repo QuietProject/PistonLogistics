@@ -63,7 +63,8 @@ class Paquete extends Model
 		'fecha_entregado',
 		'mail',
 		'estado',
-		'codigo'
+		'codigo',
+		'cedula',
 	];
 
 	protected static function boot()
