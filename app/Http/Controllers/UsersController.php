@@ -120,7 +120,7 @@ class UsersController extends Controller
                 if ($usuarios != 0) {
                     return redirect()->back()->withErrors(['error' => 'El usuario ya existe'])->withInput();
                 }
-                $user->rol = 1;
+                $user->rol = 3;
                 $user->user = $name;
                 break;
             default:
@@ -214,7 +214,7 @@ class UsersController extends Controller
     }
 
     /**
-     * 
+     *
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -243,7 +243,7 @@ class UsersController extends Controller
 
 
     /**
-     * 
+     *
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

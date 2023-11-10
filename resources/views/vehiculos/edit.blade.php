@@ -1,4 +1,4 @@
-@if ($errors->any())
+{{-- @if ($errors->any())
     abre el formulario
 @endif
 <h2>Editar {{ $tipo }}</h2>
@@ -6,4 +6,4 @@
     @csrf
     @method('PATCH')
     @include('vehiculos.form-fields')
-</form>
+</form> --}}

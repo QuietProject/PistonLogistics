@@ -1,4 +1,4 @@
-@if ($errors->any())
+{{-- @if ($errors->any())
     abre el formulario
 @endif
 <h2>Ingresar Vehiculo</h2>
@@ -20,4 +20,4 @@
         @enderror
     </div>
     @include('vehiculos.form-fields')
-</form>
+</form> --}}

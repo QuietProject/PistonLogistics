@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Lote
- * 
+ *
  * @property int $ID
  * @property int $ID_troncal
  * @property int $ID_almacen
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon|null $fecha_pronto
  * @property Carbon|null $fecha_cerrado
  * @property bool $tipo
- * 
+ *
  * @property Orden $ordene
  * @property DestinoLote $destino_lote
  * @property Lleva $lleva
@@ -55,8 +55,8 @@ class Lote extends Model
 	public function orden()
 	{
 		return $this->belongsTo(Orden::class, 'ID_almacen')
-					->where('ordenes.ID_almacen', '=', 'lotes.ID_almacen')
-					->where('ordenes.ID_troncal', '=', 'lotes.ID_troncal');
+					->where('ORDENES.ID_almacen', '=', 'LOTES.ID_almacen')
+					->where('ORDENES.ID_troncal', '=', 'LOTES.ID_troncal');
 	}
 
 	public function destino_lote()
@@ -71,7 +71,7 @@ class Lote extends Model
 
 	public function paquetes()
 	{
-		return $this->belongsToMany(Paquete::class, 'paquetes_lotes', 'ID_lote', 'ID_paquete')
+		return $this->belongsToMany(Paquete::class, 'PAQUETES_LOTES', 'ID_lote', 'ID_paquete')
 					->withPivot('fecha');
 	}
 }

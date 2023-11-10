@@ -41,7 +41,7 @@ class VehiculosController extends Controller
     {
         $vehiculo = $request->validated();
         unset($vehiculo['tipo']);
-        DB::select('CALL ' . $request->validated()['tipo'] . '(?,?,?,@fallo)', [$vehiculo['matricula'], $vehiculo['vol_max'], $vehiculo['peso_max']]);
+        DB::select('CALL ' . $request->validated()['tipo'] . '(?,?,@fallo)', [$vehiculo['matricula'], $vehiculo['peso_max']]);
         if (DB::select('SELECT @FALLO AS fallo')[0]->fallo != 0) {
             return redirect()->back()->with('error','Ha ocurrido un error');
         }

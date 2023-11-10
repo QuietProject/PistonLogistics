@@ -52,11 +52,12 @@ class ClientesController extends Controller
      * @param  \App\Models\Cliente  $cliente
      * @return \Illuminate\Http\Response
      */
-    public function update(SaveClienteRequest $request, Cliente $cliente)
+
+     /*public function update(SaveClienteRequest $request, Cliente $cliente)
     {
         $cliente->update($request->validated());
         return to_route('clientes.show', $cliente)->with('success', 'El cliente se actualizo correctamente');
-    }
+    }*/
 
     /**
      * Remove the specified resource from storage.

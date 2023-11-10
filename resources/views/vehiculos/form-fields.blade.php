@@ -1,4 +1,4 @@
-<div class="inputBox">
+{{-- <div class="inputBox">
     <label for="peso_max">Peso Maximo</label>
     <input type="number" name="peso_max" id="peso_max" required
     value="{{ old('peso_max',$vehiculo->peso_max) }}" autocomplete="off">
@@ -16,4 +16,4 @@
         <span style="color: red">{{ $message }}</span>
     @enderror
 </div>
-<button type="submit">Submit</button>
+<button type="submit">Submit</button> --}}

@@ -58,7 +58,7 @@ class AlmacenesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Almacen  $almacenhi
+     * @param  \App\Models\Almacen  $almacen
      * @return \Illuminate\Http\Response
      */
     public function show(Almacen $almacen)

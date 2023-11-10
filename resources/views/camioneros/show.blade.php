@@ -54,8 +54,8 @@
                                 <td><a href="{{ route('vehiculos.show', $vehiculo->matricula) }}">
                                         {{ $vehiculo->matricula }}</a>
                                 </td>
-                                <td>{{ $vehiculo->desde }}</td>
-                                <td>{{ $vehiculo->hasta != null ? $vehiculo->hasta : 'Conduciendo' }}</td>
+                                <td>{{\Carbon\Carbon::parse( $vehiculo->desde)->format('d/m/y H:i') }}</td>
+                                <td>{{ $vehiculo->hasta != null ? \Carbon\Carbon::parse($vehiculo->hasta)->format('d/m/y H:i') : 'Conduciendo' }}</td>
                             </tr>
                         @endforeach
                     </tbody>

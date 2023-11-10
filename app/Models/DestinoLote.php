@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class DestinoLote
- * 
+ *
  * @property int $ID_lote
  * @property int $ID_almacen
  * @property int $ID_troncal
- * 
+ *
  * @property Lote $lote
  * @property Orden $orden
  *
@@ -46,7 +46,7 @@ class DestinoLote extends Model
 	public function orden()
 	{
 		return $this->belongsTo(Orden::class, 'ID_almacen')
-					->where('ordenes.ID_almacen', '=', 'destino_lote.ID_almacen')
-					->where('ordenes.ID_troncal', '=', 'destino_lote.ID_troncal');
+					->where('ORDENES.ID_almacen', '=', 'DESTINO_LOTE.ID_almacen')
+					->where('ORDENES.ID_troncal', '=', 'DESTINO_LOTE.ID_troncal');
 	}
 }

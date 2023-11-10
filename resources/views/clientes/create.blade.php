@@ -1,4 +1,4 @@
-@if ($errors->any())
+{{-- @if ($errors->any())
     abre el formulario
 @endif
 <h2>Ingresar cliente</h2>
@@ -13,4 +13,4 @@
         @enderror
     </div>
     @include('clientes.form-fields')
-</form>
+</form> --}}

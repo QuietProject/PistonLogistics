@@ -1,4 +1,4 @@
-@if ($errors->any())
+{{-- @if ($errors->any())
     abre el formulario
 @endif
 <h2>Editar Usuario</h2>
@@ -13,4 +13,4 @@
         @enderror
     </div>
     <button type="submit">Submit</button>
-</form>
+</form> --}}

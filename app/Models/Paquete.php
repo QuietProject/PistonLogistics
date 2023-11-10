@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Paquete
- * 
+ *
  * @property int $ID
  * @property int $ID_almacen
  * @property Carbon $fecha_registrado
@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $mail
  * @property string|null $cedula
  * @property int $estado
- * 
+ *
  * @property AlmacenCliente $almacen_cliente
  * @property AlmacenPropio $almacen_propio
  * @property Collection|PaquetesAlmacene[] $paquetes_almacenes
@@ -81,7 +81,7 @@ class Paquete extends Model
 
 	public function lotes()
 	{
-		return $this->belongsToMany(Lote::class, 'paquetes_lotes', 'ID_paquete', 'ID_lote')
+		return $this->belongsToMany(Lote::class, 'PAQUETES_LOTES', 'ID_paquete', 'ID_lote')
 					->withPivot('fecha');
 	}
 

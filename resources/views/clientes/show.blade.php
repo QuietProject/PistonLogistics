@@ -22,23 +22,6 @@
     </div>
     <div class="display">
         <h2 class="titleText">Clientes</h2>
-        <div class="editTop">
-            <h2>Editar Cliente</h2>
-            <form action="{{ route('clientes.update', $cliente) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <div>
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $cliente->nombre) }}">
-                    @error('nombre')
-                        <span style="color: red">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit" class="modBtn">Submit</button>
-
-            </form>
-        </div>
         <div class="infoBox" style="left: 51vw">
             <p>Rut: {{ $cliente->RUT }}</p>
             <p>Nombre: {{ $cliente->nombre }}</p>

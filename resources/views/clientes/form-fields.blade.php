@@ -1,4 +1,4 @@
-<div>
+{{-- <div>
     <label for="nombre">Nombre</label>
     <input type="text" name="nombre" id="nombre" value="{{ old('nombre',$cliente->nombre) }}">
     @error('nombre')
@@ -6,4 +6,4 @@
     @enderror
 </div>
 
-<button type="submit">Submit</button>
+<button type="submit">Submit</button> --}}

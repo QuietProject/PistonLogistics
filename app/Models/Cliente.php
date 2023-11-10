@@ -40,7 +40,7 @@ class Cliente extends Model
 
 	public function almacenes()
 	{
-		return $this->belongsToMany(Almacen::class, 'almacenes_clientes', 'RUT', 'ID');
+		return $this->belongsToMany(Almacen::class, 'ALMACENES_CLIENTES', 'RUT', 'ID');
 	}
 
     public function almacenes_cliente()

@@ -1,4 +1,4 @@
-@if ($errors->any())
+{{-- @if ($errors->any())
     abre el formulario
 @endif
 <h2>Editar Cliente</h2>
@@ -6,4 +6,4 @@
     @csrf
     @method('PATCH')
     @include('clientes.form-fields')
-</form>
+</form> --}}

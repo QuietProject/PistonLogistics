@@ -56,7 +56,7 @@
                                 @endswitch
                             </td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->email_verified_at ? $user->email_verified_at : '-' }}</td>
+                            <td>{{ $user->email_verified_at ? \Carbon\Carbon::parse($user->email_verified_at)->format('d/m/y H:i') : '-' }}</td>
                             <td>
                                 <form action="{{ route('usuarios.destroy', $user) }}" method="POST">
                                     @csrf

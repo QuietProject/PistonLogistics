@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class PaquetesLote
- * 
+ *
  * @property int $ID_paquete
  * @property int $ID_lote
  * @property Carbon $fecha
- * 
+ *
  * @property Paquete $paquete
  * @property Lote $lote
  *
  * @package App\Models
  */
-class PaquetesLote extends Model
+class PaqueteLote extends Model
 {
 	protected $table = 'PAQUETES_LOTES';
 	public $incrementing = false;

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlmacenesController;
+use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\camionerosController;
 use App\Http\Controllers\ClientesController;
@@ -45,7 +46,7 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::view('/', 'index')->name('inicio');
 
     Route::resource('camioneros', CamionerosController::class)->except(['create', 'edit']);
-    Route::resource('clientes', ClientesController::class)->except(['create', 'edit']);
+    Route::resource('clientes', ClientesController::class)->except(['create', 'edit','update']);
     Route::resource('almacenes', AlmacenesController::class)->except(['create', 'edit'])->parameters(['almacenes' => 'almacen']);
 
     Route::resource('troncales', TroncalesController::class)/*->except(['create', 'edit'])*/->parameters(['troncales' => 'troncal']);
@@ -64,6 +65,10 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::get('/conducen/vehiculo/{vehiculo}', [ConducenController::class, 'vehiculo'])->name('conducen.vehiculo');
     Route::get('/conducen/camionero/{camionero}', [ConducenController::class, 'camionero'])->name('conducen.camionero');
     Route::patch('/conducen/desde', [ConducenController::class, 'desde'])->name('conducen.desde');
+
+    Route::get('/asignar/lleva', [AsignarController::class, 'llevaIndex'])->name('lleva.index');
+    Route::get('/asignar/lleva/{lote}', [AsignarController::class, 'llevaShow'])->name('lleva.show');
+    Route::post('/asignar/lleva/{lote}', [AsignarController::class, 'llevaStore'])->name('lleva.store');
 });
 
 Route::get('/locale/{locale}', function ($locale) {

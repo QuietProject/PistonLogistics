@@ -67,8 +67,8 @@ if ($vehiculo->baja) {
                                 <td><a href="{{ route('camioneros.show', $camionero->CI) }}">
                                         {{ $camionero->nombre }}</a>
                                 </td>
-                                <td>{{ $camionero->desde }}</td>
-                                <td>{{ $camionero->hasta != null ? $camionero->hasta : 'Conduciendo' }}</td>
+                                <td>{{ \Carbon\Carbon::parse($camionero->desde)->format('d/m/y H:i')  }}</td>
+                                <td>{{ $camionero->hasta != null ? \Carbon\Carbon::parse($camionero->hasta)->format('d/m/y H:i') : 'Conduciendo' }}</td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -1,4 +1,4 @@
-<x-layout titulo='Vehiculos'>
+{{-- <x-layout titulo='Vehiculos'>
     @include('vehiculos.create')
     <h2>Camiones</h2>
     <table>
@@ -66,4 +66,4 @@
         </tbody>
     </table>
 
-</x-layout>
+</x-layout> --}}

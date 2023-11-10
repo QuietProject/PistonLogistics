@@ -43,7 +43,7 @@
                 @endswitch
             </p>
             <p class="asignadoText">Correo: {{ $user->email }}</p>
-            <p class="asignadoText">Correo verificado: {{ $user->hasVerifiedEmail() ? $user->email_verified_at : 'No esta verificado' }}</p>
+            <p class="asignadoText">Correo verificado: {{ $user->hasVerifiedEmail() ? \Carbon\Carbon::parse($user->email_verified_at)->format('d/m/y H:i') : 'No esta verificado' }}</p>
             @if (!$user->hasVerifiedEmail())
                 @if (is_null($user->password))
                     <form action="{{ route('usuarios.resendPasswordNotification', $user) }}" method="POST">
