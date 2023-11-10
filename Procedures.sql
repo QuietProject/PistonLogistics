@@ -315,7 +315,7 @@ BEGIN
     
     
     -- Paso 3: Crear el lote
-	INSERT INTO LOTES(ID_almacen,ID_troncal,tipo) values(almacen,@troncal,1);
+	INSERT INTO LOTES(codigo,ID_almacen,ID_troncal,tipo) values(codigo,almacen,@troncal,1);
     SET fallo = IF(row_count()!=1, 1, fallo);    
     
     IF fallo=1 THEN
