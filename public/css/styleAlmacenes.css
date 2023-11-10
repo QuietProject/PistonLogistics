@@ -148,7 +148,7 @@ input[type=number] {
 }
 
 .tableView {
-    width: 80vw;
+    width: 40vw;
     background-color: rgb(140, 140, 140);
     border-collapse: collapse;
 }

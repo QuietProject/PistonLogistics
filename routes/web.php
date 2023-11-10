@@ -75,3 +75,5 @@ Route::get('/locale/{locale}', function ($locale) {
     if ($locale == 'es' || $locale == 'en') return redirect()->back()->withCookie('locale', $locale);
     return redirect()->back()->with('error', 'Ha ocurrido un error');
 })->name('locale');
+
+Route::view('/pruebaCss', 'troncales.edit');
