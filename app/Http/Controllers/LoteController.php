@@ -54,7 +54,7 @@ class LoteController extends Controller
             DB::select("CALL lote_0(?, $almacenOrigen, $idAlmacenDestino, $idTroncal, @idLote, @error)", [$codigo]);
             $error = DB::select("SELECT @error as error")[0]->error;
         } else {
-            DB::select("CALL lote_1($codigo, $almacenOrigen, @idLote, @error)");
+            DB::select("CALL lote_1(?, $almacenOrigen, @idLote, @error)", [$codigo]);
             $error = DB::select("SELECT @error as error")[0]->error;
         }
 
