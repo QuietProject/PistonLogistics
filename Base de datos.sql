@@ -56,6 +56,7 @@ abilities text DEFAULT NULL,
 last_used_at timestamp NULL DEFAULT NULL,
 created_at timestamp NULL DEFAULT NULL,
 updated_at timestamp NULL DEFAULT NULL,
+expires_at timestamp NULL DEFAULT NULL,
 PRIMARY KEY (id),
 UNIQUE KEY personal_access_tokens_token_unique (token),
 KEY personal_access_tokens_tokenable_type_tokenable_id_index (tokenable_type,tokenable_id)
@@ -167,11 +168,12 @@ CREATE TABLE ALMACENES_CLIENTES (
 
 CREATE TABLE PAQUETES (
     ID INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    codigo CHAR(8) UNIQUE NOT NULL,
     ID_almacen INT NOT NULL,
     fecha_registrado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     ID_pickup INT NOT NULL,
     direccion VARCHAR(128) NULL DEFAULT NULL,
-    peso INT UNSIGNED NULL DEFAULT NULL,
+    peso FLOAT UNSIGNED NULL DEFAULT NULL,
     cedula VARCHAR(8) NOT NULL,
     fecha_entregado TIMESTAMP NULL DEFAULT NULL,
     mail VARCHAR(64) NULL,
@@ -184,6 +186,7 @@ CREATE TABLE PAQUETES (
         ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
+
 ALTER TABLE PAQUETES
     ADD CONSTRAINT ESTADO_ENTREGADO CHECK ((fecha_entregado is not null AND estado = 0) or (fecha_entregado is null AND estado != 0));
 
@@ -192,6 +195,7 @@ ALTER TABLE PAQUETES
 
 CREATE TABLE LOTES (
     ID INT AUTO_INCREMENT PRIMARY KEY,
+    codigo CHAR(8) UNIQUE NOT NULL,
     ID_troncal INT NOT NULL,
     ID_almacen INT NOT NULL,
     fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

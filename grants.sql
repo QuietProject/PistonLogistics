@@ -118,6 +118,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON surno.password_resets TO 'backoffice'@'%
 GRANT SELECT ON surno.PAQUETES_EN_ALMACENES TO 'backoffice'@'%';
 GRANT SELECT ON surno.PAQUETES_EN_LOTES TO 'backoffice'@'%';
 GRANT SELECT ON surno.ALMACENES_CLIENTES_DE_ALTA TO 'backoffice'@'%';
+GRANT SELECT ON surno.PESO_LOTES TO 'backoffice'@'%';
 
 GRANT EXECUTE ON PROCEDURE surno.almacen_cliente TO 'backoffice'@'%';
 GRANT EXECUTE ON PROCEDURE surno.almacen_propio TO 'backoffice'@'%';

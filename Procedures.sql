@@ -50,11 +50,11 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET @fallo =0;
     
 	-- Paso 1: Crear el vehiculo
-	insert into VEHICULOS (matricula, peso_max) values (matricula, peso_max);
+	insert into VEHICULOS (matricula, peso_max) values (upper(matricula), peso_max);
 	SET @fallo = IF(row_count()=0, 1, @fallo);
 
 	-- Paso 2: Crear un camion
-	INSERT INTO CAMIONES (matricula) values (matricula);
+	INSERT INTO CAMIONES (matricula) values (upper(matricula));
 	SET @row= row_count();
 	SET @fallo = IF(@row=0, 1, @fallo);
 
@@ -85,11 +85,11 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
 	SET @fallo =0;
     
 	-- Paso 1: Crear el vehiculo
-	insert into VEHICULOS (matricula, peso_max) values (matricula, peso_max);
+	insert into VEHICULOS (matricula, peso_max) values (upper(matricula), peso_max);
 	SET @fallo = IF(row_count()=0, 1, @fallo);
 
 	-- Paso 2: Crear un camion
-	INSERT INTO CAMIONETAS (matricula) values (matricula);
+	INSERT INTO CAMIONETAS (matricula) values (upper(matricula));
 	SET @row= row_count();
 	SET @fallo = IF(@row=0, 1, @fallo);
 
@@ -297,7 +297,7 @@ DELIMITER ;
 /* PARA CREAR UN LOTE TIPO 1 */
 DROP PROCEDURE IF exists lote_1;
 DELIMITER //
-CREATE PROCEDURE lote_1(IN almacen INT, OUT ID int ,OUT fallo bit)
+CREATE PROCEDURE lote_1(IN codigo CHAR(8),IN almacen INT, OUT ID int ,OUT fallo bit)
 BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -333,7 +333,7 @@ select * from lotes;*/
 /* PARA CREAR UN LOTE TIPO 0 */
 DROP PROCEDURE IF exists lote_0;
 DELIMITER //
-CREATE PROCEDURE lote_0(IN origen INT, IN destino INT, IN troncal INT, OUT ID int ,OUT fallo bit)
+CREATE PROCEDURE lote_0(IN codigo CHAR(8),IN origen INT, IN destino INT, IN troncal INT, OUT ID int ,OUT fallo bit)
 BEGIN
   DECLARE EXIT HANDLER FOR SQLEXCEPTION, SQLWARNING
     BEGIN
@@ -346,8 +346,11 @@ BEGIN
 	SET fallo =0;
     SET ID = 0;    
     
+	IF origen=destino THEN
+       SET fallo = 1;
+    END IF;
     -- Paso 2: Crear el lote
-	INSERT INTO LOTES(ID_almacen,ID_troncal) values(origen,troncal);
+	INSERT INTO LOTES(codigo,ID_almacen,ID_troncal) values(codigo,origen,troncal);
     SET fallo = IF(row_count()!=1, 1, fallo);    
 	SET ID = LAST_INSERT_ID();
     
