@@ -67,7 +67,10 @@ class LoteController extends Controller
         $idLote = DB::select("SELECT @idLote as idLote")[0]->idLote;
         $lote = Lote::find($idLote);
 
-        return new LoteResource($lote);
+        return response()->json([
+            "message" => "Lote creado exitosamente",
+            "lote" => new LoteResource($lote),
+        ], 200);
     }
 
     /**************************************************************************************************************************/
