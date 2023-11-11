@@ -25,3 +25,4 @@ Route::get("camion/lotes", [CamionController::class, "verLotes"]);
 Route::get("camion/arranque/{matricula}", [CamionController::class, "arranque"]);
 Route::get("camion/parada", [CamionController::class, "parada"]);
 Route::get("verEstado/{id}", [CamionController::class, "verEstado"]);
+Route::get("camion/mapa", [CamionController::class, "mapa"]);

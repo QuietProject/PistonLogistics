@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Almacen;
 use Illuminate\Http\Request;
 use App\Models\Lleva;
 use App\Models\Paquete;
@@ -10,6 +11,7 @@ use App\Models\PaqueteLote;
 use App\Models\Lote;
 use App\Models\Conducen;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class CamionController extends Controller
 {
@@ -113,6 +115,35 @@ class CamionController extends Controller
         LEFT JOIN trae ON paquetes.ID = trae.id_paquete
         LEFT JOIN reparte ON paquetes.ID = reparte.id_paquete
         WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY) AND paquetes.ID = $id"))[0]->ESTADO_ENVIO;
+    }
+
+    public function camion($cedula){
+        $camion = Conducen::where('CI', $cedula)->whereNull("hasta")->pluck("matricula");
+        return $camion;
+    }
+
+    public function mapa(Request $request){
+        $validator = Validator::make($request->all(), [
+            'cedula' => 'required|digits:8|exists:camioneros,CI'
+        ]);
+        if ($this->validacion($validator)) {
+            return $this->validacion($validator);
+        }
+
+        $matricula = self::camion($request->cedula);
+        if (count($matricula) == 0) {
+            return response()->json([
+                'message' => 'El camionero no está en un camion',
+            ], 422);
+        }
+
+        $lotes = Lleva::where('matricula', $matricula[0])->whereNull("fecha_descarga")->whereNotNull("fecha_carga")->pluck("ID_lote");
+        
+        foreach ($lotes as $lote){
+            $destinos[] = Almacen::where("ID", $lote->destino_lote()->ID_almacen)->pluck("direccion");
+        }
+
+        $origen = Lleva::where("matricula", $matricula[0])->whereNull("fecha_descarga")->whereNull("fecha_carga")->pluck("ID_lote");
     }
 
 
