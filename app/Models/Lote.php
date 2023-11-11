@@ -54,7 +54,7 @@ class Lote extends Model
 		'codigo'
 	];
 
-	public function getCodigo(){
+	public static function getCodigo(){
 		do {
 			$codigo = "L" . Str::random(7);
 		} while (self::where('codigo', $codigo)->exists());

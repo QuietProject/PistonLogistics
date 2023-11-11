@@ -160,50 +160,9 @@ class PaqueteController extends Controller
 
     /*************************************************************************************************************************************/
 
-    // public function cargaCliente($id, $matricula)
-    // {
-    //     if (!is_numeric($id)) {
-    //         return response()->json([
-    //             "message" => "ID debe ser numérico"
-    //         ], 400);
-    //     }
-
-    //     $paquete = Paquete::find($id);
-    //     if ($paquete === null) {
-    //         return response()->json([
-    //             "message" => "Paquete no encontrado"
-    //         ], 404);
-    //     }
-
-    //     $trae = Trae::find($id);
-    //     if ($trae !== null) {
-    //         return response()->json([
-    //             "message" => "Paquete ya está cargado"
-    //         ], 400);
-    //     }
-
-    //     // Find a vehiculo by its matricula (license plate)
-    //     $vehiculo = Vehiculo::where('matricula', $matricula)->first();
-
-    //     if ($vehiculo === null) {
-    //         return response()->json([
-    //             "message" => "Vehiculo no encontrado"
-    //         ], 404);
-    //     }
-
-    //     Trae::create([
-    //         "ID_paquete" => $id,
-    //         "matricula" => $matricula,
-    //     ]);
-
-    //     return response()->json([
-    //         "message" => "Paquete cargado exitosamente",
-    //     ], 200);
-    // }
-
-    public function cargaCliente($id, $matricula)
+    public function cargaCliente($idsPaquetes)
     {
-        $idArray = explode(',', $id);
+        $idArray = explode(',', $idsPaquetes);
 
         foreach ($idArray as $singleId) {
             if (!is_numeric($singleId)) {
@@ -220,25 +179,22 @@ class PaqueteController extends Controller
             }
 
             $trae = Trae::find($singleId);
-            if ($trae !== null) {
+            if ($trae === null) {
+                return response()->json([
+                    "message" => "Paquete con ID $singleId no asignado a ningun camion"
+                ], 400);
+            }
+
+            $trae = Trae::where("ID_paquete", $singleId)->whereNotNull("fecha_carga")->get();
+            if (count($trae) > 0) {
                 return response()->json([
                     "message" => "Paquete con ID $singleId ya está cargado"
                 ], 400);
             }
 
-            // Find a vehiculo by its matricula (license plate)
-            $vehiculo = Vehiculo::where('matricula', $matricula)->first();
-
-            if ($vehiculo === null) {
-                return response()->json([
-                    "message" => "Vehiculo no encontrado"
-                ], 404);
-            }
-
-            Trae::create([
-                "ID_paquete" => $singleId,
-                "matricula" => $matricula,
-            ]);
+            $trae = Trae::find($singleId);
+            $trae->fecha_carga = now();
+            $trae->save();
         }
 
         return response()->json([
@@ -249,85 +205,164 @@ class PaqueteController extends Controller
 
     /*************************************************************************************************************************************/
 
+    // public function descargaPaquete($idPaquete, $idAlmacen)
+    // {
+    //     // try {
+    //     if (!is_numeric($idPaquete)) {
+    //         return response()->json([
+    //             "message" => "ID debe ser numérico"
+    //         ], 400);
+    //     }
+
+    //     if (Paquete::find($idPaquete) === null) {
+    //         return response()->json([
+    //             "message" => "Paquete no encontrado"
+    //         ], 404);
+    //     }
+
+    //     if (Trae::find($idPaquete) === null) {
+    //         return response()->json([
+    //             "message" => "Paquete no cargado"
+    //         ], 400);
+    //     }
+
+    //     if (Trae::where("ID_paquete", $idPaquete)->whereNull("fecha_descarga")->first() === null) {
+    //         return response()->json([
+    //             "message" => "Paquete ya descargado"
+    //         ], 400);
+    //     }
+
+    //     if (AlmacenPropio::find($idAlmacen) === null) {
+    //         return response()->json([
+    //             "message" => "Almacen no encontrado"
+    //         ], 404);
+    //     }
+
+    //     if (Reparte::find($idPaquete) !== null) {
+    //         return $this->reparteRebotado($idPaquete, $idAlmacen);
+    //     }
+
+
+    //     DB::select("CALL descargar_trae($idPaquete, $idAlmacen, @error)");
+    //     $error = DB::select("SELECT @error as error")[0]->error;
+    //     if ($error !== 0) {
+    //         return response()->json([
+    //             "message" => "Error al descargar paquete"
+    //         ], 400);
+    //     }
+
+    //     $paquete = Paquete::find($idPaquete);
+
+    //     if ($paquete->ID_pickup == $idAlmacen) {
+    //         if ($paquete->direccion == null) {
+    //             $lote = $this->paqueteToPickup($idPaquete, $idAlmacen);
+    //             return response()->json([
+    //                 "message" => "Paquete descargado y pronto para recoger en pickup",
+    //                 "paquete" => Paquete::find($idPaquete),
+    //                 "lote" => $lote,
+    //             ], 200);
+    //         }
+    //         return response()->json([
+    //             "message" => "Paquete descargado y pronto para repartir",
+    //             "paquete" => Paquete::find($idPaquete),
+    //         ], 200);
+    //         // Los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
+    //     } else {
+    //         $lote = $this->getOrCreateLote($idAlmacen, $paquete->ID_pickup);
+    //         $this->asignarPaqueteToLote($idPaquete, $lote->ID);
+    //         return response()->json([
+    //             "message" => "Paquete descargado y lote asignado",
+    //             "paquete" => $paquete,
+    //             "lote" => $lote,
+    //         ], 200);
+    //     }
+
+
+    //     // } catch (\Exception $e) {
+    //     //     return response()->json([
+    //     //         "message" => "Error inesperado"
+    //     //     ], 500);
+    //     // }
+    // }
+
     public function descargaPaquete($idPaquete, $idAlmacen)
-    {
-        // try {
-        if (!is_numeric($idPaquete)) {
+{
+    $idPaqueteArray = explode(',', $idPaquete);
+
+    foreach ($idPaqueteArray as $singleIdPaquete) {
+        if (!is_numeric($singleIdPaquete)) {
             return response()->json([
-                "message" => "ID debe ser numérico"
+                "message" => "ID del paquete debe ser numérico"
             ], 400);
         }
 
-        if (Paquete::find($idPaquete) === null) {
+        if (Paquete::find($singleIdPaquete) === null) {
             return response()->json([
-                "message" => "Paquete no encontrado"
+                "message" => "Paquete con ID $singleIdPaquete no encontrado"
             ], 404);
         }
 
-        if (Trae::find($idPaquete) === null) {
+        if (Trae::find($singleIdPaquete) === null) {
             return response()->json([
-                "message" => "Paquete no cargado"
+                "message" => "Paquete con ID $singleIdPaquete no cargado"
             ], 400);
         }
 
-        if (Trae::where("ID_paquete", $idPaquete)->whereNull("fecha_descarga")->first() === null) {
+        if (Trae::where("ID_paquete", $singleIdPaquete)->whereNull("fecha_descarga")->first() === null) {
             return response()->json([
-                "message" => "Paquete ya descargado"
+                "message" => "Paquete con ID $singleIdPaquete ya descargado"
             ], 400);
         }
 
         if (AlmacenPropio::find($idAlmacen) === null) {
             return response()->json([
-                "message" => "Almacen no encontrado"
+                "message" => "Almacen con ID $idAlmacen no encontrado"
             ], 404);
         }
 
-        if (Reparte::find($idPaquete) !== null) {
-            return $this->reparteRebotado($idPaquete, $idAlmacen);
+        if (Reparte::find($singleIdPaquete) !== null) {
+            return $this->reparteRebotado($singleIdPaquete, $idAlmacen);
         }
 
-
-        DB::select("CALL descargar_trae($idPaquete, $idAlmacen, @error)");
+        DB::select("CALL descargar_trae($singleIdPaquete, $idAlmacen, @error)");
         $error = DB::select("SELECT @error as error")[0]->error;
         if ($error !== 0) {
             return response()->json([
-                "message" => "Error al descargar paquete"
+                "message" => "Error al descargar paquete con ID $singleIdPaquete"
             ], 400);
         }
 
-        $paquete = Paquete::find($idPaquete);
+        $paquete = Paquete::find($singleIdPaquete);
 
         if ($paquete->ID_pickup == $idAlmacen) {
             if ($paquete->direccion == null) {
-                $lote = $this->paqueteToPickup($idPaquete, $idAlmacen);
-                return response()->json([
-                    "message" => "Paquete descargado y pronto para recoger en pickup",
-                    "paquete" => Paquete::find($idPaquete),
-                    "lote" => $lote,
-                ], 200);
+                $lote = $this->paqueteToPickup($singleIdPaquete, $idAlmacen);
+                // return response()->json([
+                //     "message" => "Paquete con ID $singleIdPaquete descargado y pronto para recoger en pickup",
+                //     "paquete" => Paquete::find($singleIdPaquete),
+                //     "lote" => $lote,
+                // ], 200);
             }
-            return response()->json([
-                "message" => "Paquete descargado y pronto para repartir",
-                "paquete" => Paquete::find($idPaquete),
-            ], 200);
-            // Los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
+            // return response()->json([
+            //     "message" => "Paquete con ID $singleIdPaquete descargado y pronto para repartir",
+            //     "paquete" => Paquete::find($singleIdPaquete),
+            // ], 200);
         } else {
             $lote = $this->getOrCreateLote($idAlmacen, $paquete->ID_pickup);
-            $this->asignarPaqueteToLote($idPaquete, $lote->ID);
-            return response()->json([
-                "message" => "Paquete descargado y lote asignado",
-                "paquete" => $paquete,
-                "lote" => $lote,
-            ], 200);
+            $this->asignarPaqueteToLote($singleIdPaquete, $lote->ID);
+            // return response()->json([
+            //     "message" => "Paquete con ID $singleIdPaquete descargado y lote asignado",
+            //     "paquete" => $paquete,
+            //     "lote" => $lote,
+            // ], 200);
         }
-
-
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         "message" => "Error inesperado"
-        //     ], 500);
-        // }
     }
+
+    return response()->json([
+        "message" => "Paquete(s) descargado(s) exitosamente",
+    ], 200);
+}
+
 
     /****************************************************************************************************************************************/
 
@@ -396,128 +431,5 @@ class PaqueteController extends Controller
 
     /*************************************************************************************************************************************/
 
-    public function getOrCreateLote(/*$loteAlmacenOrigen, $paqueteAlmacenDestino*/)
-    {
-        $validated = request()->validate([
-            "loteAlmacenOrigen" => "required|numeric",
-            "paqueteAlmacenDestino" => "required|numeric",
-        ]);
-
-        $loteAlmacenOrigen = $validated["loteAlmacenOrigen"];
-        $paqueteAlmacenDestino = $validated["paqueteAlmacenDestino"];
-        $result = DB::select("SELECT destino.ID_almacen, destino.ID_troncal
-        FROM (
-        select ORDENES.* from ORDENES
-        INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-        WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?
-        ) origen
-        INNER JOIN (
-        select ORDENES.* from ORDENES
-        INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-        WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?
-        ) destino ON origen.ID_troncal = destino.ID_troncal
-        LIMIT 1", [$loteAlmacenOrigen, $paqueteAlmacenDestino]);
-
-        if (count($result) == 0) {
-            $result = DB::select("SELECT o1.ID_almacen as almacen, o1.ID_troncal as troncal
-            from (
-            select * 
-            from ORDENES
-            where id_troncal in (
-            select distinct ID_troncal from ORDENES
-            INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-            WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?)
-            AND ID_almacen!=?
-            ) o1
-            JOIN (
-            select * 
-            from ORDENES
-            where id_troncal in (
-            select distinct ID_troncal from ORDENES
-            INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-            WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?)
-            AND ID_almacen!=?) o2 ON o1.ID_almacen=o2.ID_almacen 
-            LIMIT 1", [$loteAlmacenOrigen, $loteAlmacenOrigen, $paqueteAlmacenDestino,  $paqueteAlmacenDestino]);
-            if (count($result) == 0) {
-                DB::select("SELECT o1.ID_almacen, o1.ID_troncal
-                from (
-                select * 
-                from ORDENES
-                where id_troncal in (
-                select distinct ID_troncal from ORDENES
-                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- origen
-                AND ID_almacen!=?                                             -- origen
-                ) o1
-                JOIN (
-                select * 
-                from ORDENES
-                where id_troncal in (
-                select d.ID_troncal
-                from(
-                select distinct ID_troncal 
-                from ORDENES
-                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen in(
-                select ID_almacen 
-                from ORDENES
-                where id_troncal in (
-                select distinct ID_troncal from ORDENES
-                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- origen
-                AND ID_almacen!=?) -- origen
-                AND id_troncal not in(
-                select distinct ID_troncal from ORDENES
-                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- origen
-                )as d
-                INNER JOIN (
-                select distinct ID_troncal 
-                from ORDENES
-                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen in(
-                select ID_almacen 
-                from ORDENES
-                where id_troncal in (
-                select distinct ID_troncal from ORDENES
-                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?)    -- destino
-                AND ID_almacen!=?)                                             -- destino
-                AND id_troncal not in(
-                select distinct ID_troncal from ORDENES
-                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
-                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- destino
-                )as o ON d.id_troncal = o.id_troncal)
-                ) o2 ON o1.ID_almacen=o2.ID_almacen
-                LIMIT 1", [$loteAlmacenOrigen, $loteAlmacenOrigen, $loteAlmacenOrigen, $loteAlmacenOrigen, $loteAlmacenOrigen, $paqueteAlmacenDestino, $paqueteAlmacenDestino, $paqueteAlmacenDestino]);
-            }
-        }
-
-        $troncal = $result[0]->ID_troncal;
-        $almacenDestino = $result[0]->ID_almacen;
-
-
-        // // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete y la misma troncal
-        $idLote = DB::select("SELECT LOTES.ID from LOTES join DESTINO_LOTE on DESTINO_LOTE.ID_lote = LOTES.ID where DESTINO_LOTE.ID_almacen = $almacenDestino and DESTINO_LOTE.ID_troncal = $troncal and LOTES.ID_almacen = $loteAlmacenOrigen and LOTES.fecha_pronto is null");
-
-        // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
-        if ($idLote != null) {
-            $lote = Lote::find($idLote[0]->ID);
-
-            // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
-        } else {
-            $codigo = Lote::getCodigo();
-            DB::select("CALL lote_0($codigo, $loteAlmacenOrigen, $paqueteAlmacenDestino, $troncal, @id_lote, @error)");
-            $error = DB::select("SELECT @error as error")[0]->error;
-            if ($error !== 0) {
-                return response()->json([
-                    "message" => "Error al crear lote"
-                ], 400);
-            }
-            // Agarro el lote completo
-            $lote = Lote::find(DB::select("SELECT @id_lote as id_lote")[0]->id_lote);
-        }
-
-        return $lote;
-    }
+    
 }
