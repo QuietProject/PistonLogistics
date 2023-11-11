@@ -44,7 +44,7 @@ class PaqueteController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            "idAlmacen" => "bail|required|numeric|exists:almacenes_propios,ID",
+            "idAlmacen" => "bail|numeric|exists:almacenes_propios,ID",
         ]);
         if ($this->validacion($validator)) {
             return $this->validacion($validator);
