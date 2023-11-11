@@ -31,7 +31,7 @@ class LoteController extends Controller
         $idAlmacen = request()->idAlmacen;
 
         if ($idAlmacen == null) {
-            return LoteResource::collection(Lote::all());
+            return Lote::all();
         }
 
         $result = DB::table("LOTES_EN_ALMACENES")->where("ID_almacen", $idAlmacen)->get();

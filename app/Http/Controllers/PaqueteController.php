@@ -157,49 +157,95 @@ class PaqueteController extends Controller
         }
         return new PaqueteResource($paquete);
     }
-    
+
     /*************************************************************************************************************************************/
+
+    // public function cargaCliente($id, $matricula)
+    // {
+    //     if (!is_numeric($id)) {
+    //         return response()->json([
+    //             "message" => "ID debe ser numérico"
+    //         ], 400);
+    //     }
+
+    //     $paquete = Paquete::find($id);
+    //     if ($paquete === null) {
+    //         return response()->json([
+    //             "message" => "Paquete no encontrado"
+    //         ], 404);
+    //     }
+
+    //     $trae = Trae::find($id);
+    //     if ($trae !== null) {
+    //         return response()->json([
+    //             "message" => "Paquete ya está cargado"
+    //         ], 400);
+    //     }
+
+    //     // Find a vehiculo by its matricula (license plate)
+    //     $vehiculo = Vehiculo::where('matricula', $matricula)->first();
+
+    //     if ($vehiculo === null) {
+    //         return response()->json([
+    //             "message" => "Vehiculo no encontrado"
+    //         ], 404);
+    //     }
+
+    //     Trae::create([
+    //         "ID_paquete" => $id,
+    //         "matricula" => $matricula,
+    //     ]);
+
+    //     return response()->json([
+    //         "message" => "Paquete cargado exitosamente",
+    //     ], 200);
+    // }
 
     public function cargaCliente($id, $matricula)
     {
-        if (!is_numeric($id)) {
-            return response()->json([
-                "message" => "ID debe ser numérico"
-            ], 400);
+        $idArray = explode(',', $id);
+
+        foreach ($idArray as $singleId) {
+            if (!is_numeric($singleId)) {
+                return response()->json([
+                    "message" => "ID debe ser numérico"
+                ], 400);
+            }
+
+            $paquete = Paquete::find($singleId);
+            if ($paquete === null) {
+                return response()->json([
+                    "message" => "Paquete con ID $singleId no encontrado"
+                ], 404);
+            }
+
+            $trae = Trae::find($singleId);
+            if ($trae !== null) {
+                return response()->json([
+                    "message" => "Paquete con ID $singleId ya está cargado"
+                ], 400);
+            }
+
+            // Find a vehiculo by its matricula (license plate)
+            $vehiculo = Vehiculo::where('matricula', $matricula)->first();
+
+            if ($vehiculo === null) {
+                return response()->json([
+                    "message" => "Vehiculo no encontrado"
+                ], 404);
+            }
+
+            Trae::create([
+                "ID_paquete" => $singleId,
+                "matricula" => $matricula,
+            ]);
         }
-
-        $paquete = Paquete::find($id);
-        if ($paquete === null) {
-            return response()->json([
-                "message" => "Paquete no encontrado"
-            ], 404);
-        }
-
-        $trae = Trae::find($id);
-        if ($trae !== null) {
-            return response()->json([
-                "message" => "Paquete ya está cargado"
-            ], 400);
-        }
-
-        // Find a vehiculo by its matricula (license plate)
-        $vehiculo = Vehiculo::where('matricula', $matricula)->first();
-
-        if ($vehiculo === null) {
-            return response()->json([
-                "message" => "Vehiculo no encontrado"
-            ], 404);
-        }
-
-        Trae::create([
-            "ID_paquete" => $id,
-            "matricula" => $matricula,
-        ]);
 
         return response()->json([
-            "message" => "Paquete cargado exitosamente",
+            "message" => "Paquete(s) cargado(s) exitosamente",
         ], 200);
     }
+
 
     /*************************************************************************************************************************************/
 
@@ -392,7 +438,7 @@ class PaqueteController extends Controller
             WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?)
             AND ID_almacen!=?) o2 ON o1.ID_almacen=o2.ID_almacen 
             LIMIT 1", [$loteAlmacenOrigen, $loteAlmacenOrigen, $paqueteAlmacenDestino,  $paqueteAlmacenDestino]);
-            if (count($result) == 0){
+            if (count($result) == 0) {
                 DB::select("SELECT o1.ID_almacen, o1.ID_troncal
                 from (
                 select * 
