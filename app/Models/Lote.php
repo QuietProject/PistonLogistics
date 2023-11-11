@@ -50,7 +50,8 @@ class Lote extends Model
 		'fecha_creacion',
 		'fecha_pronto',
 		'fecha_cerrado',
-		'tipo'
+		'tipo',
+		'codigo'
 	];
 
 	public function getCodigo(){

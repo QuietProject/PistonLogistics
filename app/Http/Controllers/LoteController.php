@@ -35,6 +35,9 @@ class LoteController extends Controller
         }
 
         $result = DB::table("LOTES_EN_ALMACENES")->where("ID_almacen", $idAlmacen)->get();
+        if ($result->isEmpty()) {
+            return response([]);
+        }
 
         foreach ($result as $object){
             $lotes[] = Lote::find($object->ID_lote);

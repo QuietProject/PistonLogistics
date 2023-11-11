@@ -40,10 +40,10 @@ class PaqueteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $validator = Validator([
+        $validator = Validator::make($request->all(), [
             "idAlmacen" => "bail|required|numeric|exists:almacenes_propios,ID",
         ]);
         if ($this->validacion($validator)) {
