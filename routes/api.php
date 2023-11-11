@@ -20,14 +20,14 @@ Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware(
     Route::post("almacen/carga", [PaqueteController::class, "cargaReparte"]);
 
     Route::get("lotes/cargar", [LoteController::class, "cargaLote"]);
-    Route::get("lotes/{codigo}", [LoteController::class, "show"]);
     Route::get("lotes/descargar", [LoteController::class, "descargaLote"]);
     Route::get("lotes/contenido/{idsLote}", [LoteController::class, "paquetesEnLote"]);
     Route::get("lotes", [LoteController::class, "index"]);
     Route::post("lotes/create", [LoteController::class, "store"]);
-    Route::get("lotes/agregar/paquete", [PaqueteController::class, "agregarPaqueteToLote"]);
+    Route::get("lotes/agregar/paquete", [LoteController::class, "agregarPaqueteToLote"]);
     Route::post("lotes/eliminar/paquete", [LoteController::class, "quitarPaquete"]);
     Route::get("lotes/pronto", [LoteController::class, "lotePronto"]);
+    Route::get("lotes/{codigo}", [LoteController::class, "show"]);
     Route::get("ordenes/almacen/{id}", [OrdenController::class, "almacen"]);
 // });
 

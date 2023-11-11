@@ -200,7 +200,25 @@ class LoteController extends Controller
             return $this->validacion($validator);
         }
 
-        $lote = lote::find($request->idLote);
+        if (PaqueteLote::where("ID_lote", $request->idLote)->whereNull("hasta")->doesntExist()) {
+            return response()->json([
+                "message" => "El lote no tiene paquetes"
+            ], 400);
+        }
+
+        $idLote = $request->idLote;
+
+        $paquetesEnLote = Lote::find($idLote)->paquetes()->get();
+
+        foreach ($paquetesEnLote as $paquete) {
+            if ($paquete->peso == 0) {
+                return response()->json([
+                    "message" => "El lote contiene paquetes sin pesar"
+                ], 400);
+            }
+        }
+
+        $lote = lote::find($idLote);
         $lote->fecha_pronto = now();
         $lote->save();
         return response()->json([
