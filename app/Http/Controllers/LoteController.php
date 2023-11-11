@@ -229,68 +229,73 @@ class LoteController extends Controller
     /*************************************************************************************************************************************/
 
     public function cargaLote(Request $request)
-    {
+{
+    $idLoteArray = explode(',', $request->idLote);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                "idLote" => [
-                    "bail",
-                    "required",
-                    "numeric",
-                    "unique:Lleva,ID_lote",
-                    function ($attribute, $value, $fail) {
-                        $loteExiste = DB::table('LOTES')->where('ID', $value)->exists();
-                        $lotePronto = DB::table('LOTES')->where('ID', $value)->whereNull('fecha_pronto')->exists();
+    foreach ($idLoteArray as $singleIdLote) {
+        $validator = Validator::make([
+            "idLote" => $singleIdLote,
+            "matricula" => $request->matricula,
+        ], [
+            "idLote" => [
+                "bail",
+                "required",
+                "numeric",
+                function ($attribute, $value, $fail) {
+                    $loteExiste = DB::table('LOTES')->where('ID', $value)->exists();
+                    $lotePronto = DB::table('LOTES')->where('ID', $value)->whereNull('fecha_pronto')->exists();
+                    $loteAsignado = DB::table('LLEVA')->where('ID_lote', $value)->whereNotNull("fecha_asignado")->exists();
+                    $loteCargado = DB::table('LLEVA')->where('ID_lote', $value)->whereNotNull("fecha_cargado")->exists();
 
-
-                        if (!$loteExiste) {
-                            $fail("El lote no existe");
-                        } elseif ($lotePronto) {
-                            $fail("El lote no está pronto");
-                        }
-                    },
-                ],
-                "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula"],
+                    if (!$loteExiste) {
+                        $fail("El lote con ID $value no existe");
+                    } elseif ($lotePronto) {
+                        $fail("El lote con ID $value no está pronto");
+                    } elseif (!$loteAsignado) {
+                        $fail("El lote con ID $value no está asignado a ningún camión");
+                    } elseif ($loteCargado) {
+                        $fail("El lote con ID $value ya está cargado");
+                    }
+                },
             ],
-            [
-                "idLote.required" => "El id del lote es requerido",
-                "idLote.numeric" => "El id del lote debe ser un número",
-                "idLote.unique" => "El lote ya está cargado",
-                "matricula.required" => "La matricula es requerida",
-                "matricula.string" => "La matricula debe ser un string",
-                "matricula.size" => "La matricula debe tener 7 caracteres",
-                "matricula.exists" => "La matricula no existe",
-            ]
-        );
+            "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula"],
+        ]);
+
         if ($this->validacion($validator)) {
             return $this->validacion($validator);
         }
 
-        DB::select("INSERT into LLEVA (ID_lote, matricula) values ($request->idLote, '$request->matricula')");
-
-        return response()->json([
-            "message" => "Lote cargado exitosamente"
-        ], 200);
+        DB::select("INSERT into LLEVA (ID_lote, matricula) values ($singleIdLote, '$request->matricula')");
     }
+
+    return response()->json([
+        "message" => "Lote(s) cargado(s) exitosamente"
+    ], 200);
+}
+
 
 
     /*************************************************************************************************************************************/
 
     public function descargaLote(Request $request)
-    {
-        // try {
-        $validator = Validator::make($request->all(), [
+{
+    $idLoteArray = explode(',', $request->idLote);
+
+    foreach ($idLoteArray as $singleIdLote) {
+        $validator = Validator::make([
+            "idLote" => $singleIdLote,
+            "matricula" => $request->matricula,
+        ], [
             "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
-            "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula", Rule::exists("lleva", "matricula")->where("ID_lote", $request->idLote)->whereNull("fecha_descarga")],
+            "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula", Rule::exists("lleva", "matricula")->where("ID_lote", $singleIdLote)->whereNull("fecha_descarga")],
         ]);
+
         if ($this->validacion($validator)) {
             return $this->validacion($validator);
         }
 
-        // return $request->matricula;
         //descarga el lote de lleva
-        $idLote = $request->idLote;
+        $idLote = $singleIdLote;
         $lleva = Lleva::where("ID_lote", $idLote)->first();
         $lleva->fecha_descarga = now();
         $lleva->save();
@@ -324,27 +329,28 @@ class LoteController extends Controller
             }
         }
 
-        $paquetesProntosParaRepartir = array_diff($paquetesEnDestinoFinal, $paquetesEnPickUp);
+        // $paquetesProntosParaRepartir = array_diff($paquetesEnDestinoFinal, $paquetesEnPickUp);
 
-        $paquetesARepartirNuevamente = Paquete::whereIn("ID", $paquetesIds)->where("ID_pickup", "!=", $destinoLote)->get();
+        // $paquetesARepartirNuevamente = Paquete::whereIn("ID", $paquetesIds)->where("ID_pickup", "!=", $destinoLote)->get();
 
-        return response()->json([
-            "message" => "Lote descargado y paquetes asignados",
-            "paquetesEnDestinoFinal" => [
-                "paquetesProntosParaRepartir" => $paquetesProntosParaRepartir,
-                "paquetesEnPickUp" => $paquetesEnPickUp,
-            ],
-            "paquetesARepartirNuevamente" => [
-                "paquetes" => $paquetesARepartirNuevamente,
-                "lote" => $lote,
-            ],
-        ], 200);
-        // } catch (\Exception $e) {
-        //     return response()->json([
-        //         "message" => "Error inesperado"
-        //     ], 500);
-        // }
+        // return response()->json([
+        //     "message" => "Lote descargado y paquetes asignados",
+        //     "paquetesEnDestinoFinal" => [
+        //         "paquetesProntosParaRepartir" => $paquetesProntosParaRepartir,
+        //         "paquetesEnPickUp" => $paquetesEnPickUp,
+        //     ],
+        //     "paquetesARepartirNuevamente" => [
+        //         "paquetes" => $paquetesARepartirNuevamente,
+        //         "lote" => $lote,
+        //     ],
+        // ], 200);
     }
+
+    return response()->json([
+        "message" => "Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente",
+    ], 200);
+}
+
 
     /*************************************************************************************************************************************/
 
