@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleTroncalesShow.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
     <title>Piston Logistics</title>
 </head>
@@ -14,65 +13,80 @@
 
 <body>
     <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive"></a>
-        <a href="{{ route('troncales.index') }}" class="button active"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
+        <a href="{{ route('camioneros.index') }}" class="button inactive"><i class="fa-solid fa-id-card"></i></a>
+        <a href="{{ route('usuarios.index') }}" class="button inactive"><i class="fa-solid fa-user"></i></a>
+        <a href="{{ route('almacenes.index') }}" class="button inactive"><i class="fa-solid fa-warehouse"></i></a>
+        <a href="{{ route('troncales.index') }}" class="button active"><i class="fa-solid fa-road"></i></a>
+        <a href="{{ route('vehiculos.index') }}" class="button inactive"><i class="fa-solid fa-truck"></i></a>
+        <a href="{{ route('clientes.index') }}" class="button inactive"><i class="fa-solid fa-briefcase"></i></a>
     </div>
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
-        <h2>Troncal</h2>
-        <p>ID: {{ $troncal->ID }}</p>
-        <p>Nombre: {{ $troncal->nombre }}</p>
-
+        <p class="titleText">Nombre: {{ $troncal->nombre }}</p>
+        <p class="titleText" style="top: 12.5vh">ID: {{ $troncal->ID }}</p>
         <form action="{{ route('ordenes.update', $troncal->ID) }}" method="POST">
             @csrf
             @method('PATCH')
-            <input type="text" name="ordenes">
-            <button type="submit"></button>
+            <input type="text" name="ordenes" hidden id="ordenes">
+            <button type="submit" class="addButton">Confirmar</button>
         </form>
-        <h3>Ordenes</h3>
+        <h3 class="tableTitle">Almacenes</h3>
         <div class="tableContainer">
-            <table class="tableView" id="t_draggable1">
+            <table class="tableView" id="table_left">
                 <thead>
                     <tr>
-                        <th style="width: 20%">ID</th>
-                        <th style="width: 40%">almacen</th>
-                        <th style="width: 40%">Posicion</th>
+                        <th style="width: 15%">ID</th>
+                        <th style="width: 32.5%">Almacen</th>
+                        <th style="width: 32.5%">Dirección</th>
+                        <th style="width: 10%"></th>
                     </tr>
                 </thead>
-                <tbody class="t_sortable">
-                    @foreach ($ordenes as $orden)
+                <tbody id="tbodyLeft">
+                    @foreach ($almacenes as $almacen)
                         <tr>
-                            <td><a href="{{ route('almacenes.show', $orden->ID_almacen) }}"
-                                    target="blank">{{ $orden->ID_almacen }}</a></td>
-                            <td>{{ $orden->nombre }}</td>
-                            <td>{{ $loop->iteration }}</td>
+                            <td><a href="{{ route('almacenes.show', $almacen->ID) }}"
+                                    target="blank">{{ $almacen->ID }}</td>
+                            <td>{{ $almacen->nombre }}</td>
+                            <td>{{ $almacen->direccion }}</td>
+                            <td>
+                                <div class="changeBtnArrow"><i class="fa-solid fa-arrow-right"></i></div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        <h3>Almacenes</h3>
+        <h3 class="tableTitle" style="left: 64vw">Ordenes</h3>
         <div class="tableContainer" style="left: 50vw">
-            <table class="tableView" id="t_draggable2">
+            <table class="tableView" id="table_right">
                 <thead>
                     <tr>
-                        <th style="width: 20%">ID</th>
-                        <th style="width: 40%">almacen</th>
-                        <th style="width: 40%">direccion</th>
+                        <th style="width: 5%"></th>
+                        <th style="width: 15%">ID</th>
+                        <th style="width: 20%">Almacen</th>
+                        <th style="width: 20%">Dirección</th>
+                        <th style="width: 20%">Posicion</th>
+                        <th style="width: 5%"></th>
+                        <th style="width: 5%"></th>
                     </tr>
                 </thead>
-                <tbody class="t_sortable">
-                    @foreach ($almacenes as $almacen)
+                <tbody id="tbodyRight">
+                    @foreach ($ordenes as $orden)
                         <tr>
-                            <td><a href="{{ route('almacenes.show', $almacen->ID) }}" target="blank">
-                                    {{ $almacen->ID }}
+                            <td>
+                                <div class="changeBtnArrow" style="margin-left: 15%"><i
+                                        class="fa-solid fa-arrow-left"></i></div>
+                            <td><a href="{{ route('almacenes.show', $orden->ID_almacen) }}"
+                                    target="blank">{{ $orden->ID_almacen }}</a></td>
+                            <td>{{ $orden->nombre }}</td>
+                            <td>{{ $orden->direccion }}</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>
+                                <div class="changeBtnArrowUp"><i class="fa-solid fa-arrow-up"></i></div>
                             </td>
-                            <td>{{ $almacen->nombre }}</td>
-                            <td>{{ $almacen->direccion }}</td>
+                            <td>
+                                <div class="changeBtnArrowDown"><i class="fa-solid fa-arrow-down"></i></div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -82,6 +96,154 @@
 </body>
 
 </html>
+
+<script defer>
+    function getOrder() {
+        let orderWarehouses = ""
+        let tableOrder = document.getElementById("tbodyRight").querySelectorAll("tr")
+        for (let i = 0; i < tableOrder.length; i++) {
+            let tds = tableOrder[i].querySelectorAll("td")
+            let actualWarehouse = tds[1].innerText
+            orderWarehouses = orderWarehouses.concat(actualWarehouse, ",")
+        }
+        orderWarehouses = orderWarehouses.slice(0, -1)
+        document.getElementById("ordenes").value = orderWarehouses
+    }
+
+    $(".changeBtnArrowUp,.changeBtnArrowDown").off("click")
+    $(".changeBtnArrowUp,.changeBtnArrowDown").click(function() {
+        var row = $(this).parents("tr:first")
+        if ($(this).is(".changeBtnArrowUp")) {
+            row.insertBefore(row.prev())
+        } else {
+            row.insertAfter(row.next())
+        }
+        var tablaLargoNums = document.getElementById("table_right").querySelectorAll("tr")
+        for (let i = 1; i < tablaLargoNums.length; i++) {
+            var selectedRow = tablaLargoNums[i]
+            var selectedCell = selectedRow.querySelectorAll("td")
+            selectedCell[4].innerText = i
+        }
+        getOrder()
+    })
+
+    function ordenesLeft() {
+        var table_left = document.getElementById("table_left")
+        var rows_left = table_left.rows
+        var btnLeftList = table_left.getElementsByClassName("changeBtnArrow")
+        rows_left[btnLeftList.length].setAttribute("id", "rowLeft" + (btnLeftList.length))
+        for (let i = 0; i < btnLeftList.length; i++) {
+            btnLeftList[i].setAttribute("id", "btnSwitchLeft" + (i + 1))
+            rows_left[i].setAttribute("id", "rowLeft" + (i))
+            btnLeftList[i].addEventListener("click", function() {
+                let idNum = this.id
+                let num = idNum.replace(/\D/g, "")
+                var row = document.createElement('tr')
+                var col = document.createElement('td')
+                var col2 = document.createElement('td')
+                var col3 = document.createElement('td')
+                var col4 = document.createElement('td')
+                var col5 = document.createElement('td')
+                var col6 = document.createElement('td')
+                var col7 = document.createElement('td')
+                row.appendChild(col)
+                row.appendChild(col2)
+                row.appendChild(col3)
+                row.appendChild(col4)
+                row.appendChild(col5)
+                row.appendChild(col6)
+                row.appendChild(col7)
+                var elements = document.getElementById("rowLeft" + num).querySelectorAll("td")
+                // 1
+                col.innerHTML =
+                    '<div class="changeBtnArrow" id="{{ $orden->ID_almacen }}" style="margin-left: 15%"><i class="fa-solid fa-arrow-left"></i></div>'
+                // 2
+                var cont2 = elements[0].childNodes
+                col2.appendChild(cont2[0])
+                // 3
+                var cont3 = elements[1].innerText
+                col3.innerText = cont3
+                // 4
+                var cont4 = elements[2].innerText
+                col4.innerText = cont4
+                // 5
+                var l = document.getElementById("tbodyRight").querySelectorAll("tr").length
+                col5.innerText = l + 1
+                // 6
+                col6.innerHTML =
+                    '<td><div class="changeBtnArrowUp"><i class="fa-solid fa-arrow-up"></i></div></td>'
+                // 7
+                col7.innerHTML =
+                    '<td><div class="changeBtnArrowDown"><i class="fa-solid fa-arrow-down"></i></div></td>'
+                var table = document.getElementById("tbodyRight")
+                table.appendChild(row)
+                document.getElementById("rowLeft" + num).remove()
+                ordenesRight()
+                $(".changeBtnArrowUp,.changeBtnArrowDown").off("click")
+                $(".changeBtnArrowUp,.changeBtnArrowDown").click(function() {
+                    var row = $(this).parents("tr:first")
+                    if ($(this).is(".changeBtnArrowUp")) {
+                        row.insertBefore(row.prev())
+                    } else {
+                        row.insertAfter(row.next())
+                    }
+                    var tablaLargoNums = document.getElementById("table_right").querySelectorAll("tr")
+                    for (let i = 1; i < tablaLargoNums.length; i++) {
+                        var selectedRow = tablaLargoNums[i]
+                        var selectedCell = selectedRow.querySelectorAll("td")
+                        selectedCell[4].innerText = i
+                    }
+                })
+            })
+        }
+    }
+
+    function ordenesRight() {
+        var table_right = document.getElementById("table_right")
+        var rows_right = table_right.rows
+        var btnRightList = table_right.getElementsByClassName("changeBtnArrow")
+        rows_right[btnRightList.length].setAttribute("id", "rowRight" + (btnRightList.length))
+        for (let i = 0; i < btnRightList.length; i++) {
+            btnRightList[i].setAttribute("id", "btnSwitchRight" + (i + 1))
+            rows_right[i].setAttribute("id", "rowRight" + (i))
+            btnRightList[i].addEventListener("click", function() {
+                let idNum = this.id
+                let num = idNum.replace(/\D/g, "")
+                var row = document.createElement('tr')
+                var col = document.createElement('td')
+                var col2 = document.createElement('td')
+                var col3 = document.createElement('td')
+                var col4 = document.createElement('td')
+                row.appendChild(col)
+                row.appendChild(col2)
+                row.appendChild(col3)
+                row.appendChild(col4)
+                var elements = document.getElementById("rowRight" + num).querySelectorAll("td")
+                console.log(elements);
+                // 1
+                var cont = elements[1].childNodes
+                console.log(elements);
+                console.log(cont)
+                col.appendChild(cont[0])
+                // 2
+                var cont2 = elements[2].innerText
+                col2.innerText = cont2
+                // 3
+                var cont3 = elements[3].innerText
+                col3.innerText = cont3
+                // 4
+                col4.innerHTML =
+                    '<td><div class="changeBtnArrow"><i class="fa-solid fa-arrow-right"></i></div></td>'
+                var table = document.getElementById("tbodyLeft")
+                table.appendChild(row)
+                document.getElementById("rowRight" + num).remove()
+                ordenesLeft()
+            })
+        }
+    }
+    ordenesLeft()
+    ordenesRight()
+</script>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
@@ -148,7 +310,7 @@
     .titleText {
         position: absolute;
         font-size: 5vh;
-        top: 10vh;
+        top: 7.5vh;
         left: 17.5vh;
         color: white;
         text-shadow: 0 0 10px var(--base);
@@ -190,6 +352,12 @@
         width: 2.5vw;
         margin-top: 0.5vw;
         margin-left: 0.25vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        text-shadow: none;
+        font-size: 1.25vw
     }
 
     .button:hover {
@@ -314,7 +482,7 @@
     .tableTitle {
         position: absolute;
         top: 27.5vh;
-        left: 22.5vw;
+        left: 18vw;
         color: rgb(225, 225, 225);
         font-size: 5vh;
         font-weight: bold;
@@ -326,7 +494,7 @@
         position: absolute;
         top: 35vh;
         left: 5vw;
-        max-height: 65vh;
+        max-height: 56vh;
         width: 40vw;
         border-radius: 10px;
         text-align: center;
@@ -358,35 +526,60 @@
         color: white;
     }
 
-
-    .dragging .ui-state-hover a {
-        color: green !important;
-        font-weight: bold;
+    .changeBtnArrow {
+        height: 3.5vh;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-color: var(--highlight);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .t_sortable tr,
-    .ui-sortable-helper {
-        cursor: move;
+    .changeBtnArrow:hover {
+        cursor: pointer;
+    }
+
+    .changeBtnArrowDown {
+        height: 3.5vh;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-color: var(--highlight);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .changeBtnArrowDown:hover {
+        cursor: pointer;
+    }
+
+    .changeBtnArrowUp {
+        height: 3.5vh;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        background-color: var(--highlight);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .changeBtnArrowUp:hover {
+        cursor: pointer;
+    }
+
+    .addButton {
+        position: absolute;
+        height: 7.5vh;
+        width: 10vw;
+        top: 10vh;
+        right: 10vw;
+        background-color: var(--highlight);
+        border-radius: 2vh;
+        font-size: 3vh;
+    }
+
+    .addButton:hover {
+        cursor: pointer;
     }
 </style>
-
-<script>
-    $(document).ready(function() {
-        var $tabs = $('#t_draggable2')
-        $("tbody.t_sortable").sortable({
-            connectWith: ".t_sortable",
-            items: "> tr:not(:first)",
-            appendTo: $tabs,
-            helper: "clone",
-            zIndex: 999990
-        }).disableSelection();
-
-        var $tab_items = $(".nav-tabs > li", $tabs).droppable({
-            accept: ".t_sortable tr",
-            hoverClass: "ui-state-hover",
-            drop: function(event, ui) {
-                return false;
-            }
-        });
-    });
-</script>
