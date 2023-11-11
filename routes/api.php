@@ -17,7 +17,7 @@ Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware(
     Route::resource("paquetes", PaqueteController::class)->except(["edit", "update", "destroy", "create", "show"]);
     Route::get("paquetes/{codigo}", [PaqueteController::class, "show"]);
     Route::get("almacen/descarga/{id}/{almacen}", [PaqueteController::class, "descargaPaquete"]);
-    Route::post("almacen/carga", [PaqueteController::class, "cargaReparte"]);
+    Route::get("almacen/carga", [PaqueteController::class, "cargaReparte"]);
 
     Route::get("lotes/cargar", [LoteController::class, "cargaLote"]);
     Route::get("lotes/descargar", [LoteController::class, "descargaLote"]);
@@ -33,6 +33,6 @@ Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware(
 
 // Route::middleware("authorize:13")->group(function (){
     Route::post("paquetes/create", [PaqueteController::class, "store"]);
-    Route::get("cliente/carga/{id}/{matricula}", [PaqueteController::class, "cargaCliente"]);
+    Route::get("cliente/carga/{id}", [PaqueteController::class, "cargaCliente"]);
 // });
 
