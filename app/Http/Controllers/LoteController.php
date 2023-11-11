@@ -284,10 +284,8 @@ class LoteController extends Controller
     foreach ($idLoteArray as $singleIdLote) {
         $validator = Validator::make([
             "idLote" => $singleIdLote,
-            "matricula" => $request->matricula,
         ], [
             "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
-            "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula", Rule::exists("lleva", "matricula")->where("ID_lote", $singleIdLote)->whereNull("fecha_descarga")],
         ]);
 
         if ($this->validacion($validator)) {
