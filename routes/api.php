@@ -14,7 +14,7 @@ use App\Models\Paquete;
 Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware();
 
 // Route::middleware("authorize:1")->group(function (){
-    Route::resource("paquetes", PaqueteController::class);
+    Route::resource("paquetes", PaqueteController::class)->except(["edit", "update", "destroy", "create", "show"]);
     Route::get("paquetes/{codigo}", [PaqueteController::class, "show"]);
     Route::get("almacen/descarga/{id}/{almacen}", [PaqueteController::class, "descargaPaquete"]);
     Route::post("almacen/carga", [PaqueteController::class, "cargaReparte"]);

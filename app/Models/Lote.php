@@ -53,6 +53,13 @@ class Lote extends Model
 		'tipo'
 	];
 
+	public function getCodigo(){
+		do {
+			$codigo = "L" . Str::random(7);
+		} while (self::where('codigo', $codigo)->exists());
+		return $codigo;
+	}
+
 	protected static function boot()
 	{
 		parent::boot();

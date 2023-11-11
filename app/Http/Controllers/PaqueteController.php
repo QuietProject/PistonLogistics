@@ -43,7 +43,6 @@ class PaqueteController extends Controller
     public function index()
     {
 
-        return STR::random(7);
         $validator = Validator([
             "idAlmacen" => "bail|required|numeric|exists:almacenes_propios,ID",
         ]);
@@ -360,30 +359,100 @@ class PaqueteController extends Controller
 
         $loteAlmacenOrigen = $validated["loteAlmacenOrigen"];
         $paqueteAlmacenDestino = $validated["paqueteAlmacenDestino"];
-        $result = OrdenController::si($loteAlmacenOrigen);
-        // return $result;
-        $troncales = DB::table('ORDENES')
-            ->join('TRONCALES', 'TRONCALES.ID', 'ORDENES.ID_troncal')
-            ->where('TRONCALES.baja', 0)
-            ->where('ORDENES.baja', 0)
-            ->where('ID_almacen', $loteAlmacenOrigen)
-            ->get(['TRONCALES.ID AS ID']);
-            
+        $result = DB::select("SELECT destino.ID_almacen, destino.ID_troncal
+        FROM (
+        select ORDENES.* from ORDENES
+        INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+        WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?
+        ) origen
+        INNER JOIN (
+        select ORDENES.* from ORDENES
+        INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+        WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?
+        ) destino ON origen.ID_troncal = destino.ID_troncal
+        LIMIT 1", [$loteAlmacenOrigen, $paqueteAlmacenDestino]);
 
-            return $result;
+        if (count($result) == 0) {
+            $result = DB::select("SELECT o1.ID_almacen as almacen, o1.ID_troncal as troncal
+            from (
+            select * 
+            from ORDENES
+            where id_troncal in (
+            select distinct ID_troncal from ORDENES
+            INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+            WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?)
+            AND ID_almacen!=?
+            ) o1
+            JOIN (
+            select * 
+            from ORDENES
+            where id_troncal in (
+            select distinct ID_troncal from ORDENES
+            INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+            WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?)
+            AND ID_almacen!=?) o2 ON o1.ID_almacen=o2.ID_almacen 
+            LIMIT 1", [$loteAlmacenOrigen, $loteAlmacenOrigen, $paqueteAlmacenDestino,  $paqueteAlmacenDestino]);
+            if (count($result) == 0){
+                DB::select("SELECT o1.ID_almacen, o1.ID_troncal
+                from (
+                select * 
+                from ORDENES
+                where id_troncal in (
+                select distinct ID_troncal from ORDENES
+                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- origen
+                AND ID_almacen!=?                                             -- origen
+                ) o1
+                JOIN (
+                select * 
+                from ORDENES
+                where id_troncal in (
+                select d.ID_troncal
+                from(
+                select distinct ID_troncal 
+                from ORDENES
+                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen in(
+                select ID_almacen 
+                from ORDENES
+                where id_troncal in (
+                select distinct ID_troncal from ORDENES
+                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- origen
+                AND ID_almacen!=?) -- origen
+                AND id_troncal not in(
+                select distinct ID_troncal from ORDENES
+                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- origen
+                )as d
+                INNER JOIN (
+                select distinct ID_troncal 
+                from ORDENES
+                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen in(
+                select ID_almacen 
+                from ORDENES
+                where id_troncal in (
+                select distinct ID_troncal from ORDENES
+                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?)    -- destino
+                AND ID_almacen!=?)                                             -- destino
+                AND id_troncal not in(
+                select distinct ID_troncal from ORDENES
+                INNER JOIN TRONCALES ON ORDENES.ID_troncal = TRONCALES.ID
+                WHERE TRONCALES.baja=0 and ORDENES.baja=0 and ID_almacen=?) -- destino
+                )as o ON d.id_troncal = o.id_troncal)
+                ) o2 ON o1.ID_almacen=o2.ID_almacen
+                LIMIT 1", [$loteAlmacenOrigen, $loteAlmacenOrigen, $loteAlmacenOrigen, $loteAlmacenOrigen, $loteAlmacenOrigen, $paqueteAlmacenDestino, $paqueteAlmacenDestino, $paqueteAlmacenDestino]);
+            }
+        }
 
-        // if (!in_array($paqueteAlmacenDestino, $almacenes)) {
-        // }
+        $troncal = $result[0]->ID_troncal;
+        $almacenDestino = $result[0]->ID_almacen;
 
-
-
-        // tomo todas las troncales que contengan el almacen de origen y de destino del paquete
-        $troncales = Orden::whereIn("ID_almacen", [$loteAlmacenOrigen, $paqueteAlmacenDestino])->pluck("ID_troncal");
-        $troncalesFinales = array_values(array_unique(array_diff_assoc($troncales->toArray(), array_unique($troncales->toArray()))));
-        return $troncalesFinales;
 
         // // busco si hay algun lote en la tabla destino_lote que tenga el mismo almacen destino que el paquete y la misma troncal
-        $idLote = DB::select("SELECT LOTES.ID from LOTES join DESTINO_LOTE on DESTINO_LOTE.ID_lote = LOTES.ID where DESTINO_LOTE.ID_almacen = $paqueteAlmacenDestino and DESTINO_LOTE.ID_troncal = $troncalesFinales[0] and LOTES.ID_almacen = $loteAlmacenOrigen and LOTES.fecha_pronto is null");
+        $idLote = DB::select("SELECT LOTES.ID from LOTES join DESTINO_LOTE on DESTINO_LOTE.ID_lote = LOTES.ID where DESTINO_LOTE.ID_almacen = $almacenDestino and DESTINO_LOTE.ID_troncal = $troncal and LOTES.ID_almacen = $loteAlmacenOrigen and LOTES.fecha_pronto is null");
 
         // Si encuentra un lote con el mismo almacen destino que el paquete y la misma troncal, lo agarro
         if ($idLote != null) {
@@ -391,7 +460,8 @@ class PaqueteController extends Controller
 
             // Si no hay ningun lote con el mismo almacen destino que el paquete o el lote es de tipo 1 (no se reparte) creo un nuevo lote
         } else {
-            DB::select("CALL lote_0($loteAlmacenOrigen, $paqueteAlmacenDestino, $troncales[0], @id_lote, @error)");
+            $codigo = Lote::getCodigo();
+            DB::select("CALL lote_0($codigo, $loteAlmacenOrigen, $paqueteAlmacenDestino, $troncal, @id_lote, @error)");
             $error = DB::select("SELECT @error as error")[0]->error;
             if ($error !== 0) {
                 return response()->json([
