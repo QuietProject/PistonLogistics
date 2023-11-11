@@ -26,11 +26,15 @@ SELECT LOTES.ID ID_lote,
 CASE
     WHEN LLEVA.fecha_carga is null THEN LOTES.ID_almacen
     WHEN LLEVA.fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
-END AS ID_almacen
+END AS ID_almacen,
+CASE
+    WHEN LLEVA.fecha_carga is null THEN LOTES.fecha_creado
+    WHEN LLEVA.fecha_descarga is not null THEN LLEVA.fecha_descarga 
+END AS desde,
 FROM LOTES
 LEFT JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LOTES.ID
 LEFT JOIN LLEVA ON LLEVA.ID_LOTE = LOTES.ID
-WHERE LLEVA.fecha_carga IS NULL OR LLEVA.fecha_descarga IS NOT NULL ;
+WHERE LLEVA.fecha_carga IS NULL OR LLEVA.fecha_descarga IS NOT NULL AND LOTES.fecha_cerrado IS NULL;
 
 -- EL PESO DE CADA LOTE PRONTO Y ABIERTO
 CREATE OR REPLACE VIEW PESO_LOTES AS
