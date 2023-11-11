@@ -39,10 +39,10 @@ class LoteController extends Controller
             return response([]);
         }
 
-        foreach ($result as $object){
+        foreach ($result as $object) {
             $lotes[] = Lote::find($object->ID_lote);
         }
-        
+
         return $lotes;
     }
 
@@ -110,12 +110,11 @@ class LoteController extends Controller
 
     /**************************************************************************************************************************/
 
-    public function paquetesEnLote(Request $request)
+    public function paquetesEnLote($idsLote)
     {
-        $idsLote = array_map("intval", explode(",", $request->idsLote));
+        $idsLote = array_map("intval", explode(",", $idsLote));
         // return $idsLote;
         $lotes = Lote::whereIn("ID", $idsLote)->get();
-        // return $lote;
         if ($lotes == null) {
             return response()->json([
                 "message" => "Lote no existe"

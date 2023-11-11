@@ -205,163 +205,83 @@ class PaqueteController extends Controller
 
     /*************************************************************************************************************************************/
 
-    // public function descargaPaquete($idPaquete, $idAlmacen)
-    // {
-    //     // try {
-    //     if (!is_numeric($idPaquete)) {
-    //         return response()->json([
-    //             "message" => "ID debe ser numérico"
-    //         ], 400);
-    //     }
-
-    //     if (Paquete::find($idPaquete) === null) {
-    //         return response()->json([
-    //             "message" => "Paquete no encontrado"
-    //         ], 404);
-    //     }
-
-    //     if (Trae::find($idPaquete) === null) {
-    //         return response()->json([
-    //             "message" => "Paquete no cargado"
-    //         ], 400);
-    //     }
-
-    //     if (Trae::where("ID_paquete", $idPaquete)->whereNull("fecha_descarga")->first() === null) {
-    //         return response()->json([
-    //             "message" => "Paquete ya descargado"
-    //         ], 400);
-    //     }
-
-    //     if (AlmacenPropio::find($idAlmacen) === null) {
-    //         return response()->json([
-    //             "message" => "Almacen no encontrado"
-    //         ], 404);
-    //     }
-
-    //     if (Reparte::find($idPaquete) !== null) {
-    //         return $this->reparteRebotado($idPaquete, $idAlmacen);
-    //     }
-
-
-    //     DB::select("CALL descargar_trae($idPaquete, $idAlmacen, @error)");
-    //     $error = DB::select("SELECT @error as error")[0]->error;
-    //     if ($error !== 0) {
-    //         return response()->json([
-    //             "message" => "Error al descargar paquete"
-    //         ], 400);
-    //     }
-
-    //     $paquete = Paquete::find($idPaquete);
-
-    //     if ($paquete->ID_pickup == $idAlmacen) {
-    //         if ($paquete->direccion == null) {
-    //             $lote = $this->paqueteToPickup($idPaquete, $idAlmacen);
-    //             return response()->json([
-    //                 "message" => "Paquete descargado y pronto para recoger en pickup",
-    //                 "paquete" => Paquete::find($idPaquete),
-    //                 "lote" => $lote,
-    //             ], 200);
-    //         }
-    //         return response()->json([
-    //             "message" => "Paquete descargado y pronto para repartir",
-    //             "paquete" => Paquete::find($idPaquete),
-    //         ], 200);
-    //         // Los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
-    //     } else {
-    //         $lote = $this->getOrCreateLote($idAlmacen, $paquete->ID_pickup);
-    //         $this->asignarPaqueteToLote($idPaquete, $lote->ID);
-    //         return response()->json([
-    //             "message" => "Paquete descargado y lote asignado",
-    //             "paquete" => $paquete,
-    //             "lote" => $lote,
-    //         ], 200);
-    //     }
-
-
-    //     // } catch (\Exception $e) {
-    //     //     return response()->json([
-    //     //         "message" => "Error inesperado"
-    //     //     ], 500);
-    //     // }
-    // }
-
     public function descargaPaquete($idPaquete, $idAlmacen)
-{
-    $idPaqueteArray = explode(',', $idPaquete);
+    {
+        $idPaqueteArray = explode(',', $idPaquete);
 
-    foreach ($idPaqueteArray as $singleIdPaquete) {
-        if (!is_numeric($singleIdPaquete)) {
-            return response()->json([
-                "message" => "ID del paquete debe ser numérico"
-            ], 400);
-        }
+        foreach ($idPaqueteArray as $singleIdPaquete) {
+            if (!is_numeric($singleIdPaquete)) {
+                return response()->json([
+                    "message" => "ID del paquete debe ser numérico"
+                ], 400);
+            }
 
-        if (Paquete::find($singleIdPaquete) === null) {
-            return response()->json([
-                "message" => "Paquete con ID $singleIdPaquete no encontrado"
-            ], 404);
-        }
+            if (Paquete::find($singleIdPaquete) === null) {
+                return response()->json([
+                    "message" => "Paquete con ID $singleIdPaquete no encontrado"
+                ], 404);
+            }
 
-        if (Trae::find($singleIdPaquete) === null) {
-            return response()->json([
-                "message" => "Paquete con ID $singleIdPaquete no cargado"
-            ], 400);
-        }
+            if (Trae::find($singleIdPaquete) === null) {
+                return response()->json([
+                    "message" => "Paquete con ID $singleIdPaquete no cargado"
+                ], 400);
+            }
 
-        if (Trae::where("ID_paquete", $singleIdPaquete)->whereNull("fecha_descarga")->first() === null) {
-            return response()->json([
-                "message" => "Paquete con ID $singleIdPaquete ya descargado"
-            ], 400);
-        }
+            if (Trae::where("ID_paquete", $singleIdPaquete)->whereNull("fecha_descarga")->first() === null) {
+                return response()->json([
+                    "message" => "Paquete con ID $singleIdPaquete ya descargado"
+                ], 400);
+            }
 
-        if (AlmacenPropio::find($idAlmacen) === null) {
-            return response()->json([
-                "message" => "Almacen con ID $idAlmacen no encontrado"
-            ], 404);
-        }
+            if (AlmacenPropio::find($idAlmacen) === null) {
+                return response()->json([
+                    "message" => "Almacen con ID $idAlmacen no encontrado"
+                ], 404);
+            }
 
-        if (Reparte::find($singleIdPaquete) !== null) {
-            return $this->reparteRebotado($singleIdPaquete, $idAlmacen);
-        }
+            if (Reparte::find($singleIdPaquete) !== null) {
+                return $this->reparteRebotado($singleIdPaquete, $idAlmacen);
+            }
 
-        DB::select("CALL descargar_trae($singleIdPaquete, $idAlmacen, @error)");
-        $error = DB::select("SELECT @error as error")[0]->error;
-        if ($error !== 0) {
-            return response()->json([
-                "message" => "Error al descargar paquete con ID $singleIdPaquete"
-            ], 400);
-        }
+            DB::select("CALL descargar_trae($singleIdPaquete, $idAlmacen, @error)");
+            $error = DB::select("SELECT @error as error")[0]->error;
+            if ($error !== 0) {
+                return response()->json([
+                    "message" => "Error al descargar paquete con ID $singleIdPaquete"
+                ], 400);
+            }
 
-        $paquete = Paquete::find($singleIdPaquete);
+            $paquete = Paquete::find($singleIdPaquete);
 
-        if ($paquete->ID_pickup == $idAlmacen) {
-            if ($paquete->direccion == null) {
-                $lote = $this->paqueteToPickup($singleIdPaquete, $idAlmacen);
+            if ($paquete->ID_pickup == $idAlmacen) {
+                if ($paquete->direccion == null) {
+                    $lote = $this->paqueteToPickup($singleIdPaquete, $idAlmacen);
+                    // return response()->json([
+                    //     "message" => "Paquete con ID $singleIdPaquete descargado y pronto para recoger en pickup",
+                    //     "paquete" => Paquete::find($singleIdPaquete),
+                    //     "lote" => $lote,
+                    // ], 200);
+                }
                 // return response()->json([
-                //     "message" => "Paquete con ID $singleIdPaquete descargado y pronto para recoger en pickup",
+                //     "message" => "Paquete con ID $singleIdPaquete descargado y pronto para repartir",
                 //     "paquete" => Paquete::find($singleIdPaquete),
+                // ], 200);
+            } else {
+                $lote = $this->getOrCreateLote($idAlmacen, $paquete->ID_pickup);
+                $this->asignarPaqueteToLote($singleIdPaquete, $lote->ID);
+                // return response()->json([
+                //     "message" => "Paquete con ID $singleIdPaquete descargado y lote asignado",
+                //     "paquete" => $paquete,
                 //     "lote" => $lote,
                 // ], 200);
             }
-            // return response()->json([
-            //     "message" => "Paquete con ID $singleIdPaquete descargado y pronto para repartir",
-            //     "paquete" => Paquete::find($singleIdPaquete),
-            // ], 200);
-        } else {
-            $lote = $this->getOrCreateLote($idAlmacen, $paquete->ID_pickup);
-            $this->asignarPaqueteToLote($singleIdPaquete, $lote->ID);
-            // return response()->json([
-            //     "message" => "Paquete con ID $singleIdPaquete descargado y lote asignado",
-            //     "paquete" => $paquete,
-            //     "lote" => $lote,
-            // ], 200);
         }
-    }
 
-    return response()->json([
-        "message" => "Paquete(s) descargado(s) exitosamente",
-    ], 200);
-}
+        return response()->json([
+            "message" => "Paquete(s) descargado(s) exitosamente",
+        ], 200);
+    }
 
 
     /****************************************************************************************************************************************/
@@ -401,35 +321,37 @@ class PaqueteController extends Controller
 
     public function cargaReparte(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            "idPaquete" => [
-                "bail",
-                "required",
-                "numeric",
-                "exists:PAQUETES,ID",
-                "unique:REPARTE,ID_paquete",
-                Rule::exists("PAQUETES", "ID")->whereNotNull("direccion")
-            ],
-            "matricula" => [
-                "bail",
-                "required",
-                "string",
-                "exists:CAMIONETAS,matricula",
-            ],
-        ],);
-        if ($this->validacion($validator)) {
-            return $this->validacion($validator);
+        $idPaqueteArray = explode(',', $request->idPaquete);
+
+        foreach ($idPaqueteArray as $singleIdPaquete) {
+            $validator = Validator::make(["idPaquete" => $singleIdPaquete], [
+                "idPaquete" => [
+                    "bail",
+                    "required",
+                    "numeric",
+                    "exists:PAQUETES,ID",
+                    "unique:REPARTE,ID_paquete",
+                    Rule::exists("PAQUETES", "ID")->whereNotNull("direccion"),
+                    Rule::exists("REPARTE", "ID_paquete")->whereNotNull("fecha_asignado"),
+                    Rule::exists("REPARTE", "ID_paquete")->whereNotNull("fecha_asignado")->whereNull("fecha_carga"),
+                ],
+            ]);
+
+            if ($this->validacion($validator)) {
+                return $this->validacion($validator);
+            }
+
+            $reparte = Reparte::find($singleIdPaquete);
+            $reparte->fecha_carga = now();
+            $reparte->save();
         }
 
-        DB::select("Insert into REPARTE (ID_paquete, matricula) values ($request->idPaquete, '$request->matricula')");
-
         return response()->json([
-            "message" => "Paquete cargado correctamente ",
+            "message" => "Paquete(s) cargado(s) correctamente ",
         ], 200);
     }
 
 
-    /*************************************************************************************************************************************/
 
-    
+    /*************************************************************************************************************************************/
 }

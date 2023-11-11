@@ -22,7 +22,7 @@ Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware(
     Route::get("lotes/cargar", [LoteController::class, "cargaLote"]);
     Route::get("lotes/{codigo}", [LoteController::class, "show"]);
     Route::get("lotes/descargar", [LoteController::class, "descargaLote"]);
-    Route::get("lotes/contenido", [LoteController::class, "paquetesEnLote"]);
+    Route::get("lotes/contenido/{idsLote}", [LoteController::class, "paquetesEnLote"]);
     Route::get("lotes", [LoteController::class, "index"]);
     Route::post("lotes/create", [LoteController::class, "store"]);
     Route::get("lotes/agregar/paquete", [PaqueteController::class, "agregarPaqueteToLote"]);
