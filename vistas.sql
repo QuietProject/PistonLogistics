@@ -30,7 +30,7 @@ END AS ID_almacen,
 CASE
     WHEN LLEVA.fecha_carga is null THEN LOTES.fecha_creado
     WHEN LLEVA.fecha_descarga is not null THEN LLEVA.fecha_descarga 
-END AS desde,
+END AS desde
 FROM LOTES
 LEFT JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LOTES.ID
 LEFT JOIN LLEVA ON LLEVA.ID_LOTE = LOTES.ID
