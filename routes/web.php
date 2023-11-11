@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\AlmacenesController;
-use App\Http\Controllers\AsignarController;
 use App\Http\Controllers\AuthenticatedSessionController;
 use App\Http\Controllers\camionerosController;
 use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\ConducenController;
+use App\Http\Controllers\LlevaController;
+use App\Http\Controllers\ReparteController;
 use App\Http\Controllers\TroncalesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehiculosController;
@@ -49,7 +50,7 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::resource('clientes', ClientesController::class)->except(['create', 'edit','update']);
     Route::resource('almacenes', AlmacenesController::class)->except(['create', 'edit'])->parameters(['almacenes' => 'almacen']);
 
-    Route::resource('troncales', TroncalesController::class)/*->except(['create', 'edit'])*/->parameters(['troncales' => 'troncal']);
+    Route::resource('troncales', TroncalesController::class)->except(['create', 'edit'])->parameters(['troncales' => 'troncal']);
     Route::get('/ordenes/{troncal}/edit', [TroncalesController::class, 'ordenes'])->name('ordenes.edit');
     Route::patch('/ordenes/{troncal}', [TroncalesController::class, 'ordenesUpdate'])->name('ordenes.update');
 
@@ -57,7 +58,7 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::patch('/vehiculo/{vehiculo}/baja', [VehiculosController::class, 'baja'])->name('vehiculos.baja');
     Route::patch('/vehiculo/{vehiculo}/operativo', [VehiculosController::class, 'operativo'])->name('vehiculos.operativo');
 
-    Route::resource('usuarios', UsersController::class)->except(['create', 'edit'])->parameters(['usuarios' => 'user']);;
+    Route::resource('usuarios', UsersController::class)->except(['create', 'edit'])->parameters(['usuarios' => 'user']);
     Route::post('/usuarios/{user}/reenviarNotificacionEmail', [UsersController::class, 'resendEmailNotification'])->name('usuarios.resendEmailNotification')->middleware('throttle:6,1');
     Route::post('/usuarios/{user}/reenviarNotificacionPassword', [UsersController::class, 'resendPasswordNotification'])->name('usuarios.resendPasswordNotification')->middleware('throttle:6,1');
 
@@ -66,14 +67,18 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::get('/conducen/camionero/{camionero}', [ConducenController::class, 'camionero'])->name('conducen.camionero');
     Route::patch('/conducen/desde', [ConducenController::class, 'desde'])->name('conducen.desde');
 
-    Route::get('/asignar/lleva', [AsignarController::class, 'llevaIndex'])->name('lleva.index');
-    Route::get('/asignar/lleva/{lote}', [AsignarController::class, 'llevaShow'])->name('lleva.show');
-    Route::post('/asignar/lleva/{lote}', [AsignarController::class, 'llevaStore'])->name('lleva.store');
+    Route::get('/lleva', [LlevaController::class, 'index'])->name('lleva.index');
+    Route::get('/lleva/{lote}', [LlevaController::class, 'show'])->name('lleva.show');
+    Route::post('/lleva/{lote}', [LlevaController::class, 'store'])->name('lleva.store');
+
+    Route::get('/reparte', [ReparteController::class, 'index'])->name('reparte.index');
+    Route::get('/reparte/{paquete}', [ReparteController::class, 'show'])->name('reparte.show');
+    Route::post('/reparte/{paquete}', [ReparteController::class, 'store'])->name('reparte.store');
+
+
 });
 
 Route::get('/locale/{locale}', function ($locale) {
     if ($locale == 'es' || $locale == 'en') return redirect()->back()->withCookie('locale', $locale);
     return redirect()->back()->with('error', 'Ha ocurrido un error');
 })->name('locale');
-
-Route::view('/pruebaCss', 'troncales.edit');

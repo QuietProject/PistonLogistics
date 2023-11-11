@@ -35,7 +35,8 @@ class Lote extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'ID_troncal' => 'int',
+        'codigo' => 'string',
+        'ID_troncal' => 'int',
 		'ID_almacen' => 'int',
 		'fecha_creacion' => 'datetime',
 		'fecha_pronto' => 'datetime',

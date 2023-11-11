@@ -41,10 +41,11 @@ class Paquete extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'ID_almacen' => 'int',
+		'codigo' => 'string',
+        'ID_almacen' => 'int',
 		'fecha_registrado' => 'datetime',
 		'ID_pickup' => 'int',
-		'peso' => 'int',
+		'peso' => 'float',
 		'volumen' => 'int',
 		'fecha_entregado' => 'datetime',
 		'estado' => 'int'

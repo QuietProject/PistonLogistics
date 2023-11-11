@@ -20,6 +20,7 @@
     <a href="{{ route('clientes.index') }}"">Clientes</a>
     <a href="{{ route('logout') }}">Cerrar Sesion</a>
     <a href="{{ route('lleva.index') }}">Asignar Lleva</a>
+    <a href="{{ route('reparte.index') }}">Asignar Reparte</a>
     <span>user: {{ auth()->user()->user }}</span>
 
     @if (session('success'))

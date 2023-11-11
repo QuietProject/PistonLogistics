@@ -5,6 +5,7 @@
 <div>
     <h3>Lote</h3>
     <p>ID: {{ $lote->id }}</p>
+    <p>Codigo: {{ $lote->codigo }}</p>
     <p>Fecha creado: {{ \Carbon\Carbon::parse($lote->fecha_creacion)->format('d/m/y H:i') }}</p>
     <p>Fecha pronto: {{ \Carbon\Carbon::parse($lote->fecha_pronto)->format('d/m/y H:i') }}</p>
     <p>Almacen origen: <a target="_blank" href="{{ route('almacenes.show', $origen->ID) }}">{{ $origen->ID }} -
@@ -55,7 +56,7 @@
                 <th>matricula</th>
                 <th>Carga asignada</th>
                 <th>Peso maximo</th>
-                <th>Troncal</th>
+                <th>Troncal asignada</th>
                 <th></th>
             </tr>
         </thead>

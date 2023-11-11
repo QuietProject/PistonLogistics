@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Almacen;
-use App\Models\Lleva;
 use App\Models\Lote;
 use App\Models\PaqueteLote;
 use App\Models\Troncal;
@@ -11,29 +10,33 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AsignarController extends Controller
+class LlevaController extends Controller
 {
-    public function llevaIndex()
+    public function index()
     {
-        $lotes = DB::select('SELECT LOTES.ID AS id,LOTES.ID_ALMACEN AS origen,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,peso,cantidad FROM LOTES INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote = LOTES.ID INNER JOIN PESO_LOTES ON PESO_LOTES.LOTE = DESTINO_LOTE.ID_lote WHERE LOTES.ID NOT IN (SELECT ID_lote FROM LLEVA) AND LOTES.fecha_cerrado IS NULL AND LOTES.fecha_pronto IS NOT NULL');
-        return view('asignar.lleva.index',['lotes'=>$lotes]);
+        $lotes = DB::select('SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen, LOTES.fecha_pronto pronto,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,round(peso,2) peso,cantidad
+        FROM LOTES INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote = LOTES.ID
+        INNER JOIN PESO_LOTES ON PESO_LOTES.LOTE = DESTINO_LOTE.ID_lote
+        WHERE LOTES.ID NOT IN (SELECT ID_lote FROM LLEVA)
+        AND LOTES.fecha_cerrado IS NULL
+        AND LOTES.fecha_pronto IS NOT NULL
+        ORDER BY LOTES.fecha_pronto ASC');
+        return view('lleva.index',['lotes'=>$lotes]);
     }
 
-    public function llevaShow(Lote $lote)
+    public function show(Lote $lote)
     {
-        $consulta = DB::select('SELECT LOTES.ID AS id,LOTES.ID_ALMACEN AS origen,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,peso,cantidad, LOTES.fecha_creacion, LOTES.fecha_pronto
+        $consulta = DB::select('SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,round(peso,2) peso,cantidad, LOTES.fecha_creacion, LOTES.fecha_pronto
         FROM LOTES
         INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote = LOTES.ID
         INNER JOIN PESO_LOTES ON PESO_LOTES.LOTE = DESTINO_LOTE.ID_lote
-        WHERE LOTES.ID NOT IN   (SELECT ID_lote
-                                FROM LLEVA
-                                WHERE fecha_carga is not null)
+        WHERE LOTES.ID NOT IN   (SELECT ID_lote FROM LLEVA)
         AND LOTES.fecha_cerrado IS NULL
         AND LOTES.fecha_pronto IS NOT NULL
         AND LOTES.ID=?',[$lote->ID]);
 
         if (count($consulta)!=1) {
-            throw new HttpResponseException(response()->view('errors.404', [], 404));
+            return redirect()->back()->with('error','Ha ocurrido un error');
         }
         $lote=$consulta[0];
 
@@ -46,7 +49,7 @@ class AsignarController extends Controller
         $destino = Almacen::find($lote->destino);
         $troncal = Troncal::find($lote->troncal);
 
-        $camiones = DB::select('SELECT VEHICULOS.matricula, ifnull(sum(peso),0) carga_asignada, VEHICULOS.peso_max, max(LOTES.ID_troncal) troncal
+        $camiones = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(LOTES.ID_troncal) troncal
         FROM CAMIONES
         INNER JOIN VEHICULOS ON VEHICULOS.matricula=CAMIONES.matricula
         LEFT JOIN (select * from LLEVA where fecha_carga is null) LLEVA ON VEHICULOS.matricula=LLEVA.matricula
@@ -54,11 +57,14 @@ class AsignarController extends Controller
         LEFT JOIN LOTES ON LOTES.ID= LLEVA.ID_lote
         where VEHICULOS.baja =0
         and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula not in(	SELECT TRAE.matricula
+								FROM TRAE
+								where fecha_carga is null)
         group by VEHICULOS.matricula
         having carga_asignada + ?<peso_max
         and troncal = ? or troncal is null',[$lote->peso,$lote->troncal]);
 
-        return view('asignar.lleva.show',[
+        return view('lleva.show',[
             'lote'=>$lote,
             'paquetes'=>$paquetes,
             'origen'=>$origen,
@@ -70,7 +76,7 @@ class AsignarController extends Controller
 
     }
 
-    public function llevaStore(Request $request, Lote $lote)
+    public function store(Request $request, Lote $lote)
     {
         $matricula = $request->validate([
             'camion'=> ['required','exists:CAMIONES,matricula']
@@ -80,7 +86,7 @@ class AsignarController extends Controller
         ->join('PESO_LOTES','PESO_LOTES.lote','LOTES.ID')
         ->get(['peso'])[0]->peso;
 
-        $camion = DB::select('SELECT VEHICULOS.matricula, ifnull(sum(peso),0) carga_asignada, VEHICULOS.peso_max, max(LOTES.ID_troncal) troncal
+        $camion = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(LOTES.ID_troncal) troncal
         FROM CAMIONES
         INNER JOIN VEHICULOS ON VEHICULOS.matricula=CAMIONES.matricula
         LEFT JOIN (select * from LLEVA where fecha_carga is null) LLEVA ON VEHICULOS.matricula=LLEVA.matricula
@@ -89,8 +95,11 @@ class AsignarController extends Controller
         where VEHICULOS.baja =0
         and VEHICULOS.es_operativo=1
         and VEHICULOS.matricula = ?
+        and VEHICULOS.matricula not in(	SELECT TRAE.matricula
+								FROM TRAE
+								where fecha_carga is null)
         group by VEHICULOS.matricula
-        having carga_asignada + ?<peso_max
+        having carga_asignada + ? < peso_max
         and troncal = ? or troncal is null',[$matricula,$pesoLote,$lote->troncal]);
         if(count($camion)!=1){
             return redirect()->back()->with('error','Ha ocurrido un error');
@@ -100,4 +109,7 @@ class AsignarController extends Controller
 
         return to_route('lleva.index')->with('success','Se ha asignado correctamente');
     }
+
+
+
 }
