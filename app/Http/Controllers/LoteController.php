@@ -21,7 +21,26 @@ class LoteController extends Controller
 {
     public function index()
     {
-        return Lote::all();
+        $validator = Validator([
+            "idAlmacen" => "bail|required|numeric|exists:almacenes_propios,ID",
+        ]);
+        if ($this->validacion($validator)) {
+            return $this->validacion($validator);
+        }
+
+        $idAlmacen = request()->idAlmacen;
+
+        if ($idAlmacen == null) {
+            return LoteResource::collection(Lote::all());
+        }
+
+        $result = DB::table("LOTES_EN_ALMACENES")->where("ID_almacen", $idAlmacen)->get();
+
+        foreach ($result as $object){
+            $lotes[] = Lote::find($object->ID_lote);
+        }
+        
+        return $lotes;
     }
 
     public function store(Request $request)
@@ -75,9 +94,15 @@ class LoteController extends Controller
 
     /**************************************************************************************************************************/
 
-    public function show($id)
+    public function show($codigo)
     {
-        return Lote::find($id);
+        $lote = Lote::where("codigo", $codigo)->first();
+        if ($lote === null) {
+            return response()->json([
+                "message" => "Paquete no encontrado"
+            ], 404);
+        }
+        return new LoteResource($lote);
     }
 
     /**************************************************************************************************************************/
@@ -235,65 +260,65 @@ class LoteController extends Controller
     public function descargaLote(Request $request)
     {
         // try {
-            $validator = Validator::make($request->all(), [
-                "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
-                "matricula" => ["bail" ,"required", "string", "size:7", "exists:camiones,matricula", Rule::exists("lleva", "matricula")->where("ID_lote", $request->idLote)->whereNull("fecha_descarga")],
-            ]);
-            if ($this->validacion($validator)) {
-                return $this->validacion($validator);
-            }
+        $validator = Validator::make($request->all(), [
+            "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
+            "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula", Rule::exists("lleva", "matricula")->where("ID_lote", $request->idLote)->whereNull("fecha_descarga")],
+        ]);
+        if ($this->validacion($validator)) {
+            return $this->validacion($validator);
+        }
 
-            // return $request->matricula;
-            //descarga el lote de lleva
-            $idLote = $request->idLote;
-            $lleva = Lleva::where("ID_lote", $idLote)->first();
-            $lleva->fecha_descarga = now();
-            $lleva->save();
+        // return $request->matricula;
+        //descarga el lote de lleva
+        $idLote = $request->idLote;
+        $lleva = Lleva::where("ID_lote", $idLote)->first();
+        $lleva->fecha_descarga = now();
+        $lleva->save();
 
-            //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
-            $lote = Lote::find($idLote);
-            //tomo las ids de los paquetes del lote
-            $paquetesIds = $lote->paquetes()->pluck("ID");
-            //tomo el almacen destino del lote
-            $destinoLote = $lote->destino_lote()->pluck("ID_almacen")->first();
-            $lote->fecha_cerrado = now();
-            $lote->save();
+        //Cierra el lote y deja todos sus paquetes en la tabla paquetes_almacenes
+        $lote = Lote::find($idLote);
+        //tomo las ids de los paquetes del lote
+        $paquetesIds = $lote->paquetes()->pluck("ID");
+        //tomo el almacen destino del lote
+        $destinoLote = $lote->destino_lote()->pluck("ID_almacen")->first();
+        $lote->fecha_cerrado = now();
+        $lote->save();
 
-            $paquetesEnDestinoFinal = [];
-            $paquetesEnPickUp = [];
+        $paquetesEnDestinoFinal = [];
+        $paquetesEnPickUp = [];
 
-            //recorro los paquetes y los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
-            foreach ($paquetesIds as $paqueteId) {
-                $paquete = Paquete::find($paqueteId);
-                // De los paquetes que ya están en su destino final asigno los que no se reparten a un lote de tipo 1
-                if ($paquete->ID_pickup == $destinoLote) {
-                    if ($paquete->direccion == null){
-                        $this->paqueteToPickup($paqueteId, $destinoLote);
-                        $paquetesEnPickUp[] = $paquete;
-                    }
-                    $paquetesEnDestinoFinal[] = $paquete;
-                // Los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
-                }else{
-                    $lote = $this->getOrCreateLote($destinoLote, $paquete->ID_pickup);
-                    $this->asignarPaqueteToLote($paqueteId, $lote->ID);
+        //recorro los paquetes y los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
+        foreach ($paquetesIds as $paqueteId) {
+            $paquete = Paquete::find($paqueteId);
+            // De los paquetes que ya están en su destino final asigno los que no se reparten a un lote de tipo 1
+            if ($paquete->ID_pickup == $destinoLote) {
+                if ($paquete->direccion == null) {
+                    $this->paqueteToPickup($paqueteId, $destinoLote);
+                    $paquetesEnPickUp[] = $paquete;
                 }
+                $paquetesEnDestinoFinal[] = $paquete;
+                // Los que no estén en su destino final se agregan a un nuevo lote para ser enviados de nuevo
+            } else {
+                $lote = $this->getOrCreateLote($destinoLote, $paquete->ID_pickup);
+                $this->asignarPaqueteToLote($paqueteId, $lote->ID);
             }
+        }
 
-            $paquetesProntosParaRepartir = array_diff($paquetesEnDestinoFinal, $paquetesEnPickUp);
+        $paquetesProntosParaRepartir = array_diff($paquetesEnDestinoFinal, $paquetesEnPickUp);
 
-            $paquetesARepartirNuevamente = Paquete::whereIn("ID", $paquetesIds)->where("ID_pickup", "!=", $destinoLote)->get();
+        $paquetesARepartirNuevamente = Paquete::whereIn("ID", $paquetesIds)->where("ID_pickup", "!=", $destinoLote)->get();
 
-            return response()->json([
-                "message" => "Lote descargado y paquetes asignados",
-                "paquetesEnDestinoFinal" => [
-                    "paquetesProntosParaRepartir" => $paquetesProntosParaRepartir,
-                    "paquetesEnPickUp" => $paquetesEnPickUp,
-                ],
-                "paquetesARepartirNuevamente" => [
-                    "paquetes" =>$paquetesARepartirNuevamente,
-                    "lote" => $lote,
+        return response()->json([
+            "message" => "Lote descargado y paquetes asignados",
+            "paquetesEnDestinoFinal" => [
+                "paquetesProntosParaRepartir" => $paquetesProntosParaRepartir,
+                "paquetesEnPickUp" => $paquetesEnPickUp,
             ],
-            ], 200);
+            "paquetesARepartirNuevamente" => [
+                "paquetes" => $paquetesARepartirNuevamente,
+                "lote" => $lote,
+            ],
+        ], 200);
         // } catch (\Exception $e) {
         //     return response()->json([
         //         "message" => "Error inesperado"
@@ -319,7 +344,7 @@ class LoteController extends Controller
         }
 
         $error = $this->asignarPaqueteToLote($validated["idPaquete"], $validated["idLote"]);
-        if (!empty($error)){
+        if (!empty($error)) {
             return response()->json([
                 "message" => $error
             ], 400);
