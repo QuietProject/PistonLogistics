@@ -28,7 +28,7 @@ CASE
     WHEN LLEVA.fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
 END AS ID_almacen,
 CASE
-    WHEN LLEVA.fecha_carga is null THEN LOTES.fecha_creado
+    WHEN LLEVA.fecha_carga is null THEN LOTES.fecha_creacion
     WHEN LLEVA.fecha_descarga is not null THEN LLEVA.fecha_descarga 
 END AS desde
 FROM LOTES
