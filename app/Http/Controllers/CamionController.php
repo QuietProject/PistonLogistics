@@ -103,12 +103,12 @@ class CamionController extends Controller
             WHEN trae.ID_paquete is null THEN 'En almacenes del proveedor'
             ELSE 'En almacenes de QC'
           END AS 'ESTADO_ENVIO'
-        
+
         FROM paquetes
         LEFT JOIN (
         SELECT paquetes_lotes.id_paquete, paquetes_lotes.id_lote, paquetes_lotes.fecha FROM paquetes_lotes INNER JOIN (
             SELECT id_paquete, MAX(fecha) AS max_fecha FROM paquetes_lotes GROUP BY id_paquete ) subquery
-                ON paquetes_lotes.id_paquete = subquery.id_paquete AND paquetes_lotes.fecha = subquery.max_fecha 
+                ON paquetes_lotes.id_paquete = subquery.id_paquete AND paquetes_lotes.fecha = subquery.max_fecha
         ) paquetes_lotes ON paquetes.id = paquetes_lotes.id_paquete
         LEFT JOIN lotes ON paquetes_lotes.ID_lote = lotes.ID
         LEFT JOIN destino_lote ON lotes.ID = destino_lote.ID_lote
@@ -188,51 +188,6 @@ class CamionController extends Controller
 
         if (count($lotesCargados) == 0) {
 
-            if ($ordenOrigen == 1) {
-                $direccion = 'asc';
-            } else if ($ordenOrigen == $ultimoOrdenDeTroncal) {
-                $direccion = 'desc';
-            } else {
-                $almacenOrigen = $this->ordenToAlmacen($troncal, $ordenOrigen);
-
-                $loteOrigen = DB::select('SELECT LLEVA.Id_lote,LOTES.ID_troncal,fecha_carga,fecha_descarga,
-                CASE
-                    WHEN fecha_descarga is not null THEN fecha_descarga
-                    ELSE fecha_carga 
-                    END as fecha,
-                CASE
-                    WHEN fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
-                    ELSE LOTES.ID_almacen
-                END as almacen
-                 FROM LLEVA
-                 INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
-                 INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote;
-                 where !(fecha_descarga is not null and DESTINO_LOTE.ID_almacen=?) and !(fecha_descarga is null and LOTES.ID_almacen=?)
-                 and matricula=?
-                 and almacen
-                 order by fecha DESC
-                 limit 1', [$almacenOrigen,$almacenOrigen,$matricula]);
-
-
-                if (!isset($loteOrigen[0]) || $loteOrigen[0]->ID_troncal != $troncal) {
-                    $ordenOrigen = 1;
-                } else {
-                    if ($loteOrigen[0]->accion == 'descarga') {
-                        $almacenOrigen = DB::select('SELECT ID_almacen from DESTINO_LOTE WHERE ID_lote=?', [$loteOrigen[0]->ID_lote]);
-                    } else {
-                        $almacenOrigen =  DB::select('SELECT ID_almacen from LOTES WHERE ID=?', [$loteOrigen[0]->Id_lote]);
-                    }
-
-                    $ordenOrigen = DB::select('SELECT orden
-                    FROM ORDENES
-                    WHERE ID_almacen=?
-                    AND ID_troncal=?
-                    ', [$almacenOrigen[0]->ID_almacen, $troncal])[0]->orden;
-                }
-                
-            }
-
-
             $lotesAsignados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
             FROM LLEVA
             INNER JOIN LOTES ON LOTES.ID=LLEVA.ID_lote
@@ -250,6 +205,51 @@ class CamionController extends Controller
             // foreach($lotesAsignados as $lote){
             //     if($o)
             // }
+
+            if ($ordenOrigen == 1) {
+                $direccion = 'asc';
+            } else if ($ordenOrigen == $ultimoOrdenDeTroncal) {
+                $direccion = 'desc';
+            } else {
+                $almacenOrigen = $this->ordenToAlmacen($troncal, $ordenOrigen);
+
+                $loteOrigen = DB::select('SELECT LLEVA.Id_lote,LOTES.ID_troncal,fecha_carga,fecha_descarga,
+                CASE
+                    WHEN fecha_descarga is not null THEN fecha_descarga
+                    ELSE fecha_carga
+                    END as fecha,
+                CASE
+                    WHEN fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
+                    ELSE LOTES.ID_almacen
+                END as almacen
+                 FROM LLEVA
+                 INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+                 INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote;
+                 where !(fecha_descarga is not null and DESTINO_LOTE.ID_almacen=?) and !(fecha_descarga is null and LOTES.ID_almacen=?)
+                 and matricula=?
+                 and almacen
+                 order by fecha DESC
+                 limit 1', [$almacenOrigen,$almacenOrigen,$matricula]);
+
+
+                if (!isset($loteOrigen[0]) || $loteOrigen[0]->ID_troncal != $troncal) {
+                    $orden2 = 1;
+                } else {
+                    if ($loteOrigen[0]->accion == 'descarga') {
+                        $almacenOrigen = DB::select('SELECT ID_almacen from DESTINO_LOTE WHERE ID_lote=?', [$loteOrigen[0]->ID_lote]);
+                    } else {
+                        $almacenOrigen =  DB::select('SELECT ID_almacen from LOTES WHERE ID=?', [$loteOrigen[0]->Id_lote]);
+                    }
+
+                    $orden2 = DB::select('SELECT orden
+                    FROM ORDENES
+                    WHERE ID_almacen=?
+                    AND ID_troncal=?
+                    ', [$almacenOrigen[0]->ID_almacen, $troncal])[0]->orden;
+                }
+                $direccion = $orden2 <$ordenOrigen ?'asc':'desc';
+            }
+
 
 
         }
@@ -274,7 +274,7 @@ class CamionController extends Controller
         $loteOrigen = DB::select('SELECT Id_lote,ID_troncal,
         CASE
             WHEN fecha_descarga is not null THEN fecha_descarga
-            ELSE fecha_carga 
+            ELSE fecha_carga
             END as fecha,
         CASE
             WHEN fecha_descarga is not null THEN "descarga"
@@ -283,7 +283,7 @@ class CamionController extends Controller
          FROM LLEVA
          INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
          where matricula=?
-         where fecha_carga is not null 
+         where fecha_carga is not null
          order by fecha DESC
          limit 2', [$matricula]);
 
