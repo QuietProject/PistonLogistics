@@ -20,7 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/getLotes", [PackageController::class, "getLotesAsignar"])->name('getLotes');
+Route::get("/getLotes", [PackageController::class, "getLotesAsignar"])->name('getLotes')->withoutMiddleware(['csrf']);
 
 Route::get("/paquetesLote", [PackageController::class, "getPaquetesLote"])->name("getPaquetesLote");
 

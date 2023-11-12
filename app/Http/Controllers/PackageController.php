@@ -23,38 +23,40 @@ class PackageController extends Controller
     {
         $idAlmacen = explode('.', session('nombre'))[1];
 
-        $lotes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->acceptJson()->get(env("API_URL") . "lotes?idAlmacen=$idAlmacen")->json();
-        $paquetes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->acceptJson()->get(env("API_URL") . "paquetes")->json()['data'];
+        $paquetes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "paquetes?idAlmacen=$idAlmacen")->json()['data'];
 
+        // $lotes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "lotes?idAlmacen=$idAlmacen")->json();
+
+        
+        
         for ($i = 0; $i < count($paquetes); $i++) {
             $fechaRegistrado = Carbon::parse($paquetes[$i]['fecha_registrado']);
             $paquetes[$i]['fecha_registrado'] = $fechaRegistrado->format('d/m/y H:i');
         }
 
-        for ($i = 0; $i < count($lotes); $i++) {
-            if ($lotes[$i]['fecha_pronto']) {
+        // for ($i = 0; $i < count($lotes); $i++) {
+        //     if ($lotes[$i]['fecha_pronto']) {
 
-                $fechaPronto = Carbon::parse($lotes[$i]['fecha_pronto']);
-                $lotes[$i]['fecha_pronto'] = $fechaPronto->format('d/m/y H:i');
-            }
-            if ($lotes[$i]['fecha_cerrado']) {
-                $fechaCerrado = Carbon::parse($lotes[$i]['fecha_cerrado']);
-                $lotes[$i]['fecha_cerrado'] = $fechaCerrado->format('d/m/y H:i');
-            }
+        //         $fechaPronto = Carbon::parse($lotes[$i]['fecha_pronto']);
+        //         $lotes[$i]['fecha_pronto'] = $fechaPronto->format('d/m/y H:i');
+        //     }
+        //     if ($lotes[$i]['fecha_cerrado']) {
+        //         $fechaCerrado = Carbon::parse($lotes[$i]['fecha_cerrado']);
+        //         $lotes[$i]['fecha_cerrado'] = $fechaCerrado->format('d/m/y H:i');
+        //     }
 
-            $fechaCreacion = Carbon::parse($lotes[$i]['fecha_creacion']);
-            $lotes[$i]['fecha_creacion'] = $fechaCreacion->format('d/m/y H:i');
-        }
-
-        // Devuelve la vista "verPaquetes" y pasa los datos de los paquetes a la vista
-        return view('verPaquetes', ['paquetes' => $paquetes], ['lotes' => $lotes]);
+        //     $fechaCreacion = Carbon::parse($lotes[$i]['fecha_creacion']);
+        //     $lotes[$i]['fecha_creacion'] = $fechaCreacion->format('d/m/y H:i');
+        // }
+        return view('verPaquetes', ['paquetes' => $paquetes]);
+        // return view('verPaquetes', ['paquetes' => $paquetes], ['lotes' => $lotes]);
     }
 
     public function showLotes()
     {
         $idAlmacen = explode('.', session('nombre'))[1];
 
-        $lotes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "lotes")->json();
+        $lotes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "lotes?idAlmacen=$idAlmacen")->json();
         for ($i = 0; $i < count($lotes); $i++) {
             if ($lotes[$i]['fecha_pronto']) {
 
@@ -109,7 +111,13 @@ class PackageController extends Controller
 
     public function getLotesAsignar(Request $request)
     {
-        $lotes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . 'lotes')->json();
+        $this->validate($request, [
+            'idAlmacen' => ['required', 'numeric'],
+        ]);
+
+        $idAlmacen = $request->idAlmacen;
+
+        $lotes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "lotes?idAlmacen=$idAlmacen")->json();
 
         for ($i = 0; $i < count($lotes); $i++) {
             if (isset($lotes[$i]['fecha_pronto'])) {

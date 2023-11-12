@@ -43,6 +43,8 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
 
 
     Route::middleware("authorize:1")->group(function () {
+        
+
         Route::view("/almacen", "almacen")->name("almacen");
 
         Route::get("/verPaquetes", [PackageController::class, "showPaquetes"])->name("verPaquetes.show");

@@ -14,14 +14,11 @@
     <title>Almacen</title>
     <script>
         const ruta = "{{ route('verPaquetes.asignar', ['idPaquete', 'idLote']) }}";
+        const idAlmacen = {{explode('.', session('nombre'))[1]}};
 
         async function getStatus() {
             try {
-                const response = await fetch("{{ route('getLotes') }}");
-                if (!response.ok) {
-                    alert(`Error: ${response.statusText}`);
-                    return [];
-                }
+                const response = await fetch(`{{ route('getLotes') }}?idAlmacen=${idAlmacen}`);
                 const data = await response.json();
                 return data;
             } catch (error) {

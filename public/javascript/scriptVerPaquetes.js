@@ -110,7 +110,6 @@ btnsAsignar.forEach((btnAsignar, index) => {
 
         try {
             let miArray = await getStatus();
-            console.log(miArray);
 
             divArray.innerHTML = `<h1 class="idPaquete">ID de paquete: ${ID}</h1>
     <table id="miTabla">
@@ -184,13 +183,14 @@ btnsAsignar.forEach((btnAsignar, index) => {
                 e.preventDefault();
 
                 Swal.fire({
-                    title: "Are you sure?",
-                    text: "You won't be able to revert this!",
+                    title: "¿Estas seguro?",
+                    text: "¿Seguro que quieres asignar este paquete?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Yes, delete it!",
+                    confirmButtonText: "Seguro",
+                    cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // console.log(e.target.getAttribute("href"));
