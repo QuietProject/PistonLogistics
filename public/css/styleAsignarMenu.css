@@ -1,0 +1,10 @@
+.submitBtn {
+    position: relative;
+    left: 37.5%;
+    margin-top: 7.5%;
+    height: 2.5vw;
+    width: 25%;
+    border-radius: 10px;
+    background-color: var(--highlight);
+    font-size: medium;
+}

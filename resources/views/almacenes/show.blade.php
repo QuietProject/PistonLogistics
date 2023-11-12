@@ -31,20 +31,19 @@
                     <p>Total de lotes creados en el almacen: </p>
                     <p>{{ $lotesCreados }}</p>
                 </div>
-                <div class="tableContainer">
-                    <table class="tableView">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (count($troncales) == 0)
-                                {
-                                <p>El almacen no se encuentra en ninguna troncal</p>
-                                }
-                            @else
+
+                @if (count($troncales) == 0)
+                    <p style="margin-top:10vh; font-size: 3vh; font-weight: 500">El almacen no se encuentra en ninguna troncal</p>
+                @else
+                    <div class="tableContainer">
+                        <table class="tableView">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%">ID</th>
+                                    <th style="width: 50%">Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 @foreach ($troncales as $troncal)
                                     <tr>
                                         <td><a
@@ -53,16 +52,16 @@
                                         <td>{{ $troncal->nombre }}</td>
                                     </tr>
                                 @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
             @else
-                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <div class="inputAlgo">
                     <p>Paquetes esperando en el almacenen: </p>
                     <p>{{ $paquetesEnCliente }}</p>
                 </div>
-                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <div class="inputAlgo">
                     <p>Paquetes encargados al comprador de este almacen: </p>
                     <p>{{ $paquetesEntregadosCliente }}</p>
                 </div>

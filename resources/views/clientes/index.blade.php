@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleClientes.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button active"></a>
-    </div>
+<x-layout menu="6" titulo="Clientes" import1="../css/styleClientes.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
         <h2 class="titleText">Clientes</h2>
@@ -60,7 +39,7 @@
             <h2 class="asignadoText">Ingresar cliente</h2>
             <form action="{{ route('clientes.store') }}" method="POST">
                 @csrf
-                <div>
+                <div style="display: flex; justify-content: space-between; width: 20vw; left: 7.5vw; position: relative;">
                     <label for="RUT" class="asignadoText">RUT</label>
                     <input type="number" name="RUT" id="RUT" maxlength="12" minlength="12" required
                         value="{{ old('RUT') }}">
@@ -68,20 +47,18 @@
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div>
+                <div style="display: flex; justify-content: space-between; width: 20vw; left: 7.5vw; position: relative;">
                     <label for="nombre" class="asignadoText">Nombre</label>
                     <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $cliente->nombre) }}">
                     @error('nombre')
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="switchBtn" style="margin-top: 1vh">Submit</button>
+                <button type="submit" class="switchBtn" style="margin-top: 1vh">Confirmar</button>
             </form>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script src="../javascript/scriptAlmacenes.js"></script>
 <script src="../javascript/scriptUsuario.js"></script>
