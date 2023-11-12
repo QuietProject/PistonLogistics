@@ -38,16 +38,6 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.titleText {
-    position: absolute;
-    font-size: 5vh;
-    top: 5vh;
-    left: 17.5vh;
-    color: white;
-    text-shadow: 0 0 10px var(--base);
-    user-select: none;
-}
-
 .navDiv {
     position: absolute;
     height: 100%;

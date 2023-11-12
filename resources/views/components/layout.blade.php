@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../css/style.css">
     @isset($import1)
@@ -34,7 +35,7 @@
     <a href="{{ route('vehiculos.index') }}" class="button {{ $menu == '5' ? 'active' : 'inactive' }}"><i class="fa-solid fa-truck"></i></a>
     <a href="{{ route('clientes.index') }}" class="button {{ $menu == '6' ? 'active' : 'inactive' }}"><i class="fa-solid fa-briefcase"></i></a>
     <a href="{{ route('asignar') }}" class="button {{ $menu == '7' ? 'active' : 'inactive' }}"><i class="fa-solid fa-box"></i></a>
-    <a href="{{route("locale", app()->getLocale())}}" class="buttonEnd" style="bottom: 3vw;"><i class="fa-solid fa-language"></i></a>
+    <a href="{{route("locale", app()->getLocale()=='es'? 'en':'es')}}" class="buttonEnd" style="bottom: 3vw;"><i class="fa-solid fa-language"></i></a>
     <a href="{{ route('logout') }}" class="buttonEnd" style="bottom: 0;"><i class="fa-solid fa-right-from-bracket"></i></a>
     </div>
 

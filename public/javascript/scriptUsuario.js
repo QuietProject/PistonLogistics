@@ -9,35 +9,35 @@ document.getElementById("tipo").addEventListener("change", function () {
     var emailInput = document.getElementById("emailInput")
 
     if (value == 0) {
-        ciInput.style.display = "block"
+        ciInput.style.display = "flex"
         camioneroInput.style.display = "none"
         clienteInput.style.display = "none"
         almacenClienteInput.style.display = "none"
         almacenPropioInput.style.display = "none"
-        emailInput.style.display = "block"
+        emailInput.style.display = "flex"
     }
     if (value == 1) {
-        ciInput.style.display = "block"
+        ciInput.style.display = "flexflex"
         camioneroInput.style.display = "none"
         clienteInput.style.display = "none"
         almacenClienteInput.style.display = "none"
-        almacenPropioInput.style.display = "block"
-        emailInput.style.display = "block"
+        almacenPropioInput.style.display = "flex"
+        emailInput.style.display = "flex"
     }
     if (value == 2) {
         ciInput.style.display = "none"
-        camioneroInput.style.display = "block"
+        camioneroInput.style.display = "flex"
         clienteInput.style.display = "none"
         almacenClienteInput.style.display = "none"
         almacenPropioInput.style.display = "none"
-        emailInput.style.display = "block"
+        emailInput.style.display = "flex"
     }
     if (value == 3) {
         ciInput.style.display = "none"
         camioneroInput.style.display = "none"
         clienteInput.style.display = "none"
-        almacenClienteInput.style.display = "block"
+        almacenClienteInput.style.display = "flex"
         almacenPropioInput.style.display = "none"
-        emailInput.style.display = "block"
+        emailInput.style.display = "flex"
     }
 })

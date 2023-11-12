@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleAlmacenes.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"></a>
-        <a href="{{ route('almacenes.index') }}" class="button active"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
-    </div>
+<x-layout menu="3" titulo="Almacenes" import1="../css/styleAlmacenes.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
-        <input type="button" value="Add" class="addButton" id="addTruck">
+        <input type="button" value="Agregar" class="addButton" id="addTruck">
         <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <h2 class="titleText">Almacenes</h2>
         <h2 class="tableTitle">Almacenes propios</h2>
@@ -107,14 +86,14 @@
                 <h2 class="adderTitle">Ingresar Almacen</h2>
                 <form action="{{ route('almacenes.store') }}" method="POST">
                     @csrf
-                    <div class="inputBox">
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
                         <label for="tipo">Tipo</label>
                         <select name="tipo" id="tipo">
                             <option value="propio">Propio</option>
                             <option value="cliente" {{ old('tipo') == 'cliente' ? 'selected' : '' }}>Cliente</option>
                         </select>
                     </div>
-                    <div class="inputBox">
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" id="nombre" required
                             value="{{ old('nombre', $almacen->nombre) }}">
@@ -122,7 +101,7 @@
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="inputBox">
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
                         <label for="direccion">Direccion</label>
                         <input type="text" name="direccion" id="direccion" step="0.1"
                             value="{{ old('direccion', $almacen->direccion) }}">
@@ -130,7 +109,7 @@
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="inputBox">
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
                         <label for="RUT">Cliente</label>
                         <select name="RUT" id="RUT">
                             @foreach ($empresas as $cliente)
@@ -144,15 +123,13 @@
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="submitBtn">Submit</button>
+                    <button type="submit" class="submitBtn">Confirmar</button>
 
                 </form>
             </div>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script src="../javascript/scriptAlmacenes.js"></script>
 <script src="../javascript/scriptUsuario.js"></script>

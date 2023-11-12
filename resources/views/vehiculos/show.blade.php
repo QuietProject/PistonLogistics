@@ -6,28 +6,7 @@ if ($vehiculo->baja) {
     $estado = 'operativo';
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleVehiculosShow.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive" id="btnRutes"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive" id="btnWarehouses"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive" id="btnProducts"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button active"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
-    </div>
+<x-layout menu="5" titulo="Vehiculos" import1="../css/styleVehiculosShow.css">
     <div class="display">
         <h2 class="titleText">{{ $tipo }}</h2>
         @if (count($trae) > 0)
@@ -67,8 +46,9 @@ if ($vehiculo->baja) {
                                 <td><a href="{{ route('camioneros.show', $camionero->CI) }}">
                                         {{ $camionero->nombre }}</a>
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($camionero->desde)->format('d/m/y H:i')  }}</td>
-                                <td>{{ $camionero->hasta != null ? \Carbon\Carbon::parse($camionero->hasta)->format('d/m/y H:i') : 'Conduciendo' }}</td>
+                                <td>{{ \Carbon\Carbon::parse($camionero->desde)->format('d/m/y H:i') }}</td>
+                                <td>{{ $camionero->hasta != null ? \Carbon\Carbon::parse($camionero->hasta)->format('d/m/y H:i') : 'Conduciendo' }}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -92,7 +72,7 @@ if ($vehiculo->baja) {
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="modBtn">Submit</button>
+                <button type="submit" class="modBtn">Confirmar</button>
             </form>
             <p class="asignadoText" style="margin-top: 15vh">Matricula: {{ $vehiculo->matricula }}</p>
             <p class="asignadoText">Peso Maximo: {{ $vehiculo->peso_max }} kg</p>
@@ -104,7 +84,7 @@ if ($vehiculo->baja) {
                         method="POST">
                         @csrf
                         @method('PATCH')
-                        <button type="submit" class="modBtn"> Dejar de conducir</button>
+                        <button type="submit" class="modBtn">Dejar de conducir</button>
                     </form>
                 @else
                     no tiene
@@ -149,8 +129,6 @@ if ($vehiculo->baja) {
             </form>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script src="../javascript/scriptAdministrador.js"></script>

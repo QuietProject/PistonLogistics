@@ -1,7 +1,7 @@
 <x-layout menu="2" titulo="Usuarios" import1="../css/styleUsuarios.css">
     <div class="display">
         <h2 class="titleText">Usuarios</h2>
-        <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()" style="top: 22.5vh">
+        <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <div class="tableContainer">
             <table class="tableView" id="tableTrucks">
                 <thead>
@@ -9,7 +9,8 @@
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Usuario</th>
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Rol</th>
                         <th style="width: 25%;" onclick="sortTable(0);arrowsTable(0);" id="0">Email</th>
-                        <th style="width: 20%;" onclick="sortTable(0);arrowsTable(0);" id="0">Verificacion email</th>
+                        <th style="width: 20%;" onclick="sortTable(0);arrowsTable(0);" id="0">Verificacion email
+                        </th>
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0"></th>
                     </tr>
                 </thead>
@@ -36,7 +37,8 @@
                                 @endswitch
                             </td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->email_verified_at ? \Carbon\Carbon::parse($user->email_verified_at)->format('d/m/y H:i') : '-' }}</td>
+                            <td>{{ $user->email_verified_at ? \Carbon\Carbon::parse($user->email_verified_at)->format('d/m/y H:i') : '-' }}
+                            </td>
                             <td>
                                 <form action="{{ route('usuarios.destroy', $user) }}" method="POST">
                                     @csrf
@@ -55,7 +57,7 @@
             <h2 style="color: white; font-size: 3vh">Ingresar usuario</h2>
             <form action="{{ route('usuarios.store') }}" method="POST">
                 @csrf
-                <div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
                     <label for="tipo" style="color: white; font-size: 2vh">Tipo</label>
                     <select name="tipo" id="tipo">
                         <option value="0">Administrador</option>
@@ -64,7 +66,7 @@
                         <option value="3" {{ old('tipo') == '3' ? 'selected' : '' }}>Cliente</option>
                     </select>
                 </div>
-                <div id="ciInput" style="display: block; margin-top: 1vh">
+                <div id="ciInput" style="margin-top: 1vh; display: flex; justify-content: space-between">
                     <label for="CI" style="color: white; font-size: 2vh">CI</label>
                     <input type="number" name="CI" id="CI" maxlength="8" minlength="8"
                         value="{{ old('CI') }}">
@@ -72,7 +74,7 @@
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div id="camioneroInput" style="display: none; margin-top: 1vh">
+                <div id="camioneroInput" style=" display: none; margin-top: 1vh; justify-content: space-between">
                     <label for="camionero" style="color: white; font-size: 2vh">Camionero</label>
                     <select name="camionero" id="camionero">
                         @foreach ($camioneros as $camionero)
@@ -87,7 +89,7 @@
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div id="clienteInput" style="display: none; margin-top: 1vh">
+                <div id="clienteInput" style="margin-top: 1vh; display: none; justify-content: space-between">
                     <label for="cliente" style="color: white; font-size: 2vh">Cliente</label>
                     <select id="cliente" name="cliente">
                         @foreach ($clientes as $cliente)
@@ -102,7 +104,8 @@
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div id="almacenClienteInput" style="display: none; margin-top: 1vh">
+                <div id="almacenClienteInput"
+                    style="margin-top: 1vh; display: none; justify-content: space-between">
                     <label for="almacenCliente" style="color: white; font-size: 2vh">Almacen</label>
                     <select name="almacenCliente" id="almacenCliente">
                         @foreach ($almacenesClientes as $almacenCliente)
@@ -122,7 +125,7 @@
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div id="almacenPropioInput" style="display: none; margin-top: 1vh">
+                <div id="almacenPropioInput" style="margin-top: 1vh; display: none; justify-content: space-between">
                     <label for="almacenPropio" style="color: white; font-size: 2vh">Almacen</label>
                     <select name="almacenPropio" id="almacenPropio">
                         @foreach ($almacenesPropios as $cliente)
@@ -138,7 +141,7 @@
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div id="emailInput" style="display: block; margin-top: 1vh">
+                <div id="emailInput" style="margin-top: 1vh; display: flex; justify-content: space-between">
                     <label for="email" style="color: white; font-size: 2vh">Email</label>
                     <input type="email" name="email" id="email" required value="{{ old('email') }}">
                     @error('email')

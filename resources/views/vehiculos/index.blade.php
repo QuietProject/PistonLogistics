@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleVehiculos.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive" id="btnRutes"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive" id="btnWarehouses"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive" id="btnProducts"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button active"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
-    </div>
+<x-layout menu="5" titulo="Vehiculos" import1="../css/styleVehiculos.css">
     <!-- Backdrop Blur -->
     <div class="addBackdrop disabled" id="addBackdrop">
     </div>
@@ -28,7 +7,7 @@
         <!-- Title -->
         <h1 class="titleText">Vehicles</h1>
         <!-- Add Button -->
-        <input type="button" value="Add" class="addButton" id="addTruck">
+        <input type="button" value="Agregar" class="addButton" id="addTruck">
         <!-- SearchBar -->
         <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <!-- Trucks Title -->
@@ -41,9 +20,9 @@
             <table class="tableView" id="tableTrucks">
                 <thead>
                     <tr>
-                        <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Matricula </th>
-                        <th style="width: 30%;" onclick="sortTable(1);arrowsTable(1);" id="1">Peso Maximo </th>
-                        <th style="width: 25%;" onclick="sortTable(3);arrowsTable(3);" id="3">Estado </th>
+                        <th style="width: 33%;" onclick="sortTable(0);arrowsTable(0);" id="0">Matricula </th>
+                        <th style="width: 33%;" onclick="sortTable(1);arrowsTable(1);" id="1">Peso Maximo </th>
+                        <th style="width: 33%;" onclick="sortTable(3);arrowsTable(3);" id="3">Estado </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,9 +52,12 @@
             <table class="tableView" id="tableCamionetas">
                 <thead>
                     <tr>
-                        <th style="width: 15%;" onclick="sortTableAlternate(0);arrowsTable(4);"" id="4">Matricula</th>
-                        <th style="width: 30%;" onclick="sortTableAlternate(1);arrowsTable(5);"" id="5">Peso Maximo</th>
-                        <th style="width: 25%;" onclick="sortTableAlternate(3);arrowsTable(7);"" id="7">Estado</th>
+                        <th style="width: 33%;" onclick="sortTableAlternate(0);arrowsTable(4);"" id="4">
+                            Matricula</th>
+                        <th style="width: 33%;" onclick="sortTableAlternate(1);arrowsTable(5);"" id="5">Peso
+                            Maximo</th>
+                        <th style="width: 33%;" onclick="sortTableAlternate(3);arrowsTable(7);"" id="7">Estado
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -112,45 +94,42 @@
             <!-- Add Vehicle -->
             <div class="addForm">
                 @if ($errors->any())
-                <script>
-                    document.getElementById("addBackdrop").style.display = "flex";
-                    document.getElementById("addTruckInterface").style.display = "flex";
-                </script>
+                    <script>
+                        document.getElementById("addBackdrop").style.display = "flex";
+                        document.getElementById("addTruckInterface").style.display = "flex";
+                    </script>
                 @endif
                 <h2 class="adderTitle">Ingresar Vehiculo</h2>
                 <form action="{{ route('vehiculos.store') }}" method="POST">
                     @csrf
-                    <div class="inputBox">
-                        <label for="tipo">Tipo</label>
+                    <div class="inputBox" style="display: flex; justify-content: space-between; margin-top: 10vh">
+                        <label for="tipo" style="font-size: 2vh">Tipo</label>
                         <select name="tipo" id="tipo">
                             <option value="camion">Camion</option>
                             <option value="camioneta">Camioneta</option>
                         </select>
                     </div>
-                    <div class="inputBox">
-                        <label for="matricula">Matricula</label>
-                        <input type="text" name="matricula" id="matricula" maxlength="7" minlength="7" 
-                        requiredvalue="{{ old('matricula') }}" pattern="[A-Za-z]{3}[0-9]{4}" autocomplete="off">
+                    <div class="inputBox" style="display: flex; justify-content: space-between;">
+                        <label for="matricula" style="font-size: 2vh">Matricula</label>
+                        <input type="text" name="matricula" id="matricula" maxlength="7" minlength="7"
+                            requiredvalue="{{ old('matricula') }}" pattern="[A-Za-z]{3}[0-9]{4}" autocomplete="off">
                         @error('matricula')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="inputBox">
-                        <label for="peso_max">Peso Maximo</label>
+                    <div class="inputBox" style="display: flex; justify-content: space-between;">
+                        <label for="peso_max" style="font-size: 2vh">Peso Maximo(kg)</label>
                         <input type="number" name="peso_max" id="peso_max" required
-                        value="{{ old('peso_max',$vehiculo->peso_max) }}" autocomplete="off">
-                        <span>kg</span>
+                            value="{{ old('peso_max', $vehiculo->peso_max) }}" autocomplete="off">
                         @error('peso_max')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="submitBtn">Submit</button>
+                    <button type="submit" class="submitBtn">Confirmar</button>
                 </form>
             </div>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script src="../javascript/scriptAdministrador.js"></script>

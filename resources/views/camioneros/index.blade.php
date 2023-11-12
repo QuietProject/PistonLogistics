@@ -73,7 +73,7 @@
                 <form action="{{ route('camioneros.store') }}" method="POST">
                     @csrf
                     <div class="inputBox" style="margin-top: 12.5vh">
-                        <label for="CI">Cedula</label>
+                        <label for="CI" style="font-size: 2vh">Cedula</label>
                         <input type="number" name="CI" id="CI" maxlength="8" minlength="8" required
                             value="{{ old('CI') }}">
                         @error('CI')
@@ -81,14 +81,14 @@
                         @enderror
                     </div>
                     <div class="inputBox">
-                        <label for="nombre">Nombre</label>
+                        <label for="nombre" style="font-size: 2vh">Nombre</label>
                         <input type="text" name="nombre" id="nombre"
                             value="{{ old('nombre', $camionero->nombre) }}">
                         @error('nombre')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <button type="submit" class="submitBtn">Submit</button>
+                    <button type="submit" class="submitBtn">Confirmar</button>
                 </form>
             </div>
         </div>

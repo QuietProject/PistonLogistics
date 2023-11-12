@@ -1,30 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleTroncalesShow.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive"></a>
-        <a href="{{ route('troncales.index') }}" class="button active"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
-    </div>
+<x-layout menu="4" titulo="Troncales" import1="../css/styleTroncalesShow.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
         <h2 class="titleText">Editar Troncal</h2>
-        <a href="{{ route('ordenes.edit', $troncal) }}" class="addButton">Editar ordenes</a>
-        <h3 class="tableTitle">Almacenes</h3>
+        <a href="{{ route('ordenes.edit', $troncal) }}" class="addButton"
+            style="width: 15vw; color: black; text-shadow: none;">
+            <p style="text-align: center; margin-top: 1.5vh">Editar ordenes</p>
+        </a>
+        <h3 class="tableTitle">Orden</h3>
         <div class="tableContainer">
             <table class="tableView">
                 <thead>
@@ -57,12 +39,18 @@
             </table>
         </div>
         <div class="editContainer">
-            <p class="asignadoText">ID: {{ $troncal->ID }}</p>
-            <p class="asignadoText">Nombre: {{ $troncal->nombre }}</p>
+            <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <p class="asignadoText">ID: </p>
+                <p class="asignadoText">{{ $troncal->ID }}</p>
+            </div>
+            <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <p class="asignadoText">Nombre: </p>
+                <p class="asignadoText">{{ $troncal->nombre }}</p>
+            </div>
             <form action="{{ route('troncales.destroy', $troncal->ID) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="switchBtn">
+                <button type="submit" class="switchBtn" style="margin-top: 1vh">
                     @if ($troncal->baja)
                         Dar de Alta
                     @else
@@ -73,20 +61,19 @@
             <form action="{{ route('troncales.update', $troncal) }}" method="POST">
                 @csrf
                 @method('PATCH')
-                <div class="asignadoText" style="margin-top: 7.5vh">
-                    <label for="nombre">Nombre</label>
+                <p style="font-size: 3vh; color: white; margin-top: 7.5vh; font-weight: 500">Cambiar Nombre</p>
+                <div class="asignadoText" style="display: flex; justify-content: space-between"">
+                    <label for="nombre" style="font-size: 2vh">Nombre</label>
                     <input type="text" name="nombre" id="nombre" required
                         value="{{ old('nombre', $troncal->nombre) }}">
                     @error('nombre')
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="switchBtn">Submit</button>
+                <button type="submit" class="switchBtn" style="margin-top: 1vh">Confirmar</button>
             </form>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script src="../javascript/scriptAdministrador.js"></script>

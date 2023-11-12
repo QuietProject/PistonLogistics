@@ -73,47 +73,6 @@ body {
     text-align: center;
 }
 
-.titleText {
-    position: absolute;
-    font-size: 5vh;
-    top: 5vh;
-    left: 10vh;
-    color: white;
-    text-shadow: 0 0 10px var(--base);
-    user-select: none;
-}
-
-.addButton {
-    position: absolute;
-    height: 7.5vh;
-    width: 7.5vw;
-    top: 5vh;
-    right: 5vh;
-    background-color: var(--highlight);
-    border-radius: 2vh;
-    font-size: 3vh;
-}
-
-.addButton:hover {
-    cursor: pointer;
-}
-
-.filterText {
-    position: absolute;
-    height: 5vh;
-    width: 20vw;
-    top: 15vh;
-    left: 7.5vw;
-    border-radius: 2vh;
-    text-indent: 5%;
-    background-color: rgb(200, 200, 200);
-    box-shadow: 0 0 10px 0 var(--base);
-}
-
-.filterText:focus {
-    outline: none;
-    background-color: white;
-}
 
 .tableTitle {
     position: absolute;
@@ -185,10 +144,10 @@ tr:nth-child(even) {
 .addInterface {
     position: absolute;
     z-index: 2;
-    height: 75vh;
-    width: 50vw;
-    left: 25vw;
-    top: 12.5vh;
+    height: 50vh;
+    width: 30vw;
+    left: 35vw;
+    top: 25vh;
     background-color: var(--base);
     border-radius: 1vw;
     display: flex;
@@ -241,7 +200,7 @@ tr:nth-child(even) {
     position: relative;
     font-size: 5vh;
     text-align: center;
-    top: 3vh;
+    top: 5vh;
     color: white;
     text-shadow: 0 0 5px var(--base);
 }
@@ -260,9 +219,10 @@ tr:nth-child(even) {
     font-weight: bold;
     color: rgb(225, 225, 225);
     text-shadow: 0 0 5px var(--baseDark);
-    left: 20%;
+    left: 10%;
     top: 15%;
-    margin-top: 7%;
+    margin-top: 5vh;
+    width: 80%;
 }
 
 select,
@@ -280,6 +240,10 @@ input:focus {
     border-radius: 10px;
     background-color: var(--highlight);
     font-size: medium;
+}
+
+.submitBtn:hover{
+    cursor: pointer;
 }
 
 input[type=number] {

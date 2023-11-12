@@ -38,15 +38,6 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-.titleText {
-    position: absolute;
-    font-size: 5vh;
-    top: 10vh;
-    left: 17.5vh;
-    color: white;
-    text-shadow: 0 0 10px var(--base);
-    user-select: none;
-}
 
 .navDiv {
     position: absolute;
@@ -108,14 +99,14 @@ input[type=number] {
     top: 40vh;
     left: 5vw;
     max-height: 65vh;
-    width: 52.5vw;
+    width: 50vw;
     border-radius: 10px;
     text-align: center;
     overflow-y: scroll;
 }
 
 .tableView {
-    width: 52.5vw;
+    width: 50vw;
     background-color: rgb(140, 140, 140);
     border-collapse: collapse;
 }
@@ -152,8 +143,8 @@ tr:nth-child(even) {
 .editContainer {
     position: relative;
     height: 50vh;
-    width: 35vw;
-    left: 57.5vw;
+    width: 20vw;
+    left: 65vw;
     top: 40vh;
     text-align: center;
 }
@@ -196,8 +187,15 @@ label,
 option,
 select {
     font-weight: 500;
+    font-size: 1.5vh;
 }
 
-input[type=text] {
-    
+input {
+    height: 3vh;
+    width: 12.5vw;
+}
+
+select{
+    height: 3vh;
+    width: 12.5vw;
 }

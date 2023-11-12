@@ -38,36 +38,6 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-.titleText {
-    position: absolute;
-    font-size: 5vh;
-    top: 10vh;
-    left: 17.5vh;
-    color: white;
-    text-shadow: 0 0 10px var(--base);
-    user-select: none;
-}
-
-.addButton {
-    display: flex;
-    position: absolute;
-    height: 7.5vh;
-    width: 12.5vw;
-    top: 10vh;
-    right: 15vh;
-    background-color: var(--highlight);
-    border-radius: 2vh;
-    font-size: 2.5vh;
-    color: black;
-    text-shadow: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.addButton:hover {
-    cursor: pointer;
-}
-
 .navDiv {
     position: absolute;
     height: 100%;
@@ -181,33 +151,16 @@ select {
 .editContainer {
     position: relative;
     height: 50vh;
-    width: 35vw;
-    left: 57.5vw;
+    width: 20vw;
+    left: 65vw;
     top: 35vh;
     text-align: center;
-}
-
-.filterText {
-    position: absolute;
-    height: 5vh;
-    width: 20vw;
-    top: 22.5vh;
-    left: 10vw;
-    border-radius: 2vh;
-    text-indent: 5%;
-    background-color: rgb(200, 200, 200);
-    box-shadow: 0 0 10px 0 var(--base);
-}
-
-.filterText:focus {
-    outline: none;
-    background-color: white;
 }
 
 .tableTitle {
     position: absolute;
     top: 27.5vh;
-    left: 22.5vw;
+    left: 25.5vw;
     color: rgb(225, 225, 225);
     font-size: 5vh;
     font-weight: bold;

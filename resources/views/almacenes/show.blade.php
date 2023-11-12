@@ -1,84 +1,103 @@
-<?php
-// $estado = 'fuera de servicio';
-// if ($vehiculo->baja) {
-//     $estado = 'de baja';
-// } elseif ($vehiculo->es_operativo) {
-//     $estado = 'operativo';
-// }
-?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleAlmacenesShow.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"></a>
-        <a href="{{ route('almacenes.index') }}" class="button active"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
-    </div>
+<x-layout menu="3" titulo="Conductores" import1="../css/styleAlmacenesShow.css">
     <div class="display">
         <h2 class="titleText">Almacen {{ $tipo }}</h2>
-        <div class="infoBox" style="left: 5vw">
+        <div class="infoBox" style="left: 7.5vw">
             @if ($tipo == 'propio')
-                <p>Paquetes 'sueltos' en el almacen: {{ $paquetesEnAlmacen }}</p>
-                <p>Total de paquetes en que pasaron por el almacen: {{ $paquetesRecibidos }}</p>
-                <p>Lotes para desarmar en el almacen: {{ $lotesParaDesarmar }}</p>
-                <p>Lotes en el almacen prontos para llevar : {{ $lotesProntos }}</p>
-                <p>Lotes en preparacion en el almacen: {{ $lotesEnPreparacion }}</p>
-                <p>Total de lotes recibidos en el almacen: {{ $lotesRecibidos }}</p>
-                <p>Total de lotes creados en el almacen: {{ $lotesCreados }}</p>
-                <p>Troncales en las que esta el lote:</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        @if (count($troncales )== 0)
-                            {
-                            <p>El almacen no se encuentra en ninguna troncal</p>
-                            }
-                        @else
-                        @foreach ($troncales as $troncal)
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Paquetes 'sueltos' en el almacen: </p>
+                    <p>{{ $paquetesEnAlmacen }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Total de paquetes en que pasaron por el almacen: </p>
+                    <p>{{ $paquetesRecibidos }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Lotes para desarmar en el almacen: </p>
+                    <p>{{ $lotesParaDesarmar }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Lotes en el almacen prontos para llevar : </p>
+                    <p>{{ $lotesProntos }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Lotes en preparacion en el almacen: </p>
+                    <p>{{ $lotesEnPreparacion }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Total de lotes recibidos en el almacen: </p>
+                    <p>{{ $lotesRecibidos }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Total de lotes creados en el almacen: </p>
+                    <p>{{ $lotesCreados }}</p>
+                </div>
+                <div class="tableContainer">
+                    <table class="tableView">
+                        <thead>
                             <tr>
-                                <td><a href="{{ route('troncales.show',$troncal->ID) }}">{{ $troncal->ID }}</a></td>
-                                <td>{{ $troncal->nombre }}</td>
+                                <th>ID</th>
+                                <th>Nombre</th>
                             </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
-                </tbody>
+                        </thead>
+                        <tbody>
+                            @if (count($troncales) == 0)
+                                {
+                                <p>El almacen no se encuentra en ninguna troncal</p>
+                                }
+                            @else
+                                @foreach ($troncales as $troncal)
+                                    <tr>
+                                        <td><a
+                                                href="{{ route('troncales.show', $troncal->ID) }}">{{ $troncal->ID }}</a>
+                                        </td>
+                                        <td>{{ $troncal->nombre }}</td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             @else
-                <p>Paquetes esperando en el almacenen: {{ $paquetesEnCliente }}</p>
-                <p>Paquetes encargados por almacen que ya fueron entregados: {{ $paquetesEntregadosCliente }}</p>
-                <p>Total de paquetes encargados por el almacen: {{ $paquetesEncargados }}</p>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Paquetes esperando en el almacenen: </p>
+                    <p>{{ $paquetesEnCliente }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Paquetes encargados al comprador de este almacen: </p>
+                    <p>{{ $paquetesEntregadosCliente }}</p>
+                </div>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p>Total de paquetes encargados por el almacen: </p>
+                    <p>{{ $paquetesEncargados }}</p>
+                </div>
             @endif
         </div>
-        <div class="infoBox" style="left: 51vw; top: 35vh">
-            <p>ID: {{ $almacen->ID }}</p>
-            <p>Nombre: {{ $almacen->nombre }}</p>
-            <p>Direccion: {{ $almacen->direccion }}</p>
-            <p>Latitud: {{ $almacen->latitud }}</p>
-            <p>Longitud: {{ $almacen->longitud }}</p>
+        <div class="infoBox" style="left: 62.5vw; width: 20vw; top: 35vh">
+            <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <p style="font-weight: 500">ID: </p>
+                <p>{{ $almacen->ID }}</p>
+            </div>
+            <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <p style="font-weight: 500">Nombre: </p>
+                <p>{{ $almacen->nombre }}</p>
+            </div>
+            <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <p style="font-weight: 500">Direccion: </p>
+                <p>{{ $almacen->direccion }}</p>
+            </div>
+            <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <p style="font-weight: 500">Latitud: </p>
+                <p>{{ $almacen->latitud }}</p>
+            </div>
+            <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                <p style="font-weight: 500">Longitud: </p>
+                <p>{{ $almacen->longitud }}</p>
+            </div>
             @if ($tipo == 'cliente')
-                <p>Cliente: <a href="{{ route('clientes.show', $cliente) }}">{{ $cliente->nombre }}</a>
-                <p>
+                <div style="margin-top: 1vh; display: flex; justify-content: space-between">
+                    <p style="font-weight: 500">Cliente: </p>
+                    <p><a href="{{ route('clientes.show', $cliente) }}">{{ $cliente->nombre }}</a></p>
+                </div>
             @endif
             <form action="{{ route('almacenes.destroy', $almacen->ID) }}" method="POST">
                 @csrf
@@ -97,29 +116,26 @@
             <form action="{{ route('almacenes.update', $almacen) }}" method="POST">
                 @csrf
                 @method('PATCH')
-                <div style="margin-top: 1vh">
-                    <label for="nombre">Nombre</label>
+                <div style="margin-top: 1vh; margin-top: 1vh; display: flex; justify-content: space-between">
+                    <label for="nombre" style="font-size: 2vh">Nombre</label>
                     <input type="text" name="nombre" id="nombre" required
                         value="{{ old('nombre', $almacen->nombre) }}">
                     @error('nombre')
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <div style="margin-top: 1vh">
-                    <label for="direccion">Direccion</label>
+                <div style="margin-top: 1vh; margin-top: 1vh; display: flex; justify-content: space-between">
+                    <label for="direccion" style="font-size: 2vh">Direccion</label>
                     <input type="text" name="direccion" id="direccion" step="0.1"
                         value="{{ old('direccion', $almacen->direccion) }}">
                     @error('direccion')
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="modBtn">Submit</button>
+                <button type="submit" class="modBtn">Confirmar</button>
             </form>
         </div>
     </div>
-</body>
-
-</html>
-
+</x-layout>
 <script src="../javascript/scriptAlmacenes.js"></script>
 <script src="../javascript/scriptUsuario.js"></script>

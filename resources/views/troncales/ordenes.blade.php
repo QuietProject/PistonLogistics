@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"><i class="fa-solid fa-id-card"></i></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"><i class="fa-solid fa-user"></i></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive"><i class="fa-solid fa-warehouse"></i></a>
-        <a href="{{ route('troncales.index') }}" class="button active"><i class="fa-solid fa-road"></i></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"><i class="fa-solid fa-truck"></i></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"><i class="fa-solid fa-briefcase"></i></a>
-    </div>
+<x-layout menu="4" titulo="Troncales">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
         <p class="titleText">Nombre: {{ $troncal->nombre }}</p>
@@ -44,8 +23,8 @@
                 <tbody id="tbodyLeft">
                     @foreach ($almacenes as $almacen)
                         <tr>
-                            <td><a href="{{ route('almacenes.show', $almacen->ID) }}"
-                                    target="blank">{{ $almacen->ID }}</td>
+                            <td><a href="{{ route('almacenes.show', $almacen->ID) }}" target="blank">{{ $almacen->ID }}
+                            </td>
                             <td>{{ $almacen->nombre }}</td>
                             <td>{{ $almacen->direccion }}</td>
                             <td>
@@ -93,20 +72,20 @@
             </table>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script defer>
     function getOrder() {
-        let orderWarehouses = ""
-        let tableOrder = document.getElementById("tbodyRight").querySelectorAll("tr")
+        var orderWarehouses = ""
+        var tableOrder = document.getElementById("tbodyRight").querySelectorAll("tr")
         for (let i = 0; i < tableOrder.length; i++) {
-            let tds = tableOrder[i].querySelectorAll("td")
-            let actualWarehouse = tds[1].innerText
+            var tds = tableOrder[i].querySelectorAll("td")
+            var actualWarehouse = tds[1].innerText
+            console.log(actualWarehouse);
             orderWarehouses = orderWarehouses.concat(actualWarehouse, ",")
         }
         orderWarehouses = orderWarehouses.slice(0, -1)
+        console.log(orderWarehouses);
         document.getElementById("ordenes").value = orderWarehouses
     }
 
@@ -155,8 +134,11 @@
                 row.appendChild(col7)
                 var elements = document.getElementById("rowLeft" + num).querySelectorAll("td")
                 // 1
-                col.innerHTML =
-                    '<div class="changeBtnArrow" id="{{ $orden->ID_almacen }}" style="margin-left: 15%"><i class="fa-solid fa-arrow-left"></i></div>'
+                var coc = elements[0].childNodes
+                var cont = coc[0].innerText
+                    col.innerHTML =
+                    '<div class="changeBtnArrow" id="' + cont +
+                    '" style="margin-left: 15%"><i class="fa-solid fa-arrow-left"></i></div>'
                 // 2
                 var cont2 = elements[0].childNodes
                 col2.appendChild(cont2[0])
@@ -194,6 +176,7 @@
                         selectedCell[4].innerText = i
                     }
                 })
+                getOrder()
             })
         }
     }
@@ -238,6 +221,7 @@
                 table.appendChild(row)
                 document.getElementById("rowRight" + num).remove()
                 ordenesLeft()
+                getOrder()
             })
         }
     }
@@ -580,6 +564,26 @@
     }
 
     .addButton:hover {
+        cursor: pointer;
+    }
+
+    .buttonEnd {
+        height: 2.5vw;
+        width: 2.5vw;
+        margin-bottom: 0.5vw;
+        margin-left: 0.25vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        text-shadow: none;
+        font-size: 1.25vw;
+        position: absolute;
+        background-color: var(--baseLighter);
+        border-radius: 50%;
+    }
+
+    .buttonEnd:hover {
         cursor: pointer;
     }
 </style>

@@ -92,6 +92,18 @@
     background-color: var(--baseLight);
 }
 
+.titleText{
+    position: absolute;
+    font-size: 5vh;
+    top: 5vh;
+    left: 10vh;
+    color: white;
+    text-shadow: 0 0 10px var(--base);
+    user-select: none;
+    text-align: center;
+
+}
+
 .filterText {
     position: absolute;
     height: 5vh;
@@ -107,4 +119,40 @@
 .filterText:focus {
     outline: none;
     background-color: white;
+}
+
+input,
+label,
+option,
+select {
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+input {
+    height: 3vh;
+    width: 12.5vw;
+    text-align: center;
+    border-radius: 10px;
+}
+
+select{
+    height: 3vh;
+    width: 12.5vw;
+    border-radius: 10px;
+}
+
+.addButton {
+    position: absolute;
+    height: 7.5vh;
+    width: 7.5vw;
+    top: 10vh;
+    right: 15vh;
+    background-color: var(--highlight);
+    border-radius: 2vh;
+    font-size: 3vh;
+}
+
+.addButton:hover {
+    cursor: pointer;
 }

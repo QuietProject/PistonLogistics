@@ -26,47 +26,6 @@ body {
     text-align: center;
 }
 
-.titleText {
-    position: absolute;
-    font-size: 5vh;
-    top: 5vh;
-    left: 10vh;
-    color: white;
-    text-shadow: 0 0 10px var(--base);
-    user-select: none;
-}
-
-.addButton {
-    position: absolute;
-    height: 7.5vh;
-    width: 7.5vw;
-    top: 10vh;
-    right: 15vh;
-    background-color: var(--highlight);
-    border-radius: 2vh;
-    font-size: 3vh;
-}
-
-.addButton:hover {
-    cursor: pointer;
-}
-
-.filterText {
-    position: absolute;
-    height: 5vh;
-    width: 20vw;
-    top: 15vh;
-    left: 7.5vw;
-    border-radius: 2vh;
-    text-indent: 5%;
-    background-color: rgb(200, 200, 200);
-    box-shadow: 0 0 10px 0 var(--base);
-}
-
-.filterText:focus {
-    outline: none;
-    background-color: white;
-}
 
 .tableTitle {
     position: absolute;
@@ -250,9 +209,9 @@ input::-webkit-inner-spin-button {
 }
 
 .switchBtn {
-    height: 2.5vh;
-    width: 5vw;
-    border-radius: 15px;
+    min-height: 2.5vh;
+    width: 7.5vw;
+    border-radius: 10px;
     background-color: var(--highlight);
     font-weight: 500;
 }
