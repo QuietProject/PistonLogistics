@@ -28,13 +28,13 @@ CASE
     WHEN LLEVA.fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
 END AS ID_almacen,
 CASE
-    WHEN LLEVA.fecha_carga is null THEN LOTES.fecha_creado
+    WHEN LLEVA.fecha_carga is null THEN LOTES.fecha_creacion
     WHEN LLEVA.fecha_descarga is not null THEN LLEVA.fecha_descarga 
-END AS desde,
+END AS desde
 FROM LOTES
 LEFT JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LOTES.ID
 LEFT JOIN LLEVA ON LLEVA.ID_LOTE = LOTES.ID
-WHERE LLEVA.fecha_carga IS NULL OR LLEVA.fecha_descarga IS NOT NULL AND LOTES.fecha_cerrado IS NULL;
+WHERE (LLEVA.fecha_carga IS NULL OR LLEVA.fecha_descarga IS NOT NULL) AND LOTES.fecha_cerrado IS NULL;
 
 -- EL PESO DE CADA LOTE PRONTO Y ABIERTO
 CREATE OR REPLACE VIEW PESO_LOTES AS
@@ -47,8 +47,21 @@ and PAQUETES_LOTES.hasta is null
 and fecha_cerrado is null
 group by PAQUETES_LOTES.ID_lote;
 
+select * from LOTES_EN_ALMACENES;
+select * from LOTES;	
 
-
+-- EL SENTIDO DE LOS LOTES EN LA TRONCAL
+CREATE OR REPLACE VIEW SENTIDO_LOTES AS
+SELECT  
+ID,
+CASE
+    WHEN (SELECT orden FROM ORDENES WHERE ID_TRONCAL= LOTES.ID_troncal AND ID_almacen=LOTES.ID_almacen) < (SELECT orden FROM ORDENES WHERE ID_TRONCAL= DESTINO_LOTE.ID_troncal AND ID_almacen=DESTINO_LOTE.ID_almacen) is null THEN 'asc'
+    else 'desc'
+END AS sentido
+FROM LOTES
+INNER JOIN DESTINO_LOTE ON LOTES.ID= DESTINO_LOTE.ID_lote
+WHERE fecha_cerrado is null
+and fecha_pronto is not null;
 
 
 
