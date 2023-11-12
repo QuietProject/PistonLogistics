@@ -21,12 +21,17 @@
                 title: '{{ session('message') }}',
                 showConfirmButton: false,
                 timer: 1000,
-                customClass: {container: 'popup'}
+                customClass: {
+                    container: 'popup'
+                }
             })
+            setTimeout(() => {
+                window.location.href = "{{ route('clear.message') }}";
+            }, 800);
         </script>
     @endif
 
-    <form method="POST" action=" {{ route("crearPaquete.store") }} " id="form">
+    <form method="POST" action=" {{ route('crearPaquete.store') }} " id="form">
         @csrf
         <div>
             <h1>Crear Paquete</h1>
@@ -41,17 +46,17 @@
                 <h3>Mail</h3>
                 <input type="email" name="mail" id="mail" required>
             </div>
-            
+
             <div>
                 <h3>Ciudad</h3>
                 <input type="text" name="ciudad" id="ciudad" required>
             </div>
-            
+
             <div>
                 <h3>Direccion</h3>
                 <input type="text" name="direccion" id="direccion" required>
             </div>
-                
+
             <div>
                 <h3>Tipo de envio</h3>
                 <select name="tipo" id="tipo" class="tipo">
@@ -66,7 +71,7 @@
                 <input type="submit" value="Crear" id="btnSubmit">
             </div>
         </div>
-        
+
     </form>
 
     <div class="menuIcon" id="menuIcon">
@@ -93,4 +98,5 @@
     <script src="/javascript/scriptCrearPaquete.js"></script>
     <script defer src="./javascript/scriptMenu.js"></script>
 </body>
+
 </html>

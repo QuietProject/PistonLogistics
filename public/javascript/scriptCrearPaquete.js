@@ -5,20 +5,20 @@ const miFormulario = document.getElementById("form");
 
 btnSubmit.addEventListener("click", (e) => {
     if (!miFormulario.checkValidity()) {
-        return;
-    }else{
+    } else {
+        e.preventDefault();
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "¿Seguro?",
+            text: "No se podran revertir los cambios",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-          }).then((result) => {
+            confirmButtonText: "Crear",
+        }).then((result) => {
             if (result.isConfirmed) {
                 miFormulario.submit();
             }
-          });
+        });
     }
 });

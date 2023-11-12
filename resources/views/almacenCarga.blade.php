@@ -26,6 +26,9 @@
                     container: 'popup'
                 }
             })
+            setTimeout(() => {
+                window.location.href = "{{ route('clear.message') }}";
+            }, 800);
         </script>
     @endif
 

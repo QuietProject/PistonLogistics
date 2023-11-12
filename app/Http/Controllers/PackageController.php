@@ -79,9 +79,9 @@ class PackageController extends Controller
     public function lotePronto($idLote)
     {
         $url = env("API_URL") . "lotes/pronto?idLote=$idLote";
-        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get($url);
+        Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get($url)->json();
 
-        return redirect()->back()->with($response['message']);
+        return redirect()->back();
     }
 
 
@@ -200,7 +200,7 @@ class PackageController extends Controller
             $responseData = $response->json();
 
             if (isset($responseData['message']) && $responseData['message'] === 'Lote creado exitosamente') {
-                $request->session()->flash('success', 'Lote creado exitosamente');
+                $request->session()->flash('message', 'Lote creado exitosamente');
             }
             return to_route('createLote.show');
         } catch (\Exception $e) {

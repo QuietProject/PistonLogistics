@@ -44,6 +44,10 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
 
     Route::middleware("authorize:1")->group(function () {
         
+        Route::get('/clear-message', function () {
+            session()->forget('message');
+            return redirect()->back();
+        })->name('clear.message');
 
         Route::view("/almacen", "almacen")->name("almacen");
 

@@ -26,8 +26,13 @@
                 title: '{{ session('message') }}',
                 showConfirmButton: false,
                 timer: 1000,
-                customClass: {container: 'popup'}
+                customClass: {
+                    container: 'popup'
+                }
             })
+            setTimeout(() => {
+                window.location.href = "{{ route('clear.message') }}";
+            }, 800);
         </script>
     @endif
 
