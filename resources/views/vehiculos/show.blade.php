@@ -87,10 +87,26 @@ if ($vehiculo->baja) {
                         <button type="submit" class="modBtn">Dejar de conducir</button>
                     </form>
                 @else
-                    no tiene
-                    @if ($estado == 'operativo')
-                        <a href="{{ route('conducen.vehiculo', ['vehiculo' => $vehiculo->matricula]) }}">Asignar
-                            conductor</a>
+                    @if ($vehiculo->es_operativo && !$vehiculo->baja)
+                        Asignar conductor
+
+                        <form action="{{ route('conducen.desde') }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="text" value="{{ $vehiculo->matricula }}" name="matricula" hidden>
+                            <div>
+                                <label for="CI">Camionero:</label>
+                                <select name="CI" id="CI">
+                                    @foreach ($camionerosDisponibles as $disponible)
+                                        <option value="{{ $disponible->CI }}">{{ $disponible->nombre }},
+                                            {{ $disponible->CI }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit"> Asignar</button>
+                        </form>
+                    @else
+                        no tiene
                     @endif
                 @endif
             </p>
