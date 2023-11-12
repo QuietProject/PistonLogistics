@@ -11,6 +11,18 @@
     --baseDark :#2c2c2c;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 0s 600000s, color 0s 600000s;
+}
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -moz-display: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    -webkit-appearance: none;
+    display: none;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -18,6 +30,11 @@
     scroll-behavior: smooth;
     font-family: var(--font);
 }
+
+.popup *{
+    overflow: hidden;
+}
+
 
 /* Responsive */
 @media screen and (orientation:portrait){

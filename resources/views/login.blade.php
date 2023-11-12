@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -16,16 +16,16 @@
 
         <div>
             <i class='bx bxs-truck'></i>
-            <h1>Log In</h1>
+            <h1 class="{{ app()->getLocale() }}">Iniciar Sesión</h1>
             <i class='bx bxs-truck'></i>
         </div>
 
         <div>
-            <input type="text" name="user" required placeholder="User" autocomplete="username">
-            <input type="password" name="password" required placeholder="Password">
+            <input type="text" name="user" required placeholder="Usuario" autocomplete="username">
+            <input type="password" name="password" required placeholder="Contraseña" minlength="8">
         </div>
         <div>
-            <input type="submit" value="Log In" id="buttonLogIn">
+            <input type="submit" value="Iniciar Sesión" id="buttonLogIn">
         </div>
     </form>
 </body>

@@ -208,6 +208,8 @@ header div img {
 .menuRastreo input[type="number"]::-webkit-outer-spin-button,
 .menuRastreo input[type="number"]::-webkit-inner-spin-button {
     -moz-display: none;
+    -moz-appearance: textfield;
+    appearance: textfield;
     -webkit-appearance: none;
     display: none;
 }

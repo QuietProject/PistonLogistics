@@ -91,8 +91,17 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
 
     btnVerPaquetesEnLote.addEventListener("click", async () => {
         paquetes.style.zIndex = "1";
+        paquetes.style.height = document.documentElement.scrollHeight + "px";
         verPaquete.style.display = "";
         all.style.filter = "blur(10px)";
+
+        const offset = window.innerHeight / 2;
+
+        verPaquete.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest",
+        });
 
         const fila = btnVerPaquetesEnLote.closest("tr");
         const ID = fila.querySelector('td[data-columna="ID_lote"]').textContent;
@@ -127,6 +136,11 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
                                 <p>ID Paquete</p>
                             </div>
                         </th>
+                        <th class="columnaArray" data-columna="codigo">
+                            <div>
+                                <p>Codigo</p>
+                            </div>
+                        </th>
                         <th class="columnaArray" data-columna="ID_almacen_cliente">
                             <div>
                                 <p>ID Almacen Cliente</p>
@@ -152,9 +166,9 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
                                 <p>Peso</p>
                             </div>
                         </th>
-                        <th class="columnaArray" data-columna="volumen">
+                        <th class="columnaArray" data-columna="cedula">
                             <div>
-                                <p>Volumen</p>
+                                <p>Cedula</p>
                             </div>
                         </th>
                         <th class="columnaArray" data-columna="mail">
@@ -175,6 +189,7 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
                             (array) =>
                                 `<tr>
                                 <td data-columna="ID">${array.ID}</td>
+                                <td data-columna="ID">${array.codigo}</td>
                                 <td data-columna="ID_almacen_cliente">${
                                     array.ID_almacen
                                 }</td>
@@ -190,15 +205,45 @@ btnsVerPaquetesEnLote.forEach((btnVerPaquetesEnLote, index) => {
                                         : ""
                                 }</td>
                                 <td data-columna="peso">${array.peso}</td>
-                                <td data-columna="volumen">${array.volumen}</td>
+                                <td data-columna="peso">${array.cedula}</td>
                                 <td data-columna="mail">${array.mail}</td>
                                 <td data-columna="estado">${array.estado}</td>
+                                <td class='btnQuitar' data-idPaquete="${
+                                    array.ID
+                                }">Quitar</td>
                             </tr>`
                         )
                         .join("")}
                         
                 </tbody>
             </table>`;
+
+                    const btnsQuitar = document.querySelectorAll(`.btnQuitar`);
+                    btnsQuitar.forEach((btnQuitar) => {
+                        const idPaquete =
+                            btnQuitar.getAttribute("data-idPaquete");
+                        if (btnQuitar) {
+                            btnQuitar.addEventListener("click", (e) => {
+                                e.preventDefault();
+                                Swal.fire({
+                                    title: "Are you sure?",
+                                    text: "You won't be able to revert this!",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "#3085d6",
+                                    cancelButtonColor: "#d33",
+                                    confirmButtonText: "Yes, delete it!",
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.href = `${getRoute(
+                                            ID,
+                                            idPaquete
+                                        )}`;
+                                    }
+                                });
+                            });
+                        }
+                    });
                 } else {
                     // Maneja el caso en que miArray no es un arreglo
                     divArray.innerHTML = "No se encontraron datos";
@@ -219,31 +264,21 @@ const btnPronto = document.querySelectorAll(".btnPronto");
 btnPronto.forEach((btn) => {
     btn.addEventListener("click", (e) => {
         const route = btn.getAttribute("data-route");
-        const origen = btn.getAttribute("data-origen");
 
         e.preventDefault();
 
-        // Show the custom modal
-        confirmacionContainer.style.display = "block";
-
-        btnConfirmAsignar.addEventListener("click", () => {
-            // Perform the assignment action
-            fetch(route)
-            .then((response) => response.json())
-            .then((data) => {
-                location.href = origen;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = route;
+            }
         });
-
-        btnCancelAsignar.addEventListener("click", () => {
-            // Close the custom modal
-            confirmacionContainer.style.display = "none";
-        });
-
-        // Realiza una solicitud Fetch a la ruta
-        
     });
 });

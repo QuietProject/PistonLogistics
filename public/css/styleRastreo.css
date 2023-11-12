@@ -248,7 +248,35 @@ footer > div > form > div {
     header div:nth-child(2) {
         display: none;
     }
+    footer > div:nth-child(3){
+        display: none;
+    }
+
+    footer{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    footer > *{
+        margin: 10px;
+        max-width: 80%;
+        width: 80%;
+    }
+    footer > div:nth-child(1){
+        justify-content: center;
+        align-items: center;
+    }
+
+    footer > div:nth-child(1) > form {
+        width: 80%;
+    }
+    footer > div:nth-child(1) > form > h1{
+        width: 100%;
+        padding: 0;
+    }
 }
+
 
 @media (max-width: 320px) {
     section > div > div{

@@ -1,61 +1,96 @@
 * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     margin: 0;
+    border: 0;
     padding: 0;
-    box-sizing: border-box;
     max-width: 100%;
     max-height: 100%;
 }
 
-body,
-html {
-    background-color: var(--base);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    overflow-x: hidden;
-    -ms-overflow-style: none;
-    max-height: none !important;
+*::-webkit-scrollbar {
+    display: none;
 }
 
-.formulario {
-    max-width: 800px;
-    min-height: 800px;
-    width: 100%;
-    height: 100%;
-    margin: 10px;
-    box-shadow: 0px 0px 10px -1px black;
+body {
+    min-height: 100vh;
+    width: 100vw;
+    background-color: var(--base);
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+}
+
+body > form{
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 90%;
+    max-width: 600px;
+    min-height: 800px;
+    box-shadow: 0px 0px 10px -1px black;
     border-radius: 10px;
 }
 
-.formulario > h1 {
-    color: var(--highlight);
-    font-size: 6em;
-    min-width: 12vw;
-    text-align: center;
+body > form > div{
+    width: 100%;
     display: flex;
-    align-items: center;
     justify-content: center;
-    text-shadow: 0px 0px 0px black, 0 0 0.1em var(--baseDark), 0 0 0.2em black;
+    align-items: center;
+    flex-direction: column;
+    margin: 20px;
 }
 
-.formulario > div > input[type="text"] {
-    background-color: transparent;
-    border: 2px solid var(--color);
-    min-height: 4vh;
-    max-width: 400px;
-    width: 100%;
-    border-radius: 5px;
-    text-align: center;
-    color: white;
-    font-size: 2em;
-    margin-bottom: 0px;
+body > form > div > i{
+    font-size: 5em;
+    color: var(--highlight);
+    filter: drop-shadow(0px 0px 5px black);
+}
+
+
+body > form > div > div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    border-top: 1px solid white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+body > form > div > div:nth-child(5){
+    border-bottom: 1px solid white;
+}
+
+body > form > div:nth-child(4) > div{
+    border-top: none;
+}
+
+body > form > div > div > input{
     padding: 10px;
+    width: 100%;
+    min-width: 150px;
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    border: 2px solid var(--color);
+    color: white;
+    font-size: 1.8em;
+}
+
+body > form > div > div > select{
+    padding: 10px;
+    width: 100%;
+    min-width: 150px;
+    background-color: var(--base);
+    border: none;
+    border-radius: 5px;
+    border: 2px solid var(--color);
+    color: white;
+    font-size: 1.8em;
+    background: url("../source/arrow_down.png") no-repeat right;
 }
 
 select {
@@ -68,55 +103,41 @@ select::-ms-expand {
     display: none;
 }
 
-select {
-    display: block;
+select > option{
     background-color: var(--base);
-    padding: 10px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    background: url("../source/arrow_down.png") no-repeat right;
-    padding-right: 20px;
-    padding-left: 10px;
-    background-color: var(--base);
-    border: 2px solid var(--color);
-    min-height: 4vh;
-    border-radius: 5px;
-    margin-bottom: -1px;
-    text-align: center;
     color: white;
-    font-size: 2em;
-    max-width: 400px;
-    width: 100%;
 }
 
-.formulario > div > input[type="submit"] {
-    background-color: var(--base);
-    border: 2px solid var(--color);
-    min-height: 4vh;
-    border-radius: 5px;
-    text-align: center;
-    color: white;
-    font-size: 2em;
+body > form > div:last-child > div > input{
     padding: 10px;
-    width: 300px;
+    min-width: 100px;
+    width: 30%;
     cursor: pointer;
 }
 
-.formulario > div > input[type="submit"]:hover {
+body > form > div > div > input:hover, input:focus{
     box-shadow: 0px 0px 10px -1px black;
 }
 
-.formulario > div > h2 {
-    color: white;
-    width: 100%;
-    border-top: 1px solid white;
-    margin-top: 10px;
-    padding: 10px;
-    padding-left: 0px;
+
+body > form > div > h1{
+    color: var(--highlight);
+    font-size: 5em;
+    min-width: 12vw;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0px 0px 0px black, 0 0 0.1em var(--baseDark), 0 0 0.2em black;
 }
 
-.formulario > div {
-    margin: 5px;
+body > form > div > div > h3{
+    width: 100%;
+    text-align: left;
+    color: white;
+    font-size: 1.7em;
+    display: flex;
+    align-items: center;
 }
 
 .confirmacionContainer {
@@ -183,4 +204,16 @@ select {
     padding: 10px;
     text-align: center;
     z-index: 1000; /* Ajusta el valor de z-index según sea necesario */
+}
+
+@media (max-width: 350px) {
+    body > form > div > h1{
+        font-size: 4em;
+    }
+}
+
+@media (max-width: 270px) {
+    body > form > div > h1{
+        font-size: 3em;
+    }
 }

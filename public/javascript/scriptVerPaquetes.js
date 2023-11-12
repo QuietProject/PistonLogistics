@@ -90,8 +90,17 @@ btnsAsignar.forEach((btnAsignar, index) => {
 
     btnAsignar.addEventListener("click", async () => {
         lotes.style.zIndex = "1";
+        lotes.style.height = document.documentElement.scrollHeight + "px";
         asignarLote.style.display = "";
         all.style.filter = "blur(10px)";
+
+        const offset = window.innerHeight / 2;
+
+        asignarLote.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+            inline: "nearest",
+        });
 
         const fila = btnAsignar.closest("tr");
         const ID = fila.querySelector('td[data-columna="ID"]').textContent;
@@ -110,6 +119,11 @@ btnsAsignar.forEach((btnAsignar, index) => {
                 <th class="columnaArray" data-columna="ID_lote">
                     <div>
                         <p>ID Lote</p>
+                    </div>
+                </th>
+                <th class="columnaArray" data-columna="codigo">
+                    <div>
+                        <p>Codigo</p>
                     </div>
                 </th>
                 <th class="columnaArray" data-columna="ID_troncal">
@@ -142,6 +156,7 @@ btnsAsignar.forEach((btnAsignar, index) => {
                     !direccion && array.tipo === false ? "none" : "" 
                 }">
                 <td data-columna="ID">${array.ID}</td>
+                <td data-columna="codigo">${array.codigo}</td>
                 <td data-columna="ID_troncal">${array.ID_troncal}</td>
                 <td data-columna="ID_almacen">${array.ID_almacen}</td>
                 <td data-columna="fecha_creacion">${array.fecha_creacion}</td>
@@ -164,25 +179,23 @@ btnsAsignar.forEach((btnAsignar, index) => {
             ".btnAsignarDentroDeLote"
         );
 
-        const confirmacionContainer = document.getElementById("confirmacionContainer");
-        const btnConfirmAsignar = document.getElementById("btnConfirmAsignar");
-        const btnCancelAsignar = document.getElementById("btnCancelAsignar");
-
         btnAsignarDentroDeLote.forEach((btn) => {
             btn.addEventListener("click", (e) => {
                 e.preventDefault();
 
-                // Show the custom modal
-                confirmacionContainer.style.display = "block";
-
-                btnConfirmAsignar.addEventListener("click", () => {
-                    // Perform the assignment action
-                    window.location.href = e.target.getAttribute("href");
-                });
-
-                btnCancelAsignar.addEventListener("click", () => {
-                    // Close the custom modal
-                    confirmacionContainer.style.display = "none";
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // console.log(e.target.getAttribute("href"));
+                        window.location.href = e.target.getAttribute("href");
+                    }
                 });
             });
         });

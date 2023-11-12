@@ -25,28 +25,43 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
 
 
     Route::view("/login", "login")->name("login");
-    Route::post("/login", [AuthenticatedSessionController::class, "store"])->name("login.algo");
+    Route::post("/login", [AuthenticatedSessionController::class, "login"])->name("login");
 
-    Route::view("/camionero", "camionero")->name("camionero");
+    Route::post('/logout', [AuthenticatedSessionController::class, "logout"])->name('logout');
 
-    Route::view("/cliente/scanner", "scanner")->name("scanner");
+    Route::middleware("authorize:2")->group(function () {
+        Route::view("/camionero", "camionero")->name("camionero");
+    });
 
-    Route::view("/cliente", "cliente")->name("cliente");
-    Route::post("/cliente", [PackageController::class, "carga"])->name("cliente.scan");
+    Route::middleware("authorize:3")->group(function () {
+        Route::view("/cliente/scanner", "scanner")->name("scanner");
+        Route::view("/cliente", "cliente")->name("cliente");
+        Route::get("/cliente/{paquetes}", [PackageController::class, "carga"])->name("cliente.carga");
+        Route::view("/crearPaquete", "crearPaquete")->name("crearPaquete");
+        Route::post("/crearPaquete", [PackageController::class, "crearPaquete"])->name("crearPaquete.store");
+    });
 
-    Route::view("/almacen", "almacen")->name("almacen");
 
-    Route::get("/verPaquetes", [PackageController::class, "showPaquetes"])->name("verPaquetes.show");
-    Route::get("/verPaquetes/asignar/{idPaquete}/{idLote}", [PackageController::class, "asignar"])->name("verPaquetes.asignar");
+    Route::middleware("authorize:1")->group(function () {
+        Route::view("/almacen", "almacen")->name("almacen");
 
-    Route::get("/verLotes", [PackageController::class, "showLotes"])->name("verLotes.show");
+        Route::get("/verPaquetes", [PackageController::class, "showPaquetes"])->name("verPaquetes.show");
+        Route::get("/verPaquetes/asignar/{idPaquete}/{idLote}", [PackageController::class, "asignar"])->name("verPaquetes.asignar");
 
-    Route::view("/crearLote", "crearLote")->name("crearLote");
+        Route::get("/verLotes", [PackageController::class, "showLotes"])->name("verLotes.show");
+        Route::get("/quitarPaquete/{idLote}/{idPaquete}", [PackageController::class, "quitarPaqueteDeLote"])->name("quitarPaquete");
 
-    Route::view("/almacenCarga", "almacenCarga")->name("almacenCarga");
-    Route::post("/almacenCarga", [PackageController::class, "cargaAlmacen"])->name("almacenCarga.scan");
-    Route::view("/almacenDescarga", "almacenDescarga")->name("almacenDescarga");
-    Route::post("/almacenDescarga", [PackageController::class, "descargaAlmacen"])->name("almacenDescarga.scan");
+        Route::get("/crearLote", [PackageController::class, "getOrdenes"])->name("createLote.show");
+        Route::post("/crearLote", [PackageController::class, "crearLote"])->name("crearLote.store");
+
+        Route::view("/almacenCarga", "almacenCarga")->name("almacenCarga");
+        Route::get("/almacenCarga/{paquetes}/{lotes}", [PackageController::class, "cargaAlmacen"])->name("almacenCarga.carga");
+
+        Route::view("/almacenDescarga", "almacenDescarga")->name("almacenDescarga");
+        Route::get("/almacenDescarga/{paquetes}/{lotes}", [PackageController::class, "descargaAlmacen"])->name("almacenDescarga.descarga");
+        // Route::post("/almacenDescarga/descargaAlmacen", [PackageController::class, "descargaAlmacen"])->name("almacenDescarga.scan");
+    });
+
 
     Route::view("/administrador", "administrador")->name("administrador");
 

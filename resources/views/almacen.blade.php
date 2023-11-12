@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleAlmacen.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
-    
-    <title>App para Almacen</title>
+
+    <title>Almacen</title>
 </head>
 
-<body>
+<body>    
     <!-- Ham Menu -->
     <div class="menuIcon" id="menuIcon">
         <div>
@@ -24,13 +24,18 @@
         <div>
             <div>
                 <div></div>
-                <a href={{ route('verPaquetes.show') }}>Paquetes</a>
-                <a href={{ route('verPaquetes.show') }}>Lotes</a>
+                <a href="../almacenCarga">Carga</a>
+                <a href="../almacenDescarga">Descarga</a>
+                <a href="../verPaquetes">Paquetes</a>
+                <a href="../verLotes">Lotes</a>
                 <a href="../crearLote">Crear Lote</a>
             </div>
 
             <div>
-                <a href="">Log Out</a>
+                <form method="POST" action=" {{ route('logout') }} ">
+                    @csrf
+                    <button type="submit">Cerrar sesión</button>
+                </form>
             </div>
         </div>
     </div>

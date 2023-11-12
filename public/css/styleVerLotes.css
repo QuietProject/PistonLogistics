@@ -108,6 +108,25 @@ td{
     box-shadow: 0px 0px 10px -1px black;
 }
 
+.btnQuitar{
+    background-color: var(--highlight);
+    color: black;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btnQuitar > a{
+    text-decoration: none;
+    color: black;
+    width: max-content;
+    height: max-content;
+}
+
+.btnQuitar:hover{
+    box-shadow: 0px 0px 10px -1px black;
+}
+
 .btnPronto{
     background-color: var(--highlight);
     color: black;
@@ -162,8 +181,8 @@ td{
 #paquetes{
     position: absolute;
     width: 100%;
-    height: 100%;
     z-index: -1;
+    top: 0;
 }
 
 .oculto{
@@ -183,71 +202,6 @@ td{
 .hoverRow:hover{
     background-color: var(--baseLighter);
     color: black;
-}
-.confirmacionContainer {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-}
-
-.confirmacion {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: var(--base);
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px -1px black;
-    text-align: center;
-}
-
-.confirmacion > p{
-    margin: 15px;
-    color:white;
-}
-
-#btnConfirmAsignar {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-#btnCancelAsignar {
-    background-color: crimson;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    margin: 5px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-#btnConfirmAsignar:hover, #btnCancelAsignar:hover{
-    box-shadow: 0px 0px 10px -1px black;
-}
-
-#alertContainer {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: crimson;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    z-index: 1000;
 }
 
 #menuIcon{

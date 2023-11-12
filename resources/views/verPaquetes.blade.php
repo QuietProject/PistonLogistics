@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +10,8 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleVerPaquetes.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
-    <title>Paquetes</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Almacen</title>
     <script>
         const ruta = "{{ route('verPaquetes.asignar', ['idPaquete', 'idLote']) }}";
 
@@ -40,33 +41,16 @@
 </head>
 
 <body>
-    <div id="alertContainer"></div>
-    <div id="confirmacionContainer" class="confirmacionContainer">
-        <div class="confirmacion">
-            <p>¿Estás seguro de asignar este paquete?</p>
-            <button id="btnConfirmAsignar">Aceptar</button>
-            <button id="btnCancelAsignar">Cancelar</button>
-        </div>
-    </div>
-
     @if (session('message'))
         <script>
-            const message = "{{ session('message') }}";
-            const alertContainer = document.getElementById("alertContainer");
-            const customAlert = document.createElement("div");
-            customAlert.className = "custom-alert";
-            customAlert.textContent = message;
-            alertContainer.appendChild(customAlert);
-
-            if(message == "Paquete ya en un lote"){
-                customAlert.style.backgroundColor = "crimson";
-            }else{
-                customAlert.style.backgroundColor = "#4CAF50";
-            }
-
-            setTimeout(() => {
-                alertContainer.removeChild(customAlert);
-            }, 2000);
+            Swal.fire({
+                position: 'top',
+                icon: 'success',
+                title: '{{ session('message') }}',
+                showConfirmButton: false,
+                timer: 1000,
+                customClass: {container: 'popup'}
+            })
         </script>
     @endif
 
@@ -89,7 +73,10 @@
             </div>
 
             <div>
-                <a href="">Log Out</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit">Cerrar sesión</button>
+                </form>
             </div>
         </div>
     </div>
@@ -102,6 +89,11 @@
                         <th class="columna" data-columna="ID_paquete">
                             <div>
                                 <p>ID Paquete</p>
+                            </div>
+                        </th>
+                        <th class="columna" data-columna="codigo">
+                            <div>
+                                <p>Codigo</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="ID_almacen_cliente">
@@ -129,9 +121,9 @@
                                 <p>Peso</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
-                        <th class="columna" data-columna="volumen">
+                        <th class="columna" data-columna="cedula">
                             <div>
-                                <p>Volumen</p> <i class='bx bx-chevron-down'></i>
+                                <p>Cedula</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="mail">
@@ -150,12 +142,13 @@
                     @foreach ($paquetes as $paquete)
                         <tr class="hoverRow">
                             <td data-columna="ID">{{ $paquete['ID'] }}</td>
+                            <td data-columna="codigo">{{ $paquete['codigo'] }}</td>
                             <td data-columna="ID_almacen_cliente">{{ $paquete['ID_almacen'] }}</td>
                             <td data-columna="fecha_registrado">{{ $paquete['fecha_registrado'] }}</td>
                             <td data-columna="ID_pickup">{{ $paquete['ID_pickup'] }}</td>
                             <td data-columna="direccion">{{ $paquete['direccion'] }}</td>
                             <td data-columna="peso">{{ $paquete['peso'] }}</td>
-                            <td data-columna="volumen">{{ $paquete['volumen'] }}</td>
+                            <td data-columna="cedula">{{ $paquete['cedula'] }}</td>
                             <td data-columna="mail">{{ $paquete['mail'] }}</td>
                             <td data-columna="estado">{{ $paquete['estado'] }}</td>
                             <td class="btnAsignar" id="btnAsignar">Asignar</td>
