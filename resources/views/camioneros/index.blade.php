@@ -83,7 +83,7 @@
                     <div class="inputBox">
                         <label for="nombre" style="font-size: 2vh">Nombre</label>
                         <input type="text" name="nombre" id="nombre"
-                            value="{{ old('nombre', $camionero->nombre) }}">
+                            value="{{ old('nombre') }}">
                         @error('nombre')
                             <span style="color: red">{{ $message }}</span>
                         @enderror

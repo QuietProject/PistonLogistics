@@ -96,15 +96,39 @@
                     <div class="inputBox" style="display: flex; justify-content: space-between">
                         <label for="nombre">Nombre</label>
                         <input type="text" name="nombre" id="nombre" required
-                            value="{{ old('nombre', $almacen->nombre) }}">
+                            value="{{ old('nombre') }}">
                         @error('nombre')
+                            <span style="color: red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
+                        <label for="calle">Calle</label>
+                        <input type="text" name="calle" id="calle" step="0.1"
+                            value="{{ old('calle') }}">
+                        @error('calle')
+                            <span style="color: red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
+                        <label for="numero">Numero</label>
+                        <input type="text" name="numero" id="numero" step="0.1"
+                            value="{{ old('numero') }}">
+                        @error('numero')
+                            <span style="color: red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
+                        <label for="esquina">Esquina</label>
+                        <input type="text" name="esquina" id="esquina" step="0.1"
+                            value="{{ old('esquina') }}">
+                        @error('esquina')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="inputBox" style="display: flex; justify-content: space-between">
                         <label for="direccion">Direccion</label>
                         <input type="text" name="direccion" id="direccion" step="0.1"
-                            value="{{ old('direccion', $almacen->direccion) }}">
+                            value="{{ old('direccion') }}">
                         @error('direccion')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
@@ -114,7 +138,7 @@
                         <select name="RUT" id="RUT">
                             @foreach ($empresas as $cliente)
                                 @if ($cliente->baja == 0)
-                                    <option value="{{ $cliente->RUT }}">{{ $cliente->nombre }} - {{ $cliente->RUT }}
+                                    <option value="{{ $cliente->RUT }}" {{ old('RUT')== $cliente->RUT?'selected':'' }}>{{ $cliente->nombre }} - {{ $cliente->RUT }}
                                     </option>
                                 @endif
                             @endforeach

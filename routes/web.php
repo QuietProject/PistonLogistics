@@ -56,7 +56,7 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::get('/ordenes/{troncal}/edit', [TroncalesController::class, 'ordenes'])->name('ordenes.edit');
     Route::patch('/ordenes/{troncal}', [TroncalesController::class, 'ordenesUpdate'])->name('ordenes.update');
 
-    Route::resource('vehiculos', VehiculosController::class)->except(['create', 'edit']);
+    Route::resource('vehiculos', VehiculosController::class)->except(['create', 'edit','destroy']);
     Route::patch('/vehiculo/{vehiculo}/baja', [VehiculosController::class, 'baja'])->name('vehiculos.baja');
     Route::patch('/vehiculo/{vehiculo}/operativo', [VehiculosController::class, 'operativo'])->name('vehiculos.operativo');
 

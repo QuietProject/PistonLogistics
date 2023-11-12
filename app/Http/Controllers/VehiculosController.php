@@ -99,15 +99,15 @@ class VehiculosController extends Controller
      * @param  \App\Models\Vehiculo  $vehiculo
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Vehiculo $vehiculo)
-    {
-        try {
-            $vehiculo->delete();
-        } catch (\PDOException $e) {
-            return redirect()->back()->with('error', 'No se puede elminiar el vehiculo Error SQL:' . $e->errorInfo[1]);
-        }
-        return to_route('vehiculos.index')->with('success', 'El vehiculo se elimino correctamente');
-    }
+    // public function destroy(Vehiculo $vehiculo)
+    // {
+    //     try {
+    //         $vehiculo->delete();
+    //     } catch (\PDOException $e) {
+    //         return redirect()->back()->with('error', 'No se puede elminiar el vehiculo Error SQL:' . $e->errorInfo[1]);
+    //     }
+    //     return to_route('vehiculos.index')->with('success', 'El vehiculo se elimino correctamente');
+    // }
 
     public function baja(Vehiculo $vehiculo)
     {

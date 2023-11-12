@@ -153,7 +153,23 @@ if ($vehiculo->baja) {
                         @endif
                     </button>
                 </form>
+<<<<<<< Updated upstream
             </div>
+=======
+            @endif
+
+            <form action="{{ route('vehiculos.baja', $vehiculo->matricula) }}" method="POST">
+                @csrf
+                @method('PATCH')
+                <button type="submit" class="modBtn">
+                    @if ($vehiculo->baja)
+                        Dar de Alta
+                    @else
+                        Dar de Baja
+                    @endif
+                </button>
+            </form>
+>>>>>>> Stashed changes
         </div>
     </div>
 </x-layout>

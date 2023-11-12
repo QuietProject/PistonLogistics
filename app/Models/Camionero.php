@@ -11,11 +11,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Camionero
- * 
+ *
  * @property string $CI
  * @property string $nombre
  * @property bool $baja
- * 
+ *
  * @property Collection|Conducen[] $conducen
  *
  * @package App\Models
@@ -33,7 +33,8 @@ class Camionero extends Model
 
 	protected $fillable = [
 		'nombre',
-		'baja'
+		'baja',
+        'CI'
 	];
 
 	public function conducen()
