@@ -52,26 +52,25 @@
                         method="POST">
                         @csrf
                         @method('PATCH')
-                        <button type="submit" class="assignVehicleBtn"> Dejar de conducir</button>
+                        <button type="submit" class="modBtn"> Dejar de conducir</button>
                     </form>
                 @else
                     No tiene
                     @if (!$camionero->baja)
                     <br>
-                        Asignar vehiculo
                         <form action="{{ route('conducen.desde') }}" method="POST">
                             @csrf
                             @method('PATCH')
                             <input type="text" value="{{ $camionero->CI }}" name="CI" hidden>
                             <div>
-                                <label for="matricula">Vehiculo:</label>
+                                <label for="matricula" style="color: white; font-size: 2vh; font-weight: 500">Vehiculo:</label>
                                 <select name="matricula" id="matricula">
                                     @foreach ($vehiculosDisponibles as $disponible)
                                         <option value="{{ $disponible->matricula }}">{{ $disponible->matricula }} {{ $disponible->tipo }}</option>
                                     @endforeach
                                 </select>
                             </div>
-                            <button type="submit"> Asignar</button>
+                            <button type="submit" class="modBtn">Asignar</button>
                         </form>
                     @endif
                 @endif

@@ -30,12 +30,12 @@ input:focus {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+    -moz-appearance: textfield;
 }
 
 .navDiv {
@@ -88,14 +88,14 @@ input[type=number] {
 .tableTitle {
     position: relative;
     color: white;
-    top: 32.5vh;
-    left: 15vw;
+    top: 42.5vh;
+    left: 14vw;
     font-size: 2vw;
 }
 
 .tableContainer {
     position: absolute;
-    top: 40vh;
+    top: 50vh;
     left: 8.5vw;
     max-height: 65vh;
     width: 40vw;
@@ -185,16 +185,22 @@ tr:nth-child(even) {
 
 .editContainer {
     position: relative;
-    height: 60vh;
-    width: 35vw;
-    left: 55vw;
-    top: 15vh;
+    height: 70vh;
+    width: 25vw;
+    left: 60vw;
+    top: 17.5vh;
     text-align: center;
 }
 
 .asignadoText {
     font-weight: 500;
     font-size: 2.5vh;
+    color: white;
+}
+
+.asignadoTextS {
+    font-weight: 500;
+    font-size: 2vh;
     color: white;
 }
 
@@ -210,4 +216,21 @@ tr:nth-child(even) {
 
 .modBtn:hover {
     cursor: pointer;
+}
+
+.editBottom {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.textTopRight {
+    font-weight: 500;
+    font-size: 3.5vh;
+    color: white;
+    position: absolute;
+    left: 16vw;
+    top: 22.5vh;
+    height: 10vh;
+    width: 25vw;
 }

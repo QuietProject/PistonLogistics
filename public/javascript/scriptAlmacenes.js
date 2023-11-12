@@ -17,6 +17,19 @@ document.getElementById("closeButtonCornerTrucks").addEventListener("click", fun
     document.getElementById("addTruckInterface").style.display = "none";
 })
 
+document.getElementById("tipo2").addEventListener("change", function () {
+    var e = document.getElementById("tipo2")
+    var value = e.value
+    var ciInput = document.getElementById("RUTBox")
+    console.log(value);
+
+    if (value == "propio") {
+        ciInput.style.display = "none"
+    }
+    if (value == "cliente") {
+        ciInput.style.display = "flex"
+    }
+})
 
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;

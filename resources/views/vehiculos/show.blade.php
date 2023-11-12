@@ -15,7 +15,6 @@ if ($vehiculo->baja) {
                 <p>ID:{{ $paquete->ID_paquete }}</p>
             @endforeach
         @endif
-
         @if (count($lleva) > 0)
             <h3>Lleva lotes:</h3>
             @foreach ($lleva as $lote)
@@ -57,96 +56,104 @@ if ($vehiculo->baja) {
                 <p>Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento</p>
             @endif
         </div>
-
+        <div class="textTopRight">
+            <div style="display: flex; justify-content: space-between;">
+                <p>Matricula: </p>
+                <p>{{ $vehiculo->matricula }}</p>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <p>Peso Maximo: </p>
+                <p>{{ $vehiculo->peso_max }} KG</p>
+            </div>
+        </div>
         <div class="editContainer">
-            <h2 class="asignadoText">Editar {{ $tipo }}</h2>
-            <form action="{{ route('vehiculos.update', $vehiculo) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <div class="inputBox">
-                    <label for="peso_max" class="asignadoText">Peso Maximo</label>
-                    <input type="number" name="peso_max" id="peso_max" required
-                        value="{{ old('peso_max', $vehiculo->peso_max) }}" autocomplete="off" style="font-weight: 500">
-                    <span class="asignadoText">kg</span>
-                    @error('peso_max')
-                        <span style="color: red">{{ $message }}</span>
-                    @enderror
-                </div>
-                <button type="submit" class="modBtn">Confirmar</button>
-            </form>
-            <p class="asignadoText" style="margin-top: 15vh">Matricula: {{ $vehiculo->matricula }}</p>
-            <p class="asignadoText">Peso Maximo: {{ $vehiculo->peso_max }} kg</p>
-            <p class="asignadoText">Conductor:
-                @if (isset($camioneros[0]) && $camioneros[0]->hasta == null)
-                    <a href="{{ route('camioneros.show', $camioneros[0]->CI) }}">{{ $camioneros[0]->nombre }}</a>
-                    <form
-                        action="{{ route('conducen.hasta', ['matricula' => $vehiculo->matricula, 'ci' => $camioneros[0]->CI]) }}"
-                        method="POST">
+            <div class="">
+                <h2 class="asignadoText">Editar {{ $tipo }}</h2>
+                <form action="{{ route('vehiculos.update', $vehiculo) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <div class="editBottom">
+                        <label for="peso_max" class="asignadoText">Peso Maximo</label>
+                        <div>
+                            <input type="number" name="peso_max" id="peso_max" required
+                                value="{{ old('peso_max', $vehiculo->peso_max) }}" autocomplete="off"
+                                style="font-weight: 500">
+                            <span class="asignadoText">kg</span>
+                        </div>
+                        @error('peso_max')
+                            <span style="color: red">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <button type="submit" class="modBtn">Confirmar</button>
+                </form>
+            </div>
+            <div class="">
+                <p class="asignadoText" style="margin-top: 10vh">Conductor:
+                    @if (isset($camioneros[0]) && $camioneros[0]->hasta == null)
+                        <a href="{{ route('camioneros.show', $camioneros[0]->CI) }}">{{ $camioneros[0]->nombre }}</a>
+                        <form
+                            action="{{ route('conducen.hasta', ['matricula' => $vehiculo->matricula, 'ci' => $camioneros[0]->CI]) }}"
+                            method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="modBtn">Dejar de conducir</button>
+                        </form>
+                    @else
+                        @if ($vehiculo->es_operativo && !$vehiculo->baja)
+                            No tiene
+                            <form action="{{ route('conducen.desde') }}" method="POST" style="width: 100%">
+                                @if (count($camionerosDisponibles) == 0)
+                                    No hay camioneros disponibles
+                                @else
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="text" value="{{ $vehiculo->matricula }}" name="matricula" hidden>
+                                    <div style="display: flex; justify-content: space-between">
+                                        <label for="CI" class="asignadoTextS">Camionero:</label>
+                                        <select name="CI" id="CI">
+                                            @foreach ($camionerosDisponibles as $disponible)
+                                                <option value="{{ $disponible->CI }}">{{ $disponible->nombre }},
+                                                    {{ $disponible->CI }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button type="submit" class="modBtn">Asignar</button>
+                                    </div>
+                                @endif
+                            @else
+                                No tiene
+                        @endif
+                    @endif
+                </p>
+            </div>
+            <div class="">
+                <p class="asignadoText" style="margin-top: 10vh">Estado: {{ $estado }}</p>
+                @if (!$vehiculo->baja)
+                    <form action="{{ route('vehiculos.operativo', $vehiculo->matricula) }}" method="POST">
                         @csrf
                         @method('PATCH')
-                        <button type="submit" class="modBtn">Dejar de conducir</button>
-                    </form>
-                @else
-                    @if ($vehiculo->es_operativo && !$vehiculo->baja)
-                        Asignar conductor
-
-                        <form action="{{ route('conducen.desde') }}" method="POST">
-                            @if (count($camionerosDisponibles) == 0)
-                                No hay camioneros disponibles
+                        <button type="submit" class="modBtn">
+                            @if ($vehiculo->es_operativo)
+                                Cambiar a fuera de servicio
                             @else
-                                @csrf
-                                @method('PATCH')
-                                <input type="text" value="{{ $vehiculo->matricula }}" name="matricula" hidden>
-                                <div>
-                                    <label for="CI">Camionero:</label>
-                                    <select name="CI" id="CI">
-                                        @foreach ($camionerosDisponibles as $disponible)
-                                            <option value="{{ $disponible->CI }}">{{ $disponible->nombre }},
-                                                {{ $disponible->CI }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="submit"> Asignar</button>
+                                Cambiar a operativo
                             @endif
-                        S
-                    @else
-                        no tiene`
-                    @endif
+                        </button>
+                    </form>
                 @endif
-            </p>
-            <p class="asignadoText">Estado: {{ $estado }}</p>
-            @if (!$vehiculo->baja)
-                <form action="{{ route('vehiculos.operativo', $vehiculo->matricula) }}" method="POST">
+                <form action="{{ route('vehiculos.baja', $vehiculo->matricula) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="modBtn">
-                        @if ($vehiculo->es_operativo)
-                            Cambiar a fuera de servicio
+                        @if ($vehiculo->baja)
+                            Dar de Alta
                         @else
-                            Cambiar a operativo
+                            Dar de Baja
                         @endif
                     </button>
                 </form>
-            @endif
-
-            <form action="{{ route('vehiculos.baja', $vehiculo->matricula) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <button type="submit" class="modBtn">
-                    @if ($vehiculo->baja)
-                        Dar de Alta
-                    @else
-                        Dar de Baja
-                    @endif
-                </button>
-            </form>
-            <form action="{{ route('vehiculos.destroy', $vehiculo->matricula) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="modBtn">
-                    Eliminar
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 </x-layout>

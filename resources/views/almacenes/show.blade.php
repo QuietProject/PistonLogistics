@@ -83,7 +83,7 @@
             </div>
             <div style="margin-top: 1vh; display: flex; justify-content: space-between">
                 <p style="font-weight: 500">Direccion: </p>
-                <p>{{ $almacen->direccion }}</p>
+                <p style="text-align: right">{{ $almacen->direccion }}</p>
             </div>
             <div style="margin-top: 1vh; display: flex; justify-content: space-between">
                 <p style="font-weight: 500">Latitud: </p>

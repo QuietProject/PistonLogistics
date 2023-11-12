@@ -11,9 +11,9 @@
         <!-- SearchBar -->
         <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <!-- Trucks Title -->
-        <p class="tableTitle">Trucks</p>
+        <p class="tableTitle">Camiones</p>
         <!-- Camionetas Title -->
-        <p class="tableTitle" style="left: 63vw">Pickup Trucks</p>
+        <p class="tableTitle" style="left: 63vw">Camionetas</p>
         <!-- Tables Container -->
         <div class="tableContainer">
             <!-- Truck Table -->

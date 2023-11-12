@@ -88,7 +88,7 @@
                     @csrf
                     <div class="inputBox" style="display: flex; justify-content: space-between">
                         <label for="tipo">Tipo</label>
-                        <select name="tipo" id="tipo">
+                        <select name="tipo" id="tipo2">
                             <option value="propio">Propio</option>
                             <option value="cliente" {{ old('tipo') == 'cliente' ? 'selected' : '' }}>Cliente</option>
                         </select>
@@ -109,7 +109,7 @@
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="inputBox" style="display: flex; justify-content: space-between">
+                    <div class="inputBox" style="display: none; justify-content: space-between" id="RUTBox">
                         <label for="RUT">Cliente</label>
                         <select name="RUT" id="RUT">
                             @foreach ($empresas as $cliente)
@@ -132,4 +132,3 @@
 </x-layout>
 
 <script src="../javascript/scriptAlmacenes.js"></script>
-<script src="../javascript/scriptUsuario.js"></script>

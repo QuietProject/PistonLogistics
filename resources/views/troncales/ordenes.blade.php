@@ -136,7 +136,7 @@
                 // 1
                 var coc = elements[0].childNodes
                 var cont = coc[0].innerText
-                    col.innerHTML =
+                col.innerHTML =
                     '<div class="changeBtnArrow" id="' + cont +
                     '" style="margin-left: 15%"><i class="fa-solid fa-arrow-left"></i></div>'
                 // 2
@@ -294,11 +294,12 @@
     .titleText {
         position: absolute;
         font-size: 5vh;
-        top: 7.5vh;
-        left: 17.5vh;
+        top: 5vh;
+        left: 10vh;
         color: white;
         text-shadow: 0 0 10px var(--base);
         user-select: none;
+        text-align: center;
     }
 
     .addButton {
