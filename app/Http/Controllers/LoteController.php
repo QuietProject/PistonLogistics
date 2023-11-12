@@ -296,11 +296,6 @@ class LoteController extends Controller
                     $fail("El lote con ID $value ya fue descargado");
                 } 
             },],
-        ],
-        [
-            "idLote.required" => "El id del lote es requerido",
-            "idLote.numeric" => "El id del lote debe ser un número",
-            
         ]);
 
         if ($this->validacion($validator)) {
