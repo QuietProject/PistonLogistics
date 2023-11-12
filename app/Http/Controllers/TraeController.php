@@ -6,108 +6,108 @@ use App\Models\Paquete;
 use App\Models\PaqueteAlmacen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Return_;
 
 class TraeController extends Controller
 {
     public function index()
     {
-        $paquetes= DB::select('SELECT *
+        $paquetes = DB::select('SELECT PAQUETES.ID ID_paquete,codigo, fecha_registrado,ALMACENES.ID ID_almacen,ALMACENES.nombre nombre, CLIENTES.nombre cliente, CLIENTES.RUT RUT
         from PAQUETES
-        inner join PAQUETES_ALMACENES on PAQUETES_ALMACENES.ID_paquete = PAQUETES.ID
-        inner join ALMACENES on PAQUETES_ALMACENES.ID_almacen = ALMACENES.ID
-        where estado = 7
-        and PAQUETES_ALMACENES.hasta is null
-        and PAQUETES.peso is not null
+        inner join ALMACENES on PAQUETES.ID_almacen = ALMACENES.ID
+        inner join ALMACENES_CLIENTES on ALMACENES_CLIENTES.ID = ALMACENES.ID
+        inner join CLIENTES on ALMACENES_CLIENTES.RUT = CLIENTES.RUT
+        where estado = 1
         and PAQUETES.ID not in (SELECT ID_paquete
-                                FROM REPARTE)
-        order by PAQUETES_ALMACENES.desde asc');
+                                FROM TRAE)
+        order by PAQUETES.fecha_registrado asc');
 
-        return view('reparte.index',['paquetes'=>$paquetes]);
+        return view('trae.index', ['paquetes' => $paquetes]);
     }
 
     public function show(Paquete $paquete)
     {
-        $consulta = DB::select('SELECT PAQUETES.ID as ID_paquete,PAQUETES.codigo,PAQUETES.direccion as direccion,PAQUETES.fecha_registrado,PAQUETES_ALMACENES.desde,ALMACENES.ID as ID_almacen,ALMACENES.nombre as nombre,PAQUETES.peso
+        $consulta = DB::select('SELECT PAQUETES.ID ID_paquete,codigo, fecha_registrado,ALMACENES.ID ID_almacen,ALMACENES.nombre nombre, CLIENTES.nombre cliente, CLIENTES.RUT RUT
         from PAQUETES
-        inner join PAQUETES_ALMACENES on PAQUETES_ALMACENES.ID_paquete = PAQUETES.ID
-        inner join ALMACENES on PAQUETES_ALMACENES.ID_almacen = ALMACENES.ID
-        where estado = 7
-        and PAQUETES_ALMACENES.hasta is null
-        and PAQUETES.peso is not null
-        and PAQUETES.ID = ?
+        inner join ALMACENES on PAQUETES.ID_almacen = ALMACENES.ID
+        inner join ALMACENES_CLIENTES on ALMACENES_CLIENTES.ID = ALMACENES.ID
+        inner join CLIENTES on ALMACENES_CLIENTES.RUT = CLIENTES.RUT
+        where estado = 1
         and PAQUETES.ID not in (SELECT ID_paquete
-                                FROM REPARTE)
-        order by PAQUETES_ALMACENES.desde asc', [$paquete->ID]);
+                                FROM TRAE)
+        and PAQUETES.ID=?', [$paquete->ID]);
 
-        if (count($consulta)!=1) {
-            return redirect()->back()->with('error','Ha ocurrido un error');
+        if (count($consulta) != 1) {
+            return redirect()->back()->with('error', 'Ha ocurrido un error');
         }
-        $paquete=$consulta[0];
+        $paquete = $consulta[0];
 
-        $camionetas = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(PAQUETES_ALMACENES.ID_almacen) almacen
+        $vehiculos = DB::select('SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
+		CASE
+			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+			ELSE 2
+		END as tipo
         FROM VEHICULOS
-        INNER JOIN CAMIONETAS ON VEHICULOS.matricula = CAMIONETAS.matricula
-        LEFT JOIN REPARTE ON REPARTE.matricula = VEHICULOS.matricula
-        LEFT JOIN PAQUETES ON REPARTE.ID_paquete = PAQUETES.ID
-        LEFT JOIN PAQUETES_ALMACENES ON REPARTE.ID_paquete = PAQUETES_ALMACENES.ID_paquete
+        LEFT JOIN TRAE ON TRAE.matricula = VEHICULOS.matricula
+        LEFT JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
         where VEHICULOS.baja =0
         and VEHICULOS.es_operativo=1
-        and VEHICULOS.matricula not in(	SELECT TRAE.matricula
-                                        FROM TRAE
+        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+                                        FROM REPARTE
                                         where fecha_carga is null)
-        and REPARTE.fecha_carga is null
-        group by VEHICULOS.matricula
-        having carga_asignada + ? < peso_max
-        and almacen is null or almacen = ?',[$paquete->peso,$paquete->ID_almacen]);
+		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+                                        FROM LLEVA
+                                        where fecha_carga is null)
+        and TRAE.fecha_carga is null
+        group by VEHICULOS.matricula');
 
 
-
-        return view('reparte.show',[
-            'paquete'=>$paquete,
-            'camionetas'=>$camionetas
+        return view('trae.show', [
+            'paquete' => $paquete,
+            'vehiculos' => $vehiculos
         ]);
-
     }
 
     public function store(Request $request, Paquete $paquete)
     {
         $matricula = $request->validate([
-            'camioneta'=> ['required','exists:CAMIONETAS,matricula']
-        ])['camioneta'];
+            'vehiculo' => ['required', 'exists:VEHICULOS,matricula']
+        ])['vehiculo'];
 
-        $almacen = PaqueteAlmacen::where('ID_paquete',$paquete->ID)
-        ->whereNull('hasta')
-        ->get();
+        $enAlmacen = Paquete::where('ID', $paquete->ID)
+            ->where('estado',1)
+            ->get();
 
-        if(count($almacen)!=1){
-            return redirect()->back()->with('error','Ha ocurrido un error');
+        if (count($enAlmacen) != 1) {
+            return redirect()->back()->with('error', 'Ha ocurrido un error');
         }
 
-        $camioneta = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(PAQUETES_ALMACENES.ID_almacen) almacen
+        $vehiculo = DB::select('SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
+		CASE
+			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+			ELSE 2
+		END as tipo
         FROM VEHICULOS
-        INNER JOIN CAMIONETAS ON VEHICULOS.matricula = CAMIONETAS.matricula
-        LEFT JOIN REPARTE ON REPARTE.matricula = VEHICULOS.matricula
-        LEFT JOIN PAQUETES ON REPARTE.ID_paquete = PAQUETES.ID
-        LEFT JOIN PAQUETES_ALMACENES ON REPARTE.ID_paquete = PAQUETES_ALMACENES.ID_paquete
+        LEFT JOIN TRAE ON TRAE.matricula = VEHICULOS.matricula
+        LEFT JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
         where VEHICULOS.baja =0
         and VEHICULOS.es_operativo=1
-        and VEHICULOS.matricula=?
-        and VEHICULOS.matricula not in(	SELECT TRAE.matricula
-                                        FROM TRAE
+        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+                                        FROM REPARTE
                                         where fecha_carga is null)
-        and REPARTE.fecha_carga is null
-        group by VEHICULOS.matricula
-        having carga_asignada + ? < peso_max
-        and almacen is null or almacen = ?',[$matricula,$paquete->peso,$almacen[0]->ID_almacen]);
-        if(count($camioneta)!=1){
-            return redirect()->back()->with('error','Ha ocurrido un error');
+		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+                                        FROM LLEVA
+                                        where fecha_carga is null)
+        and TRAE.fecha_carga is null
+        and VEHICULOS.matricula = ?
+        group by VEHICULOS.matricula', [$matricula]);
+
+        if (count($vehiculo) != 1) {
+            return redirect()->back()->with('error', 'Ha ocurrido un error');
         }
 
-        DB::insert('INSERT into REPARTE (matricula, ID_paquete) values (?, ?)', [$matricula,$paquete->ID]);
+        DB::insert('INSERT into TRAE (matricula, ID_paquete) values (?, ?)', [$matricula, $paquete->ID]);
 
-        return to_route('reparte.index')->with('success','Se ha asignado correctamente');
+        return to_route('reparte.index')->with('success', 'Se ha asignado correctamente');
     }
-
-
-
 }

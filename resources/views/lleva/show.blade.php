@@ -1,4 +1,4 @@
-<x-layout titulo='Lleva'>
+<x-layout titulo='Lleva' menu='7'>
     <h2>Asignar lote {{ $lote->id }}</h2>
 </x-layout>
 
@@ -75,3 +75,4 @@
     </table>
     <button type="submit">Asignar</button>
 </form>
+</x-layout>

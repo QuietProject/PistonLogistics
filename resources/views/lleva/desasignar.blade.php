@@ -1,4 +1,4 @@
-<x-layout titulo='Lleva' menu='7'>
+<x-layout titulo='Lleva'>
     <h2>Asignar lotes a camiones</h2>
     <table tableView" id="tableDriver">
         <thead>

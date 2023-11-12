@@ -91,22 +91,26 @@ if ($vehiculo->baja) {
                         Asignar conductor
 
                         <form action="{{ route('conducen.desde') }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <input type="text" value="{{ $vehiculo->matricula }}" name="matricula" hidden>
-                            <div>
-                                <label for="CI">Camionero:</label>
-                                <select name="CI" id="CI">
-                                    @foreach ($camionerosDisponibles as $disponible)
-                                        <option value="{{ $disponible->CI }}">{{ $disponible->nombre }},
-                                            {{ $disponible->CI }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <button type="submit"> Asignar</button>
-                        </form>
+                            @if (count($camionerosDisponibles) == 0)
+                                No hay camioneros disponibles
+                            @else
+                                @csrf
+                                @method('PATCH')
+                                <input type="text" value="{{ $vehiculo->matricula }}" name="matricula" hidden>
+                                <div>
+                                    <label for="CI">Camionero:</label>
+                                    <select name="CI" id="CI">
+                                        @foreach ($camionerosDisponibles as $disponible)
+                                            <option value="{{ $disponible->CI }}">{{ $disponible->nombre }},
+                                                {{ $disponible->CI }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit"> Asignar</button>
+                            @endif
+                        S
                     @else
-                        no tiene
+                        no tiene`
                     @endif
                 @endif
             </p>
