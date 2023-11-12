@@ -19,8 +19,8 @@ class Controller extends BaseController
     {
         if ($validator->fails()) {
             $response = [
-                'message' => 'Error en la validación',
-                'errors' => $validator->errors()
+                'message' => $validator->errors(),
+                // 'errors' => $validator->errors()
             ];
 
             return response()->json($response, 422); // Puedes ajustar el código de respuesta (HTTP status code) según tus necesidades
