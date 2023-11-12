@@ -1,4 +1,4 @@
-<x-layout menu= "1" titulo= "Conductores" import1= "../css/styleCamioneros.css">
+<x-layout menu="1" titulo="Conductores" import1="../css/styleCamioneros.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display" id="displayTrucks">
         <!-- Title -->

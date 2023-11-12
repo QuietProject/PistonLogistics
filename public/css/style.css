@@ -58,7 +58,6 @@
     text-shadow: none;
     font-size: 1.25vw;
     position: absolute;
-    bottom: 0;
     background-color: var(--baseLighter);
     border-radius: 50%;
 }
@@ -91,4 +90,21 @@
     height: 100vh;
     width: 97vw;
     background-color: var(--baseLight);
+}
+
+.filterText {
+    position: absolute;
+    height: 5vh;
+    width: 20vw;
+    top: 15vh;
+    left: 7.5vw;
+    border-radius: 2vh;
+    text-indent: 5%;
+    background-color: rgb(200, 200, 200);
+    box-shadow: 0 0 10px 0 var(--base);
+}
+
+.filterText:focus {
+    outline: none;
+    background-color: white;
 }

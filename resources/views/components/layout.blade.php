@@ -34,8 +34,8 @@
     <a href="{{ route('vehiculos.index') }}" class="button {{ $menu == '5' ? 'active' : 'inactive' }}"><i class="fa-solid fa-truck"></i></a>
     <a href="{{ route('clientes.index') }}" class="button {{ $menu == '6' ? 'active' : 'inactive' }}"><i class="fa-solid fa-briefcase"></i></a>
     <a href="{{ route('asignar') }}" class="button {{ $menu == '7' ? 'active' : 'inactive' }}"><i class="fa-solid fa-box"></i></a>
-    <a href="{{route("locale","{{ app()->getLocale() }}")}}" class="buttonEnd"><i class="fa-solid fa-language"></i></a>
-    <a href="{{ route('logout') }}" class="buttonEnd"><i class="fa-solid fa-right-from-bracket"></i></a>
+    <a href="{{route("locale", app()->getLocale())}}" class="buttonEnd" style="bottom: 3vw;"><i class="fa-solid fa-language"></i></a>
+    <a href="{{ route('logout') }}" class="buttonEnd" style="bottom: 0;"><i class="fa-solid fa-right-from-bracket"></i></a>
     </div>
 
     {{ $slot }}

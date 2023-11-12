@@ -197,3 +197,7 @@ option,
 select {
     font-weight: 500;
 }
+
+input[type=text] {
+    
+}

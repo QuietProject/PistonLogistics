@@ -1,29 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleUsuarios.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button inactive"></a>
-        <a href="{{ route('usuarios.index') }}" class="button active" id="btnRutes"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive" id="btnWarehouses"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive" id="btnProducts"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
-    </div>
+<x-layout menu="2" titulo="Usuarios" import1="../css/styleUsuarios.css">
     <div class="display">
         <h2 class="titleText">Usuarios</h2>
+        <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()" style="top: 22.5vh">
         <div class="tableContainer">
-            <table class="tableView">
+            <table class="tableView" id="tableTrucks">
                 <thead>
                     <tr>
                         <th style="width: 15%;" onclick="sortTable(0);arrowsTable(0);" id="0">Usuario</th>
@@ -76,7 +56,7 @@
             <form action="{{ route('usuarios.store') }}" method="POST">
                 @csrf
                 <div>
-                    <label for="tipo">Tipo</label>
+                    <label for="tipo" style="color: white; font-size: 2vh">Tipo</label>
                     <select name="tipo" id="tipo">
                         <option value="0">Administrador</option>
                         <option value="1" {{ old('tipo') == '1' ? 'selected' : '' }}>Almacen</option>
@@ -85,7 +65,7 @@
                     </select>
                 </div>
                 <div id="ciInput" style="display: block; margin-top: 1vh">
-                    <label for="CI">CI</label>
+                    <label for="CI" style="color: white; font-size: 2vh">CI</label>
                     <input type="number" name="CI" id="CI" maxlength="8" minlength="8"
                         value="{{ old('CI') }}">
                     @error('CI')
@@ -93,7 +73,7 @@
                     @enderror
                 </div>
                 <div id="camioneroInput" style="display: none; margin-top: 1vh">
-                    <label for="camionero">Camionero</label>
+                    <label for="camionero" style="color: white; font-size: 2vh">Camionero</label>
                     <select name="camionero" id="camionero">
                         @foreach ($camioneros as $camionero)
                             @if ($camionero->baja == 0)
@@ -108,7 +88,7 @@
                     @enderror
                 </div>
                 <div id="clienteInput" style="display: none; margin-top: 1vh">
-                    <label for="cliente">Cliente</label>
+                    <label for="cliente" style="color: white; font-size: 2vh">Cliente</label>
                     <select id="cliente" name="cliente">
                         @foreach ($clientes as $cliente)
                             @if ($cliente->baja == 0)
@@ -123,7 +103,7 @@
                     @enderror
                 </div>
                 <div id="almacenClienteInput" style="display: none; margin-top: 1vh">
-                    <label for="almacenCliente">Almacen</label>
+                    <label for="almacenCliente" style="color: white; font-size: 2vh">Almacen</label>
                     <select name="almacenCliente" id="almacenCliente">
                         @foreach ($almacenesClientes as $almacenCliente)
                             `
@@ -143,7 +123,7 @@
                     @enderror
                 </div>
                 <div id="almacenPropioInput" style="display: none; margin-top: 1vh">
-                    <label for="almacenPropio">Almacen</label>
+                    <label for="almacenPropio" style="color: white; font-size: 2vh">Almacen</label>
                     <select name="almacenPropio" id="almacenPropio">
                         @foreach ($almacenesPropios as $cliente)
                             @php $almacen = $cliente->almacen @endphp
@@ -159,20 +139,18 @@
                     @enderror
                 </div>
                 <div id="emailInput" style="display: block; margin-top: 1vh">
-                    <label for="email">Email</label>
+                    <label for="email" style="color: white; font-size: 2vh">Email</label>
                     <input type="email" name="email" id="email" required value="{{ old('email') }}">
                     @error('email')
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="modBtn">Submit</button>
+                <button type="submit" class="modBtn">Confirmar</button>
             </form>
         </div>
 
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script src="../javascript/scriptAdministrador.js"></script>
 <script src="../javascript/scriptUsuario.js"></script>

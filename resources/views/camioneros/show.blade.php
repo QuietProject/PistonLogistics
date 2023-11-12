@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleCamioneroShow.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button active"><i class="fa-solid fa-id-card"></i></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"><i class="fa-solid fa-user"></i></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive"><i class="fa-solid fa-warehouse"></i></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive"><i class="fa-solid fa-road"></i></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"><i class="fa-solid fa-truck"></i></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"><i class="fa-solid fa-briefcase"></i></a>
-        <a href="{{ route('logout') }}" class="buttonEnd">Cerrar Sesion</a>
-    </div>
+<x-layout menu="1" titulo="Conductores" import1="../css/styleCamioneroShow.css">
     <div class="display">
         <p class="titleText">Nombre: {{ $camionero->nombre }}</p>
         <p class="titleText" style="top: 11vh">Cedula: {{ $camionero->CI }}</p>
@@ -101,8 +79,6 @@
             </form>
         </div>
     </div>
-</body>
-
-</html>
+</x-layout>
 
 <script src="../javascript/scriptAdministrador.js"></script>
