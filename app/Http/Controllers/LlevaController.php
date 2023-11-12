@@ -6,7 +6,6 @@ use App\Models\Almacen;
 use App\Models\Lote;
 use App\Models\PaqueteLote;
 use App\Models\Troncal;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

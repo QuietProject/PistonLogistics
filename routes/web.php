@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientesController;
 use App\Http\Controllers\ConducenController;
 use App\Http\Controllers\LlevaController;
 use App\Http\Controllers\ReparteController;
+use App\Http\Controllers\TraeController;
 use App\Http\Controllers\TroncalesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\VehiculosController;
@@ -45,6 +46,7 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
 Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
 
     Route::view('/', 'index')->name('inicio');
+    Route::view('/asignar', 'asignar')->name('asignar');
 
     Route::resource('camioneros', CamionerosController::class)->except(['create', 'edit']);
     Route::resource('clientes', ClientesController::class)->except(['create', 'edit','update']);
@@ -67,13 +69,17 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::get('/conducen/camionero/{camionero}', [ConducenController::class, 'camionero'])->name('conducen.camionero');
     Route::patch('/conducen/desde', [ConducenController::class, 'desde'])->name('conducen.desde');
 
-    Route::get('/lleva', [LlevaController::class, 'index'])->name('lleva.index');
-    Route::get('/lleva/{lote}', [LlevaController::class, 'show'])->name('lleva.show');
-    Route::post('/lleva/{lote}', [LlevaController::class, 'store'])->name('lleva.store');
+    Route::get('/asignar/lleva', [LlevaController::class, 'index'])->name('lleva.index');
+    Route::get('/asignar/lleva/{lote}', [LlevaController::class, 'show'])->name('lleva.show');
+    Route::post('/asignar/lleva/{lote}', [LlevaController::class, 'store'])->name('lleva.store');
 
-    Route::get('/reparte', [ReparteController::class, 'index'])->name('reparte.index');
-    Route::get('/reparte/{paquete}', [ReparteController::class, 'show'])->name('reparte.show');
-    Route::post('/reparte/{paquete}', [ReparteController::class, 'store'])->name('reparte.store');
+    Route::get('/asignar/reparte', [ReparteController::class, 'index'])->name('reparte.index');
+    Route::get('/asignar/reparte/{paquete}', [ReparteController::class, 'show'])->name('reparte.show');
+    Route::post('/asignar/reparte/{paquete}', [ReparteController::class, 'store'])->name('reparte.store');
+
+    Route::get('/asignar/trae', [TraeController::class, 'index'])->name('trae.index');
+    Route::get('/asignar/trae/{paquete}', [TraeController::class, 'show'])->name('trae.show');
+    Route::post('/asignar/trae/{paquete}', [TraeController::class, 'store'])->name('trae.store');
 
 
 });
@@ -82,3 +88,4 @@ Route::get('/locale/{locale}', function ($locale) {
     if ($locale == 'es' || $locale == 'en') return redirect()->back()->withCookie('locale', $locale);
     return redirect()->back()->with('error', 'Ha ocurrido un error');
 })->name('locale');
+

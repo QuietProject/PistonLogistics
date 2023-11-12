@@ -7,7 +7,7 @@ use App\Models\PaqueteAlmacen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ReparteController extends Controller
+class TraeController extends Controller
 {
     public function index()
     {

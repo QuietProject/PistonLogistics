@@ -7,9 +7,7 @@ use App\Models\Almacen;
 use App\Models\AlmacenCliente;
 use App\Models\AlmacenPropio;
 use App\Models\Cliente;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Http;
 
 class AlmacenesController extends Controller

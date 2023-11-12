@@ -1,4 +1,4 @@
-<x-layout 
+<x-layout
     titulo='Inicio'
 >
     <h2>inicio</h2>
