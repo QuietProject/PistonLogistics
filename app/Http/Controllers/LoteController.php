@@ -285,7 +285,22 @@ class LoteController extends Controller
         $validator = Validator::make([
             "idLote" => $singleIdLote,
         ], [
-            "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", Rule::exists("lleva", "ID_lote")->whereNull("fecha_descarga")],
+            "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", function ($attribute, $value, $fail) {
+                $loteCargado = DB::table('LLEVA')->where('ID', $value)->whereNull("fecha_carga")->exists();
+                $loteDescargado = DB::table('LLEVA')->where('ID', $value)->whereNotNull("fecha_descarga")->exists();
+                
+
+                if ($loteCargado) {
+                    $fail("El lote con ID $value no está cargado");
+                } elseif ($loteDescargado) {
+                    $fail("El lote con ID $value ya fue descargado");
+                } 
+            },],
+        ],
+        [
+            "idLote.required" => "El id del lote es requerido",
+            "idLote.numeric" => "El id del lote debe ser un número",
+            
         ]);
 
         if ($this->validacion($validator)) {
