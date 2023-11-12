@@ -401,9 +401,13 @@ class PaqueteController extends Controller
             ], 400);
         }
 
-        $paquete->estado = 0;
-        $paquete->fecha_entregado = now();
-        $paquete->save();
+        DB::select("CALL entregar_paquete_pickup(?, @error)", [$id]);
+        $error = DB::select("SELECT @error as error")[0]->error;
+        if ($error !== 0) {
+            return response()->json([
+                "message" => "Error al entregar paquete"
+            ], 400);
+        }
 
         return response()->json([
             "message" => "Paquete entregado exitosamente",
