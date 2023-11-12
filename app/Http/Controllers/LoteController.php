@@ -247,7 +247,7 @@ class LoteController extends Controller
                     $loteExiste = DB::table('LOTES')->where('ID', $value)->exists();
                     $lotePronto = DB::table('LOTES')->where('ID', $value)->whereNull('fecha_pronto')->exists();
                     $loteAsignado = DB::table('LLEVA')->where('ID_lote', $value)->whereNotNull("fecha_asignado")->exists();
-                    $loteCargado = DB::table('LLEVA')->where('ID_lote', $value)->whereNotNull("fecha_cargado")->exists();
+                    $loteCargado = DB::table('LLEVA')->where('ID_lote', $value)->whereNotNull("fecha_carga")->exists();
 
                     if (!$loteExiste) {
                         $fail("El lote con ID $value no existe");
@@ -260,14 +260,15 @@ class LoteController extends Controller
                     }
                 },
             ],
-            "matricula" => ["bail", "required", "string", "size:7", "exists:camiones,matricula"],
         ]);
 
         if ($this->validacion($validator)) {
             return $this->validacion($validator);
         }
 
-        DB::select("INSERT into LLEVA (ID_lote, matricula) values ($singleIdLote, '$request->matricula')");
+        $lleva = Lleva::find($singleIdLote);
+        $lleva->fecha_carga = now();
+        $lleva->save();
     }
 
     return response()->json([
