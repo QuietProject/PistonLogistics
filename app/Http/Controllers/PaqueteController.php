@@ -357,4 +357,31 @@ class PaqueteController extends Controller
 
 
     /*************************************************************************************************************************************/
+
+    public function cambiarPeso($id, $peso){
+        $paquete = Paquete::find($id);
+        if ($paquete === null) {
+            return response()->json([
+                "message" => "Paquete no encontrado"
+            ], 404);
+        }
+        if ($peso < 0) {
+            return response()->json([
+                "message" => "Peso debe ser mayor a 0"
+            ], 400);
+        }
+
+        if (is_numeric($peso) == false) {
+            return response()->json([
+                "message" => "Peso debe ser numérico"
+            ], 400);
+        }
+
+        $paquete->peso = $peso;
+        $paquete->save();
+        return response()->json([
+            "message" => "Peso actualizado exitosamente",
+            "paquete" => $paquete
+        ], 200);
+    }
 }

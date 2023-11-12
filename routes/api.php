@@ -18,6 +18,7 @@ Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware(
     Route::get("paquetes/{codigo}", [PaqueteController::class, "show"]);
     Route::get("almacen/descarga/{id}/{almacen}", [PaqueteController::class, "descargaPaquete"]);
     Route::get("almacen/carga", [PaqueteController::class, "cargaReparte"]);
+    Route::get("paquetes/peso/{id}/{peso}", [PaqueteController::class, "cambiarPeso"]);
 
     Route::get("lotes/cargar", [LoteController::class, "cargaLote"]);
     Route::get("lotes/descargar", [LoteController::class, "descargaLote"]);
