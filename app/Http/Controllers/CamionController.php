@@ -213,7 +213,7 @@ class CamionController extends Controller
             } else {
                 $almacenOrigen = $this->ordenToAlmacen($troncal, $ordenOrigen);
 
-                $loteOrigen = DB::select('SELECT LLEVA.Id_lote,LOTES.ID_troncal,fecha_carga,fecha_descarga,
+                $loteOrigen = DB::select('SELECT LLEVA.Id_lote,
                 CASE
                     WHEN fecha_descarga is not null THEN fecha_descarga
                     ELSE fecha_carga
@@ -221,18 +221,21 @@ class CamionController extends Controller
                 CASE
                     WHEN fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
                     ELSE LOTES.ID_almacen
-                END as almacen
+                END as almacen,
+                CASE
+					WHEN exists( select ID_almacen from ORDENES where id_troncal = ? and id_almacen=almacen and baja =0) THEN 1
+					ELSE 0
+				END as esta
                  FROM LLEVA
                  INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
-                 INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote;
+                 INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote
                  where !(fecha_descarga is not null and DESTINO_LOTE.ID_almacen=?) and !(fecha_descarga is null and LOTES.ID_almacen=?)
                  and matricula=?
-                 and almacen
                  order by fecha DESC
-                 limit 1', [$almacenOrigen,$almacenOrigen,$matricula]);
+                 limit 1', [$troncal,$almacenOrigen,$almacenOrigen,$matricula]);
 
 
-                if (!isset($loteOrigen[0]) || $loteOrigen[0]->ID_troncal != $troncal) {
+                if (!isset($loteOrigen[0]) || $loteOrigen[0]->esta == 1) {
                     $orden2 = 1;
                 } else {
                     if ($loteOrigen[0]->accion == 'descarga') {
@@ -271,24 +274,29 @@ class CamionController extends Controller
     private function ordenOrigen($troncal, $matricula, $offset)
     {
         //busco el ultimo lote que descargo o cargo el camion
-        $loteOrigen = DB::select('SELECT Id_lote,ID_troncal,
+        $loteOrigen = DB::select('SELECT LLEVA.Id_lote,
         CASE
             WHEN fecha_descarga is not null THEN fecha_descarga
             ELSE fecha_carga
             END as fecha,
         CASE
-            WHEN fecha_descarga is not null THEN "descarga"
-            ELSE "carga"
-        END as accion
+            WHEN fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
+            ELSE LOTES.ID_almacen
+        END as almacen,
+        CASE
+            WHEN exists( select ID_almacen from ORDENES where id_troncal = 4 and id_almacen=almacen and baja =0) THEN 1
+            ELSE 0
+        END as esta
          FROM LLEVA
          INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+         INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote
          where matricula=?
          where fecha_carga is not null
          order by fecha DESC
-         limit 2', [$matricula]);
+         limit 2', [$troncal,$matricula]);
 
 
-        if (!isset($loteOrigen[$offset]) || $loteOrigen[$offset]->ID_troncal != $troncal) {
+        if (!isset($loteOrigen[$offset]) || $loteOrigen[$offset]->esta==0) {
             $ordenOrigen = 1;
         } else {
             if ($loteOrigen[0]->accion == 'descarga') {
