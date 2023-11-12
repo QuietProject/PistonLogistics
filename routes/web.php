@@ -72,15 +72,20 @@ Route::middleware('auth', LocaleCookieMiddleware::class)->group(function () {
     Route::get('/asignar/lleva', [LlevaController::class, 'index'])->name('lleva.index');
     Route::get('/asignar/lleva/{lote}', [LlevaController::class, 'show'])->name('lleva.show');
     Route::post('/asignar/lleva/{lote}', [LlevaController::class, 'store'])->name('lleva.store');
+    Route::get('/desasignar/lleva', [LlevaController::class, 'desasignar'])->name('lleva.desasignar');
+    Route::delete('/desasignar/lleva/{lote}', [LlevaController::class, 'destroy'])->name('lleva.destroy');
 
     Route::get('/asignar/reparte', [ReparteController::class, 'index'])->name('reparte.index');
     Route::get('/asignar/reparte/{paquete}', [ReparteController::class, 'show'])->name('reparte.show');
     Route::post('/asignar/reparte/{paquete}', [ReparteController::class, 'store'])->name('reparte.store');
+    Route::get('/desasignar/reparte', [ReparteController::class, 'desasignar'])->name('reparte.desasignar');
+    Route::delete('/desasignar/reparte/{paquete}', [ReparteController::class, 'destroy'])->name('reparte.destroy');
 
     Route::get('/asignar/trae', [TraeController::class, 'index'])->name('trae.index');
     Route::get('/asignar/trae/{paquete}', [TraeController::class, 'show'])->name('trae.show');
     Route::post('/asignar/trae/{paquete}', [TraeController::class, 'store'])->name('trae.store');
-
+    Route::get('/desasignar/trae', [TraeController::class, 'desasignar'])->name('trae.desasignar');
+    Route::delete('/desasignar/trae/{paquete}', [TraeController::class, 'destroy'])->name('trae.destroy');
 
 });
 

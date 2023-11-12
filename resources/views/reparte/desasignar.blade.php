@@ -1,7 +1,7 @@
 <x-layout titulo='Reparte' menu='7'>
-    <h2>Asignar paquetes a camiones para repartir</h2>
+    <h2>Paquetes asignados en reparte</h2>
     @if (count($paquetes) == 0)
-        <tr><td>No hay paquetes para asignar</td></tr>
+        <tr><td>No hay paquetes asignados</td></tr>
     @else
     <table tableView" id="tableDriver">
         <thead>
@@ -24,7 +24,15 @@
                         <td>{{ $paquete->direccion }}</td>
                         <td>{{ $paquete->peso }}kg</td>
                         <td>{{ \Carbon\Carbon::parse($paquete->desde )->format('d/m/y H:i')}}</td>
-                        <td><a href="{{ route('reparte.show', $paquete->ID_paquete) }}">Asignar</a></td>
+                        <td>
+                            <form action="{{ route('reparte.destroy', $paquete->ID_paquete)  }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="switchBtn">
+                                    Desasignar
+                                </button>
+                                </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

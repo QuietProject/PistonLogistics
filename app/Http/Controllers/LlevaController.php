@@ -109,6 +109,33 @@ class LlevaController extends Controller
         return to_route('lleva.index')->with('success','Se ha asignado correctamente');
     }
 
+    public function desasignar()
+    {
+        $lotes = DB::select('SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen, DESTINO_LOTE.ID_almacen destino, LOTES.fecha_pronto pronto,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,round(peso,2) peso,cantidad, LLEVA.fecha_asignado as fecha_asignado, LLEVA.matricula
+        FROM LOTES
+        INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote = LOTES.ID
+        INNER JOIN PESO_LOTES ON PESO_LOTES.LOTE = DESTINO_LOTE.ID_lote
+        INNER JOIN LLEVA ON LLEVA.ID_lote = LOTES.ID
+        WHERE LLEVA.fecha_carga is null
+        ORDER BY LOTES.fecha_pronto ASC');
 
+        return view('lleva.desasignar', ['lotes' => $lotes]);
+    }
+
+    public function destroy(Lote $lote)
+    {
+        $lotes = DB::select('SELECT *
+        FROM LLEVA
+        WHERE fecha_carga is null
+        and ID_lote = ?', [$lote->ID]);
+
+        if (count($lotes) != 1) {
+            return redirect()->back()->with('error', 'Ha ocurrido un error');
+        }
+
+        DB::delete('DELETE FROM LLEVA where ID_lote = ?', [$lote->ID]);
+
+        return to_route('lleva.desasignar')->with('success', 'Se ha Desasignado correctamente');
+    }
 
 }

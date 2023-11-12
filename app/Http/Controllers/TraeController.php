@@ -75,7 +75,7 @@ class TraeController extends Controller
         ])['vehiculo'];
 
         $enAlmacen = Paquete::where('ID', $paquete->ID)
-            ->where('estado',1)
+            ->where('estado', 1)
             ->get();
 
         if (count($enAlmacen) != 1) {
@@ -109,5 +109,34 @@ class TraeController extends Controller
         DB::insert('INSERT into TRAE (matricula, ID_paquete) values (?, ?)', [$matricula, $paquete->ID]);
 
         return to_route('reparte.index')->with('success', 'Se ha asignado correctamente');
+    }
+
+    public function desasignar()
+    {
+        $paquetes = DB::select('SELECT PAQUETES.ID ID_paquete,codigo, fecha_registrado,ALMACENES.ID ID_almacen,ALMACENES.nombre nombre, CLIENTES.nombre cliente, CLIENTES.RUT RUT, TRAE.fecha_asignado fecha_asignado, TRAE.matricula matricula
+        FROM TRAE
+        INNER JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
+        inner join ALMACENES on PAQUETES.ID_almacen = ALMACENES.ID
+        inner join ALMACENES_CLIENTES on ALMACENES_CLIENTES.ID = ALMACENES.ID
+        inner join CLIENTES on ALMACENES_CLIENTES.RUT = CLIENTES.RUT
+        WHERE TRAE.fecha_carga is null');
+
+        return view('trae.desasignar', ['paquetes' => $paquetes]);
+    }
+
+    public function destroy(Paquete $paquete)
+    {
+        $paquetes = DB::select('SELECT *
+        FROM TRAE
+        WHERE fecha_carga is null
+        and ID_paquete = ?', [$paquete->ID]);
+
+        if (count($paquetes) != 1) {
+            return redirect()->back()->with('error', 'Ha ocurrido un error');
+        }
+
+        DB::delete('DELETE FROM TRAE where ID_paquete = ?', [$paquete->ID]);
+
+        return to_route('reparte.desasignar')->with('success', 'Se ha Desasignado correctamente');
     }
 }

@@ -108,6 +108,37 @@ class ReparteController extends Controller
         return to_route('reparte.index')->with('success','Se ha asignado correctamente');
     }
 
+    public function desasignar()
+    {
+        $paquetes = DB::select('SELECT *
+		from PAQUETES
+		inner join PAQUETES_ALMACENES on PAQUETES_ALMACENES.ID_paquete = PAQUETES.ID
+		inner join ALMACENES on PAQUETES_ALMACENES.ID_almacen = ALMACENES.ID
+        INNER JOIN REPARTE ON REPARTE.ID_paquete = PAQUETES.ID
+		where estado = 7
+		and PAQUETES_ALMACENES.hasta is null
+		and PAQUETES.peso is not null
+		and REPARTE.fecha_carga is null
+		order by PAQUETES_ALMACENES.desde asc');
+
+        return view('reparte.desasignar', ['paquetes' => $paquetes]);
+    }
+
+    public function destroy(Paquete $paquete)
+    {
+        $paquetes = DB::select('SELECT *
+        FROM REPARTE
+        WHERE fecha_carga is null
+        and ID_paquete = ?', [$paquete->ID]);
+
+        if (count($paquetes) != 1) {
+            return redirect()->back()->with('error', 'Ha ocurrido un error');
+        }
+
+        DB::delete('DELETE FROM REPARTE where ID_paquete = ?', [$paquete->ID]);
+
+        return to_route('reparte.desasignar')->with('success', 'Se ha Desasignado correctamente');
+    }
 
 
 }

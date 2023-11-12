@@ -1,6 +1,5 @@
 <x-layout titulo='Lleva' menu='7'>
     <h2>Asignar Paquete {{ $paquete->ID_paquete }}</h2>
-</x-layout>
 
 <div>
     <h3>Lote</h3>
