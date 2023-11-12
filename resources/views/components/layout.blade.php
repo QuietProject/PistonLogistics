@@ -1,9 +1,12 @@
+<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../css/style.css">
     @isset($import1)
         <link rel="stylesheet" href="{{ $import1 }}">
     @endisset
@@ -17,36 +20,23 @@
 </head>
 
 <body>
-
-    <a href="{{ route('inicio') }}" style="text-decoration: none; color:black;">
-        <h1>Piston logistics</h1>
-    </a>
-    <a href="{{ route('camioneros.index') }}">Camioneros</a>
-    <a href="{{ route('usuarios.index') }}">Usuarios</a>
-    <a href="{{ route('almacenes.index') }}"">Almacenes</a>
-    <a href="{{ route('troncales.index') }}"">Troncales</a>
-    <a href="{{ route('vehiculos.index') }}"">Vehiculos</a>
-    <a href="{{ route('clientes.index') }}"">Clientes</a>
-    <a href="{{ route('asignar') }}">Asignar</a>
-    <a href="{{ route('logout') }}">Cerrar Sesion</a>
-
-    <span>user: {{ auth()->user()->user }}</span>
-
-    @isset($menu)
-        {{-- DESPUES CUANDO ARRANQUES A IMPLEMENTAR LAYOUT SACA EL ISSET ASI TE SALTA LAS QUE TE OLVIDASTE  --}}
-
-        <h4>{{ $menu == '1' ? 'active' : 'inactive' }}</h4>
-        <h4>{{ $menu == '2' ? 'active' : 'inactive' }}</h4>
-        <h4>{{ $menu == '3' ? 'active' : 'inactive' }}</h4>
-        <h4>{{ $menu == '4' ? 'active' : 'inactive' }}</h4>
-    @endisset
-
     @if (session('success'))
-        <h4 style="color: green;">{{ session('success') }}</h4>
+    Swal.fire({{ session('success') }});
     @endif
     @if (session('error'))
-        <h4 style="color: red;">{{ session('error') }}</h4>
+    Swal.fire({{ session('error') }});
     @endif
+    <div class="navDiv">
+    <a href="{{ route('camioneros.index') }}" class="button {{ $menu == '1' ? 'active' : 'inactive' }}"><i class="fa-solid fa-id-card"></i></a>
+    <a href="{{ route('usuarios.index') }}" class="button {{ $menu == '2' ? 'active' : 'inactive' }}"><i class="fa-solid fa-user"></i></a>
+    <a href="{{ route('almacenes.index') }}" class="button {{ $menu == '3' ? 'active' : 'inactive' }}"><i class="fa-solid fa-warehouse"></i></a>
+    <a href="{{ route('troncales.index') }}" class="button {{ $menu == '4' ? 'active' : 'inactive' }}"><i class="fa-solid fa-road"></i></a>
+    <a href="{{ route('vehiculos.index') }}" class="button {{ $menu == '5' ? 'active' : 'inactive' }}"><i class="fa-solid fa-truck"></i></a>
+    <a href="{{ route('clientes.index') }}" class="button {{ $menu == '6' ? 'active' : 'inactive' }}"><i class="fa-solid fa-briefcase"></i></a>
+    <a href="{{ route('asignar') }}" class="button {{ $menu == '7' ? 'active' : 'inactive' }}"><i class="fa-solid fa-box"></i></a>
+    <a href="{{route("locale","{{ app()->getLocale() }}")}}" class="buttonEnd"><i class="fa-solid fa-language"></i></a>
+    <a href="{{ route('logout') }}" class="buttonEnd"><i class="fa-solid fa-right-from-bracket"></i></a>
+    </div>
 
     {{ $slot }}
 

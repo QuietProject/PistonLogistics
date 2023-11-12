@@ -18,3 +18,77 @@
     scroll-behavior: smooth;
     font-family: var(--font);
 }
+
+.navDiv {
+    position: absolute;
+    height: 100%;
+    width: 3vw;
+    background-color: var(--base);
+    display: flex;
+    flex-direction: column;
+}
+
+.button {
+    height: 2.5vw;
+    width: 2.5vw;
+    margin-top: 0.5vw;
+    margin-left: 0.25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    text-shadow: none;
+    font-size: 1.25vw;
+    position: relative;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.buttonEnd {
+    height: 2.5vw;
+    width: 2.5vw;
+    margin-bottom: 0.5vw;
+    margin-left: 0.25vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: black;
+    text-shadow: none;
+    font-size: 1.25vw;
+    position: absolute;
+    bottom: 0;
+    background-color: var(--baseLighter);
+    border-radius: 50%;
+}
+
+.buttonEnd:hover {
+    cursor: pointer;
+}
+
+.button:active {
+    transform: scale(95%);
+}
+
+.disabled {
+    display: none;
+}
+
+.inactive {
+    border-radius: 50%;
+    background-color: var(--color);
+}
+
+.active {
+    border-radius: 50%;
+    background-color: var(--highlight);
+}
+
+.display {
+    position: absolute;
+    right: 0;
+    height: 100vh;
+    width: 97vw;
+    background-color: var(--baseLight);
+}

@@ -13,12 +13,13 @@
 
 <body>
     <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button active"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive" id="btnRutes"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive" id="btnWarehouses"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive" id="btnProducts"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
+        <a href="{{ route('camioneros.index') }}" class="button active"><i class="fa-solid fa-id-card"></i></a>
+        <a href="{{ route('usuarios.index') }}" class="button inactive"><i class="fa-solid fa-user"></i></a>
+        <a href="{{ route('almacenes.index') }}" class="button inactive"><i class="fa-solid fa-warehouse"></i></a>
+        <a href="{{ route('troncales.index') }}" class="button inactive"><i class="fa-solid fa-road"></i></a>
+        <a href="{{ route('vehiculos.index') }}" class="button inactive"><i class="fa-solid fa-truck"></i></a>
+        <a href="{{ route('clientes.index') }}" class="button inactive"><i class="fa-solid fa-briefcase"></i></a>
+        <a href="{{ route('logout') }}" class="buttonEnd">Cerrar Sesion</a>
     </div>
     <div class="display">
         <p class="titleText">Nombre: {{ $camionero->nombre }}</p>
@@ -36,16 +37,15 @@
             </button>
         </form>
         </p>
-        {{-- <a href="{{ route('camioneros.index') }}">Volver</a> --}}
         <h3 class="tableTitle">Historial de vehiculos</h3>
         @if (count($vehiculos) > 0)
             <div class="tableContainer">
-                <table class="tableView">
+                <table class="tableView" id="tableTrucks">
                     <thead>
                         <tr>
-                            <th>Matricula</th>
-                            <th>Desde</th>
-                            <th>Hasta</th>
+                            <th style="width: 33%;" onclick="sortTable(0);arrowsTable(0);" id="0">Matricula</th>
+                            <th style="width: 33%;" onclick="sortTable(1);arrowsTable(1);" id="1">Desde</th>
+                            <th style="width: 33%;" onclick="sortTable(2);arrowsTable(2);" id="2">Hasta</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,29 +77,27 @@
                         <button type="submit" class="assignVehicleBtn"> Dejar de conducir</button>
                     </form>
                 @else
-                    no tiene
+                    No tiene
                     @if (!$camionero->baja)
+                    <br>
                         <a href="{{ route('conducen.camionero', ['camionero' => $camionero->CI]) }}">Asignar
                             vehiculo</a>
                     @endif
                 @endif
             </p>
-            @if ($errors->any())
-                abre el formulario
-            @endif
             <h2 class="asignadoText" style="margin-top: 10vh">Editar Camionero</h2>
             <form action="{{ route('camioneros.update', $camionero) }}" method="POST">
                 @csrf
                 @method('PATCH')
                 <div>
-                    <label for="nombre" style="color: white">Nombre: </label>
-                    <input type="text" name="nombre" id="nombre"
+                    <label for="nombre" style="color: white; font-size: 2vh; font-weight: 500">Nombre: </label>
+                    <input type="text" name="nombre" id="nombre" style="height: 2.5vh; font-weight: 500"
                         value="{{ old('nombre', $camionero->nombre) }}">
                     @error('nombre')
                         <span style="color: red">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="modBtn">Submit</button>
+                <button type="submit" class="modBtn">Confirmar</button>
             </form>
         </div>
     </div>

@@ -78,14 +78,14 @@ body {
 .tableTitle {
     position: relative;
     color: white;
-    top: 22.5vh;
+    top: 25vh;
     left: 15vw;
     font-size: 2vw;
 }
 
 .tableContainer {
     position: absolute;
-    top: 35vh;
+    top: 40vh;
     left: 8.5vw;
     max-height: 65vh;
     width: 40vw;
@@ -135,11 +135,11 @@ tr:nth-child(even) {
     height: 7.5vh;
     width: 10vw;
     left: 80vw;
-    top: 7.5vh;
+    top: 10vh;
     border-radius: 15px;
     background-color: var(--highlight);
     font-weight: 500;
-    font-size: 2vh;
+    font-size: 2.25vh;
 }
 
 .editContainer {
@@ -153,7 +153,7 @@ tr:nth-child(even) {
 
 .asignadoText {
     font-weight: 500;
-    font-size: 2vh;
+    font-size: 3vh;
     color: white;
 }
 

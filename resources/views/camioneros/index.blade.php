@@ -1,33 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="#">
-    <link rel="stylesheet" href="../css/style.css ">
-    <link rel="stylesheet" href="../css/styleCamioneros.css">
-    <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
-    <title>Piston Logistics</title>
-</head>
-
-<body>
-    <div class="navDiv">
-        <a href="{{ route('camioneros.index') }}" class="button active"></a>
-        <a href="{{ route('usuarios.index') }}" class="button inactive"></a>
-        <a href="{{ route('almacenes.index') }}" class="button inactive"></a>
-        <a href="{{ route('troncales.index') }}" class="button inactive"></a>
-        <a href="{{ route('vehiculos.index') }}" class="button inactive"></a>
-        <a href="{{ route('clientes.index') }}" class="button inactive"></a>
-    </div>
-    <!-- Backdrop Blur -->
+<x-layout menu= "1" titulo= "Conductores" import1= "../css/styleCamioneros.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
-    <!-- Trucks Screen -->
     <div class="display" id="displayTrucks">
         <!-- Title -->
-        <h1 class="titleText">Drivers</h1>
+        <h1 class="titleText">Conductores</h1>
         <!-- Add Button -->
-        <input type="button" value="Add" class="addButton" id="addTruck">
+        <input type="button" value="Agregar" class="addButton" id="addTruck">
         <!-- SearchBar -->
         <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <!-- Tables Container -->
@@ -105,9 +82,10 @@
                     </div>
                     <div class="inputBox">
                         <label for="nombre">Nombre</label>
-                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre', $camionero->nombre) }}">
+                        <input type="text" name="nombre" id="nombre"
+                            value="{{ old('nombre', $camionero->nombre) }}">
                         @error('nombre')
-                        <span style="color: red">{{ $message }}</span>
+                            <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
                     <button type="submit" class="submitBtn">Submit</button>
@@ -115,8 +93,6 @@
             </div>
         </div>
     </div>
-</body>
+</x-layout>
 
-</html>
-
-<script src="../javascript/scriptAdministrador.js"></script>
+<script src="../javascript/scriptCamionero.js"></script>

@@ -18,53 +18,6 @@ body {
     overflow-x: hidden;
 }
 
-.navDiv {
-    position: absolute;
-    height: 100%;
-    width: 3vw;
-    background-color: var(--base);
-    display: flex;
-    flex-direction: column;
-
-}
-
-.button {
-    height: 2.5vw;
-    width: 2.5vw;
-    margin-top: 0.5vw;
-    margin-left: 0.25vw;
-}
-
-.button:hover {
-    cursor: pointer;
-}
-
-.button:active {
-    transform: scale(95%);
-}
-
-.disabled {
-    display: none;
-}
-
-.inactive {
-    border-radius: 50%;
-    background-color: var(--color);
-}
-
-.active {
-    border-radius: 50%;
-    background-color: var(--highlight);
-}
-
-.display {
-    position: absolute;
-    right: 0;
-    height: 100vh;
-    width: 97vw;
-    background-color: var(--baseLight);
-}
-
 .welcomeText {
     position: absolute;
     font-size: 5vh;
@@ -87,8 +40,8 @@ body {
     position: absolute;
     height: 7.5vh;
     width: 7.5vw;
-    top: 5vh;
-    right: 5vh;
+    top: 10vh;
+    right: 15vh;
     background-color: var(--highlight);
     border-radius: 2vh;
     font-size: 3vh;
@@ -300,7 +253,7 @@ input::-webkit-inner-spin-button {
     height: 2.5vh;
     width: 5vw;
     border-radius: 15px;
-    background-color: var(--color);
+    background-color: var(--highlight);
     font-weight: 500;
 }
 
