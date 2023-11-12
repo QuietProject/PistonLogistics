@@ -62,6 +62,7 @@
                 <a href="../almacenDescarga">Descarga</a>
                 <a href="../verPaquetes">Paquetes</a>
                 <a href="../crearLote">Crear Lote</a>
+                <a href="../paquetePeso">Asignar Peso</a>
             </div>
 
             <div>

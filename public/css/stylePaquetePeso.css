@@ -110,7 +110,7 @@ select > option{
 
 body > form > div:last-child > div > input{
     padding: 10px;
-    min-width: 100px;
+    min-width: 125px;
     width: 30%;
     cursor: pointer;
 }

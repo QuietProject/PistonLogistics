@@ -26,9 +26,7 @@
                     container: 'popup'
                 }
             })
-            setTimeout(() => {
-                window.location.href = "{{ route('clear.message') }}";
-            }, 800);
+            
         </script>
     @endif
 
@@ -201,6 +199,7 @@
                 <a href="../verPaquetes">Paquetes</a>
                 <a href="../verLotes">Lotes</a>
                 <a href="../crearLote">Crear Lote</a>
+                <a href="../paquetePeso">Asignar Peso</a>
             </div>
 
             <div>

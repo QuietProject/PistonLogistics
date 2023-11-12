@@ -27,3 +27,4 @@ Route::get("/paquetesLote", [PackageController::class, "getPaquetesLote"])->name
 Route::get("/pronto/{idLote}", [PackageController::class, "lotePronto"])->name("lotePronto");
 
 Route::get("/almacenDescarga", [PackageController::class, "getPaqueteOrLoteCodigo"])->name("getPaqueteOrLoteCodigo");
+
