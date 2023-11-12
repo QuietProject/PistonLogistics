@@ -384,4 +384,30 @@ class PaqueteController extends Controller
             "paquete" => $paquete
         ], 200);
     }
+
+    /*************************************************************************************************************************************/
+
+    public function entregarPaquete($id){
+        $paquete = Paquete::find($id);
+        if ($paquete === null) {
+            return response()->json([
+                "message" => "Paquete no encontrado"
+            ], 404);
+        }
+
+        if ($paquete->estado != 9) {
+            return response()->json([
+                "message" => "Paquete no entregable"
+            ], 400);
+        }
+
+        $paquete->estado = 0;
+        $paquete->fecha_entregado = now();
+        $paquete->save();
+
+        return response()->json([
+            "message" => "Paquete entregado exitosamente",
+            "paquete" => $paquete
+        ], 200);
+    }
 }
