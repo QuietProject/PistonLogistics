@@ -350,7 +350,7 @@ class PaqueteController extends Controller
         }
 
         return response()->json([
-            "message" => "Paquete(s) cargado(s) correctamente ",
+            "message" => "Paquete(s) cargado(s) correctamente",
         ], 200);
     }
 
