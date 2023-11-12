@@ -34,14 +34,16 @@ class LoteController extends Controller
             return Lote::all();
         }
 
-        $result = DB::table("LOTES_EN_ALMACENES")->where("ID_almacen", $idAlmacen)->get();
-        if ($result->isEmpty()) {
+        $lotes = DB::table("LOTES_EN_ALMACENES")->where("LOTES_EN_ALMACENES.ID_almacen", $idAlmacen)
+        ->join("LOTES", "LOTES.ID", "LOTES_EN_ALMACENES.ID_lote")
+        ->get();
+        if ($lotes->isEmpty()) {
             return response([]);
         }
 
-        foreach ($result as $object) {
-            $lotes[] = Lote::find($object->ID_lote);
-        }
+        // foreach ($result as $object) {
+        //     $lotes[] = Lote::find($object->ID_lote);
+        // }
 
         return $lotes;
     }
