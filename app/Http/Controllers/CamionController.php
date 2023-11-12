@@ -9,7 +9,8 @@ use App\Models\Lleva;
 use App\Models\Paquete;
 use App\Models\PaqueteLote;
 use App\Models\Lote;
-use App\Models\Conducen;
+use App\Models\Conduce;
+use App\Models\Orden;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -20,31 +21,31 @@ class CamionController extends Controller
 
         //$ci = session("user");
         $ci = "56789012";
-        $matricula = Conducen::where('CI', $ci)->whereNull("hasta")->get("matricula")[0]->matricula;
+        $matricula = Conduce::where('CI', $ci)->whereNull("hasta")->get("matricula")[0]->matricula;
         $ID_lote = Lleva::where('matricula', $matricula)->pluck('ID_lote');
         $lleva = PaqueteLote::whereIn('ID_lote', $ID_lote)->pluck('ID_paquete');
         return Paquete::whereIn('ID', $lleva)->get();
-        
-
     }
 
-    public function verLotes(){
+    public function verLotes()
+    {
         //$ci = session("user");
         $ci = "56789012";
-        $matricula = Conducen::where('CI', $ci)->whereNull("hasta")->get("matricula")[0]->matricula;
+        $matricula = Conduce::where('CI', $ci)->whereNull("hasta")->get("matricula")[0]->matricula;
         $ID_lote = Lleva::where('matricula', $matricula)->pluck('ID_lote');
         return Lote::whereIn('ID', $ID_lote)->get();
     }
 
-    public function arranque($matricula){
+    public function arranque($matricula)
+    {
         //$ci = session("user");
         $ci = "56789012";
 
-        if(Conducen::where('CI', $ci)->whereNull("hasta")->count() > 0){
+        if (Conduce::where('CI', $ci)->whereNull("hasta")->count() > 0) {
             return "El usuario ya está en un camion";
         }
 
-        if(Conducen::where('matricula', $matricula)->whereNull("hasta")->count() > 0){
+        if (Conduce::where('matricula', $matricula)->whereNull("hasta")->count() > 0) {
             return "El camion ya esta en marcha";
         }
 
@@ -53,38 +54,38 @@ class CamionController extends Controller
         //     "matricula" => $matricula
         // ]);
 
-        $a = new Conducen();
+        $a = new Conduce();
         $a->CI = $ci;
         $a->matricula = $matricula;
         $a->save();
 
         return "Jornal iniciado";
-        
     }
 
-    public function parada(){
+    public function parada()
+    {
         //$ci = session("user");
         $ci = "56789012";
 
-        if(Conducen::where('CI', $ci)->whereNull("hasta")->count() == 0){
+        if (Conduce::where('CI', $ci)->whereNull("hasta")->count() == 0) {
             return "El usuario no está en un camion";
         }
 
-        $matricula = Conducen::where('CI', $ci)->whereNull("hasta")->get("matricula")[0]->matricula;
+        $matricula = Conduce::where('CI', $ci)->whereNull("hasta")->get("matricula")[0]->matricula;
 
-        if(Conducen::where('matricula', $matricula)->whereNull("hasta")->count() == 0){
+        if (Conduce::where('matricula', $matricula)->whereNull("hasta")->count() == 0) {
             return "El camion no esta en marcha";
         }
 
-        Conducen::where('CI', $ci)->whereNull("hasta")->update([
+        Conduce::where('CI', $ci)->whereNull("hasta")->update([
             "hasta" => now()
         ]);
 
         return "Jornal finalizado";
-        
     }
 
-    public function verEstado($id){
+    public function verEstado($id)
+    {
         return DB::select(DB::raw("SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE',
         CASE
             WHEN trae.matricula is not null and trae.fecha_descarga is null THEN trae.matricula
@@ -117,12 +118,14 @@ class CamionController extends Controller
         WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY) AND paquetes.ID = $id"))[0]->ESTADO_ENVIO;
     }
 
-    public function camion($cedula){
-        $camion = Conducen::where('CI', $cedula)->whereNull("hasta")->pluck("matricula");
+    public function camion($cedula)
+    {
+        $camion = Conduce::where('CI', $cedula)->whereNull("hasta")->pluck("matricula");
         return $camion;
     }
 
-    public function mapa(Request $request){
+    public function mapa(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'cedula' => 'required|digits:8|exists:camioneros,CI'
         ]);
@@ -130,21 +133,187 @@ class CamionController extends Controller
             return $this->validacion($validator);
         }
 
-        $matricula = self::camion($request->cedula);
-        if (count($matricula) == 0) {
+        $matricula = self::camion($request->cedula)[0];
+        if ($matricula == null) {
             return response()->json([
                 'message' => 'El camionero no está en un camion',
             ], 422);
         }
 
-        $lotes = Lleva::where('matricula', $matricula[0])->whereNull("fecha_descarga")->whereNotNull("fecha_carga")->pluck("ID_lote");
-        
-        foreach ($lotes as $lote){
-            $destinos[] = Almacen::where("ID", $lote->destino_lote()->ID_almacen)->pluck("direccion");
+        // Tomo la troncal de los lotes que lleva el camion
+        $troncal = DB::select("SELECT ID_troncal
+        from LLEVA
+        INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+        WHERE fecha_carga is not null
+        and fecha_descarga is null
+        and matricula = ?
+        LIMIT 1", [$matricula]);
+
+        // si lo anterior devuelve vacio tomo la troncal de los que tiene asignados
+        if (count($troncal) != 1) {
+            $troncal = DB::select("SELECT ID_troncal
+            from LLEVA
+            INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+            WHERE fecha_carga is null
+            and matricula = ?
+            LIMIT 1", [$matricula]);
+        }
+        if (count($troncal) != 1) {
+            //return no hay nada
+            return response()->json([
+                'message' => 'No hay destinos asignados',
+            ], 200);
         }
 
-        $origen = Lleva::where("matricula", $matricula[0])->whereNull("fecha_descarga")->whereNull("fecha_carga")->pluck("ID_lote");
+
+        //defino la troncal que tiene el camion
+        $troncal = $troncal[0]->ID_troncal;
+
+        //ultima orden troncal
+        $ultimoOrdenDeTroncal = Orden::max('orden', 'ID_troncal', $troncal);
+
+        $ordenOrigen = self::ordenOrigen($troncal, $matricula, 0);
+
+        $lotesCargados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
+        FROM LLEVA
+        INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LLEVA.ID_lote
+        INNER JOIN ORDENES ON ORDENES.ID_almacen = DESTINO_LOTE.ID_almacen and ORDENES.ID_troncal = DESTINO_LOTE.ID_troncal
+        WHERE fecha_carga is not null
+        and fecha_descarga is null
+        and matricula = ?
+        ', [$matricula]);
+
+
+
+
+        if (count($lotesCargados) == 0) {
+
+            if ($ordenOrigen == 1) {
+                $direccion = 'asc';
+            } else if ($ordenOrigen == $ultimoOrdenDeTroncal) {
+                $direccion = 'desc';
+            } else {
+                $almacenOrigen = $this->ordenToAlmacen($troncal, $ordenOrigen);
+
+                $loteOrigen = DB::select('SELECT LLEVA.Id_lote,LOTES.ID_troncal,fecha_carga,fecha_descarga,
+                CASE
+                    WHEN fecha_descarga is not null THEN fecha_descarga
+                    ELSE fecha_carga 
+                    END as fecha,
+                CASE
+                    WHEN fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
+                    ELSE LOTES.ID_almacen
+                END as almacen
+                 FROM LLEVA
+                 INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+                 INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote;
+                 where !(fecha_descarga is not null and DESTINO_LOTE.ID_almacen=?) and !(fecha_descarga is null and LOTES.ID_almacen=?)
+                 and matricula=?
+                 and almacen
+                 order by fecha DESC
+                 limit 1', [$almacenOrigen,$almacenOrigen,$matricula]);
+
+
+                if (!isset($loteOrigen[0]) || $loteOrigen[0]->ID_troncal != $troncal) {
+                    $ordenOrigen = 1;
+                } else {
+                    if ($loteOrigen[0]->accion == 'descarga') {
+                        $almacenOrigen = DB::select('SELECT ID_almacen from DESTINO_LOTE WHERE ID_lote=?', [$loteOrigen[0]->ID_lote]);
+                    } else {
+                        $almacenOrigen =  DB::select('SELECT ID_almacen from LOTES WHERE ID=?', [$loteOrigen[0]->Id_lote]);
+                    }
+
+                    $ordenOrigen = DB::select('SELECT orden
+                    FROM ORDENES
+                    WHERE ID_almacen=?
+                    AND ID_troncal=?
+                    ', [$almacenOrigen[0]->ID_almacen, $troncal])[0]->orden;
+                }
+                
+            }
+
+
+            $lotesAsignados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
+            FROM LLEVA
+            INNER JOIN LOTES ON LOTES.ID=LLEVA.ID_lote
+            INNER JOIN ORDENES ON ORDENES.ID_almacen = DESTINO_LOTE.ID_almacen and ORDENES.ID_troncal = DESTINO_LOTE.ID_troncal
+            WHERE fecha_carga is null
+            and matricula = ?', [$matricula]);
+
+            if (count($lotesAsignados) == 0) {
+                //return no hay nada
+                return response()->json([
+                    'message' => 'No hay destinos asignados',
+                ], 200);
+            }
+            //  COMPRUEBA SI TIENE LOTES PARA CARGAR EN EL ALMCEN ORIGEN
+            // foreach($lotesAsignados as $lote){
+            //     if($o)
+            // }
+
+
+        }
+
+        // si alguna orden de lotes cargados es igual a la orden origen devolver que descargue ese lote en el almacen de la orden origen
+        foreach ($lotesCargados as $lote) {
+            if ($lote->orden == $ordenOrigen) {
+                return response()->json([
+                    'message' => "Descargar lote $lote en el almacen",
+                ], 200);
+            }
+        }
+
+
+        //determinar direccion del camion en la troncal
+        $direccionCamion = $ordenOrigen < $lotesCargados[0];
     }
 
+    private function ordenOrigen($troncal, $matricula, $offset)
+    {
+        //busco el ultimo lote que descargo o cargo el camion
+        $loteOrigen = DB::select('SELECT Id_lote,ID_troncal,
+        CASE
+            WHEN fecha_descarga is not null THEN fecha_descarga
+            ELSE fecha_carga 
+            END as fecha,
+        CASE
+            WHEN fecha_descarga is not null THEN "descarga"
+            ELSE "carga"
+        END as accion
+         FROM LLEVA
+         INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+         where matricula=?
+         where fecha_carga is not null 
+         order by fecha DESC
+         limit 2', [$matricula]);
 
+
+        if (!isset($loteOrigen[$offset]) || $loteOrigen[$offset]->ID_troncal != $troncal) {
+            $ordenOrigen = 1;
+        } else {
+            if ($loteOrigen[0]->accion == 'descarga') {
+                $almacenOrigen = DB::select('SELECT ID_almacen from DESTINO_LOTE WHERE ID_lote=?', [$loteOrigen[$offset]->ID_lote]);
+            } else {
+                $almacenOrigen =  DB::select('SELECT ID_almacen from LOTES WHERE ID=?', [$loteOrigen[$offset]->Id_lote]);
+            }
+
+            $ordenOrigen = DB::select('SELECT orden
+            FROM ORDENES
+            WHERE ID_almacen=?
+            AND ID_troncal=?
+            ', [$almacenOrigen[0]->ID_almacen, $troncal])[0]->orden;
+        }
+
+        return $ordenOrigen;
+    }
+
+    private function ordenToAlmacen($troncal, $orden)
+    {
+        return DB::select('SELECT ID_almacen
+        FROM ORDENES
+        WHERE troncal =?
+        and orden =?
+        order by baja desc
+        limit 1', [$troncal, $orden])[0]->ID_almacen;
+    }
 }

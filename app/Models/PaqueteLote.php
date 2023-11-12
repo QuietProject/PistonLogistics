@@ -10,11 +10,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class PaquetesLote
+ * Class PaqueteLote
  * 
  * @property int $ID_paquete
  * @property int $ID_lote
- * @property Carbon $fecha
+ * @property Carbon $desde
+ * @property Carbon|null $hasta
  * 
  * @property Paquete $paquete
  * @property Lote $lote
@@ -23,18 +24,20 @@ use Illuminate\Database\Eloquent\Model;
  */
 class PaqueteLote extends Model
 {
-	protected $table = 'paquetes_lotes';
+	protected $table = 'PAQUETES_LOTES';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
 		'ID_paquete' => 'int',
 		'ID_lote' => 'int',
-		'fecha' => 'datetime'
+		'desde' => 'datetime',
+		'hasta' => 'datetime'
 	];
 
 	protected $fillable = [
-		'fecha'
+		'desde',
+		'hasta'
 	];
 
 	public function paquete()

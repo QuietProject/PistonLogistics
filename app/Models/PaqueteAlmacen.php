@@ -10,35 +10,33 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Reparte
+ * Class PaqueteAlmacen
  * 
  * @property int $ID_paquete
- * @property string|null $matricula
- * @property Carbon $fecha_carga
- * @property Carbon|null $fecha_descarga
+ * @property int $ID_almacen
+ * @property Carbon $desde
+ * @property Carbon|null $hasta
  * 
  * @property Paquete $paquete
- * @property Camioneta|null $camioneta
+ * @property AlmacenPropio $almacen_propio
  *
  * @package App\Models
  */
-class Reparte extends Model
+class PaqueteAlmacen extends Model
 {
-	protected $table = 'REPARTE';
-	protected $primaryKey = 'ID_paquete';
+	protected $table = 'PAQUETES_ALMACENES';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
 		'ID_paquete' => 'int',
-		'fecha_carga' => 'datetime',
-		'fecha_descarga' => 'datetime'
+		'ID_almacen' => 'int',
+		'desde' => 'datetime',
+		'hasta' => 'datetime'
 	];
 
 	protected $fillable = [
-		'matricula',
-		'fecha_carga',
-		'fecha_descarga'
+		'hasta'
 	];
 
 	public function paquete()
@@ -46,8 +44,8 @@ class Reparte extends Model
 		return $this->belongsTo(Paquete::class, 'ID_paquete');
 	}
 
-	public function camioneta()
+	public function almacen_propio()
 	{
-		return $this->belongsTo(Camioneta::class, 'matricula');
+		return $this->belongsTo(AlmacenPropio::class, 'ID_almacen');
 	}
 }

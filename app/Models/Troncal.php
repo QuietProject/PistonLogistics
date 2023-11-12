@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Troncal extends Model
 {
-	protected $table = 'troncales';
+	protected $table = 'TRONCALES';
 	protected $primaryKey = 'ID';
 	public $timestamps = false;
 

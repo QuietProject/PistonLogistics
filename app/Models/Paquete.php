@@ -9,6 +9,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * Class Paquete
@@ -17,17 +18,17 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $ID_almacen
  * @property Carbon $fecha_registrado
  * @property int $ID_pickup
- * @property string|null $calle
- * @property string|null $numero
- * @property string|null $ciudad
+ * @property string|null $direccion
  * @property int|null $peso
  * @property int|null $volumen
- * @property Carbon|null $fecha_recibido
+ * @property Carbon|null $fecha_entregado
  * @property string|null $mail
- * @property string|null $cedula
+ * @property int $estado
+ * @property string $codigo
  * 
  * @property AlmacenCliente $almacen_cliente
  * @property AlmacenPropio $almacen_propio
+ * @property Collection|PaqueteAlmacen[] $paquetes_almacenes
  * @property Collection|Lote[] $lotes
  * @property Reparte $reparte
  * @property Trae $trae
@@ -36,8 +37,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Paquete extends Model
 {
-	protected $table = 'paquetes';
+	protected $table = 'PAQUETES';
 	protected $primaryKey = 'ID';
+	protected $autoIncrement = true;
 	public $timestamps = false;
 
 	protected $casts = [
@@ -46,22 +48,37 @@ class Paquete extends Model
 		'ID_pickup' => 'int',
 		'peso' => 'int',
 		'volumen' => 'int',
-		'fecha_recibido' => 'datetime'
+		'fecha_entregado' => 'datetime',
+		'estado' => 'int',
+		'codigo' => 'string'
 	];
 
 	protected $fillable = [
 		'ID_almacen',
 		'fecha_registrado',
 		'ID_pickup',
-		'calle',
-		'numero',
-		'ciudad',
+		'direccion',
 		'peso',
 		'volumen',
-		'fecha_recibido',
+		'fecha_entregado',
 		'mail',
+		'estado',
+		'codigo',
 		'cedula'
 	];
+
+	protected static function boot()
+	{
+		parent::boot();
+
+		static::creating(function ($model) {
+			do {
+				$codigo = "P" . Str::random(7);
+			} while (self::where('codigo', $codigo)->exists());
+
+			$model->codigo = $codigo;
+		});
+	}
 
 	public function almacen_cliente()
 	{
@@ -70,13 +87,18 @@ class Paquete extends Model
 
 	public function almacen_propio()
 	{
-		return $this->belongsTo(AlmacenesPropio::class, 'ID_pickup');
+		return $this->belongsTo(AlmacenPropio::class, 'ID_pickup');
+	}
+
+	public function paquetes_almacenes()
+	{
+		return $this->hasMany(PaqueteAlmacen::class, 'ID_paquete');
 	}
 
 	public function lotes()
 	{
 		return $this->belongsToMany(Lote::class, 'paquetes_lotes', 'ID_paquete', 'ID_lote')
-					->withPivot('fecha');
+			->withPivot('desde', 'hasta');
 	}
 
 	public function reparte()

@@ -16,13 +16,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nombre
  * @property string $apellido
  * 
- * @property Collection|Conducen[] $conducens
+ * @property Collection|Conduce[] $conduceVarios
  *
  * @package App\Models
  */
 class Camionero extends Model
 {
-	protected $table = 'camioneros';
+	protected $table = 'CAMIONEROS';
 	protected $primaryKey = 'CI';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -32,8 +32,8 @@ class Camionero extends Model
 		'apellido'
 	];
 
-	public function conducens()
+	public function conduceVarios()
 	{
-		return $this->hasMany(Conducen::class, 'CI');
+		return $this->hasMany(Conduce::class, 'CI');
 	}
 }

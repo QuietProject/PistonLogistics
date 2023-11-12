@@ -15,13 +15,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $matricula
  * 
  * @property Vehiculo $vehiculo
- * @property Collection|Reparte[] $repartes
+ * @property Collection|Reparte[] $reparteVarios
  *
  * @package App\Models
  */
 class Camioneta extends Model
 {
-	protected $table = 'camionetas';
+	protected $table = 'CAMIONETAS';
 	protected $primaryKey = 'matricula';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -31,7 +31,7 @@ class Camioneta extends Model
 		return $this->belongsTo(Vehiculo::class, 'matricula');
 	}
 
-	public function repartes()
+	public function reparteVarios()
 	{
 		return $this->hasMany(Reparte::class, 'matricula');
 	}

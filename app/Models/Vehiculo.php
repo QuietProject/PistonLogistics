@@ -20,14 +20,14 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property Camion $camion
  * @property Camioneta $camioneta
- * @property Collection|Conducen[] $conducens
- * @property Collection|Trae[] $traes
+ * @property Collection|Conduce[] $conduceVarios
+ * @property Collection|Trae[] $traeVarios
  *
  * @package App\Models
  */
 class Vehiculo extends Model
 {
-	protected $table = 'vehiculos';
+	protected $table = 'VEHICULOS';
 	protected $primaryKey = 'matricula';
 	public $incrementing = false;
 	public $timestamps = false;
@@ -56,12 +56,12 @@ class Vehiculo extends Model
 		return $this->hasOne(Camioneta::class, 'matricula');
 	}
 
-	public function conducens()
+	public function conduceVarios()
 	{
-		return $this->hasMany(Conducen::class, 'matricula');
+		return $this->hasMany(Conduce::class, 'matricula');
 	}
 
-	public function traes()
+	public function traeVarios()
 	{
 		return $this->hasMany(Trae::class, 'matricula');
 	}

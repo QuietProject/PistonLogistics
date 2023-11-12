@@ -22,9 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @package App\Models
  */
-class Conducen extends Model
+class Conduce extends Model
 {
-	protected $table = 'conducen';
+	protected $table = 'CONDUCEN';
 	public $incrementing = false;
 	public $timestamps = false;
 
