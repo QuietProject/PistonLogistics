@@ -286,8 +286,8 @@ class LoteController extends Controller
             "idLote" => $singleIdLote,
         ], [
             "idLote" => ["bail", "required", "numeric", "exists:lotes,ID", function ($attribute, $value, $fail) {
-                $loteCargado = DB::table('LLEVA')->where('ID', $value)->whereNull("fecha_carga")->exists();
-                $loteDescargado = DB::table('LLEVA')->where('ID', $value)->whereNotNull("fecha_descarga")->exists();
+                $loteCargado = DB::table('LLEVA')->where('ID_lote', $value)->whereNull("fecha_carga")->exists();
+                $loteDescargado = DB::table('LLEVA')->where('ID_lote', $value)->whereNotNull("fecha_descarga")->exists();
                 
 
                 if ($loteCargado) {
