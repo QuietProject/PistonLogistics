@@ -170,7 +170,7 @@ class CamionController extends Controller
         $troncal = $troncal[0]->ID_troncal;
 
         //ultima orden troncal
-        $ultimoOrdenDeTroncal = Orden::max('orden', 'ID_troncal', $troncal);
+        $ultimoOrdenDeTroncal = Orden::where('baja', 0)->where('ID_troncal', $troncal)->max('orden');
 
         $ordenOrigen = self::ordenOrigen($troncal, $matricula, 0);
 
