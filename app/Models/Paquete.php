@@ -46,7 +46,7 @@ class Paquete extends Model
 		'ID_almacen' => 'int',
 		'fecha_registrado' => 'datetime',
 		'ID_pickup' => 'int',
-		'peso' => 'int',
+		'peso' => 'float',
 		'volumen' => 'int',
 		'fecha_entregado' => 'datetime',
 		'estado' => 'int',
