@@ -21,31 +21,50 @@
             r = r.replace("valorLote", idLote);
             return r;
         }
-
-        
     </script>
 </head>
 
 <body>
-    
+
     @if (session('message'))
         <script>
-            Swal.fire({
-                position: 'top',
+            let message = '{{ session('message') }}';
+
+            let options = {
                 icon: 'success',
-                title: '{{ session('message') }}',
-                showConfirmButton: false,
-                timer: 1000,
+                allowEnterKey: true,
                 customClass: {
                     container: 'popup'
                 }
-            })
-            setTimeout(() => {
-                window.location.href = "{{ route('clear.message') }}";
-            }, 800);
+            };
+
+            if (message != 'Lote listo para enviar') {
+                options.title = message;
+                options.icon = 'error';
+            } else {
+                if (message === 'Paquete quitado del lote') {
+                    options.title = message;
+                } else {
+                    options.title = message;
+                }
+            }
+
+            Swal.fire(options).then(() => {
+            Swal.fire({
+                title: 'Cargando...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            window.location.href = "{{ route('clear.message') }}";
+        });
         </script>
     @endif
-    
+
+
 
     <!-- Ham Menu -->
     <div class="menuIcon" id="menuIcon">
@@ -109,11 +128,6 @@
                                 <p>Fecha Pronto</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
-                        <th class="columna" data-columna="fecha_cerrado">
-                            <div>
-                                <p>Fecha Cerrado</p> <i class='bx bx-chevron-down'></i>
-                            </div>
-                        </th>
                         <th class="columna" data-columna="tipo">
                             <div>
                                 <p>Tipo</p> <i class='bx bx-chevron-down'></i>
@@ -131,12 +145,12 @@
                             <td data-columna="ID_almacen">{{ $lote['ID_almacen'] }}</td>
                             <td data-columna="fecha_creacion">{{ $lote['fecha_creacion'] }}</td>
                             @if ($lote['fecha_pronto'] === null)
-                                <td class='btnPronto' data-route="{{ route('lotePronto', ['idLote' => $lote['ID']]) }}">
-                                    Pronto</td>
+                                <td class='btnPronto'
+                                    data-route="{{ route('lotePronto', ['idLote' => $lote['ID']]) }}">
+                                    Aprontar</td>
                             @else
                                 <td data-columna="fecha_pronto">{{ $lote['fecha_pronto'] }}</td>
                             @endif
-                            <td data-columna="fecha_cerrado">{{ $lote['fecha_cerrado'] }}</td>
                             <td data-columna="tipo">{{ $lote['tipo'] ? 'pickup' : 'comun' }}</td>
                             <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}"
                                 data-idlote="{{ $lote['ID'] }}">Ver paquetes</td>

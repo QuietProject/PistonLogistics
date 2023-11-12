@@ -107,6 +107,7 @@ btnsAsignar.forEach((btnAsignar, index) => {
         const direccion = fila.querySelector(
             'td[data-columna="direccion"]'
         ).textContent;
+        console.log(direccion);
 
         try {
             let miArray = await getStatus();
@@ -152,7 +153,7 @@ btnsAsignar.forEach((btnAsignar, index) => {
             .map(
                 (array) => `
                 <tr style="display: ${
-                    !direccion && array.tipo === false ? "none" : "" 
+                    !direccion && array.tipo === 0 ? "none" : "" 
                 }">
                 <td data-columna="ID">${array.ID}</td>
                 <td data-columna="codigo">${array.codigo}</td>

@@ -20,19 +20,36 @@
 <body>
     @if (session('message'))
         <script>
-            Swal.fire({
-                position: 'top',
+            let message = '{{ session('message') }}';
+
+            let options = {
                 icon: 'success',
-                title: '{{ session('message') }}',
-                showConfirmButton: false,
-                timer: 1000,
+                allowEnterKey: true,
                 customClass: {
                     container: 'popup'
+                },
+                
+            };
+
+            if (message != 'Lote creado exitosamente') {
+                options.title = message;
+                options.icon = 'error';
+            } else {
+                options.title = message;
+            }
+
+            Swal.fire(options).then(() => {
+            Swal.fire({
+                title: 'Cargando...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
                 }
-            })
-            setTimeout(() => {
-                window.location.href = "{{ route('clear.message') }}";
-            }, 800);
+            });
+            window.location.href = "{{ route('clear.message') }}";
+        });
         </script>
     @endif
 

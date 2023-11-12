@@ -15,19 +15,36 @@
 <body>
     @if (session('message'))
         <script>
-            Swal.fire({
-                position: 'top',
+            let message = '{{ session('message') }}';
+
+            let options = {
                 icon: 'success',
-                title: '{{ session('message') }}',
-                showConfirmButton: false,
-                timer: 1000,
+                allowEnterKey: true,
                 customClass: {
                     container: 'popup'
+                },
+                
+            };
+
+            if (message != 'Paquete creado exitosamente') {
+                options.title = message;
+                options.icon = 'error';
+            } else {
+                options.title = message;
+            }
+
+            Swal.fire(options).then(() => {
+            Swal.fire({
+                title: 'Cargando...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
                 }
-            })
-            setTimeout(() => {
-                window.location.href = "{{ route('clear.message') }}";
-            }, 800);
+            });
+            window.location.href = "{{ route('clear.message') }}";
+        });
         </script>
     @endif
 
@@ -40,21 +57,21 @@
         <div>
             <div>
                 <h3>Cedula</h3>
-                <input type="number" name="cedula" id="cedula" min="10000000" max="99999999" required>
+                <input type="number" name="cedula" id="cedula" placeholder="xxxxxxxx" min="10000000" max="99999999" required>
             </div>
             <div>
                 <h3>Mail</h3>
-                <input type="email" name="mail" id="mail" required>
+                <input type="email" name="mail" id="mail" placeholder="ejemplo@gmail.com" required>
             </div>
 
             <div>
                 <h3>Ciudad</h3>
-                <input type="text" name="ciudad" id="ciudad" required>
+                <input type="text" name="ciudad" id="ciudad" placeholder="Ej: Montevideo" required>
             </div>
 
             <div>
                 <h3>Direccion</h3>
-                <input type="text" name="direccion" id="direccion" required>
+                <input type="text" name="direccion" id="direccion" placeholder="Ej: Av. Italia 1405" required>
             </div>
 
             <div>

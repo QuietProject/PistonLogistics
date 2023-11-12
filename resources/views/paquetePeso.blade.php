@@ -43,19 +43,36 @@
 
     @if (session('message'))
         <script>
-            Swal.fire({
-                position: 'top',
+            let message = '{{ session('message') }}';
+
+            let options = {
                 icon: 'success',
-                title: '{{ session('message') }}',
-                showConfirmButton: false,
-                timer: 1000,
+                allowEnterKey: true,
                 customClass: {
                     container: 'popup'
+                },
+                
+            };
+
+            if (message != 'Peso actualizado exitosamente') {
+                options.title = message;
+                options.icon = 'error';
+            } else {
+                options.title = message;
+            }
+
+            Swal.fire(options).then(() => {
+            Swal.fire({
+                title: 'Cargando...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
                 }
-            })
-            setTimeout(() => {
-                window.location.href = "{{ route('clear.message') }}";
-            }, 500);
+            });
+            window.location.href = "{{ route('clear.message') }}";
+        });
         </script>
     @endif
 
@@ -68,11 +85,15 @@
         <div>
             <div>
                 <h3>Paquete</h3>
-                <input type="number" name="paquete" id="paquete" required>
+                <input type="number" name="paquete" id="paquete" min="1"  placeholder="Ej: 14" required>
             </div>
             <div>
                 <h3>Peso</h3>
-                <input type="number" name="peso" id="peso" required>
+                <div>
+                    <input type="number" name="peso" id="peso" min="0" step="0.01" placeholder="Ej: 10" required>
+                    <span>Kg</span>
+                </div>
+                
             </div>
         </div>
         <div>

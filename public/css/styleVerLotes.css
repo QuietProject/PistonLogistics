@@ -99,7 +99,7 @@ td{
 .btnVerPaquetesEnLote{
     background-color: var(--highlight);
     color: black;
-    border-radius: 5px;
+    border-radius:5px;
     text-align: center;
     cursor: pointer;
 }

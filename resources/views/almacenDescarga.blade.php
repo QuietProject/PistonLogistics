@@ -16,17 +16,39 @@
 <body>
     @if (session('message'))
         <script>
-            Swal.fire({
-                position: 'top',
+            let message = '{{ session('message') }}';
+
+            let options = {
                 icon: 'success',
-                title: '{{ session('message') }}',
-                showConfirmButton: false,
-                timer: 1000,
+                allowEnterKey: true,
                 customClass: {
                     container: 'popup'
+                },
+                
+            };
+
+            if (message != 'Paquete(s) descargado(s) exitosamente - Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente') {
+                options.title = message;
+                options.icon = 'error';
+            } else if(message != 'Paquete(s) descargado(s) exitosamente'){
+                options.title = message;
+                options.icon = 'error';
+            }else if(message != 'Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente'){
+                options.title = message;
+            }
+
+            Swal.fire(options).then(() => {
+            Swal.fire({
+                title: 'Cargando...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
                 }
-            })
-            
+            });
+            window.location.href = "{{ route('clear.message') }}";
+        });
         </script>
     @endif
 

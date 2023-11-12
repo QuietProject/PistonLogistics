@@ -27,8 +27,8 @@ class PackageController extends Controller
 
         // $lotes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "lotes?idAlmacen=$idAlmacen")->json();
 
-        
-        
+
+
         for ($i = 0; $i < count($paquetes); $i++) {
             $fechaRegistrado = Carbon::parse($paquetes[$i]['fecha_registrado']);
             $paquetes[$i]['fecha_registrado'] = $fechaRegistrado->format('d/m/y H:i');
@@ -79,8 +79,9 @@ class PackageController extends Controller
     public function lotePronto($idLote)
     {
         $url = env("API_URL") . "lotes/pronto?idLote=$idLote";
-        Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get($url)->json();
+        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get($url);
 
+        session()->flash('message', $response['message']);
         return redirect()->back();
     }
 
@@ -238,17 +239,18 @@ class PackageController extends Controller
         return view('crearPaquete');
     }
 
-    public function getPaqueteOrLoteCodigo(Request $request) {
+    public function getPaqueteOrLoteCodigo(Request $request)
+    {
         $codigo = $request->input('codigo');
-        
+
         $tipoCodigo = '';
-    
+
         if (substr($codigo, 0, 1) === 'L') {
             $tipoCodigo = 'L';
         } elseif (substr($codigo, 0, 1) === 'P') {
             $tipoCodigo = 'P';
         }
-    
+
         if ($tipoCodigo === 'L') {
             $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "lotes/$codigo");
         } elseif ($tipoCodigo === 'P') {
@@ -256,16 +258,17 @@ class PackageController extends Controller
         } else {
             $response = ['error' => 'El formato del código no es válido'];
         }
-    
+
         return $response;
     }
-    
 
-    public function asignarPeso(Request $request){
+
+    public function asignarPeso(Request $request)
+    {
         $paquete = $request->input('paquete');
         $peso = $request->input('peso');
 
-        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "");
+        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "paquetes/peso/$paquete/$peso");
         session()->flash('message', $response['message']);
         return redirect()->back();
     }
@@ -278,25 +281,43 @@ class PackageController extends Controller
 
     public function carga($paquetes)
     {
-        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') ."cliente/carga/$paquetes");
+        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "cliente/carga/$paquetes");
 
         return redirect()->back()->with("message", $response['message']);
     }
 
     public function cargaAlmacen($paquetes, $lotes)
     {
-        if($paquetes != 'null' && $lotes == 'null'){
+        if ($paquetes != 'null' && $lotes == 'null') {
             $response1 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "almacen/carga?idPaquete=$paquetes");
+
             return redirect()->back()->with("message", $response1['message']);
 
-        }else if($paquetes == 'null' && $lotes != 'null'){
+        } else if ($paquetes == 'null' && $lotes != 'null') {
             $response2 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "lotes/cargar?idLote=$lotes");
-            return redirect()->back()->with("message", $response2['message']);
 
-        }else if($paquetes != 'null' && $lotes != 'null'){
+            if ($response2->status() == 200) {
+                return redirect()->back()->with("message", $response2['message']);
+            } else {
+                return redirect()->back()->with("message", $response2['message']['idLote'][0]);
+            }
+
+        } else if ($paquetes != 'null' && $lotes != 'null') {
             $response1 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "almacen/carga?idPaquete=$paquetes");
+
             $response2 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "lotes/cargar?idLote=$lotes");
-            return redirect()->back()->with("message", $response1['message'].$response2["message"]);
+
+            if ($response2->status() == 200) {
+                return redirect()->back()->with(
+                    "message",
+                    $response1['message'] .' - '. $response2["message"]
+                );
+            } else {
+                return redirect()->back()->with(
+                    "message",
+                    $response1['message'] .' - '. $response2["message"]['idLote'][0]
+                );
+            }
         }
 
 
@@ -305,18 +326,41 @@ class PackageController extends Controller
     public function descargaAlmacen($paquetes, $lotes)
     {
         $idAlmacenOrigen = explode('.', session('nombre'))[1];
-        if($paquetes != 'null' && $lotes == 'null'){
+        if ($paquetes != 'null' && $lotes == 'null') {
+
             $response1 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "almacen/descarga/$paquetes/$idAlmacenOrigen");
+
             return redirect()->back()->with("message", $response1['message']);
 
-        }else if($paquetes == 'null' && $lotes != 'null'){
-            $response2 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "lotes/descargar?idLote=$lotes");
-            return redirect()->back()->with("message", $response2['message']);
 
-        }else if($paquetes != 'null' && $lotes != 'null'){
-            $response1 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "almacen/descarga/$paquetes/$idAlmacenOrigen");
+        } else if ($paquetes == 'null' && $lotes != 'null') {
+
             $response2 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "lotes/descargar?idLote=$lotes");
-            return redirect()->back()->with("message", $response1['message'].$response2["message"]);
+
+            if ($response2->status() == 200) {
+                return redirect()->back()->with("message", $response2['message']);
+            } else {
+                return redirect()->back()->with("message", $response2['message']['idLote'][0]);
+            }
+
+
+        } else if ($paquetes != 'null' && $lotes != 'null') {
+            $response1 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "almacen/descarga/$paquetes/$idAlmacenOrigen");
+
+            $response2 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "lotes/descargar?idLote=$lotes");
+
+            if ($response2->status() == 200) {
+                return redirect()->back()->with(
+                    "message",
+                    $response1['message'] .' - '. $response2["message"]
+                );
+            } else {
+                return redirect()->back()->with(
+                    "message",
+                    $response1['message'] .' - '. $response2["message"]['idLote'][0]
+                );
+            }
+
         }
     }
 }

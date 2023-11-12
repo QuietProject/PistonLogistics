@@ -80,6 +80,39 @@ body > form > div > div > input{
     font-size: 1.8em;
 }
 
+body > form > div > div > div{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+body > form > div > div > div > span{
+    height: 100%;
+    border: 2px solid var(--color);
+    border-left: none;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    font-size: 1.8em;
+    padding: 10px;
+    color: white;
+}
+
+body > form > div > div > div > input{
+    padding: 10px;
+    width: 100%;
+    min-width: 150px;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 2px solid var(--color);
+    border-right: none;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    color: white;
+    font-size: 1.8em;
+}
+
+
 body > form > div > div > select{
     padding: 10px;
     width: 100%;

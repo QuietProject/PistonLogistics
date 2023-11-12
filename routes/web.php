@@ -68,6 +68,8 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
         // Route::post("/almacenDescarga/descargaAlmacen", [PackageController::class, "descargaAlmacen"])->name("almacenDescarga.scan");
         Route::view("/paquetePeso", "paquetePeso")->name("paquetePeso");
         Route::post("/paquetePeso", [PackageController::class, "asignarPeso"])->name("paquetePeso.asignar");
+
+        Route::get("/pronto/{idLote}", [PackageController::class, "lotePronto"])->name("lotePronto");
     });
 
 

@@ -24,7 +24,5 @@ Route::get("/getLotes", [PackageController::class, "getLotesAsignar"])->name('ge
 
 Route::get("/paquetesLote", [PackageController::class, "getPaquetesLote"])->name("getPaquetesLote");
 
-Route::get("/pronto/{idLote}", [PackageController::class, "lotePronto"])->name("lotePronto");
-
 Route::get("/almacenDescarga", [PackageController::class, "getPaqueteOrLoteCodigo"])->name("getPaqueteOrLoteCodigo");
 

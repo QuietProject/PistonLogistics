@@ -40,19 +40,35 @@
 <body>
     @if (session('message'))
         <script>
-            Swal.fire({
-                position: 'top',
+            let message = '{{ session('message') }}';
+
+            let options = {
                 icon: 'success',
-                title: '{{ session('message') }}',
-                showConfirmButton: false,
-                timer: 1100,
+                allowEnterKey: true,
                 customClass: {
                     container: 'popup'
                 }
-            })
-            setTimeout(() => {
-                window.location.href = "{{ route('clear.message') }}";
-            }, 800);
+            };
+
+            if (message != 'Paquete agregado a lote') {
+                options.title = message;
+                options.icon = 'error';
+            } else {
+                options.title = message;
+            }
+
+            Swal.fire(options).then(() => {
+            Swal.fire({
+                title: 'Cargando...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            window.location.href = "{{ route('clear.message') }}";
+        });
         </script>
     @endif
 
