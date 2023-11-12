@@ -1,4 +1,4 @@
-<x-layout titulo='Asignar vehiculo a camionero'>
+{{-- <x-layout titulo='Asignar vehiculo a camionero'>
 
     <h2>Asignar vehiculo a camionero</h2>
 
@@ -7,7 +7,6 @@
     <p>Nombre {{ $camionero->nombre }}</p>
 
     <h3>Vehiculo</h3>
-    <form action=""></form>
     <form action="{{ route('conducen.desde') }}" method="POST">
         @csrf
         @method('PATCH')
@@ -27,4 +26,4 @@
 
 
 
-</x-layout>
+</x-layout> --}}

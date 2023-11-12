@@ -58,8 +58,21 @@
                     No tiene
                     @if (!$camionero->baja)
                     <br>
-                        <a href="{{ route('conducen.camionero', ['camionero' => $camionero->CI]) }}">Asignar
-                            vehiculo</a>
+                        Asignar vehiculo
+                        <form action="{{ route('conducen.desde') }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <input type="text" value="{{ $camionero->CI }}" name="CI" hidden>
+                            <div>
+                                <label for="matricula">Vehiculo:</label>
+                                <select name="matricula" id="matricula">
+                                    @foreach ($vehiculosDisponibles as $disponible)
+                                        <option value="{{ $disponible->matricula }}">{{ $disponible->matricula }} {{ $disponible->tipo }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit"> Asignar</button>
+                        </form>
                     @endif
                 @endif
             </p>

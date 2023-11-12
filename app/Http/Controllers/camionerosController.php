@@ -6,6 +6,7 @@ use App\Http\Requests\SaveCamioneroRequest;
 use App\Models\Camionero;
 use App\Models\Conducen;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CamionerosController extends Controller
 {
@@ -41,7 +42,8 @@ class CamionerosController extends Controller
     public function show(Camionero $camionero)
     {
         $vehiculos = Conducen::where('CI', $camionero->CI)->orderBy('desde', 'desc')->get();
-        return view('camioneros.show', ['camionero' => $camionero, 'vehiculos' => $vehiculos]);
+        $vehiculosDisponibles = DB::select("SELECT DISTINCT VEHICULOS.matricula, IF (Exists (select 1 from CAMIONES where CAMIONES.matricula=VEHICULOS.matricula),'Camion','Camioneta') AS tipo FROM VEHICULOS INNER JOIN CONDUCEN ON VEHICULOS.matricula = CONDUCEN.matricula WHERE baja = 0 AND es_operativo = 1 AND VEHICULOS.matricula NOT IN (SELECT matricula FROM CONDUCEN WHERE hasta IS NULL)");
+        return view('camioneros.show', ['camionero' => $camionero, 'vehiculos' => $vehiculos,'vehiculosDisponibles' => $vehiculosDisponibles]);
     }
 
     /**

@@ -1,4 +1,4 @@
-<x-layout titulo='Asignar camionero a vehiculo'>
+{{-- <x-layout titulo='Asignar camionero a vehiculo'>
 
     <h2>Asignar camionero a vehiculo</h2>
 
@@ -28,4 +28,4 @@
 
 
 
-</x-layout>
+</x-layout> --}}
