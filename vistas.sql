@@ -47,8 +47,7 @@ and PAQUETES_LOTES.hasta is null
 and fecha_cerrado is null
 group by PAQUETES_LOTES.ID_lote;
 
-select * from LOTES_EN_ALMACENES;
-select * from LOTES;	
+
 
 -- EL SENTIDO DE LOS LOTES EN LA TRONCAL
 CREATE OR REPLACE VIEW SENTIDO_LOTES AS
