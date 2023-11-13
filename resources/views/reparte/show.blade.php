@@ -1,6 +1,7 @@
 <x-layout titulo='Lleva' menu='7'>
     <div class="display">
         <h2 class="titleText">Asignar Paquete {{ $paquete->ID_paquete }}</h2>
+        <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <div class="infoBox">
             <div class="infoContainer">
                 <p>ID: </p>
@@ -16,7 +17,9 @@
             </div>
             <div class="infoContainer">
                 <p>En Almacen: </p>
-                <p><a target="_blank" href="{{ route('almacenes.show', $paquete->ID_almacen) }}">{{ $paquete->ID_almacen }} - {{ $paquete->nombre }}</a></p>
+                <p><a target="_blank"
+                        href="{{ route('almacenes.show', $paquete->ID_almacen) }}">{{ $paquete->ID_almacen }} -
+                        {{ $paquete->nombre }}</a></p>
             </div>
             <div class="infoContainer">
                 <p>Desde: </p>
