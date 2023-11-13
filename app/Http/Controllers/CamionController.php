@@ -13,6 +13,9 @@ use App\Models\Conduce;
 use App\Models\Orden;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use LDAP\Result;
+
+use function PHPUnit\Framework\directoryExists;
 
 class CamionController extends Controller
 {
@@ -142,7 +145,11 @@ class CamionController extends Controller
                 'message' => 'El camionero no está en un camion',
             ], 422);
         }
-        $matricula= $matricula->matricula;
+        $matricula = $matricula->matricula;
+        return $this->mapaLleva($matricula);
+    }
+    private function mapaLleva($matricula)
+    {
 
         // Tomo la troncal de los lotes que lleva el camion
         $troncal = DB::select("SELECT ID_troncal
@@ -178,26 +185,27 @@ class CamionController extends Controller
 
         $ordenOrigen = self::ordenOrigen($troncal, $matricula, 0);
 
-        $lotesCargados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
+        $lotesCargados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden, SENTIDO_LOTES.sentido direccion
         FROM LLEVA
         INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LLEVA.ID_lote
         INNER JOIN ORDENES ON ORDENES.ID_almacen = DESTINO_LOTE.ID_almacen and ORDENES.ID_troncal = DESTINO_LOTE.ID_troncal
+        INNER JOIN SENTIDO_LOTES ON SENTIDO_LOTES.ID = LLEVA.ID_lote
         WHERE fecha_carga is not null
         and fecha_descarga is null
         and matricula = ?
         ', [$matricula]);
 
+        $lotesAsignados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden, SENTIDO_LOTES.sentido direccion
+        FROM LLEVA
+        INNER JOIN LOTES ON LOTES.ID=LLEVA.ID_lote
+        INNER JOIN ORDENES ON ORDENES.ID_almacen = LOTES.ID_almacen and ORDENES.ID_troncal = LOTES.ID_troncal
+        INNER JOIN SENTIDO_LOTES ON SENTIDO_LOTES.ID = LLEVA.ID_lote
+        WHERE fecha_carga is null
+        and matricula = ?', [$matricula]);
 
 
-
+        //SI EL CAMION NO TIENE LOTES CARGADOS
         if (count($lotesCargados) == 0) {
-
-            $lotesAsignados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
-            FROM LLEVA
-            INNER JOIN LOTES ON LOTES.ID=LLEVA.ID_lote
-            INNER JOIN ORDENES ON ORDENES.ID_almacen = LOTES.ID_almacen and ORDENES.ID_troncal = LOTES.ID_troncal
-            WHERE fecha_carga is null
-            and matricula = ?', [$matricula]);
 
             if (count($lotesAsignados) == 0) {
                 //return no hay nada
@@ -205,18 +213,15 @@ class CamionController extends Controller
                     'message' => 'No hay destinos asignados',
                 ], 200);
             }
-            //  COMPRUEBA SI TIENE LOTES PARA CARGAR EN EL ALMCEN ORIGEN
-            // foreach($lotesAsignados as $lote){
-            //     if($o)
-            // }
 
+            //DETERMINA LA DIRECCION DE ACUERDO AL ORDEN ORIGEN
             if ($ordenOrigen == 1) {
                 $direccion = 'asc';
             } else if ($ordenOrigen == $ultimoOrdenDeTroncal) {
                 $direccion = 'desc';
             } else {
+                //SI EL ORDEN ORIGEN NO CORRESPONDE AL EXTREMO DE LA TRONCAL BUSCA EL ORDEN ORIGEN ANTERIOR
                 $almacenOrigen = $this->ordenToAlmacen($troncal, $ordenOrigen);
-
                 $loteOrigen = DB::select('SELECT LLEVA.Id_lote,
                 CASE
                     WHEN fecha_descarga is not null THEN fecha_descarga
@@ -239,35 +244,143 @@ class CamionController extends Controller
                  limit 1', [$troncal, $almacenOrigen, $almacenOrigen, $matricula]);
 
 
-                if (!isset($loteOrigen[0]) || $loteOrigen[0]->esta == 1) {
+                if (!isset($loteOrigen[0]) || $loteOrigen[0]->esta == 0) {
+                    //SI EL ORDEN ORIGEN ANTERIOR NO CORRESPONDE CON LA TRONCAL SE DEJA 1 COMO EL ORDEN ORIGEN ANTERIOR
                     $orden2 = 1;
                 } else {
-                    $almacenOrigen = $loteOrigen[0]->almacen;
-
-                    $orden2 = DB::select('SELECT orden
-                    FROM ORDENES
-                    WHERE ID_almacen=?
-                    AND ID_troncal=?
-                    ', [$almacenOrigen[0]->ID_almacen, $troncal])[0]->orden;
+                    $almacenOrigen2 = $loteOrigen[0]->almacen;
+                    $orden2 = $this->almacenToOrden($almacenOrigen2, $troncal);
                 }
+
                 $direccion = $orden2 < $ordenOrigen ? 'asc' : 'desc';
             }
 
-            return $lotesAsignados;
+
+            //TOMA LOS LOTES QUE TIENE QUE CARGAR EN SENTIDO DE LA DIRECCION
+            foreach ($lotesAsignados as  $lote) {
+                if (($direccion == 'asc' &&  $ordenOrigen <= $lote->orden) || ($direccion == 'desc' &&  $ordenOrigen >= $lote->orden)) {
+                    $lotesProximos[] = $lote;
+                }
+            }
+            //SI EN SENTIDO DE LA DIRECCION NO HAY LOTES PARA CARGAR INVIERTE EL SENTIDO DE LA DIRECCION
+            if (!isset($lotesProximos)) {
+                $direccion = $direccion == 'asc' ? 'desc' : 'asc';
+                foreach ($lotesAsignados as  $lote) {
+
+                    if (($direccion == 'asc' &&  $ordenOrigen <= $lote->orden) || ($direccion == 'desc' &&  $ordenOrigen >= $lote->orden)) {
+                        $lotesProximos[] = $lote;
+                    }
+                }
+            }
+
+            //TOMA LOS LOTES PROXIMOS QUE EL SENTIDO COINCIDA CON EL DEL CAMION
+            foreach ($lotesProximos as  $lote) {
+
+                if (($direccion == $lote->direccion)) {
+                    $lotesFinales[] = $lote;
+                }
+            }
+            //SI NINGUNO COINCIDE TOMO TODOS LOS LOTES
+            if (!isset($lotesFinales)) {
+                $lotesFinales = $lotesProximos;
+            }
+
+
+            $carga = [];
+            foreach ($lotesFinales as $index => $lote) {
+
+                if ($index == 0) {
+                    $carga[] = $lote;
+                } else if ($carga[0]->orden == $lote->orden) {
+                    $carga[] = $lote;
+                } else if (($direccion == 'desc' &&  $carga[0]->orden < $lote->orden) || ($direccion == 'asc' &&  $carga[0]->orden > $lote->orden)) {
+                    $carga = [];
+                    $carga[] = $lote;
+                }
+            }
+
+            foreach ($carga as $lote) {
+                $idLotesCarga[] = $lote->ID_lote;
+            }
+
+            return response()->json([
+                'modo' => 'lleva',
+                'origen' => $this->ordenToAlmacen($troncal, $ordenOrigen),
+                'destino' => $this->ordenToAlmacen($troncal, $carga[0]->orden),
+                'descargar' => [],
+                'cargar' => $idLotesCarga
+            ], 200);
         }
 
-        // si alguna orden de lotes cargados es igual a la orden origen devolver que descargue ese lote en el almacen de la orden origen
-        foreach ($lotesCargados as $lote) {
-            if ($lote->orden == $ordenOrigen) {
-                return response()->json([
-                    'message' => "Descargar lote $lote en el almacen",
-                ], 200);
+        //OBTENER LA DIRECCION DE LA DIRECCION DE LOS LOTES CARGADOS
+        $direccion = $lotesCargados[0]->direccion;
+
+        $carga = [];
+        $descarga = [];
+
+
+        //VER CUALES LOTES CARGADOS ESTAN UBICADOS DEL LADO HACIA EL QUE VA LA DIRECCION DEL CAMION
+        foreach ($lotesAsignados as  $lote) {
+            if (($direccion == 'asc' &&  $ordenOrigen <= $lote->orden) || ($direccion == 'desc' &&  $ordenOrigen >= $lote->orden)) {
+                $lotesCargaProximos[] = $lote;
             }
         }
+        if (isset($lotesCargaProximos)) {
+            //SI HAY VER CUALES SU DIRECCION COINCIDE CON LA DEL CAMION
+            foreach ($lotesCargaProximos as  $lote) {
 
+                if (($direccion == $lote->direccion)) {
+                    $lotesCargaFinales[] = $lote;
+                }
+            }
+            if (isset($lotesCargaFinales)) {
+                //VER CUALES SON QUE ESTAN EN UN PUNTO MAS CERCANO AL ALMACEN ORIGEN
+                foreach ($lotesCargaFinales as $index => $lote) {
 
-        //determinar direccion del camion en la troncal
-        // $direccionCamion = $ordenOrigen < $lotesCargados[0];
+                    if ($index == 0) {
+                        $carga[] = $lote;
+                    } else if ($carga[0]->orden == $lote->orden) {
+                        $carga[] = $lote;
+                    } else if (($direccion == 'desc' &&  $carga[0]->orden < $lote->orden) || ($direccion == 'asc' &&  $carga[0]->orden > $lote->orden)) {
+                        $carga = [];
+                        $carga[] = $lote;
+                    }
+                }
+            }
+        }
+        //TOMO ORDEN DESTINO COMO EL ORDEN DEL PAQUETE ASIGNADO MAS CERCANO O COMO EL PRIMERO DE LA TRONCAL(EN CASO DE LA DIRECCION SER DESCENDENTE) O EL ULTMO (EN CASO DE SER ASCENDENTE)
+        if (isset($carga)) {
+            $ordenDestino = $carga[0]->orden;
+        } else {
+            $ordenDestino = $direccion == 'asc' ? $ultimoOrdenDeTroncal : 1;
+        }
+
+        foreach ($lotesCargados as $index => $lote) {
+
+            if ($ordenDestino == $lote->orden) {
+                $descarga[] = $lote;
+            } else if (($direccion == 'desc' &&  $ordenDestino < $lote->orden) || ($direccion == 'asc' &&  $ordenDestino > $lote->orden)) {
+                $descarga = [];
+                $carga = [];
+                $descarga[] = $lote;
+            }
+        }
+        $idLotesCarga = [];
+        foreach ($carga as $lote) {
+            $idLotesCarga[] = $lote->ID_lote;
+        }
+        $idLotesDescarga = [];
+        foreach ($descarga as $lote) {
+            $idLotesDescarga[] = $lote->ID_lote;
+        }
+
+        return response()->json([
+            'modo' => 'lleva',
+            'origen' => $this->ordenToAlmacen($troncal, $ordenOrigen),
+            'destino' => $this->ordenToAlmacen($troncal, $ordenDestino),
+            'descargar' => $idLotesDescarga,
+            'cargar' => $idLotesCarga
+        ], 200);
     }
 
     private function ordenOrigen($troncal, $matricula, $offset)
@@ -294,19 +407,12 @@ class CamionController extends Controller
          order by fecha DESC
          limit 2', [$troncal, $matricula]);
 
-
         if (!isset($loteOrigen[$offset]) || $loteOrigen[$offset]->esta == 0) {
             $ordenOrigen = 1;
         } else {
             $almacenOrigen = $loteOrigen[0]->almacen;
-            return $almacenOrigen;
-            $ordenOrigen = DB::select('SELECT orden
-            FROM ORDENES
-            WHERE ID_almacen=?
-            AND ID_troncal=?
-            ', [$almacenOrigen[0]->ID_almacen, $troncal])[0]->orden;
+            $ordenOrigen = $this->almacenToOrden($almacenOrigen, $troncal);
         }
-
         return $ordenOrigen;
     }
 
@@ -314,9 +420,18 @@ class CamionController extends Controller
     {
         return DB::select('SELECT ID_almacen
         FROM ORDENES
-        WHERE troncal =?
+        WHERE ID_troncal =?
         and orden =?
         order by baja desc
         limit 1', [$troncal, $orden])[0]->ID_almacen;
+    }
+
+    private function almacenToOrden($almacen, $troncal)
+    {
+        return DB::select('SELECT orden
+        FROM ORDENES
+        WHERE ID_almacen=?
+        AND ID_troncal=?
+        ', [$almacen, $troncal])[0]->orden;
     }
 }
