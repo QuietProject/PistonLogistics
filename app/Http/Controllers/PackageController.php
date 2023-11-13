@@ -192,7 +192,12 @@ class PackageController extends Controller
 
         $ordenes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "ordenes/almacen/$id")->json();
 
-        return view('crearLote', ['ordenes' => $ordenes]);
+        if($ordenes == []){
+            session()->flash('message', "El almacen no está en ninguna troncal");
+            return redirect()->back();
+        }else{
+            return view('crearLote', ['ordenes' => $ordenes]);
+        }
     }
 
     public function crearLote(Request $request)

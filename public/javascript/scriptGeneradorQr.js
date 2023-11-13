@@ -8,8 +8,9 @@ btnsGenerar.forEach(btnGenerar => {
         div.style.flexDirection = 'column';
         let codigo = btnGenerar.getAttribute("data-codigo");
 
-        const btnDescargar = document.createElement("button");
-        btnDescargar.textContent = 'Descargar QR';
+        const btnDescargar = document.createElement("a");
+        btnDescargar.className = "descargar";
+        btnDescargar.textContent = 'Descargar';
         btnDescargar.addEventListener('click', () => {
             html2canvas(div).then(canvas => {
                 const imageData = canvas.toDataURL('image/png');
@@ -45,10 +46,8 @@ btnsGenerar.forEach(btnGenerar => {
         Swal.fire({
             title: div,
             html: descargar,
-            confirmButtonText: 'Ok',
-            confirmButtonColor: 'var(--highlight)',
-            cancelButtonText: 'Descargar',
-            cancelButtonColor: 'var(--highlight)',
+            confirmButtonText: 'Cerrar',
+            confirmButtonColor: 'crimson'
         });
     })
 });

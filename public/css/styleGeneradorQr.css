@@ -53,6 +53,33 @@ table{
     overflow: auto;
 }
 
+.swal2-html-container{
+    height: 7vh;
+    overflow: hidden;
+}
+.swal2-html-container > div:first-child{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+div:where(.swal2-container) div:where(.swal2-actions) {
+    margin: 0 !important;
+}
+
+
+.descargar{
+    border: 0;
+    border-radius: 0.25em;
+    background: initial;
+    background-color: var(--highlight);
+    color: #fff;
+    font-size: 1em;
+    padding: 0.625em 1.1em;
+    transition: box-shadow .1s;
+    font-weight: 500;
+}
+
 th{
     border: 2px solid var(--highlight);
     height: 4vh;

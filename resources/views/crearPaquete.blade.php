@@ -104,6 +104,7 @@
             <div>
                 <div></div>
                 <a href="../cliente">Cargar Paquete</a>
+                <a href="../generadorQr">QR Paquetes</a>
             </div>
 
             <div>
