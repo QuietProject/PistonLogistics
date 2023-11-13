@@ -63,8 +63,8 @@ class UsersController extends Controller
         if ($user->rol == 0) {
             return to_route('login')->with('success',__('Se ha verificado el email correctamente'));
         }
-        //TODO
-        return 'retornar a aplcacion';
+
+        return redirect()->away(env('FRONTEND_URL'));
     }
 
     /**
@@ -286,7 +286,6 @@ class UsersController extends Controller
         if ($rol == 0) {
             return redirect()->route('login')->with('success', __($status));
         }
-        //TODO
-        return 'retornar a aplcacion';
+        return redirect()->away(env('FRONTEND_URL'));
     }
 }

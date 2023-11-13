@@ -1,6 +1,6 @@
 <x-layout titulo='Lleva' menu='7' import1="../css/styleLlevaReparteTrae.css">
     <div class="display">
-        <h2 class="titleText">{{ __("Asignar lotes a camiones") }}</h2>
+        <h2 class="titleText">{{ __("Lotes asignados a camiones") }}</h2>
         @if (count($lotes) == 0)
             <p class="textNegative">{{ __("No hay lotes para asignar") }}</p>
         @else
