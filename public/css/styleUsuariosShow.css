@@ -172,10 +172,11 @@ tr:nth-child(even) {
 .switchBtn {
     background-color: var(--highlight);
     height: 3vh;
-    width: 5vw;
+    width: 15vw;
     border-radius: 15px;
     font-weight: 500;
     font-size: 1.5vh;
+    margin-top: 2vh;
 }
 
 .switchBtn:hover {
