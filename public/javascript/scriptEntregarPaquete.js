@@ -106,7 +106,6 @@ if(document.documentElement.lang === 'es'){
             );
     
             if (columnaSeleccionada !== "cedula") {
-                // Reemplaza "ID" con la identificación de tu primera columna
                 if (titulos.length > 0) {
                     if (titulos[0].textContent === "") {
                         titulos.forEach((titulo) => {

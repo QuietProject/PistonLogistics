@@ -121,6 +121,14 @@ class PackageController extends Controller
         return view('entregarPaquete', ['paquetes' => $paquetes]);
     }
 
+    public function getPaquetesQr(){
+        $idAlmacenCliente = explode('.', session('nombre'))[0];
+
+        $paquetes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "cliente/paquetes/$idAlmacenCliente")->json()['paquetes'];
+
+        return view('generadorQr', ['paquetes' => $paquetes]);
+    }
+
     public function entregarPaquete($id){
 
         $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL"). "paquetes/entregar/$id");

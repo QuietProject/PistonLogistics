@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleCrearPaquete.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
@@ -23,10 +24,10 @@
                 customClass: {
                     container: 'popup'
                 },
-                
+
             };
 
-            if (message != 'Paquete creado exitosamente') {
+            if (!message.startsWith('Paquete creado exitosamente con codigo: ')) {
                 options.title = message;
                 options.icon = 'error';
             } else {
@@ -34,17 +35,17 @@
             }
 
             Swal.fire(options).then(() => {
-            Swal.fire({
-                title: 'Cargando...',
-                icon: 'info',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
+                Swal.fire({
+                    title: 'Cargando...',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                window.location.href = "{{ route('clear.message') }}";
             });
-            window.location.href = "{{ route('clear.message') }}";
-        });
         </script>
     @endif
 
@@ -57,7 +58,8 @@
         <div>
             <div>
                 <h3>Cedula</h3>
-                <input type="number" name="cedula" id="cedula" placeholder="xxxxxxxx" min="10000000" max="99999999" required>
+                <input type="number" name="cedula" id="cedula" placeholder="xxxxxxxx" min="10000000" max="99999999"
+                    required>
             </div>
             <div>
                 <h3>Mail</h3>

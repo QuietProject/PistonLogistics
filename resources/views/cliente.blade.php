@@ -171,6 +171,7 @@
             <div>
                 <div></div>
                 <a href="../crearPaquete">Crear Paquete</a>
+                <a href="../generadorQr">QR paquetes</a>
             </div>
 
             <div>

@@ -39,15 +39,11 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
         Route::get("/cliente/{paquetes}", [PackageController::class, "carga"])->name("cliente.carga");
         Route::view("/crearPaquete", "crearPaquete")->name("crearPaquete");
         Route::post("/crearPaquete", [PackageController::class, "crearPaquete"])->name("crearPaquete.store");
+        Route::get("/generadorQr", [PackageController::class, "getPaquetesQr"])->name("generadorQr");
     });
 
 
     Route::middleware("authorize:1")->group(function () {
-        
-        Route::get('/clear-message', function () {
-            session()->forget('message');
-            return redirect()->back();
-        })->name('clear.message');
 
         Route::view("/almacen", "almacen")->name("almacen");
 
@@ -73,9 +69,13 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
         Route::post("/paquetePeso", [PackageController::class, "asignarPeso"])->name("paquetePeso.asignar");
 
         Route::get("/pronto/{idLote}", [PackageController::class, "lotePronto"])->name("lotePronto");
+
     });
 
 
     Route::view("/administrador", "administrador")->name("administrador");
-
+    Route::get('/clear-message', function () {
+        session()->forget('message');
+        return redirect()->back();
+    })->name('clear.message');
 });

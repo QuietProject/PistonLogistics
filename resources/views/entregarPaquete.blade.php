@@ -146,9 +146,6 @@
             </table>
 
         </div>
-        <div id="lotes">
-
-        </div>
     </section>
 
 
