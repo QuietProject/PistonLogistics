@@ -49,12 +49,12 @@
                 <table class="tableView" id="tableDrivers2">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Peso</th>
-                            <th>Almacen final</th>
-                            <th>Direccion destino</th>
-                            <th>Fecha_registrado</th>
-                            <th>Fecha de ingreso al lote</th>
+                            <th style="width:5%">ID</th>
+                            <th style="width:5%">Peso</th>
+                            <th style="width:12.5%">Almacen final</th>
+                            <th style="width:15%">Direccion destino</th>
+                            <th style="width:12.5%">Fecha_registrado</th>
+                            <th style="width:20%">Fecha de ingreso al lote</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,11 +82,11 @@
                     <table class="tableView" id="tableDrivers">
                         <thead>
                             <tr>
-                                <th style="width: ">matricula</th>
-                                <th style="width: ">Carga asignada</th>
-                                <th style="width: ">Peso maximo</th>
-                                <th style="width: ">Troncal asignada</th>
-                                <th style="width: "></th>
+                                <th style="width:15%">Matricula</th>
+                                <th style="width:15%">Carga asignada</th>
+                                <th style="width:15%">Peso maximo</th>
+                                <th style="width:15%">Troncal asignada</th>
+                                <th style="width:10%"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -290,15 +290,15 @@
     .tableContainer {
         position: absolute;
         top: 30vh;
-        left: 8.5vw;
+        left: 5vw;
         max-height: 30vh;
-        width: 50vw;
+        width: 55vw;
         border-radius: 10px;
         overflow-y: scroll;
     }
 
     .tableView {
-        width: 50vw;
+        width: 55vw;
         background-color: rgb(140, 140, 140);
         border-collapse: collapse;
     }

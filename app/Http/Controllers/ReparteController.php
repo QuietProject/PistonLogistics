@@ -96,7 +96,7 @@ class ReparteController extends Controller
                                         FROM TRAE
                                         where fecha_carga is null)
         and REPARTE.fecha_carga is null
-        group by VEHICULOS.matricula
+        group by VEHICULOS.matricula, VEHICULOS.peso_max
         having carga_asignada + ? < peso_max
         and almacen is null or almacen = ?',[$matricula,$paquete->peso,$almacen[0]->ID_almacen]);
         if(count($camioneta)!=1){
