@@ -1,0 +1,65 @@
+.tableContainer {
+    position: absolute;
+    top: 30vh;
+    left: 8.5vw;
+    max-height: 65vh;
+    width: 80vw;
+    border-radius: 10px;
+    overflow-y: scroll;
+}
+
+.tableView {
+    width: 80vw;
+    background-color: rgb(140, 140, 140);
+    border-collapse: collapse;
+}
+
+a {
+    text-decoration: none;
+    color: var(--highlight);
+    text-shadow: 0 0 5px var(--base);
+}
+
+tr {
+    height: 4.5vh;
+}
+
+th {
+    background-color: var(--base);
+    color: white;
+    position: sticky;
+    top: 0;
+    text-align: center;
+    font-size: large;
+    user-select: none;
+}
+
+td {
+    text-align: center;
+    font-size: medium
+}
+
+tr:nth-child(even) {
+    background-color: rgb(165, 165, 165);
+}
+
+.textNegative {
+    font-weight: 500;
+    text-align: center;
+    color: white;
+    font-size: 5vh;
+    margin-top: 50vh;
+}
+
+.switchBtn {
+    background-color: var(--highlight);
+    height: 2.5vh;
+    width: 5vw;
+    border-radius: 15px;
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+.switchBtn:hover {
+    cursor: pointer;
+}

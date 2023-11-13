@@ -59,7 +59,7 @@ class TraeController extends Controller
                                         FROM LLEVA
                                         where fecha_carga is null)
         and TRAE.fecha_carga is null
-        group by VEHICULOS.matricula');
+        group by VEHICULOS.matricula, VEHICULOS.peso_max');
 
 
         return view('trae.show', [

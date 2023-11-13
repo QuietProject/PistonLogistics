@@ -44,7 +44,7 @@ class ReparteController extends Controller
         }
         $paquete=$consulta[0];
 
-        $camionetas = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(PAQUETES_ALMACENES.ID_almacen) almacen
+        $camionetas = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada,  VEHICULOS.peso_max, max(PAQUETES_ALMACENES.ID_almacen) almacen
         FROM VEHICULOS
         INNER JOIN CAMIONETAS ON VEHICULOS.matricula = CAMIONETAS.matricula
         LEFT JOIN REPARTE ON REPARTE.matricula = VEHICULOS.matricula
@@ -56,7 +56,7 @@ class ReparteController extends Controller
                                         FROM TRAE
                                         where fecha_carga is null)
         and REPARTE.fecha_carga is null
-        group by VEHICULOS.matricula
+        group by VEHICULOS.matricula, VEHICULOS.peso_max
         having carga_asignada + ? < peso_max
         and almacen is null or almacen = ?',[$paquete->peso,$paquete->ID_almacen]);
 

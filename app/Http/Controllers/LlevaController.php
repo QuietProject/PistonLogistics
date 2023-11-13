@@ -59,7 +59,7 @@ class LlevaController extends Controller
         and VEHICULOS.matricula not in(	SELECT TRAE.matricula
 								FROM TRAE
 								where fecha_carga is null)
-        group by VEHICULOS.matricula
+        group by VEHICULOS.matricula, VEHICULOS.peso_max
         having carga_asignada + ?<peso_max
         and troncal = ? or troncal is null',[$lote->peso,$lote->troncal]);
 
@@ -97,7 +97,7 @@ class LlevaController extends Controller
         and VEHICULOS.matricula not in(	SELECT TRAE.matricula
 								FROM TRAE
 								where fecha_carga is null)
-        group by VEHICULOS.matricula
+        group by VEHICULOS.matricula, VEHICULOS.peso_max
         having carga_asignada + ? < peso_max
         and troncal = ? or troncal is null',[$matricula,$pesoLote,$lote->troncal]);
         if(count($camion)!=1){
