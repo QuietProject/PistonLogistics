@@ -173,7 +173,7 @@ class CamionController extends Controller
         $ultimoOrdenDeTroncal = Orden::where('baja', 0)->where('ID_troncal', $troncal)->max('orden');
 
         $ordenOrigen = self::ordenOrigen($troncal, $matricula, 0);
-
+        
         $lotesCargados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
         FROM LLEVA
         INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LLEVA.ID_lote
@@ -191,7 +191,7 @@ class CamionController extends Controller
             $lotesAsignados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
             FROM LLEVA
             INNER JOIN LOTES ON LOTES.ID=LLEVA.ID_lote
-            INNER JOIN ORDENES ON ORDENES.ID_almacen = DESTINO_LOTE.ID_almacen and ORDENES.ID_troncal = DESTINO_LOTE.ID_troncal
+            INNER JOIN ORDENES ON ORDENES.ID_almacen = LOTES.ID_almacen and ORDENES.ID_troncal = LOTES.ID_troncal
             WHERE fecha_carga is null
             and matricula = ?', [$matricula]);
 
@@ -232,17 +232,13 @@ class CamionController extends Controller
                  where !(fecha_descarga is not null and DESTINO_LOTE.ID_almacen=?) and !(fecha_descarga is null and LOTES.ID_almacen=?)
                  and matricula=?
                  order by fecha DESC
-                 limit 1', [$troncal,$almacenOrigen,$almacenOrigen,$matricula]);
+                 limit 1', [$troncal, $almacenOrigen, $almacenOrigen, $matricula]);
 
 
                 if (!isset($loteOrigen[0]) || $loteOrigen[0]->esta == 1) {
                     $orden2 = 1;
                 } else {
-                    if ($loteOrigen[0]->accion == 'descarga') {
-                        $almacenOrigen = DB::select('SELECT ID_almacen from DESTINO_LOTE WHERE ID_lote=?', [$loteOrigen[0]->ID_lote]);
-                    } else {
-                        $almacenOrigen =  DB::select('SELECT ID_almacen from LOTES WHERE ID=?', [$loteOrigen[0]->Id_lote]);
-                    }
+                    $almacenOrigen = $loteOrigen[0]->almacen;
 
                     $orden2 = DB::select('SELECT orden
                     FROM ORDENES
@@ -250,11 +246,10 @@ class CamionController extends Controller
                     AND ID_troncal=?
                     ', [$almacenOrigen[0]->ID_almacen, $troncal])[0]->orden;
                 }
-                $direccion = $orden2 <$ordenOrigen ?'asc':'desc';
+                $direccion = $orden2 < $ordenOrigen ? 'asc' : 'desc';
             }
 
-
-
+            return $lotesAsignados;
         }
 
         // si alguna orden de lotes cargados es igual a la orden origen devolver que descargue ese lote en el almacen de la orden origen
@@ -268,7 +263,7 @@ class CamionController extends Controller
 
 
         //determinar direccion del camion en la troncal
-        $direccionCamion = $ordenOrigen < $lotesCargados[0];
+        // $direccionCamion = $ordenOrigen < $lotesCargados[0];
     }
 
     private function ordenOrigen($troncal, $matricula, $offset)
@@ -284,27 +279,23 @@ class CamionController extends Controller
             ELSE LOTES.ID_almacen
         END as almacen,
         CASE
-            WHEN exists( select ID_almacen from ORDENES where id_troncal = 4 and id_almacen=almacen and baja =0) THEN 1
+            WHEN exists( select ID_almacen from ORDENES where id_troncal = ? and id_almacen=almacen and baja =0) THEN 1
             ELSE 0
         END as esta
          FROM LLEVA
          INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
          INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote
          where matricula=?
-         where fecha_carga is not null
+         and fecha_carga is not null
          order by fecha DESC
-         limit 2', [$troncal,$matricula]);
+         limit 2', [$troncal, $matricula]);
 
 
-        if (!isset($loteOrigen[$offset]) || $loteOrigen[$offset]->esta==0) {
+        if (!isset($loteOrigen[$offset]) || $loteOrigen[$offset]->esta == 0) {
             $ordenOrigen = 1;
         } else {
-            if ($loteOrigen[0]->accion == 'descarga') {
-                $almacenOrigen = DB::select('SELECT ID_almacen from DESTINO_LOTE WHERE ID_lote=?', [$loteOrigen[$offset]->ID_lote]);
-            } else {
-                $almacenOrigen =  DB::select('SELECT ID_almacen from LOTES WHERE ID=?', [$loteOrigen[$offset]->Id_lote]);
-            }
-
+            $almacenOrigen = $loteOrigen[0]->almacen;
+            return $almacenOrigen;
             $ordenOrigen = DB::select('SELECT orden
             FROM ORDENES
             WHERE ID_almacen=?
