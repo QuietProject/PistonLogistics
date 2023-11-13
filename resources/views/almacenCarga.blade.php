@@ -481,8 +481,224 @@
                 }
 
             });
+        }
 
-            function traducirFecha(fechaString) {
+        function scanCodigo(cod) {
+            const ruta = `${rutaBase}?codigo=${cod}`;
+
+            fetch(ruta, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+
+                    if (arrayCodigos.includes(cod)) {
+                        data.data = null;
+                    } else {
+                        arrayCodigos.push(cod);
+                        console.log(arrayCodigos);
+                    }
+
+                    const tr = document.createElement('tr');
+
+                    if (data.data) {
+                        const valoresData = Object.values(data.data);
+
+                        if (cod.startsWith("L")) {
+
+                            let id = valoresData[0];
+                            let codigo = valoresData[1];
+                            let idTroncal = valoresData[2];
+                            let idAlmacen = valoresData[3];
+                            let fecha_creacion = valoresData[4];
+                            fecha_creacion = traducirFecha(fecha_creacion);
+                            let fecha_pronto = valoresData[5];
+                            fecha_pronto = traducirFecha(fecha_pronto);
+
+                            let lote = id;
+
+                            arrayLotes.push(lote);
+                            if (arrayLotes == '') {
+                                infoLote.style.display = 'none';
+                            } else {
+                                infoLote.style.display = '';
+                            }
+
+                            const tdId = document.createElement('td');
+                            const tdCodigo = document.createElement('td');
+                            const tdIdTroncal = document.createElement('td');
+                            const tdIdAlmacen = document.createElement('td');
+                            const tdFechaCreacion = document.createElement('td');
+                            const tdFechaPronto = document.createElement('td');
+                            const tdFechaCerrado = document.createElement('td');
+                            const tdTipo = document.createElement('td');
+                            const btnQuitar = document.createElement('td');
+
+                            tdId.textContent = id;
+                            tdCodigo.textContent = codigo;
+                            tdIdTroncal.textContent = idTroncal;
+                            tdIdAlmacen.textContent = idAlmacen;
+                            tdFechaCreacion.textContent = fecha_creacion;
+                            tdFechaPronto.textContent = fecha_pronto;
+                            btnQuitar.textContent = "Quitar";
+
+                            btnQuitar.className = "btnQuitar";
+                            btnQuitar.addEventListener("click", () => {
+                                const rowIndex = btnQuitar.parentElement.rowIndex;
+
+                                arrayLotes.splice(rowIndex - 1, 1);
+                                arrayCodigos.splice(arrayCodigos.indexOf(cod), 1);
+
+                                btnQuitar.parentElement.remove();
+                                if (arrayLotes == '') {
+                                    infoLote.style.display = 'none';
+                                } else {
+                                    infoLote.style.display = '';
+                                }
+                            });
+
+                            tr.appendChild(tdId);
+                            tr.appendChild(tdCodigo);
+                            tr.appendChild(tdIdTroncal);
+                            tr.appendChild(tdIdAlmacen);
+                            tr.appendChild(tdFechaCreacion);
+                            tr.appendChild(tdFechaPronto);
+                            tr.appendChild(btnQuitar);
+
+                            lotesTabla.appendChild(tr);
+
+                        } else if (cod.startsWith("P")) {
+
+                            let id = valoresData[0];
+                            let codigo = valoresData[1];
+                            let idAlmacenCliente = valoresData[2];
+                            let fecha_registrado = valoresData[3];
+                            fecha_registrado = traducirFecha(fecha_registrado);
+                            let idPickup = valoresData[4];
+                            let dir = valoresData[5];
+                            let peso = valoresData[6];
+                            let cedula = valoresData[7];
+                            let mail = valoresData[9];
+                            let estado = valoresData[10];
+
+                            let paquete = id;
+                            arrayPaquetes.push(paquete);
+                            if (arrayPaquetes == '') {
+                                infoPaquete.style.display = 'none';
+                            } else {
+                                infoPaquete.style.display = '';
+                            }
+
+                            const tdId = document.createElement('td');
+                            const tdCodigo = document.createElement('td');
+                            const tdIdAlmacenCliente = document.createElement('td');
+                            const tdFechaRegistrado = document.createElement('td');
+                            const tdIdPickup = document.createElement('td');
+                            const tdDir = document.createElement('td');
+                            const tdPeso = document.createElement('td');
+                            const tdCedula = document.createElement('td');
+                            const tdMail = document.createElement('td');
+                            const tdEstado = document.createElement('td');
+                            const btnQuitar = document.createElement('td');
+
+                            tdId.textContent = id;
+                            tdCodigo.textContent = codigo;
+                            tdIdAlmacenCliente.textContent = idAlmacenCliente;
+                            tdFechaRegistrado.textContent = fecha_registrado;
+                            tdIdPickup.textContent = idPickup;
+                            tdDir.textContent = dir;
+                            tdPeso.textContent = peso;
+                            tdCedula.textContent = cedula;
+                            tdMail.textContent = mail;
+                            tdEstado.textContent = estado;
+                            btnQuitar.textContent = "Quitar";
+
+                            btnQuitar.className = "btnQuitar";
+                            btnQuitar.addEventListener("click", () => {
+                                const rowIndex = btnQuitar.parentElement.rowIndex;
+
+                                arrayPaquetes.splice(rowIndex - 1, 1);
+                                arrayCodigos.splice(arrayCodigos.indexOf(cod), 1);
+
+                                btnQuitar.parentElement.remove();
+                                if (arrayPaquetes == '') {
+                                    infoPaquete.style.display = 'none';
+                                } else {
+                                    infoPaquete.style.display = '';
+                                }
+                            });
+
+                            tr.appendChild(tdId);
+                            tr.appendChild(tdCodigo);
+                            tr.appendChild(tdIdAlmacenCliente);
+                            tr.appendChild(tdFechaRegistrado);
+                            tr.appendChild(tdIdPickup);
+                            tr.appendChild(tdDir);
+                            tr.appendChild(tdPeso);
+                            tr.appendChild(tdCedula);
+                            tr.appendChild(tdMail);
+                            tr.appendChild(tdEstado);
+                            tr.appendChild(btnQuitar);
+
+                            paquetesTabla.appendChild(tr);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            btnSubmit.addEventListener('click', () => {
+
+                if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
+                    const ruta =
+                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+
+                    function getRoute(paquetes, lotes) {
+                        let r = ruta;
+                        r = r.replace("paquetesArray", paquetes);
+                        r = r.replace("lotesArray", "null");
+                        return r;
+                    }
+
+                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+                } else if (arrayLotes.length > 0 && arrayPaquetes.length === 0) {
+                    const ruta =
+                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+
+                    function getRoute(paquetes, lotes) {
+                        let r = ruta;
+                        r = r.replace("paquetesArray", "null");
+                        r = r.replace("lotesArray", lotes);
+                        return r;
+                    }
+
+                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+                } else if (arrayLotes.length > 0 && arrayPaquetes.length > 0) {
+                    const ruta =
+                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+
+                    function getRoute(paquetes, lotes) {
+                        let r = ruta;
+                        r = r.replace("paquetesArray", paquetes);
+                        r = r.replace("lotesArray", lotes);
+                        return r;
+                    }
+                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+                }
+
+            });
+        }
+
+        function traducirFecha(fechaString) {
                 let fecha = new Date(fechaString);
 
                 let dia = fecha.getDate();
@@ -502,8 +718,6 @@
 
                 return fechaFormateada;
             }
-
-        }
     </script>
 </body>
 

@@ -308,7 +308,11 @@ class PackageController extends Controller
         if ($paquetes != 'null' && $lotes == 'null') {
             $response1 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "almacen/carga?idPaquete=$paquetes");
 
-            return redirect()->back()->with("message", $response1['message']);
+            if ($response1->status() == 200) {
+                return redirect()->back()->with("message", $response1['message']);
+            } else {
+                return redirect()->back()->with("message", $response1['message']['idPaquete'][0]);
+            }
 
         } else if ($paquetes == 'null' && $lotes != 'null') {
             $response2 = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env('API_URL') . "lotes/cargar?idLote=$lotes");
@@ -332,7 +336,7 @@ class PackageController extends Controller
             } else {
                 return redirect()->back()->with(
                     "message",
-                    $response1['message'] .' - '. $response2["message"]['idLote'][0]
+                    $response1['message']['idPaquete'][0] .' - '. $response2["message"]['idLote'][0]
                 );
             }
         }

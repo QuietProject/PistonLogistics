@@ -114,11 +114,6 @@
                                 <p>ID Troncal</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
-                        <th class="columna" data-columna="ID_almacen">
-                            <div>
-                                <p>ID Almacén</p> <i class='bx bx-chevron-down'></i>
-                            </div>
-                        </th>
                         <th class="columna" data-columna="fecha_creacion">
                             <div>
                                 <p>Fecha de Creación</p><i class='bx bx-chevron-down'></i>
@@ -143,7 +138,6 @@
                             <td data-columna="ID_lote">{{ $lote['ID'] }}</td>
                             <td data-columna="codigo">{{ $lote['codigo'] }}</td>
                             <td data-columna="ID_troncal">{{ $lote['ID_troncal'] }}</td>
-                            <td data-columna="ID_almacen">{{ $lote['ID_almacen'] }}</td>
                             <td data-columna="fecha_creacion">{{ $lote['fecha_creacion'] }}</td>
                             @if ($lote['fecha_pronto'] === null)
                                 <td class='btnPronto'

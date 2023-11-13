@@ -24,28 +24,28 @@
                 customClass: {
                     container: 'popup'
                 },
-                
+
             };
 
             if (message != 'Paquete(s) cargado(s) exitosamente') {
                 options.title = message;
                 options.icon = 'error';
-            }else{
+            } else {
                 options.title = message;
             }
 
             Swal.fire(options).then(() => {
-            Swal.fire({
-                title: 'Cargando...',
-                icon: 'info',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
+                Swal.fire({
+                    title: 'Cargando...',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                window.location.href = "{{ route('clear.message') }}";
             });
-            window.location.href = "{{ route('clear.message') }}";
-        });
         </script>
     @endif
 
@@ -337,28 +337,155 @@
                     window.location.href = `${getRoute(arrayPaquetes)}`;
                 }
             });
+        }
 
-            function traducirFecha(fechaString) {
-                let fecha = new Date(fechaString);
+        function scanCodigo(cod) {
 
-                let dia = fecha.getDate();
-                let mes = fecha.getMonth() + 1;
-                let anio = fecha.getFullYear();
-                let horas = fecha.getHours();
-                let minutos = fecha.getMinutes();
+            const ruta = `${rutaBase}?codigo=${cod}`;
 
-                let diaFormateado = dia < 10 ? '0' + dia : dia;
-                let mesFormateado = mes < 10 ? '0' + mes : mes;
-                let anioFormateado = anio % 100;
-                let horasFormateadas = horas < 10 ? '0' + horas : horas;
-                let minutosFormateados = minutos < 10 ? '0' + minutos : minutos;
+            fetch(ruta, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
 
-                let fechaFormateada = diaFormateado + '/' + mesFormateado + '/' + anioFormateado + ' ' + horasFormateadas +
-                    ':' + minutosFormateados;
+                    if (arrayCodigos.includes(cod)) {
+                        data.data = null;
+                    } else {
+                        arrayCodigos.push(cod);
+                        console.log(arrayCodigos);
+                    }
 
-                return fechaFormateada;
-            }
+                    const tr = document.createElement('tr');
 
+                    if (data.data) {
+                        const valoresData = Object.values(data.data);
+
+                        if (cod.startsWith("P")) {
+
+                            let id = valoresData[0];
+                            let codigo = valoresData[1];
+                            let idAlmacenCliente = valoresData[2];
+                            let fecha_registrado = valoresData[3];
+                            fecha_registrado = traducirFecha(fecha_registrado);
+                            let idPickup = valoresData[4];
+                            let dir = valoresData[5];
+                            let peso = valoresData[6];
+                            let cedula = valoresData[7];
+                            let mail = valoresData[9];
+                            let estado = valoresData[10];
+
+                            let paquete = id;
+                            arrayPaquetes.push(paquete);
+                            if (arrayPaquetes == '') {
+                                infoPaquete.style.display = 'none';
+                            } else {
+                                infoPaquete.style.display = '';
+                            }
+
+                            const tdId = document.createElement('td');
+                            const tdCodigo = document.createElement('td');
+                            const tdIdAlmacenCliente = document.createElement('td');
+                            const tdFechaRegistrado = document.createElement('td');
+                            const tdIdPickup = document.createElement('td');
+                            const tdDir = document.createElement('td');
+                            const tdPeso = document.createElement('td');
+                            const tdCedula = document.createElement('td');
+                            const tdMail = document.createElement('td');
+                            const tdEstado = document.createElement('td');
+                            const btnQuitar = document.createElement('td');
+
+                            tdId.textContent = id;
+                            tdCodigo.textContent = codigo;
+                            tdIdAlmacenCliente.textContent = idAlmacenCliente;
+                            tdFechaRegistrado.textContent = fecha_registrado;
+                            tdIdPickup.textContent = idPickup;
+                            tdDir.textContent = dir;
+                            tdPeso.textContent = peso;
+                            tdCedula.textContent = cedula;
+                            tdMail.textContent = mail;
+                            tdEstado.textContent = estado;
+                            btnQuitar.textContent = "Quitar";
+
+                            btnQuitar.className = "btnQuitar";
+                            btnQuitar.addEventListener("click", () => {
+                                const rowIndex = btnQuitar.parentElement.rowIndex;
+
+                                arrayPaquetes.splice(rowIndex - 1, 1);
+                                arrayCodigos.splice(arrayCodigos.indexOf(cod), 1);
+
+                                btnQuitar.parentElement.remove();
+                                if (arrayPaquetes == '') {
+                                    infoPaquete.style.display = 'none';
+                                } else {
+                                    infoPaquete.style.display = '';
+                                }
+                            });
+
+                            tr.appendChild(tdId);
+                            tr.appendChild(tdCodigo);
+                            tr.appendChild(tdIdAlmacenCliente);
+                            tr.appendChild(tdFechaRegistrado);
+                            tr.appendChild(tdIdPickup);
+                            tr.appendChild(tdDir);
+                            tr.appendChild(tdPeso);
+                            tr.appendChild(tdCedula);
+                            tr.appendChild(tdMail);
+                            tr.appendChild(tdEstado);
+                            tr.appendChild(btnQuitar);
+
+                            paquetesTabla.appendChild(tr);
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            btnSubmit.addEventListener('click', () => {
+
+                if (arrayPaquetes.length > 0) {
+                    const ruta = "{{ route('cliente.carga', ['paquetes' => 'paquetesArray']) }}";
+
+                    function getRoute(paquetes) {
+                        let r = ruta;
+                        r = r.replace("paquetesArray", paquetes);
+                        return r;
+                    }
+
+                    window.location.href = `${getRoute(arrayPaquetes)}`;
+                }
+            });
+        }
+
+
+        function traducirFecha(fechaString) {
+            let fecha = new Date(fechaString);
+
+            let dia = fecha.getDate();
+            let mes = fecha.getMonth() + 1;
+            let anio = fecha.getFullYear();
+            let horas = fecha.getHours();
+            let minutos = fecha.getMinutes();
+
+            let diaFormateado = dia < 10 ? '0' + dia : dia;
+            let mesFormateado = mes < 10 ? '0' + mes : mes;
+            let anioFormateado = anio % 100;
+            let horasFormateadas = horas < 10 ? '0' + horas : horas;
+            let minutosFormateados = minutos < 10 ? '0' + minutos : minutos;
+
+            let fechaFormateada = diaFormateado + '/' + mesFormateado + '/' + anioFormateado + ' ' + horasFormateadas +
+                ':' + minutosFormateados;
+
+            return fechaFormateada;
         }
     </script>
 </body>
