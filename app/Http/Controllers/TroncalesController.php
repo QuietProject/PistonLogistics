@@ -20,6 +20,15 @@ class TroncalesController extends Controller
     public function index()
     {
         $troncales = Troncal::all();
+        for ($i=0; $i < count($troncales); $i++) {
+            $troncales[$i]->cantidadOrdenes = Orden::where('ID_troncal', $troncales[$i  ]->ID)
+            ->join('ALMACENES', 'ALMACENES.ID', 'ORDENES.ID_almacen')
+            ->where('ORDENES.baja', 0)
+            ->orderBy('ALMACENES.baja', 'asc')
+            ->orderBy('ORDENES.baja', 'asc')
+            ->orderBy('ORDENES.orden', 'asc')
+            ->count();
+        }
         return view('troncales.index', ['troncales' => $troncales, 'troncal' => new Troncal()]);
     }
 

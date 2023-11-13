@@ -20,7 +20,7 @@
                             <td><a href="{{ route('troncales.show', $troncal) }}"> {{ $troncal->ID }}</a>
                             </td>
                             <td>{{ $troncal->nombre }}</td>
-                            <td>{{ count($troncal->ordenes) }}</td>
+                            <td>{{ $troncal->cantidadOrdenes }}</td>
                             <td>
 
                                 @if ($troncal->baja)
