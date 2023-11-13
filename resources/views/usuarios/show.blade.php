@@ -1,4 +1,4 @@
-<x-layout menu="2" titulo="Usuario" import1="../css/styleUsuarios.css">
+<x-layout menu="2" titulo="Usuario" import1="../css/styleUsuariosShow.css">
     <div class="display">
         <h2 class="titleText">{{ __("Usuario") }}</h2>
         <div class="tableContainer">
