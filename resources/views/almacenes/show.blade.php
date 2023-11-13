@@ -1,4 +1,4 @@
-<x-layout menu="3" titulo="Conductores" import1="../css/styleAlmacenesShow.css">
+<x-layout menu="3" titulo="Almacen" import1="../css/styleAlmacenesShow.css">
     <div class="display">
         <h2 class="titleText">Almacen {{ $tipo }}</h2>
         <div class="infoBox" style="left: 7.5vw">

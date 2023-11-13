@@ -1,4 +1,4 @@
-<x-layout menu="4" titulo="Troncales">
+<x-layout menu="4" titulo="Editar Ordenes">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
         <p class="titleText">Nombre: {{ $troncal->nombre }}</p>

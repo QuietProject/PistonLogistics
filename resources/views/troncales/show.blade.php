@@ -1,4 +1,4 @@
-<x-layout menu="4" titulo="Troncales" import1="../css/styleTroncalesShow.css">
+<x-layout menu="4" titulo="Troncal" import1="../css/styleTroncalesShow.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
         <h2 class="titleText">Editar Troncal</h2>

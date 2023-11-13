@@ -33,7 +33,9 @@ class SaveAlmacenRequest extends FormRequest
 
         return [
             'nombre' => ['required', 'max:32'],
-            'direccion' => ['bail', 'required', 'max:128'],
+            'calle' =>['required'],
+            'numero'=>['required'],
+            'departamento'=>['required',Rule::in(['Artigas', 'Canelones', 'Cerro Largo', 'Colonia', 'Durazno', 'Flores', 'Florida', 'Lavalleja', 'Maldonado', 'Montevideo', 'Paysandu', 'Río Negro', 'Rivera', 'Rocha', 'Salto', 'San José', 'Soriano', 'Tacuarembo', 'Treinta y Tres'])],
             'tipo' => ['required', Rule::in(['propio', 'cliente'])],
             //'RUT' => ['required_if:tipo,cliente', 'int', 'digits:12', 'exists:clientes,RUT']
             'RUT' => [Rule::when(function(){return $this->input('tipo') === 'cliente';}, ['required', 'int', 'digits:12', 'exists:CLIENTES,RUT'])]
