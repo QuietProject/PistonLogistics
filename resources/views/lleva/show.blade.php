@@ -290,15 +290,15 @@
     .tableContainer {
         position: absolute;
         top: 30vh;
-        left: 8.5vw;
+        left: 5vw;
         max-height: 30vh;
-        width: 50vw;
+        width: 55vw;
         border-radius: 10px;
         overflow-y: scroll;
     }
 
     .tableView {
-        width: 50vw;
+        width: 55vw;
         background-color: rgb(140, 140, 140);
         border-collapse: collapse;
     }

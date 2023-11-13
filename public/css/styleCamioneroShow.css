@@ -74,19 +74,17 @@ body {
 }
 
 .tableContainer {
-    position: absolute;
-    top: 40vh;
+    position: relative;
+    top: 25vh;
     left: 8.5vw;
     max-height: 65vh;
     width: 40vw;
     border-radius: 10px;
-    display: flex;
-    flex-direction: row;
     overflow-y: scroll;
 }
 
 .tableView {
-    width: 80vw;
+    width: 40vw;
     background-color: rgb(140, 140, 140);
     border-collapse: collapse;
 }
@@ -137,7 +135,7 @@ tr:nth-child(even) {
     height: 50vh;
     width: 35vw;
     left: 55vw;
-    top: 25vh;
+    top: 10vh;
     text-align: center;
 }
 

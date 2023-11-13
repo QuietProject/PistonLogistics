@@ -100,7 +100,7 @@ class TraeController extends Controller
                                         where fecha_carga is null)
         and TRAE.fecha_carga is null
         and VEHICULOS.matricula = ?
-        group by VEHICULOS.matricula', [$matricula]);
+        group by VEHICULOS.matricula, VEHICULOS.peso_max', [$matricula]);
 
         if (count($vehiculo) != 1) {
             return redirect()->back()->with('error', __('Ha ocurrido un error'));

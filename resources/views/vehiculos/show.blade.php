@@ -53,7 +53,7 @@ if ($vehiculo->baja) {
                     </tbody>
                 </table>
             @else
-                <p>{{ __("Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento") }}</p>
+                <p style="font-weight: 400; color: white; left: 1vw; position: relative;">{{ __("Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento") }}</p>
             @endif
         </div>
         <div class="textTopRight">
