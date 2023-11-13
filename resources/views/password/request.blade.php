@@ -14,7 +14,7 @@
             <label for="email">{{ __("Email") }}</label>
             <input type="email" name="email" id="email" required value="{{ old('email') }}">
             @error('email')
-                <span style="color: red">{{ $message }}</span>
+                <span style="color: red">{{ __($message) }}</span>
             @enderror
         </div>
     </form>

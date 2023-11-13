@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __("Contraseña olvidada") }} - Piston Logistics</title>
+    <title>{{ __("Cambiar contraseña") }} - Piston Logistics</title>
 </head>
 <body>
     <h1>Piston Logistics</h1>
-    <h2>{{ __("Contraseña olvidada") }}</h2>
+    <h2>{{ __("Cambiar contraseña") }}</h2>
     <form action="{{ route('password.update') }}" method="POST">
         @csrf
         <input type="hidden" name="token" value="{{ request()->route('token') }}">
@@ -15,7 +15,7 @@
             <label for="email">{{ __("Email") }}</label>
             <input type="email" name="email" id="email" required value="{{ old('email') }}">
             @error('email')
-                <span style="color: red">{{ $message }}</span>
+                <span style="color: red">{{ __($message) }}</span>
             @enderror
         </div>
         <div>
@@ -23,7 +23,7 @@
             <input type="password" name="password" id="password" required
                 value="{{ old('password') }}">
             @error('password')
-                <span style="color: red">{{ $message }}</span>
+                <span style="color: red">{{ __($message) }}</span>
             @enderror
         </div>
         <div>

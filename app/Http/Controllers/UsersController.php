@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Termwind\Components\BreakLine;
 
 class UsersController extends Controller
 {
@@ -49,19 +50,21 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
         if (!hash_equals((string) $user->getKey(), (string) $id)) {
-            return 'pollo 1';
+            return to_route('login')->with('error',__('Ha ocurrdio un error'));
         }
 
         if (!hash_equals(sha1($user->getEmailForVerification()), (string) $hash)) {
-            return 'pollo 2';
+            return to_route('login')->with('error',__('Ha ocurrdio un error'));
         }
-
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
-
-            event(new Verified($user));
         }
-        return 'ajam?';
+
+        if ($user->rol == 0) {
+            return to_route('login')->with('success',__('Se ha verificado el email correctamente'));
+        }
+        //TODO
+        return 'retornar a aplcacion';
     }
 
     /**
@@ -82,7 +85,6 @@ class UsersController extends Controller
 
                 $user->rol = 0;
                 $user->user = $validated['CI'];
-                $user->password = bcrypt('password');
                 break;
             case 1:
                 $validated = $request->validate([
@@ -138,7 +140,7 @@ class UsersController extends Controller
             return to_route('usuarios.show', $user->user)->with('success', __('Se ha creado el usuario correctamente'));
         } else {
             $user->delete();
-            return redirect()->back()->with('error', __('Ha ocurrido un error').': ' . $status)->withInput();
+            return redirect()->back()->with('error', __('Ha ocurrido un error') . ': ' . $status)->withInput();
         }
     }
 
@@ -181,7 +183,7 @@ class UsersController extends Controller
         );
         return $status === Password::RESET_LINK_SENT
             ? back()->with('success', __($status))
-            : back()->withErrors('error', __('Ha ocurrido un error').': ' . __($status));
+            : back()->withErrors('error', __('Ha ocurrido un error') . ': ' . __($status));
     }
     /**
      * Update the specified resource in storage.
@@ -223,8 +225,9 @@ class UsersController extends Controller
     {
         $request->validate(['email' => 'required|email']);
 
-        $user = User::where('email', $request->input('email'))->get();
-        if (count($user) == 0 || $user[0]->rol != 0) {
+        $user = User::where('email', $request->input('email'))->first();
+
+        if (empty($user)) {
             return redirect()->back()->withErrors(['email' => __('No hemos podido encontrar el email')])->withInput();
         }
         if (!$user->hasVerifiedEmail()) {
@@ -253,7 +256,7 @@ class UsersController extends Controller
         $request->validate([
             'token' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8|confirmed'
         ]);
 
         $status = Password::reset(
@@ -274,8 +277,16 @@ class UsersController extends Controller
             }
         );
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+        if($status !== Password::PASSWORD_RESET){
+            return back()->withErrors(['email' => [__($status)]]);
+        }
+
+        $rol = User::where('email', $request->only('email')['email'])->first()->rol;
+
+        if ($rol == 0) {
+            return redirect()->route('login')->with('success', __($status));
+        }
+        //TODO
+        return 'retornar a aplcacion';
     }
 }
