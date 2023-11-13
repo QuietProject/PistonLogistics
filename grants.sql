@@ -109,9 +109,9 @@ GRANT SELECT, UPDATE (ID_almacen, ID_pickup, direccion, peso, cedula, mail), DEL
 GRANT SELECT ON surno.LOTES TO 'backoffice'@'%';
 GRANT SELECT, DELETE ON surno.PAQUETES_LOTES TO  'backoffice'@'%';
 GRANT SELECT ON surno.DESTINO_LOTE TO 'backoffice'@'%';
-GRANT SELECT, INSERT(ID_lote, matricula) ON surno.LLEVA TO 'backoffice'@'%';
-GRANT SELECT, INSERT(ID_paquete, matricula) ON surno.TRAE TO 'backoffice'@'%';
-GRANT SELECT, INSERT(ID_paquete, matricula) ON surno.REPARTE TO 'backoffice'@'%';
+GRANT SELECT, DELETE, INSERT(ID_lote, matricula) ON surno.LLEVA TO 'backoffice'@'%';
+GRANT SELECT, DELETE, INSERT(ID_paquete, matricula) ON surno.TRAE TO 'backoffice'@'%';
+GRANT SELECT, DELETE, INSERT(ID_paquete, matricula) ON surno.REPARTE TO 'backoffice'@'%';
 GRANT SELECT, INSERT(ID_paquete, ID_almacen)ON surno.PAQUETES_ALMACENES TO 'backoffice'@'%';
 GRANT SELECT, INSERT, UPDATE, DELETE ON surno.password_resets TO 'backoffice'@'%';
 
@@ -134,3 +134,5 @@ GRANT EXECUTE ON PROCEDURE surno.lote_1 TO 'backoffice'@'%';
 -- SHOW GRANTS FOR 'almacen'@'%';
 -- SHOW GRANTS FOR 'autentificacion'@'%';
 -- SHOW GRANTS FOR 'camionero'@'%';
+
+

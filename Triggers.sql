@@ -1,3 +1,17 @@
+/*
+ESTADOS DE LOS PAQUETES
+0 = entregado
+1 = En almacenes del cliente
+2 = Trayendo de almacenes de cliente
+3 = En almacen
+4 = En lote (en almacen)
+5 = Transportando lote de almacen a almacen
+6 = En lote (en almacen destino)
+7 = Almacen destino
+8 = Repartiendo a destino
+9 = Esperando en pick UP
+*/
+
 use surno;
 
 /*
@@ -153,20 +167,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
-
-/*
-ESTADOS DE LOS PAQUETES
-0 = entregado
-1 = En almacenes del cliente
-2 = Trayendo de almacenes de cliente
-3 = En almacen
-4 = En lote (en almacen)
-5 = Transportando lote de almacen a almacen
-6 = En lote (en almacen destino)
-7 = Almacen destino
-8 = Repartiendo a destino
-9 = Esperando en pick UP
-*/
 
 DROP TRIGGER IF EXISTS asignar_reparte;
 -- RNE 3: Para asignarle un camion en reparte a un paquete, este tine que estar en un almacen
