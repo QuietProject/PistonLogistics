@@ -231,7 +231,7 @@ class UsersController extends Controller
             return redirect()->back()->withErrors(['email' => __('No hemos podido encontrar el email')])->withInput();
         }
         if (!$user->hasVerifiedEmail()) {
-            return redirect()->back()->withErrors(['email' => __('El email no esta verificado, comunequese con un administrador')])->withInput();
+            return redirect()->back()->withErrors(['email' => __('El email no esta verificado, comuniquese con un administrador')])->withInput();
         }
 
 
