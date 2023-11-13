@@ -1,4 +1,4 @@
-<x-layout menu="1" titulo="Conductores" import1="../css/styleCamioneroShow.css">
+<x-layout menu="1" titulo="Conductor" import1="../css/styleCamioneroShow.css">
     <div class="display">
         <p class="titleText">Nombre: {{ $camionero->nombre }}</p>
         <p class="titleText" style="top: 11vh">Cedula: {{ $camionero->CI }}</p>

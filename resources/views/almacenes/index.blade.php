@@ -94,7 +94,7 @@
                         </select>
                     </div>
                     <div class="inputBox" style="display: flex; justify-content: space-between">
-                        <label for="nombre">Nombre</label>
+                        <label for="nombre">Nombre*</label>
                         <input type="text" name="nombre" id="nombre" required
                             value="{{ old('nombre') }}">
                         @error('nombre')
@@ -102,36 +102,60 @@
                         @enderror
                     </div>
                     <div class="inputBox" style="display: flex; justify-content: space-between">
-                        <label for="calle">Calle</label>
-                        <input type="text" name="calle" id="calle" step="0.1"
+                        <label for="calle">Calle*</label>
+                        <input type="text" name="calle" id="calle" required
                             value="{{ old('calle') }}">
                         @error('calle')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="inputBox" style="display: flex; justify-content: space-between">
-                        <label for="numero">Numero</label>
-                        <input type="text" name="numero" id="numero" step="0.1"
+                        <label for="numero">Numero*</label>
+                        <input type="text" name="numero" id="numero" required
                             value="{{ old('numero') }}">
                         @error('numero')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="inputBox" style="display: flex; justify-content: space-between">
-                        <label for="esquina">Esquina</label>
-                        <input type="text" name="esquina" id="esquina" step="0.1"
-                            value="{{ old('esquina') }}">
-                        @error('esquina')
+                        <label for="codigoPostal">Codigo postal</label>
+                        <input type="number" name="codigoPostal" id="codigoPostal" step="1"
+                            value="{{ old('codigoPostal') }}">
+                        @error('codigoPostal')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="inputBox" style="display: flex; justify-content: space-between">
-                        <label for="direccion">Direccion</label>
-                        <input type="text" name="direccion" id="direccion" step="0.1"
-                            value="{{ old('direccion') }}">
-                        @error('direccion')
+                        <label for="localidad">Localidad</label>
+                        <input type="text" name="localidad" id="localidad"
+                            value="{{ old('localidad') }}">
+                        @error('localidad')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
+                    </div>
+                    <div class="inputBox" style="display: flex; justify-content: space-between">
+                        <label for="departamento">Departamento</label>
+                        <select name="departamento" id="departamento">
+                            <option value="Montevideo" {{ old('departamento') == 'Montevideo' ? 'selected' : '' }}>Montevideo</option>
+                            <option value="Artigas" {{ old('departamento') == 'Artigas' ? 'selected' : '' }}>Artigas</option>
+                            <option value="Canelones" {{ old('departamento') == 'Canelones' ? 'selected' : '' }}>Canelones</option>
+                            <option value="Cerro Largo" {{ old('departamento') == 'Cerro Largo' ? 'selected' : '' }}>Cerro Largo</option>
+                            <option value="Colonia" {{ old('departamento') == 'Colonia' ? 'selected' : '' }}>Colonia</option>
+                            <option value="Durazno" {{ old('departamento') == 'Durazno' ? 'selected' : '' }}>Durazno</option>
+                            <option value="Flores" {{ old('departamento') == 'Flores' ? 'selected' : '' }}>Flores</option>
+                            <option value="Florida" {{ old('departamento') == 'Florida' ? 'selected' : '' }}>Florida</option>
+                            <option value="Lavalleja" {{ old('departamento') == 'Lavalleja' ? 'selected' : '' }}>Lavalleja</option>
+                            <option value="Maldonado" {{ old('departamento') == 'Maldonado' ? 'selected' : '' }}>Maldonado</option>
+                            <option value="Paysandu" {{ old('departamento') == 'Paysandu' ? 'selected' : '' }}>Paysandu</option>
+                            <option value="Río Negro" {{ old('departamento') == 'Río Negro' ? 'selected' : '' }}>Río Negro</option>
+                            <option value="Rivera" {{ old('departamento') == 'Rivera' ? 'selected' : '' }}>Rivera</option>
+                            <option value="Rocha" {{ old('departamento') == 'Rocha' ? 'selected' : '' }}>Rocha</option>
+                            <option value="Salto" {{ old('departamento') == 'Salto' ? 'selected' : '' }}>Salto</option>
+                            <option value="San José" {{ old('departamento') == 'San José' ? 'selected' : '' }}>San José</option>
+                            <option value="Soriano" {{ old('departamento') == 'Soriano' ? 'selected' : '' }}>Soriano</option>
+                            <option value="Tacuarembo" {{ old('departamento') == 'Tacuarembo' ? 'selected' : '' }}>Tacuarembo</option>
+                            <option value="Treinta y Tres" {{ old('departamento') == 'Treinta y Tres' ? 'selected' : '' }}>Treinta y Tres</option>
+                        </select>
                     </div>
                     <div class="inputBox" style="display: none; justify-content: space-between" id="RUTBox">
                         <label for="RUT">Cliente</label>

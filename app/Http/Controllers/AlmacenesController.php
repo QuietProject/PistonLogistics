@@ -34,17 +34,20 @@ class AlmacenesController extends Controller
     private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
     public function store(SaveAlmacenRequest $request)
     {
-        $direccion = $request->validated()['direccion'].',Uruguay';
+        $postal = null !==$request->input('codigoPostal') ? ', ' . $request->input('codigoPostal') . ' ' : ', ';
+
+        $direccion = $request->validated()['calle'] . ' ' . $request->validated()['numero'] . $postal . $request->validated()['departamento'] . ' Uruguay';
+
         $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
         $almacen = $request->validated();
         $tipo = $almacen['tipo'];
         if ($request->validated()['tipo'] == 'propio') {
             DB::enableQueryLog();
-            DB::select('CALL almacen_propio (?,?,?,?,@ID,@fallo)', [$almacen['nombre'], $almacen['direccion'], $coordenadas['lng'], $coordenadas['lat']]);
+            DB::select('CALL almacen_propio (?,?,?,?,@ID,@fallo)', [$almacen['nombre'], $direccion, $coordenadas['lng'], $coordenadas['lat']]);
             $queries = DB::getQueryLog();
             //dd($queries);
         } else {
-            DB::select('CALL almacen_cliente (?,?,?,?,?,@ID,@fallo)', [$almacen['nombre'], $almacen['direccion'], $coordenadas['lng'], $coordenadas['lat'], $almacen['RUT']]);
+            DB::select('CALL almacen_cliente (?,?,?,?,?,@ID,@fallo)', [$almacen['nombre'], $direccion, $coordenadas['lng'], $coordenadas['lat'], $almacen['RUT']]);
         }
         $nuevo = DB::select('SELECT @FALLO AS fallo,@ID as id')[0];
         if ($nuevo->fallo != 0) {
@@ -67,11 +70,11 @@ class AlmacenesController extends Controller
 
             //Troncales en las que esta el almacen
             $troncales = DB::table('ORDENES')
-                ->join('TRONCALES','TRONCALES.ID','ORDENES.ID_troncal')
-                ->where('TRONCALES.baja',0)
-                ->where('ORDENES.baja',0)
-                ->where('ID_almacen',$almacen->ID)
-                ->get(['TRONCALES.ID AS ID','TRONCALES.nombre AS nombre']);
+                ->join('TRONCALES', 'TRONCALES.ID', 'ORDENES.ID_troncal')
+                ->where('TRONCALES.baja', 0)
+                ->where('ORDENES.baja', 0)
+                ->where('ID_almacen', $almacen->ID)
+                ->get(['TRONCALES.ID AS ID', 'TRONCALES.nombre AS nombre']);
             //Total de paquetes en almacen
             $paquetesEnAlmacen = DB::table('PAQUETES_ALMACENES')
                 ->where('ID_almacen', $almacen->ID)

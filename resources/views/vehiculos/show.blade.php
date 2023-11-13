@@ -6,7 +6,7 @@ if ($vehiculo->baja) {
     $estado = 'operativo';
 }
 ?>
-<x-layout menu="5" titulo="Vehiculos" import1="../css/styleVehiculosShow.css">
+<x-layout menu="5" titulo="Vehiculo" import1="../css/styleVehiculosShow.css">
     <div class="display">
         <h2 class="titleText">{{ $tipo }}</h2>
         @if (count($trae) > 0)
@@ -153,23 +153,7 @@ if ($vehiculo->baja) {
                         @endif
                     </button>
                 </form>
-<<<<<<< Updated upstream
             </div>
-=======
-            @endif
-
-            <form action="{{ route('vehiculos.baja', $vehiculo->matricula) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <button type="submit" class="modBtn">
-                    @if ($vehiculo->baja)
-                        Dar de Alta
-                    @else
-                        Dar de Baja
-                    @endif
-                </button>
-            </form>
->>>>>>> Stashed changes
         </div>
     </div>
 </x-layout>
