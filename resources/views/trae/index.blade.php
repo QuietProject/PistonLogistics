@@ -1,4 +1,4 @@
-<x-layout titulo='Reparte' menu='7' import1="../css/styleLlevaReparteTrae.css">
+<x-layout titulo='Trae' menu='7' import1="../css/styleLlevaReparteTrae.css">
     <div class="display">
 
         <h2 class="titleText">{{ __("Asignar paquetes a camiones para traer") }}</h2>

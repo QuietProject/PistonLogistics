@@ -137,6 +137,6 @@ class TraeController extends Controller
 
         DB::delete('DELETE FROM TRAE where ID_paquete = ?', [$paquete->ID]);
 
-        return to_route('reparte.desasignar')->with('success', __('Se ha Desasignado correctamente'));
+        return to_route('trae.desasignar')->with('success', __('Se ha Desasignado correctamente'));
     }
 }
