@@ -78,8 +78,8 @@
                 <h3>Tipo de envio</h3>
                 <select name="tipo" id="tipo" class="tipo">
                     <option value="" selected disabled></option>
-                    <option value="0">Domicilio</option>
-                    <option value="1">Pickup</option>
+                    <option value="1">Domicilio</option>
+                    <option value="0">Pickup</option>
                 </select>
             </div>
         </div>

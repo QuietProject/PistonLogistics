@@ -82,6 +82,7 @@
                 <a href="../verPaquetes">Paquetes</a>
                 <a href="../crearLote">Crear Lote</a>
                 <a href="../paquetePeso">Asignar Peso</a>
+                <a href="../entregarPaquete">Entregar Paquete</a>
             </div>
 
             <div>

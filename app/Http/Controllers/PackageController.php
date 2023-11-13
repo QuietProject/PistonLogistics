@@ -107,8 +107,25 @@ class PackageController extends Controller
         return redirect()->back()->with('message', $response["message"]);
     }
 
+    public function getPaquetesEntregar(){
+        $idAlmacen = explode('.', session('nombre'))[1];
 
+        $paquetes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "paquetes?idAlmacen=$idAlmacen")->json()['data'];
 
+        for ($i = 0; $i < count($paquetes); $i++) {
+            $fechaRegistrado = Carbon::parse($paquetes[$i]['fecha_registrado']);
+            $paquetes[$i]['fecha_registrado'] = $fechaRegistrado->format('d/m/y H:i');
+        }
+
+        return view('entregarPaquete', ['paquetes' => $paquetes]);
+    }
+
+    public function entregarPaquete($id){
+
+        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL"). "paquetes/entregar/$id");
+
+        return redirect()->back()->with('message', $response["message"]);
+    }
 
     public function getLotesAsignar(Request $request)
     {

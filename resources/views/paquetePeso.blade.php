@@ -30,6 +30,7 @@
                 <a href="../verLotes">Lotes</a>
                 <a href="../verPaquetes">Paquetes</a>
                 <a href="../crearLote">Crear Lote</a>
+                <a href="../entregarPaquete">Entregar Paquete</a>
             </div>
 
             <div>

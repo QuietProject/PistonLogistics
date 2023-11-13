@@ -1,0 +1,285 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+body,html {
+    background-color: var(--base);
+    width: 100%;
+    min-height: 100vh;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+section{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section > div:first-child{
+    width: fit-content;
+    height: 100%;
+    border-radius: 10px;
+    margin: 75px;
+    box-shadow: 0px 0px 10px -1px black;
+}
+
+
+
+table{
+    width: 100%;
+    padding: 10px;
+    color: whitesmoke;
+}
+
+th{
+    border: 2px solid var(--highlight);
+    height: 4vh;
+    padding: 5px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+th > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+th:nth-child(1) > div > :nth-child(1){
+    margin-left: 0px;
+    width: max-content;
+}
+
+th > div > :nth-child(1){
+    margin-left: 5px;
+    width: max-content;
+}
+
+.columnaArray * { 
+    margin: 0 !important;
+}
+.columnaArray{
+    cursor: auto !important;
+}
+
+th > div > .bx-chevron-down{
+    color: var(--highlight);
+    font-size: 2em;
+    overflow: hidden;
+}
+
+th > div > .bx-chevron-up {
+    font-size: 2em;
+    margin-left: 0px;
+}
+
+th:first-child{
+    border-top-left-radius:10px;
+    cursor: auto;
+}
+
+th:last-child{
+    border-top-right-radius:10px;
+}
+
+td{
+    padding: 5px;
+    text-align: center;
+    border: 2px solid black;
+}
+
+.btnEntregar{
+    background-color: var(--highlight);
+    color: black;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btnEntregar:hover{
+    box-shadow: 0px 0px 10px -1px black;
+}
+
+.btnEntregarDentroDeLote{
+    background-color: var(--highlight);
+    color: black;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btnEntregarDentroDeLote > a{
+    color: black;
+    text-decoration: none;
+}
+
+.btnEntregarDentroDeLote:hover{
+    box-shadow: 0px 0px 10px -1px black;
+}
+
+.oculto{
+    width: 0.1vw;
+}
+
+
+#menuIcon{
+    position: fixed;
+    width: fit-content;
+    align-self: end;
+}
+
+#lotes{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.asignarLote{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 15px 0px black;
+    border: 1px solid black;
+    background-color: var(--base);
+    max-height: 60%;
+    max-width: 80%;
+    width: fit-content;
+    position: absolute;
+    border-radius: 10px;
+    transition: all .2s ease-in-out;
+}
+
+.asignarLote > div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 10px;
+}
+
+.asignarLote > div > div{
+    margin-top: 40px;
+}
+
+.asignarLote > div > .bx-x-circle{
+    position: fixed;
+    top: 2%;
+    right: 3%;
+    font-size: 2.5em;
+    color: white;
+    cursor: pointer;
+}
+
+.asignarLote > div > .bx-x-circle:hover{
+    color: var(--highlight);
+}
+
+.idPaquete{
+    color: white;
+    padding: 10px;
+}
+
+.confirmacionContainer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.confirmacion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--base);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px -1px black;
+    text-align: center;
+}
+
+.confirmacion > p{
+    margin: 15px;
+    color:white;
+}
+
+#btnConfirmAsignar {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#btnCancelAsignar {
+    background-color: crimson;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#btnConfirmAsignar:hover, #btnCancelAsignar:hover{
+    box-shadow: 0px 0px 10px -1px black;
+}
+
+.custom-alert {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: crimson; /* Fondo rojo para errores */
+    color: white;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000; /* Ajusta el valor de z-index según sea necesario */
+}
+
+.hoverRow:hover{
+    background-color: var(--baseLighter);
+    color: black;
+}
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+::-webkit-scrollbar-track{
+    border-radius: 30px;
+    box-shadow: inset 0 0 10px #303030;
+}
+
+::-webkit-scrollbar-thumb{
+    border-radius: 30px;
+    background-color: rgba(240, 248, 255, 0.884);
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background-color: rgba(240, 248, 255, 0.637);
+}
+
+@media (max-width: 600px) {
+    section > div:first-child{
+        margin: 0px;
+        margin-top: 85px;
+    }
+}

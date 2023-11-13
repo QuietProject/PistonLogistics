@@ -54,6 +54,9 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
         Route::get("/verPaquetes", [PackageController::class, "showPaquetes"])->name("verPaquetes.show");
         Route::get("/verPaquetes/asignar/{idPaquete}/{idLote}", [PackageController::class, "asignar"])->name("verPaquetes.asignar");
 
+        Route::get("/entregarPaquete", [PackageController::class, "getPaquetesEntregar"])->name("entregarPaquete.show");
+        Route::get("/entregar/{id}", [PackageController::class, "entregarPaquete"])->name("entregarPaquete.entregar");
+
         Route::get("/verLotes", [PackageController::class, "showLotes"])->name("verLotes.show");
         Route::get("/quitarPaquete/{idLote}/{idPaquete}", [PackageController::class, "quitarPaqueteDeLote"])->name("quitarPaquete");
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -8,31 +8,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/styleVerPaquetes.css">
+    <link rel="stylesheet" href="./css/styleEntregarPaquete.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Almacen</title>
     <script>
-        const ruta = "{{ route('verPaquetes.asignar', ['idPaquete', 'idLote']) }}";
-        const idAlmacen = {{explode('.', session('nombre'))[1]}};
+        // const ruta = "{{ route('entregarPaquete.entregar', ['idPaquete']) }}";
+        // const idAlmacen = {{ explode('.', session('nombre'))[1] }};
 
-        async function getStatus() {
-            try {
-                const response = await fetch(`{{ route('getLotes') }}?idAlmacen=${idAlmacen}`);
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error al obtener datos:', error);
-                return [];
-            }
-        }
-
-        function getRoute(idPaquete, idLote) {
-            let r = ruta;
-            r = r.replace("idPaquete", idPaquete);
-            r = r.replace("idLote", idLote);
-            return r;
-        }
+        // function getRoute(idPaquete, idLote) {
+        //     let r = ruta;
+        //     r = r.replace("idPaquete", idPaquete);
+        //     r = r.replace("idLote", idLote);
+        //     return r;
+        // }
     </script>
 
 </head>
@@ -58,17 +47,17 @@
             }
 
             Swal.fire(options).then(() => {
-            Swal.fire({
-                title: 'Cargando...',
-                icon: 'info',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
+                Swal.fire({
+                    title: 'Cargando...',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                window.location.href = "{{ route('clear.message') }}";
             });
-            window.location.href = "{{ route('clear.message') }}";
-        });
         </script>
     @endif
 
@@ -87,9 +76,9 @@
                 <a href="../almacenCarga">Carga</a>
                 <a href="../almacenDescarga">Descarga</a>
                 <a href="../verLotes">Lotes</a>
+                <a href="../verPaquetes">Paquetes</a>
                 <a href="../crearLote">Crear Lote</a>
                 <a href="../paquetePeso">Asignar Peso</a>
-                <a href="../entregarPaquete">Entregar Paquete</a>
             </div>
 
             <div>
@@ -106,9 +95,9 @@
             <table id="miTabla">
                 <thead>
                     <tr>
-                        <th class="columna" data-columna="ID_paquete">
+                        <th class="columna" data-columna="cedula">
                             <div>
-                                <p>ID Paquete</p>
+                                <p>Cedula</p>
                             </div>
                         </th>
                         <th class="columna" data-columna="codigo">
@@ -141,38 +130,28 @@
                                 <p>Peso</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
-                        <th class="columna" data-columna="cedula">
-                            <div>
-                                <p>Cedula</p> <i class='bx bx-chevron-down'></i>
-                            </div>
-                        </th>
                         <th class="columna" data-columna="mail">
                             <div>
                                 <p>Mail</p> <i class='bx bx-chevron-down'></i>
-                            </div>
-                        </th>
-                        <th class="columna" data-columna="estado">
-                            <div>
-                                <p>Estado</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($paquetes as $paquete)
-                        <tr class="hoverRow">
-                            <td data-columna="ID">{{ $paquete['ID'] }}</td>
-                            <td data-columna="codigo">{{ $paquete['codigo'] }}</td>
-                            <td data-columna="ID_almacen_cliente">{{ $paquete['ID_almacen'] }}</td>
-                            <td data-columna="fecha_registrado">{{ $paquete['fecha_registrado'] }}</td>
-                            <td data-columna="ID_pickup">{{ $paquete['ID_pickup'] }}</td>
-                            <td data-columna="direccion">{{ $paquete['direccion'] }}</td>
-                            <td data-columna="peso">{{ $paquete['peso'] }}</td>
-                            <td data-columna="cedula">{{ $paquete['cedula'] }}</td>
-                            <td data-columna="mail">{{ $paquete['mail'] }}</td>
-                            <td data-columna="estado">{{ $paquete['estado'] }}</td>
-                            <td class="btnAsignar" id="btnAsignar">Asignar</td>
-                        </tr>
+                        @if ($paquete['estado'] == 9)
+                            <tr class="hoverRow">
+                                <td data-columna="cedula">{{ $paquete['cedula'] }}</td>
+                                <td data-columna="codigo">{{ $paquete['codigo'] }}</td>
+                                <td data-columna="ID_almacen_cliente">{{ $paquete['ID_almacen'] }}</td>
+                                <td data-columna="fecha_registrado">{{ $paquete['fecha_registrado'] }}</td>
+                                <td data-columna="ID_pickup">{{ $paquete['ID_pickup'] }}</td>
+                                <td data-columna="direccion">{{ $paquete['direccion'] }}</td>
+                                <td data-columna="peso">{{ $paquete['peso'] }}</td>
+                                <td data-columna="mail">{{ $paquete['mail'] }}</td>
+                                <td class="btnEntregar" id="btnEntregar" data-route="{{ route('entregarPaquete.entregar', ['id' => $paquete['ID']]) }}">Entregar</td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>
@@ -186,7 +165,7 @@
 
 
     <script defer src="./javascript/scriptMenu.js"></script>
-    <script defer src="./javascript/scriptVerPaquetes.js"></script>
+    <script defer src="./javascript/scriptEntregarPaquete.js"></script>
 </body>
 
 </html>
