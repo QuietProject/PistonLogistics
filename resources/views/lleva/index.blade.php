@@ -4,7 +4,7 @@
         <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         @if (count($lotes) != 0)
             <div class="tableContainer">
-                <table tableView" id="tableDriver" class="tableView">
+                <table id="tableDriver" class="tableView">
                     <thead>
                         <tr>
                             <th onclick="sortTable(0);arrowsTable(0);" id="0" style="width:10%">Lote </th>
