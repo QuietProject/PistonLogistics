@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -234,7 +234,6 @@
                         data.data = null;
                     } else {
                         arrayCodigos.push(cod);
-                        console.log(arrayCodigos);
                     }
 
                     const tr = document.createElement('tr');
@@ -361,7 +360,6 @@
                         data.data = null;
                     } else {
                         arrayCodigos.push(cod);
-                        console.log(arrayCodigos);
                     }
 
                     const tr = document.createElement('tr');
@@ -450,21 +448,27 @@
                     console.error('Error:', error);
                 });
 
-            btnSubmit.addEventListener('click', () => {
-
-                if (arrayPaquetes.length > 0) {
-                    const ruta = "{{ route('cliente.carga', ['paquetes' => 'paquetesArray']) }}";
-
-                    function getRoute(paquetes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes)}`;
-                }
-            });
         }
+
+        btnSubmit.addEventListener('click', () => {
+
+            if (arrayPaquetes.length > 0) {
+                const ruta = "{{ route('cliente.carga', ['paquetes' => 'paquetesArray']) }}";
+
+                function getRoute(paquetes) {
+                    let r = ruta;
+                    r = r.replace("paquetesArray", paquetes);
+                    return r;
+                }
+
+                window.location.href = `${getRoute(arrayPaquetes)}`;
+            } else {
+                Swal.fire({
+                    title: "Ingrese paquetes",
+                    icon: "error"
+                });
+            }
+        });
 
 
         function traducirFecha(fechaString) {

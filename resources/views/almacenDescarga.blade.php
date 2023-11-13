@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -290,7 +290,6 @@
                         data.data = null;
                     } else {
                         arrayCodigos.push(cod);
-                        console.log(arrayCodigos);
                     }
 
                     const tr = document.createElement('tr');
@@ -441,52 +440,7 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
-            btnSubmit.addEventListener('click', () => {
-
-                if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", "null");
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length === 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", "null");
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                }
-
-            });
         }
-
-
-
-
 
         function scanCodigo(cod) {
             const ruta = `${rutaBase}?codigo=${cod}`;
@@ -509,7 +463,6 @@
                         data.data = null;
                     } else {
                         arrayCodigos.push(cod);
-                        console.log(arrayCodigos);
                     }
 
                     const tr = document.createElement('tr');
@@ -661,47 +614,54 @@
                     console.error('Error:', error);
                 });
 
-            btnSubmit.addEventListener('click', () => {
 
-                if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+        }
 
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", "null");
-                        return r;
-                    }
+        btnSubmit.addEventListener('click', () => {
 
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length === 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+            if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
+                const ruta =
+                    "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
 
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", "null");
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+                function getRoute(paquetes, lotes) {
+                    let r = ruta;
+                    r = r.replace("paquetesArray", paquetes);
+                    r = r.replace("lotesArray", "null");
+                    return r;
                 }
 
-            });
-        }
+                window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+            } else if (arrayLotes.length > 0 && arrayPaquetes.length === 0) {
+                const ruta =
+                    "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+
+                function getRoute(paquetes, lotes) {
+                    let r = ruta;
+                    r = r.replace("paquetesArray", "null");
+                    r = r.replace("lotesArray", lotes);
+                    return r;
+                }
+
+                window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+            } else if (arrayLotes.length > 0 && arrayPaquetes.length > 0) {
+                const ruta =
+                    "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+
+                function getRoute(paquetes, lotes) {
+                    let r = ruta;
+                    r = r.replace("paquetesArray", paquetes);
+                    r = r.replace("lotesArray", lotes);
+                    return r;
+                }
+                window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+            } else {
+                Swal.fire({
+                    title: "Ingrese paquetes/lotes",
+                    icon: "error"
+                });
+            }
+
+        });
 
         function traducirFecha(fechaString) {
             let fecha = new Date(fechaString);

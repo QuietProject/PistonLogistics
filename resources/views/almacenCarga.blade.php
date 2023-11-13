@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
@@ -24,31 +24,31 @@
                 customClass: {
                     container: 'popup'
                 },
-                
+
             };
 
             if (message != 'Paquete(s) cargado(s) correctamente - Lote(s) cargado(s) exitosamente') {
                 options.title = message;
                 options.icon = 'error';
-            } else if(message != 'Paquete(s) cargado(s) correctamente'){
+            } else if (message != 'Paquete(s) cargado(s) correctamente') {
                 options.title = message;
                 options.icon = 'error';
-            }else if(message != 'Lote(s) cargado(s) exitosamente'){
+            } else if (message != 'Lote(s) cargado(s) exitosamente') {
                 options.title = message;
             }
 
             Swal.fire(options).then(() => {
-            Swal.fire({
-                title: 'Cargando...',
-                icon: 'info',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
+                Swal.fire({
+                    title: 'Cargando...',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                window.location.href = "{{ route('clear.message') }}";
             });
-            window.location.href = "{{ route('clear.message') }}";
-        });
         </script>
     @endif
 
@@ -289,7 +289,6 @@
                         data.data = null;
                     } else {
                         arrayCodigos.push(cod);
-                        console.log(arrayCodigos);
                     }
 
                     const tr = document.createElement('tr');
@@ -440,47 +439,6 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
-            btnSubmit.addEventListener('click', () => {
-
-                if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenCarga.carga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", "null");
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length === 0) {
-                    const ruta =
-                        "{{ route('almacenCarga.carga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", "null");
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenCarga.carga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                }
-
-            });
         }
 
         function scanCodigo(cod) {
@@ -504,7 +462,6 @@
                         data.data = null;
                     } else {
                         arrayCodigos.push(cod);
-                        console.log(arrayCodigos);
                     }
 
                     const tr = document.createElement('tr');
@@ -656,68 +613,75 @@
                     console.error('Error:', error);
                 });
 
-            btnSubmit.addEventListener('click', () => {
 
-                if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", "null");
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length === 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", "null");
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                } else if (arrayLotes.length > 0 && arrayPaquetes.length > 0) {
-                    const ruta =
-                        "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
-
-                    function getRoute(paquetes, lotes) {
-                        let r = ruta;
-                        r = r.replace("paquetesArray", paquetes);
-                        r = r.replace("lotesArray", lotes);
-                        return r;
-                    }
-                    window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
-                }
-
-            });
         }
 
-        function traducirFecha(fechaString) {
-                let fecha = new Date(fechaString);
+        btnSubmit.addEventListener('click', () => {
 
-                let dia = fecha.getDate();
-                let mes = fecha.getMonth() + 1;
-                let anio = fecha.getFullYear();
-                let horas = fecha.getHours(); 
-                let minutos = fecha.getMinutes();
+            if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
+                const ruta =
+                    "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
 
-                let diaFormateado = dia < 10 ? '0' + dia : dia;
-                let mesFormateado = mes < 10 ? '0' + mes : mes;
-                let anioFormateado = anio % 100;
-                let horasFormateadas = horas < 10 ? '0' + horas : horas;
-                let minutosFormateados = minutos < 10 ? '0' + minutos : minutos;
+                function getRoute(paquetes, lotes) {
+                    let r = ruta;
+                    r = r.replace("paquetesArray", paquetes);
+                    r = r.replace("lotesArray", "null");
+                    return r;
+                }
 
-                let fechaFormateada = diaFormateado + '/' + mesFormateado + '/' + anioFormateado + ' ' + horasFormateadas +
-                    ':' + minutosFormateados;
+                window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+            } else if (arrayLotes.length > 0 && arrayPaquetes.length === 0) {
+                const ruta =
+                    "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
 
-                return fechaFormateada;
+                function getRoute(paquetes, lotes) {
+                    let r = ruta;
+                    r = r.replace("paquetesArray", "null");
+                    r = r.replace("lotesArray", lotes);
+                    return r;
+                }
+
+                window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+            } else if (arrayLotes.length > 0 && arrayPaquetes.length > 0) {
+                const ruta =
+                    "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+
+                function getRoute(paquetes, lotes) {
+                    let r = ruta;
+                    r = r.replace("paquetesArray", paquetes);
+                    r = r.replace("lotesArray", lotes);
+                    return r;
+                }
+                window.location.href = `${getRoute(arrayPaquetes,arrayLotes)}`;
+            } else {
+                Swal.fire({
+                    title: "Ingrese paquetes/lotes",
+                    icon: "error"
+                });
             }
+
+        });
+
+        function traducirFecha(fechaString) {
+            let fecha = new Date(fechaString);
+
+            let dia = fecha.getDate();
+            let mes = fecha.getMonth() + 1;
+            let anio = fecha.getFullYear();
+            let horas = fecha.getHours();
+            let minutos = fecha.getMinutes();
+
+            let diaFormateado = dia < 10 ? '0' + dia : dia;
+            let mesFormateado = mes < 10 ? '0' + mes : mes;
+            let anioFormateado = anio % 100;
+            let horasFormateadas = horas < 10 ? '0' + horas : horas;
+            let minutosFormateados = minutos < 10 ? '0' + minutos : minutos;
+
+            let fechaFormateada = diaFormateado + '/' + mesFormateado + '/' + anioFormateado + ' ' + horasFormateadas +
+                ':' + minutosFormateados;
+
+            return fechaFormateada;
+        }
     </script>
 </body>
 
