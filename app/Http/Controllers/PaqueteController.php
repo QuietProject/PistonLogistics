@@ -333,10 +333,19 @@ class PaqueteController extends Controller
                     "required",
                     "numeric",
                     "exists:PAQUETES,ID",
-                    "unique:REPARTE,ID_paquete",
-                    Rule::exists("PAQUETES", "ID")->whereNotNull("direccion"),
-                    Rule::exists("REPARTE", "ID_paquete")->whereNotNull("fecha_asignado"),
-                    Rule::exists("REPARTE", "ID_paquete")->whereNotNull("fecha_asignado")->whereNull("fecha_carga"),
+                    function ($attribute, $value, $fail) {
+                        $paqueteDireccionNull = DB::table('PAQUETES')->where('ID', $value)->whereNull("direccion")->exists();
+                        $paqueteAsignado = DB::table('REPARTE')->where('ID_paquete', $value)->exists();
+                        $paqueteCargado = DB::table('REPARTE')->where('ID_paquete', $value)->whereNotNull("fecha_carga")->exists();
+    
+                        if ($paqueteDireccionNull) {
+                            $fail("El paquete $value no se  reparte");
+                        } elseif (!$paqueteAsignado) {
+                            $fail("El paquete $value no está asignado a ningún camión");
+                        } elseif ($paqueteCargado) {
+                            $fail("El paquete $value ya está cargado");
+                        }
+                    },
                 ],
             ]);
 
