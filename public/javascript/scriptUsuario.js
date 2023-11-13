@@ -17,7 +17,7 @@ document.getElementById("tipo").addEventListener("change", function () {
         emailInput.style.display = "flex"
     }
     if (value == 1) {
-        ciInput.style.display = "flexflex"
+        ciInput.style.display = "flex"
         camioneroInput.style.display = "none"
         clienteInput.style.display = "none"
         almacenClienteInput.style.display = "none"

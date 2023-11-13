@@ -49,7 +49,7 @@
                 @else
                     <form action="{{ route('usuarios.resendEmailNotification', $user) }}" method="POST">
                         @csrf
-                        <button type="submit">
+                        <button type="submit" class="switchBtn">
                             {{ __("Reenviar mail de verificacion") }}
                         </button>
                     </form>
