@@ -120,25 +120,29 @@ class CamionController extends Controller
 
     public function camion($cedula)
     {
-        $camion = Conduce::where('CI', $cedula)->whereNull("hasta")->pluck("matricula");
+        $camion = Conduce::where('CI', $cedula)->whereNull("hasta")->first("matricula");
         return $camion;
     }
 
     public function mapa(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'cedula' => 'required|digits:8|exists:camioneros,CI'
+            'cedula' => 'required|digits:8|exists:CAMIONEROS,CI'
         ]);
+
         if ($this->validacion($validator)) {
             return $this->validacion($validator);
         }
 
-        $matricula = self::camion($request->cedula)[0];
-        if ($matricula == null) {
+        $matricula = self::camion($request->cedula);
+
+        if (is_null($matricula)) {
+
             return response()->json([
                 'message' => 'El camionero no está en un camion',
             ], 422);
         }
+        $matricula= $matricula->matricula;
 
         // Tomo la troncal de los lotes que lleva el camion
         $troncal = DB::select("SELECT ID_troncal
@@ -173,7 +177,7 @@ class CamionController extends Controller
         $ultimoOrdenDeTroncal = Orden::where('baja', 0)->where('ID_troncal', $troncal)->max('orden');
 
         $ordenOrigen = self::ordenOrigen($troncal, $matricula, 0);
-        
+
         $lotesCargados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden
         FROM LLEVA
         INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LLEVA.ID_lote
