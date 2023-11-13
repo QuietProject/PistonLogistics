@@ -39,7 +39,7 @@
                 }
             };
 
-            if (message != 'Paquete agregado a lote') {
+            if (message != 'Paquete entregado exitosamente') {
                 options.title = message;
                 options.icon = 'error';
             } else {

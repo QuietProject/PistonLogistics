@@ -123,7 +123,6 @@ class PackageController extends Controller
     public function entregarPaquete($id){
 
         $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL"). "paquetes/entregar/$id");
-
         return redirect()->back()->with('message', $response["message"]);
     }
 
