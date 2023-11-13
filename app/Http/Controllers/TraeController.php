@@ -38,7 +38,7 @@ class TraeController extends Controller
         and PAQUETES.ID=?', [$paquete->ID]);
 
         if (count($consulta) != 1) {
-            return redirect()->back()->with('error', 'Ha ocurrido un error');
+            return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
         $paquete = $consulta[0];
 
@@ -79,7 +79,7 @@ class TraeController extends Controller
             ->get();
 
         if (count($enAlmacen) != 1) {
-            return redirect()->back()->with('error', 'Ha ocurrido un error');
+            return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
 
         $vehiculo = DB::select('SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
@@ -103,12 +103,12 @@ class TraeController extends Controller
         group by VEHICULOS.matricula', [$matricula]);
 
         if (count($vehiculo) != 1) {
-            return redirect()->back()->with('error', 'Ha ocurrido un error');
+            return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
 
         DB::insert('INSERT into TRAE (matricula, ID_paquete) values (?, ?)', [$matricula, $paquete->ID]);
 
-        return to_route('reparte.index')->with('success', 'Se ha asignado correctamente');
+        return to_route('reparte.index')->with('success', __('Se ha asignado correctamente'));
     }
 
     public function desasignar()
@@ -132,11 +132,11 @@ class TraeController extends Controller
         and ID_paquete = ?', [$paquete->ID]);
 
         if (count($paquetes) != 1) {
-            return redirect()->back()->with('error', 'Ha ocurrido un error');
+            return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
 
         DB::delete('DELETE FROM TRAE where ID_paquete = ?', [$paquete->ID]);
 
-        return to_route('reparte.desasignar')->with('success', 'Se ha Desasignado correctamente');
+        return to_route('reparte.desasignar')->with('success', __('Se ha Desasignado correctamente'));
     }
 }

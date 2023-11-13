@@ -51,9 +51,9 @@ class AlmacenesController extends Controller
         }
         $nuevo = DB::select('SELECT @FALLO AS fallo,@ID as id')[0];
         if ($nuevo->fallo != 0) {
-            return redirect()->back()->with('error', 'Ha ocurrido un error');
+            return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
-        return to_route('almacenes.show', $nuevo->id)->with('success', 'El almacen se agrego correctamente');
+        return to_route('almacenes.show', $nuevo->id)->with('success', __('El almacen se agrego correctamente'));
     }
 
     /**
@@ -190,7 +190,7 @@ class AlmacenesController extends Controller
         $datos['latitud'] = $coordenadas['lat'];
         $datos['longitud'] = $coordenadas['lng'];
         $almacen->update($datos);
-        return redirect()->back()->with('success', 'El almacen se ha actualizado correctamete');
+        return redirect()->back()->with('success', __('El almacen se ha actualizado correctamete'));
     }
 
     /**

@@ -56,7 +56,7 @@ class ConducenController extends Controller
             ->where('ci', $ci)
             ->where('desde', $conducen->desde)
             ->update(['hasta' => Carbon::now()->toDateTimeString()]);
-        return redirect()->back()->with('success', 'Se desasigno el conductor del vehiculo correctamente');
+        return redirect()->back()->with('success', __('Se desasigno el conductor del vehiculo correctamente'));
     }
 
     /**
@@ -118,9 +118,9 @@ class ConducenController extends Controller
         Conducen::create(['CI' => $camionero->CI, 'matricula' => $vehiculo->matricula]);
 
         if ($ruta == 'vehiculos.show') {
-            return to_route('vehiculos.show', ['vehiculo' => $vehiculo->matricula])->with('success', 'Se le a asignado un camionero al vehiculo correctamente');
+            return to_route('vehiculos.show', ['vehiculo' => $vehiculo->matricula])->with('success', __('Se le a asignado un camionero al vehiculo correctamente'));
         } else {
-            return to_route('camioneros.show', ['camionero' => $camionero->CI])->with('success', 'Se le a asignado un vehiculo al camionero correctamente');
+            return to_route('camioneros.show', ['camionero' => $camionero->CI])->with('success', __('Se le a asignado un vehiculo al camionero correctamente'));
         }
     }
 

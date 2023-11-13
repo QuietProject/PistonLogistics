@@ -43,7 +43,7 @@ class TroncalesController extends Controller
     {
         $nombre = $request->validate(['nombre' => ['required', 'max:32', 'unique:TRONCALES']]);
         $troncal = Troncal::create($nombre);
-        return to_route('troncales.show', $troncal)->with('success', 'La troncal se creo correctamente');
+        return to_route('troncales.show', $troncal)->with('success', __('La troncal se creo correctamente'));
     }
 
     /**
@@ -97,24 +97,24 @@ class TroncalesController extends Controller
     {
         $cadena = $request->input('ordenes');
         if (!preg_match('/^(?:\d+(?:,\d+)*)?$/m', $cadena)) {
-            return redirect()->back()->with('error', 'ha ocurido un error');
+            return redirect()->back()->with('error', __('ha ocurido un error'));
         }
         $ordenes = explode(',', $cadena);
 
         if (count($ordenes) !== count(array_unique($ordenes))) {
-            return redirect()->back()->with('error', 'ha ocurido un error');
+            return redirect()->back()->with('error', __('ha ocurido un error'));
         }
         if (empty($ordenes[0])) {
             DB::update('update ORDENES set baja=1 where ID_troncal=?', [$troncal->ID]);
-            return to_route('troncales.show', $troncal)->with('success', 'La troncal se ha actualizado correctamente');
+            return to_route('troncales.show', $troncal)->with('success', __('La troncal se ha actualizado correctamente'));
         }
         for ($i = 0; $i < count($ordenes); $i++) {
             $almacen = AlmacenPropio::find($ordenes[$i]);
             if (empty($almacen)) {
-                return redirect()->back()->with('error', 'ha ocurido un error');
+                return redirect()->back()->with('error', __('ha ocurido un error'));
             }
             if ($almacen->almacen->baja) {
-                return redirect()->back()->with('error', 'ha ocurido un error');
+                return redirect()->back()->with('error', __('ha ocurido un error'));
             }
         }
 
@@ -132,7 +132,7 @@ class TroncalesController extends Controller
             }
         }
 
-        return to_route('troncales.show', $troncal)->with('success', 'La troncal se ha actualizado correctamente');
+        return to_route('troncales.show', $troncal)->with('success', __('La troncal se ha actualizado correctamente'));
     }
 
     /**
@@ -148,7 +148,7 @@ class TroncalesController extends Controller
             'nombre' => ['required', 'max:32', 'unique:troncales']
         ]);
         $troncal->update($validated);
-        return redirect()->back()->with('success', 'La troncal se actualizo correctamente');
+        return redirect()->back()->with('success', __('La troncal se actualizo correctamente'));
     }
 
     /**
@@ -160,6 +160,6 @@ class TroncalesController extends Controller
     public function destroy(Troncal $troncal)
     {
         $troncal->update(['baja' => !$troncal->baja]);
-        return redirect()->back()->with('success', 'La troncal se actualizo correctamente');
+        return redirect()->back()->with('success', __('La troncal se actualizo correctamente'));
     }
 }

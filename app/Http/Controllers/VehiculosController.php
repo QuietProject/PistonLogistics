@@ -45,7 +45,7 @@ class VehiculosController extends Controller
         if (DB::select('SELECT @FALLO AS fallo')[0]->fallo != 0) {
             return redirect()->back()->with('error','Ha ocurrido un error');
         }
-        return to_route('vehiculos.show', $request->input('matricula'))->with('success', 'El vehiculo se agrego correctamente');
+        return to_route('vehiculos.show', $request->input('matricula'))->with('success', __('El vehiculo se agrego correctamente'));
     }
 
     /**
@@ -90,7 +90,7 @@ class VehiculosController extends Controller
     public function update(SaveVehiculoRequest $request, Vehiculo $vehiculo)
     {
         $vehiculo->update($request->validated());
-        return to_route('vehiculos.show', $vehiculo)->with('success', 'El vehiculo se actualizo correctamente');
+        return to_route('vehiculos.show', $vehiculo)->with('success', __('El vehiculo se actualizo correctamente'));
     }
 
     /**
@@ -131,6 +131,6 @@ class VehiculosController extends Controller
         $vehiculo->es_operativo = !$vehiculo->es_operativo;
         $vehiculo->save();
         $operaivo = $vehiculo->es_operativo ? 'operativo' : 'fuera de servicio';
-        return redirect()->back()->with('success', "El vehiculo se cambio a $operaivo correctamente");
+        return redirect()->back()->with('success', __("El vehiculo se cambio a $operaivo correctamente"));
     }
 }

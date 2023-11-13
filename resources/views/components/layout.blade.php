@@ -17,7 +17,7 @@
     @isset($import3)
         <link rel="stylesheet" href="{{ $import3 }}">
     @endisset
-    <title>{{ $titulo ?? '' }} - Piston logistics</title>
+    <title>{{ __($titulo) ?? '' }} - Piston logistics</title>
 </head>
 
 <body>

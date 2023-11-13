@@ -30,7 +30,7 @@ class CamionerosController extends Controller
     public function store(SaveCamioneroRequest $request)
     {
         Camionero::create($request->validated());
-        return to_route('camioneros.show', $request->input('CI'))->with('success', 'El camionero se creo correctamente');
+        return to_route('camioneros.show', $request->input('CI'))->with('success', __('El camionero se creo correctamente'));
     }
 
     /**
@@ -56,7 +56,7 @@ class CamionerosController extends Controller
     public function update(SaveCamioneroRequest $request, Camionero $camionero)
     {
         $camionero->update($request->validated());
-        return to_route('camioneros.show', $camionero)->with('success', 'El camionero se actualizo correctamente');
+        return to_route('camioneros.show', $camionero)->with('success', __('El camionero se actualizo correctamente'));
     }
 
     /**
@@ -77,6 +77,6 @@ class CamionerosController extends Controller
         }
 
         $camionero->update(['baja' => !$camionero->baja]);
-        return redirect()->back()->with('success', 'El camionero se actualizo correctamente');
+        return redirect()->back()->with('success', __('El camionero se actualizo correctamente'));
     }
 }

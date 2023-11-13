@@ -65,6 +65,6 @@ class ClientesController extends Controller
     public function destroy(Cliente $cliente)
     {
         $cliente->update(['baja' => !$cliente->baja]);
-        return redirect()->back()->with('success', 'El cliente se actualizo correctamente');
+        return redirect()->back()->with('success', __('El cliente se actualizo correctamente'));
     }
 }

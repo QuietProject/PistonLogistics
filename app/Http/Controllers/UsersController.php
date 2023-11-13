@@ -95,7 +95,7 @@ class UsersController extends Controller
                 $name = $validated['CI'] . '.' . $validated['almacenPropio'];
                 $usuarios = User::where('user', $name)->count();
                 if ($usuarios != 0) {
-                    return redirect()->back()->withErrors(['CI' => 'El usuario ya existe'])->withInput();
+                    return redirect()->back()->withErrors(['CI' => __('El usuario ya existe')])->withInput();
                 }
                 $user->rol = 1;
                 $user->user = $name;
@@ -118,13 +118,13 @@ class UsersController extends Controller
                 $name = $validated['almacenCliente'] . '.' . AlmacenCliente::find($validated['almacenCliente'])->cliente->nombre;
                 $usuarios = User::where('user', $name)->count();
                 if ($usuarios != 0) {
-                    return redirect()->back()->withErrors(['error' => 'El usuario ya existe'])->withInput();
+                    return redirect()->back()->withErrors(['error' => __('El usuario ya existe')])->withInput();
                 }
                 $user->rol = 3;
                 $user->user = $name;
                 break;
             default:
-                return redirect()->back()->with('error', 'Ha ocurrido un errorrr');
+                return redirect()->back()->with('error', __('Ha ocurrido un error'));
                 break;
         }
 
@@ -135,10 +135,10 @@ class UsersController extends Controller
             ['email' => $user->email]
         );
         if ($status === Password::RESET_LINK_SENT) {
-            return to_route('usuarios.show', $user->user)->with('success', 'Se ha creado el usuario correctamente');
+            return to_route('usuarios.show', $user->user)->with('success', __('Se ha creado el usuario correctamente'));
         } else {
             $user->delete();
-            return redirect()->back()->with('error', 'Ha ocurrido un error: ' . $status)->withInput();
+            return redirect()->back()->with('error', __('Ha ocurrido un error').': ' . $status)->withInput();
         }
     }
 
@@ -162,10 +162,10 @@ class UsersController extends Controller
     public function resendEmailNotification(User $user)
     {
         if ($user->hasVerifiedEmail()) {
-            return back()->with('error', 'El usuario ya verificó su email');
+            return back()->with('error', __('El usuario ya verificó su email'));
         }
         $user->sendEmailVerificationNotification();
-        return back()->with('success', 'Se reenvió el correo de verificación');
+        return back()->with('success', __('Se reenvió el correo de verificación'));
     }
 
     /**
@@ -181,7 +181,7 @@ class UsersController extends Controller
         );
         return $status === Password::RESET_LINK_SENT
             ? back()->with('success', __($status))
-            : back()->withErrors('error', 'Ha ocurrido un error: ' . __($status));
+            : back()->withErrors('error', __('Ha ocurrido un error').': ' . __($status));
     }
     /**
      * Update the specified resource in storage.
@@ -198,7 +198,7 @@ class UsersController extends Controller
         $email['email_verified_at'] = null;
         $user->update($email);
         $user->sendEmailVerificationNotification();
-        return redirect()->back()->with('success', 'El usuario se actualizo correctamente');
+        return redirect()->back()->with('success', __('El usuario se actualizo correctamente'));
     }
 
     /**
@@ -210,7 +210,7 @@ class UsersController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
-        return to_route('usuarios.index')->with('success', 'El usuario se ha eliminado correctamente');
+        return to_route('usuarios.index')->with('success', __('El usuario se ha eliminado correctamente'));
     }
 
     /**
@@ -225,10 +225,10 @@ class UsersController extends Controller
 
         $user = User::where('email', $request->input('email'))->get();
         if (count($user) == 0 || $user[0]->rol != 0) {
-            return redirect()->back()->withErrors(['email' => 'No hemos podido encontrar el email'])->withInput();
+            return redirect()->back()->withErrors(['email' => __('No hemos podido encontrar el email')])->withInput();
         }
         if (!$user->hasVerifiedEmail()) {
-            return redirect()->back()->withErrors(['email' => 'El email no esta verificado, comunequese con un administrador'])->withInput();
+            return redirect()->back()->withErrors(['email' => __('El email no esta verificado, comunequese con un administrador')])->withInput();
         }
 
 

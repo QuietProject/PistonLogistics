@@ -40,7 +40,7 @@ class ReparteController extends Controller
         order by PAQUETES_ALMACENES.desde asc', [$paquete->ID]);
 
         if (count($consulta)!=1) {
-            return redirect()->back()->with('error','Ha ocurrido un error');
+            return redirect()->back()->with('error',__('Ha ocurrido un error'));
         }
         $paquete=$consulta[0];
 
@@ -80,7 +80,7 @@ class ReparteController extends Controller
         ->get();
 
         if(count($almacen)!=1){
-            return redirect()->back()->with('error','Ha ocurrido un error');
+            return redirect()->back()->with('error',__('Ha ocurrido un error'));
         }
 
         $camioneta = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(PAQUETES_ALMACENES.ID_almacen) almacen
@@ -100,12 +100,12 @@ class ReparteController extends Controller
         having carga_asignada + ? < peso_max
         and almacen is null or almacen = ?',[$matricula,$paquete->peso,$almacen[0]->ID_almacen]);
         if(count($camioneta)!=1){
-            return redirect()->back()->with('error','Ha ocurrido un error');
+            return redirect()->back()->with('error',__('Ha ocurrido un error'));
         }
 
         DB::insert('INSERT into REPARTE (matricula, ID_paquete) values (?, ?)', [$matricula,$paquete->ID]);
 
-        return to_route('reparte.index')->with('success','Se ha asignado correctamente');
+        return to_route('reparte.index')->with('success',__('Se ha asignado correctamente'));
     }
 
     public function desasignar()
@@ -132,12 +132,12 @@ class ReparteController extends Controller
         and ID_paquete = ?', [$paquete->ID]);
 
         if (count($paquetes) != 1) {
-            return redirect()->back()->with('error', 'Ha ocurrido un error');
+            return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
 
         DB::delete('DELETE FROM REPARTE where ID_paquete = ?', [$paquete->ID]);
 
-        return to_route('reparte.desasignar')->with('success', 'Se ha Desasignado correctamente');
+        return to_route('reparte.desasignar')->with('success', __('Se ha Desasignado correctamente'));
     }
 
 

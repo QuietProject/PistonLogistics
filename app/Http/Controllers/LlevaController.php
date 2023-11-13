@@ -35,7 +35,7 @@ class LlevaController extends Controller
         AND LOTES.ID=?',[$lote->ID]);
 
         if (count($consulta)!=1) {
-            return redirect()->back()->with('error','Ha ocurrido un error');
+            return redirect()->back()->with('error',__('Ha ocurrido un error'));
         }
         $lote=$consulta[0];
 
@@ -106,7 +106,7 @@ class LlevaController extends Controller
 
         DB::insert('INSERT into LLEVA (matricula, ID_lote) values (?, ?)', [$matricula, $lote->ID]);
 
-        return to_route('lleva.index')->with('success','Se ha asignado correctamente');
+        return to_route('lleva.index')->with('success',__('Se ha asignado correctamente'));
     }
 
     public function desasignar()
@@ -135,7 +135,7 @@ class LlevaController extends Controller
 
         DB::delete('DELETE FROM LLEVA where ID_lote = ?', [$lote->ID]);
 
-        return to_route('lleva.desasignar')->with('success', 'Se ha Desasignado correctamente');
+        return to_route('lleva.desasignar')->with('success', __('Se ha Desasignado correctamente'));
     }
 
 }

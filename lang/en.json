@@ -9,6 +9,135 @@
     "The :attribute must contain at least one number.": "The :attribute must contain at least one number.",
     "The :attribute must contain at least one symbol.": "The :attribute must contain at least one symbol.",
     "The :attribute must contain at least one uppercase and one lowercase letter.": "The :attribute must contain at least one uppercase and one lowercase letter.",
-    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute."
+    "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute.",
+
+    "Ha ocurrido un error":"en",
+    "El almacen se agrego correctamente":"en",
+    "El usuario o la contraseña son incorrectos":"en",
+    "El usuario no verificó su email":"en",
+    "El camionero se creo correctamente":"en",
+    "El camionero se actualizo correctamente":"en",
+    "El cliente se actualizo correctamente":"en",
+    "Se desasigno el conductor del vehiculo correctamente":"en",
+    "Se le a asignado un camionero al vehiculo correctamente":"en",
+    "Se le a asignado un vehiculo al camionero correctamente":"en",
+    "Se ha asignado correctamente":"en",
+    "Se ha Desasignado correctamente":"en",
+    "La troncal se creo correctamente":"en",
+    "La troncal se ha actualizado correctamente":"en",
+    "El usuario ya existe":"en",
+    "Se ha creado el usuario correctamente":"en",
+    "El usuario ya verificó su email":"en",
+    "Se reenvió el correo de verificación":"en",
+    "El usuario se ha eliminado correctamente":"en",
+    "No hemos podido encontrar el email":"en",
+    "El email no esta verificado, comunequese con un administrador":"en",
+    "El vehiculo se agrego correctamente":"en",
+    "El vehiculo se actualizo correctamente":"en",
+    "El vehiculo se cambio a operaivo correctamente":"en",
+    "El vehiculo se cambio a fuera de servicio correctamente":"en",
+    "Almacenes":"en",
+    "Almacenes propios":"en",
+    "ID":"en",
+    "Nombre":"en",
+    "Direccion":"en",
+    "Estado":"en",
+    "De baja":"en",
+    "Operativo":"en",
+    "Almacenes de clientes":"en",
+    "Cliente":"en",
+    "Ingresar Almacen":"en",
+    "Tipo":"en",
+    "Propio":"en",
+    "Calle":"en",
+    "Numero":"en",
+    "Codigo postal":"en",
+    "Localidad":"en",
+    "Departamento":"en",
+    "Confirmar":"en",
+    "Paquetes 'sueltos' en el almacen":"en",
+    "Total de paquetes en que pasaron por el almacen":"en",
+    "Lotes para desarmar en el almacen":"en",
+    "Lotes en el almacen prontos para llevar":"en",
+    "Lotes en preparacion en el almacen":"en",
+    "Total de lotes recibidos en el almacen":"en",
+    "Total de lotes creados en el almacen":"en",
+    "El almacen no se encuentra en ninguna troncal":"en",
+    "Paquetes esperando en el almacenen":"en",
+"Paquetes encargados al comprador de este almacen":"en",
+"Total de paquetes encargados por el almacen":"en",
+"Dar de Alta":"en",
+"Dar de Baja":"en",
+"Editar Almacen propio":"en",
+"Editar Almacen cliente":"en",
+"Conductores":"en",
+"Inactivo":"en",
+"Activo":"en",
+"Ingresar Camionero":"en",
+"Almacen propio":"en",
+"Almacen cliente":"en",
+"Almacen":"en",
+"Conductor":"en",
+"Cedula":"en",
+"Historial de vehiculos":"en",
+"Matricula":"en",
+"Desde":"en",
+"Hasta":"en",
+"Conduciendo":"en",
+"Este conductor/a no ha conducido ningun camion hasta el momento":"en",
+"Vehiculo asignado":"en",
+"Dejar de conducir":"en",
+"Asignar":"en",
+"Editar Camionero":"en",
+"No tiene":"en",
+"Vehiculo":"en",
+"Clientes":"en",
+"Baja":"en",
+"Ingresar cliente":"en",
+"Este cliente no tiene ningun almacen todavia":"en",
+"Contraseña olvidada":"en",
+"Email":"en",
+"Volver":"en",
+"Repita su contraseña":"en",
+"Troncales":"en",
+"Cantidad almacenes":"en",
+"Agregar":"en",
+"Buscar":"en",
+"Ingresar Troncal":"en",
+"Latitud":"en",
+"Longitud":"en"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

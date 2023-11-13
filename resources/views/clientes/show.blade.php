@@ -1,32 +1,32 @@
 <x-layout menu="6" titulo="Clientes" import1="../css/styleClientesShow.css">
     <div class="display">
-        <h2 class="titleText">Clientes</h2>
+        <h2 class="titleText">{{ __("Clientes") }}</h2>
         <div class="infoBox" style="left: 51vw">
-            <p>Rut: {{ $cliente->RUT }}</p>
-            <p>Nombre: {{ $cliente->nombre }}</p>
+            <p>RUT: {{ $cliente->RUT }}</p>
+            <p>{{ __("Nombre") }}: {{ $cliente->nombre }}</p>
             <form action="{{ route('clientes.destroy', $cliente->RUT) }}" method="POST">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="modBtn">
                     @if ($cliente->baja)
-                        Dar de Alta
+                        {{ __("Dar de Alta") }}
                     @else
-                        Dar de Baja
+                        {{ __("Dar de Baja") }}
                     @endif
                 </button>
             </form>
             </p>
         </div>
-        <h3 class="tableTitle">Almacenes</h3>
+        <h3 class="tableTitle">{{ __("Almacenes") }}</h3>
         <div class="tableContainer">
             @if (count($cliente->almacenes) > 0)
                 <table class="tableView">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Direccion</th>
-                            <th>Estado</th>
+                            <th>{{ __("Nombre") }}</th>
+                            <th>{{ __("Direccion") }}</th>
+                            <th>{{ __("Estado") }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,7 +41,7 @@
                     </tbody>
                 </table>
             @else
-                <p>Este cliente no tiene ningun almacen todavia</p>
+                <p>{{ __("Este cliente no tiene ningun almacen todavia") }}</p>
             @endif
         </div>
     </div>

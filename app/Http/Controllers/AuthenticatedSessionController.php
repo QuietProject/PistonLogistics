@@ -18,13 +18,13 @@ class AuthenticatedSessionController extends Controller
         if (!Auth::attemptWhen($credentials, function ($user) {
             return $user->rol==0;
         }, $request->has('remember'))) {
-            return redirect()->back()->withErrors(['authError' => 'El usuario o la contraseña son incorrectos']);
+            return redirect()->back()->withErrors(['authError' => __('El usuario o la contraseña son incorrectos')]);
         }
         if(is_null(Auth::user()->email_verified_at)){
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
-            return redirect()->back()->withErrors(['authError' => 'El usuario no verificó su email']);
+            return redirect()->back()->withErrors(['authError' => __('El usuario no verificó su email')]);
         }
                return to_route('inicio');
     }
