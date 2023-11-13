@@ -22,7 +22,7 @@
     "El camionero se creo correctamente":"en",
     "El camionero se actualizo correctamente":"en",
     "El cliente se actualizo correctamente":"en",
-    "Se desasigno el conductor del vehiculo correctamente":"en",
+    "Se desasigno el camionero del vehiculo correctamente":"en",
     "Se le a asignado un camionero al vehiculo correctamente":"en",
     "Se le a asignado un vehiculo al camionero correctamente":"en",
     "Se ha asignado correctamente":"en",
@@ -74,21 +74,21 @@
 "Dar de Baja":"en",
 "Editar Almacen propio":"en",
 "Editar Almacen cliente":"en",
-"Conductores":"en",
+"Camioneros":"en",
 "Inactivo":"en",
 "Activo":"en",
 "Ingresar Camionero":"en",
 "Almacen propio":"en",
 "Almacen cliente":"en",
 "Almacen":"en",
-"Conductor":"en",
+"Camionero":"en",
 "Cedula":"en",
 "Historial de vehiculos":"en",
 "Matricula":"en",
 "Desde":"en",
 "Hasta":"en",
 "Conduciendo":"en",
-"Este conductor/a no ha conducido ningun camion hasta el momento":"en",
+"Este camionero/a no ha conducido ningun camion hasta el momento":"en",
 "Vehiculo asignado":"en",
 "Dejar de conducir":"en",
 "Asignar":"en",
@@ -126,7 +126,6 @@
 "Rol":"en",
 "Verificacion email":"en",
 "Administrador":"en",
-"Camionero":"en",
 "Eliminar":"en",
 "Ingresar usuario":"en",
 "Correo":"en",
@@ -149,8 +148,8 @@
 "Lleva lotes":"en",
 "Trae paquetes":"en",
 "Reparte paquetes":"en",
-"Historial de conductores":"en",
-"Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento":"en",
+"Historial de camioneros":"en",
+"Este vehiculo no ha sido conducido por ningun camionero/a hasta el momento":"en",
 "No hay camioneros disponibles":"en",
 "Cambiar a fuera de servicio":"en",
 "Cambiar a operativo":"en",
@@ -176,37 +175,35 @@
 "Peso":"en",
 "Cantidad":"en",
 "Fecha asignado":"en",
-"Desasignar":"en"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+"Desasignar":"en",
+"Asignar lote":"en",
+"Cantidad de paquetes":"en",
+"Paquetes en el lote":"en",
+"Fecha de ingreso al lote":"en",
+"Fecha registrado":"en",
+"Direccion destino":"en",
+"Almacen final":"en",
+"Elegir camion":"en",
+"Carga asignada":"en",
+"Peso maximo":"en",
+"Troncal asignada":"en",
+"Fecha pronto":"en",
+"Fecha creado":"en",
+"Reparte":"en",
+"Asignar paquetes a camiones para repartir":"en",
+"No hay paquetes para asignar":"en",
+"Paquete":"en",
+"Fecha de ingreso al almacen":"en",
+"Asignar Paquete":"en",
+"En Almacen":"en",
+"Elegir camioneta":"en",
+"Almacen asignado":"en",
+"Paquetes asignados en reparte":"en",
+"No hay paquetes asignados":"en",
+"Asignar paquetes a camiones para traer":"en",
+"Fecha de Ingreso al Almacen":"en",
+"Paquetes asignados en trae":"en",
+"Fecha de registrado":"en"
 
 
 

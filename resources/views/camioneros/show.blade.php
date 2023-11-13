@@ -1,4 +1,4 @@
-<x-layout menu="1" titulo="Conductor" import1="../css/styleCamioneroShow.css">
+<x-layout menu="1" titulo="Camionero" import1="../css/styleCamioneroShow.css">
     <div class="display">
         <p class="titleText">{{ __("Nombre") }}: {{ $camionero->nombre }}</p>
         <p class="titleText" style="top: 11vh">{{ __("Cedula") }}: {{ $camionero->CI }}</p>
@@ -40,7 +40,7 @@
                 </table>
             </div>
         @else
-            <p>{{ __("Este conductor/a no ha conducido ningun camion hasta el momento") }}</p>
+            <p>{{ __("Este camionero/a no ha conducido ningun camion hasta el momento") }}</p>
         @endif
         <div class="editContainer">
             <p class="asignadoText">{{ __("Vehiculo asignado") }}:

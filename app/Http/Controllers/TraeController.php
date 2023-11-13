@@ -108,7 +108,7 @@ class TraeController extends Controller
 
         DB::insert('INSERT into TRAE (matricula, ID_paquete) values (?, ?)', [$matricula, $paquete->ID]);
 
-        return to_route('reparte.index')->with('success', __('Se ha asignado correctamente'));
+        return to_route('trae.index')->with('success', __('Se ha asignado correctamente'));
     }
 
     public function desasignar()

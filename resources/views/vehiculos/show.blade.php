@@ -28,7 +28,7 @@ if ($vehiculo->baja) {
                 <p>ID:{{ $paquete->ID_paquete }}</p>
             @endforeach
         @endif
-        <h3 class="tableTitle">{{ __("Historial de conductores") }}</h3>
+        <h3 class="tableTitle">{{ __("Historial de camioneros") }}</h3>
         <div class="tableContainer">
             @if (count($camioneros) > 0)
                 <table class="tableView">

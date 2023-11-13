@@ -1,8 +1,8 @@
-<x-layout menu="1" titulo="Conductores" import1="../css/styleCamioneros.css">
+<x-layout menu="1" titulo="Camioneros" import1="../css/styleCamioneros.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display" id="displayTrucks">
         <!-- Title -->
-        <h1 class="titleText">{{ __("Conductores") }}</h1>
+        <h1 class="titleText">{{ __("Camioneros") }}</h1>
         <!-- Add Button -->
         <input type="button" value={{ __("Agregar") }} class="addButton" id="addTruck">
         <!-- SearchBar -->

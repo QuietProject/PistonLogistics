@@ -1,6 +1,6 @@
 <x-layout titulo='Lleva' menu='7' import1="../css/styleLlevaReparteTrae.css">
     <div class="display">
-        <h2 class="titleText">Asignar lote {{ $lote->id }}</h2>
+        <h2 class="titleText">{{ __("Asignar lote") }} {{ $lote->id }}</h2>
         <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
         <div class="infoBox">
             <div class="infoContainer">
@@ -8,53 +8,53 @@
                 <p>{{ $lote->id }}</p>
             </div>
             <div class="infoContainer">
-                <p>Codigo: </p>
+                <p>{{ __("Codigo") }}: </p>
                 <p>{{ $lote->codigo }}</p>
             </div>
             <div class="infoContainer">
-                <p>Fecha creado: </p>
+                <p>{{ __("Fecha creado") }}: </p>
                 <p>{{ \Carbon\Carbon::parse($lote->fecha_creacion)->format('d/m/y H:i') }}</p>
             </div>
             <div class="infoContainer">
-                <p>Fecha pronto: </p>
+                <p>{{ __("Fecha pronto") }}: </p>
                 <p>{{ \Carbon\Carbon::parse($lote->fecha_pronto)->format('d/m/y H:i') }}</p>
             </div>
             <div class="infoContainer">
-                <p>Almacen origen: </p>
+                <p>{{ __("Almacen origen") }}: </p>
                 <p><a target="_blank" href="{{ route('almacenes.show', $origen->ID) }}">{{ $origen->ID }} -
                         {{ $origen->nombre }}</a></p>
             </div>
             <div class="infoContainer">
-                <p>Almacen destino: </p>
+                <p>{{ __("Almacen destino") }}: </p>
                 <p><a target="_blank" href="{{ route('almacenes.show', $destino->ID) }}">{{ $destino->ID }} -
                         {{ $destino->nombre }}</a></p>
             </div>
             <div class="infoContainer">
-                <p>Troncal: </p>
+                <p>{{ __("Troncal") }}: </p>
                 <p><a target="_blank" href="{{ route('troncales.show', $troncal->ID) }}">{{ $troncal->ID }} -
                         {{ $troncal->nombre }}</a></p>
             </div>
             <div class="infoContainer">
-                <p>Peso: </p>
+                <p>{{ __("Peso") }}: </p>
                 <p>{{ $lote->peso }} KG</p>
             </div>
             <div class="infoContainer">
-                <p>Cantidad de paquetes: </p>
+                <p>{{ __("Cantidad de paquetes") }}: </p>
                 <p>{{ $lote->cantidad }}</p>
             </div>
         </div>
         <div>
-            <h3 class="tableTitle" style="left: 24vw;">Paquetes en el lote</h3>
+            <h3 class="tableTitle" style="left: 24vw;">{{ __("Paquetes en el lote") }}</h3>
             <div class="tableContainer">
                 <table class="tableView" id="tableDrivers2">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Peso</th>
-                            <th>Almacen final</th>
-                            <th>Direccion destino</th>
-                            <th>Fecha_registrado</th>
-                            <th>Fecha de ingreso al lote</th>
+                            <th>{{ __("Peso") }}</th>
+                            <th>{{ __("Almacen final") }}</th>
+                            <th>{{ __("Direccion destino") }}</th>
+                            <th>{{ __("Fecha registrado") }}</th>
+                            <th>{{ __("Fecha de ingreso al lote") }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,15 +77,15 @@
         <div>
             <form action="{{ route('lleva.store', $lote->id) }}" method="POST">
                 @csrf
-                <h3 class="tableTitle" style="top: 60vh;">Elegir camion</h3>
+                <h3 class="tableTitle" style="top: 60vh;">{{ __("Elegir camion") }}</h3>
                 <div class="tableContainer" style="top: 65vh">
                     <table class="tableView" id="tableDrivers">
                         <thead>
                             <tr>
-                                <th style="width: ">matricula</th>
-                                <th style="width: ">Carga asignada</th>
-                                <th style="width: ">Peso maximo</th>
-                                <th style="width: ">Troncal asignada</th>
+                                <th style="width: ">{{ __("Matricula") }}</th>
+                                <th style="width: ">{{ __("Carga asignada") }}</th>
+                                <th style="width: ">{{ __("Peso maximo") }}</th>
+                                <th style="width: ">{{ __("Troncal asignada") }}</th>
                                 <th style="width: "></th>
                             </tr>
                         </thead>
@@ -102,7 +102,7 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="submit" class="switchBtn">Asignar</button>
+                <button type="submit" class="switchBtn">{{ __("Asignar") }}</button>
             </form>
         </div>
     </div>
