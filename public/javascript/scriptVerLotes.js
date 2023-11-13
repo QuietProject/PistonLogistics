@@ -487,7 +487,7 @@ if (document.documentElement.lang === "es") {
                                         array.ID_almacen
                                     }</td>
                                     <td data-columna="fecha_registrado">${
-                                        array.fecha_registrado
+                                        traducirFecha(array.fecha_registrado)
                                     }</td>
                                     <td data-columna="ID_pickup">${
                                         array.ID_pickup
@@ -497,7 +497,11 @@ if (document.documentElement.lang === "es") {
                                             ? array.direccion
                                             : ""
                                     }</td>
-                                    <td data-columna="peso">${array.peso}</td>
+                                    <td data-columna="peso">${
+                                        array.peso !== null
+                                            ? array.peso
+                                            : ""
+                                    }</td>
                                     <td data-columna="peso">${array.cedula}</td>
                                     <td data-columna="mail">${array.mail}</td>
                                     <td data-columna="estado">${
@@ -578,4 +582,25 @@ if (document.documentElement.lang === "es") {
             });
         });
     });
+}
+
+function traducirFecha(fechaString) {
+    let fecha = new Date(fechaString);
+
+    let dia = fecha.getDate();
+    let mes = fecha.getMonth() + 1;
+    let anio = fecha.getFullYear();
+    let horas = fecha.getHours();
+    let minutos = fecha.getMinutes();
+
+    let diaFormateado = dia < 10 ? '0' + dia : dia;
+    let mesFormateado = mes < 10 ? '0' + mes : mes;
+    let anioFormateado = anio % 100;
+    let horasFormateadas = horas < 10 ? '0' + horas : horas;
+    let minutosFormateados = minutos < 10 ? '0' + minutos : minutos;
+
+    let fechaFormateada = diaFormateado + '/' + mesFormateado + '/' + anioFormateado + ' ' + horasFormateadas +
+        ':' + minutosFormateados;
+
+    return fechaFormateada;
 }

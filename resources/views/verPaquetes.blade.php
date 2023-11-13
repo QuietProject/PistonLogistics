@@ -14,7 +14,7 @@
     <title>Almacen</title>
     <script>
         const ruta = "{{ route('verPaquetes.asignar', ['idPaquete', 'idLote']) }}";
-        const idAlmacen = {{explode('.', session('nombre'))[1]}};
+        const idAlmacen = {{ explode('.', session('nombre'))[1] }};
 
         async function getStatus() {
             try {
@@ -58,17 +58,17 @@
             }
 
             Swal.fire(options).then(() => {
-            Swal.fire({
-                title: 'Cargando...',
-                icon: 'info',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
+                Swal.fire({
+                    title: 'Cargando...',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                window.location.href = "{{ route('clear.message') }}";
             });
-            window.location.href = "{{ route('clear.message') }}";
-        });
         </script>
     @endif
 
@@ -103,6 +103,7 @@
 
     <section>
         <div id="all">
+            <h1>Paquetes en el almacen</h1>
             <table id="miTabla">
                 <thead>
                     <tr>
@@ -160,19 +161,21 @@
                 </thead>
                 <tbody>
                     @foreach ($paquetes as $paquete)
-                        <tr class="hoverRow">
-                            <td data-columna="ID">{{ $paquete['ID'] }}</td>
-                            <td data-columna="codigo">{{ $paquete['codigo'] }}</td>
-                            <td data-columna="ID_almacen_cliente">{{ $paquete['ID_almacen'] }}</td>
-                            <td data-columna="fecha_registrado">{{ $paquete['fecha_registrado'] }}</td>
-                            <td data-columna="ID_pickup">{{ $paquete['ID_pickup'] }}</td>
-                            <td data-columna="direccion">{{ $paquete['direccion'] }}</td>
-                            <td data-columna="peso">{{ $paquete['peso'] }}</td>
-                            <td data-columna="cedula">{{ $paquete['cedula'] }}</td>
-                            <td data-columna="mail">{{ $paquete['mail'] }}</td>
-                            <td data-columna="estado">{{ $paquete['estado'] }}</td>
-                            <td class="btnAsignar" id="btnAsignar">Asignar</td>
-                        </tr>
+                        @if ($paquete['fecha_entregado'] == null)
+                            <tr class="hoverRow">
+                                <td data-columna="ID">{{ $paquete['ID'] }}</td>
+                                <td data-columna="codigo">{{ $paquete['codigo'] }}</td>
+                                <td data-columna="ID_almacen_cliente">{{ $paquete['ID_almacen'] }}</td>
+                                <td data-columna="fecha_registrado">{{ $paquete['fecha_registrado'] }}</td>
+                                <td data-columna="ID_pickup">{{ $paquete['ID_pickup'] }}</td>
+                                <td data-columna="direccion">{{ $paquete['direccion'] }}</td>
+                                <td data-columna="peso">{{ $paquete['peso'] }}</td>
+                                <td data-columna="cedula">{{ $paquete['cedula'] }}</td>
+                                <td data-columna="mail">{{ $paquete['mail'] }}</td>
+                                <td data-columna="estado">{{ $paquete['estado'] }}</td>
+                                <td class="btnAsignar" id="btnAsignar">Asignar</td>
+                            </tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

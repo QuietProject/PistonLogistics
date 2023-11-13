@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow: auto;
 }
 
 body,html {
@@ -32,12 +31,26 @@ section > div:first-child{
     box-shadow: 0px 0px 10px -1px black;
 }
 
-
-
 table{
     width: 100%;
     padding: 10px;
     color: whitesmoke;
+}
+
+#all > h1{
+    padding: 10px;
+    padding-bottom: 0;
+    font-size: 2em;
+    color: var(--highlight);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0px 0px 0px black, 0 0 0.1em var(--baseDark), 0 0 0.2em black;
+}
+
+#all{
+    overflow: auto;
 }
 
 th{
@@ -158,6 +171,7 @@ td{
     position: absolute;
     border-radius: 10px;
     transition: all .2s ease-in-out;
+    overflow: auto;
 }
 
 .asignarLote > div{

@@ -38,29 +38,28 @@
                 }
             };
 
-            if (message != 'Lote listo para enviar') {
+            if (message === 'Lote listo para enviar') {
+                options.title = message;
+            } else if (message === 'Paquete quitado del lote') {
+                options.title = message;
+            } else {
                 options.title = message;
                 options.icon = 'error';
-            } else {
-                if (message === 'Paquete quitado del lote') {
-                    options.title = message;
-                } else {
-                    options.title = message;
-                }
             }
 
+
             Swal.fire(options).then(() => {
-            Swal.fire({
-                title: 'Cargando...',
-                icon: 'info',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-                onBeforeOpen: () => {
-                    Swal.showLoading();
-                }
+                Swal.fire({
+                    title: 'Cargando...',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    onBeforeOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                window.location.href = "{{ route('clear.message') }}";
             });
-            window.location.href = "{{ route('clear.message') }}";
-        });
         </script>
     @endif
 
@@ -96,6 +95,7 @@
 
     <section>
         <div id="all">
+            <h1>Lotes en el almacen</h1>
             <table id="miTabla">
                 <thead>
                     <tr>

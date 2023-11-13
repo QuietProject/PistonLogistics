@@ -91,6 +91,7 @@ class PackageController extends Controller
         $url = env("API_URL") . "lotes/agregar/paquete?idPaquete=$idPaquete&idLote=$idLote";
 
         $a = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get($url);
+
         session()->flash('message', $a["message"]);
 
         return redirect()->back();

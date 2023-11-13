@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -12,18 +12,6 @@
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Almacen</title>
-    <script>
-        // const ruta = "{{ route('entregarPaquete.entregar', ['idPaquete']) }}";
-        // const idAlmacen = {{ explode('.', session('nombre'))[1] }};
-
-        // function getRoute(idPaquete, idLote) {
-        //     let r = ruta;
-        //     r = r.replace("idPaquete", idPaquete);
-        //     r = r.replace("idLote", idLote);
-        //     return r;
-        // }
-    </script>
-
 </head>
 
 <body>
@@ -92,6 +80,7 @@
 
     <section>
         <div id="all">
+            <h1>Paquetes a entregar</h1>
             <table id="miTabla">
                 <thead>
                     <tr>
