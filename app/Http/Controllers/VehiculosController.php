@@ -62,9 +62,9 @@ class VehiculosController extends Controller
             ->where('CONDUCEN.matricula', $vehiculo->matricula)
             ->orderBy('desde', 'desc')
             ->get();
-        $trae = Trae::where('TRAE.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->join('PAQUETES','PAQUETES.ID','TRAE.ID_paquete')->get();
-        $lleva = Lleva::where('LLEVA.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->join('LOTES','LOTES.ID','LLEVA.ID_lote')->get();
-        $reparte = Reparte::where('REPARTE.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->join('PAQUETES','PAQUETES.ID','REPARTE.ID_paquete')->get();
+        $trae = Trae::where('TRAE.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->whereNotNull('fecha_carga')->join('PAQUETES','PAQUETES.ID','TRAE.ID_paquete')->get();
+        $lleva = Lleva::where('LLEVA.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->whereNotNull('fecha_carga')->join('LOTES','LOTES.ID','LLEVA.ID_lote')->get();
+        $reparte = Reparte::where('REPARTE.matricula', $vehiculo->matricula)->whereNull('fecha_descarga')->whereNotNull('fecha_carga')->join('PAQUETES','PAQUETES.ID','REPARTE.ID_paquete')->get();
 
         $camionerosDisponibles = DB::select('SELECT DISTINCT CAMIONEROS.CI, CAMIONEROS.nombre FROM CAMIONEROS INNER JOIN CONDUCEN ON CAMIONEROS.ci = CONDUCEN.ci WHERE baja = 0 AND CAMIONEROS.CI NOT IN ( SELECT CI FROM CONDUCEN WHERE hasta IS NULL );');
 

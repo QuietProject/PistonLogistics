@@ -79,11 +79,12 @@ class LlevaController extends Controller
     {
         $matricula = $request->validate([
             'camion'=> ['required','exists:CAMIONES,matricula']
-        ])['camion'];
+            ])['camion'];
 
         $pesoLote = Lote::where('ID',$lote->ID)
-        ->join('PESO_LOTES','PESO_LOTES.lote','LOTES.ID')
-        ->get(['peso'])[0]->peso;
+            ->join('PESO_LOTES','PESO_LOTES.lote','LOTES.ID')
+            ->get(['peso'])[0]->peso;
+
 
         $camion = DB::select('SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(LOTES.ID_troncal) troncal
         FROM CAMIONES
@@ -99,7 +100,7 @@ class LlevaController extends Controller
 								where fecha_carga is null)
         group by VEHICULOS.matricula, VEHICULOS.peso_max
         having carga_asignada + ? < peso_max
-        and troncal = ? or troncal is null',[$matricula,$pesoLote,$lote->troncal]);
+        and troncal = ? or troncal is null',[$matricula,$pesoLote,$lote->ID_troncal]);
         if(count($camion)!=1){
             return redirect()->back()->with('error','Ha ocurrido un error');
         }

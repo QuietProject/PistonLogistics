@@ -1,12 +1,12 @@
 <x-layout menu="4" titulo="Troncal" import1="../css/styleTroncalesShow.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
-        <h2 class="titleText">{{ __("Editar Troncal") }}</h2>
+        <h2 class="titleText">{{ __("Troncal") }}</h2>
         <a href="{{ route('ordenes.edit', $troncal) }}" class="addButton"
             style="width: 15vw; color: black; text-shadow: none;">
             <p style="text-align: center; margin-top: 1.5vh">{{ __("Editar ordenes") }}</p>
         </a>
-        <h3 class="tableTitle">{{ __("Orden") }}</h3>
+        <h3 class="tableTitle">{{ __("Almacenes") }}</h3>
         <div class="tableContainer">
             <table class="tableView">
                 <thead>
