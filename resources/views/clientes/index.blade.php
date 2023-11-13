@@ -2,7 +2,7 @@
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
         <h2 class="titleText">{{ __("Clientes") }}</h2>
-        <input type="text" id="searchInput" class="filterText" placeholder="Search" onkeyup="searchFilter()">
+        <input type="text" id="searchInput" class="filterText" placeholder={{ __("Buscar") }} onkeyup="searchFilter()">
         <div class="tableContainer">
             <table class="tableView">
                 <thead>

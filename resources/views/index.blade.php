@@ -1,3 +1,3 @@
 <x-layout menu="8" titulo="Inicio">
-    <h2>inicio</h2>
+    <h2>{{ __("Inicio") }}</h2>
 </x-layout>

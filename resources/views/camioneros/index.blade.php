@@ -4,7 +4,7 @@
         <!-- Title -->
         <h1 class="titleText">{{ __("Conductores") }}</h1>
         <!-- Add Button -->
-        <input type="button" value="Agregar" class="addButton" id="addTruck">
+        <input type="button" value={{ __("Agregar") }} class="addButton" id="addTruck">
         <!-- SearchBar -->
         <input type="text" id="searchInput" class="filterText" placeholder={{ __("Bucar") }} onkeyup="searchFilter()">
         <!-- Tables Container -->
@@ -73,7 +73,7 @@
                 <form action="{{ route('camioneros.store') }}" method="POST">
                     @csrf
                     <div class="inputBox" style="margin-top: 12.5vh">
-                        <label for="CI" style="font-size: 2vh">Cedula</label>
+                        <label for="CI" style="font-size: 2vh">{{ __("Cedula") }}</label>
                         <input type="number" name="CI" id="CI" maxlength="8" minlength="8" required
                             value="{{ old('CI') }}">
                         @error('CI')

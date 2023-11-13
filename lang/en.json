@@ -1,16 +1,20 @@
 {
-    "Iniciar Sesion":"Log in",
-    "Usuario":"User",
-    "¿Olvidaste tu contraseña?":"Forgot password?",
-    "Contraseña":"Password",
-    "Mantener sesion inciada":"",
-    "Submit":"",
     "The :attribute must contain at least one letter.": "The :attribute must contain at least one letter.",
     "The :attribute must contain at least one number.": "The :attribute must contain at least one number.",
     "The :attribute must contain at least one symbol.": "The :attribute must contain at least one symbol.",
     "The :attribute must contain at least one uppercase and one lowercase letter.": "The :attribute must contain at least one uppercase and one lowercase letter.",
     "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute.",
 
+
+
+
+
+    "Iniciar Sesion":"en",
+    "Usuario":"en",
+    "¿Olvidaste tu contraseña?":"en",
+    "Contraseña":"en",
+    "Mantener sesion inciada":"en",
+    "Submit":"en",
     "Ha ocurrido un error":"en",
     "El almacen se agrego correctamente":"en",
     "El usuario o la contraseña son incorrectos":"en",
@@ -105,7 +109,213 @@
 "Buscar":"en",
 "Ingresar Troncal":"en",
 "Latitud":"en",
-"Longitud":"en"
+"Longitud":"en",
+"Bucar":"en",
+"Troncal":"en",
+"Editar Troncal":"en",
+"Editar ordenes":"en",
+"Orden":"en",
+"De alta":"en",
+"Cambiar Nombre":"en",
+"El almacen esta dado de baja":"en",
+"Editar Ordenes":"en",
+"Ordenes":"en",
+"Posicion":"en",
+"Dirección":"en",
+"Usuarios":"en",
+"Rol":"en",
+"Verificacion email":"en",
+"Administrador":"en",
+"Camionero":"en",
+"Eliminar":"en",
+"Ingresar usuario":"en",
+"Correo":"en",
+"Reenviar mail de verificacion":"en",
+"Editar Usuario":"en",
+"No esta verificado":"en",
+"Correo verificado":"en",
+"Vehiculos":"en",
+"Camiones":"en",
+"Camionetas":"en",
+"Peso Maximo":"en",
+"De Baja":"en",
+"Ingresar Vehiculo":"en",
+"Fuera De Servicio":"en",
+"Camion":"en",
+"Camioneta":"en",
+"fuera de servicio":"en",
+"de baja":"en",
+"operativo":"en",
+"Lleva lotes":"en",
+"Trae paquetes":"en",
+"Reparte paquetes":"en",
+"Historial de conductores":"en",
+"Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento":"en",
+"No hay camioneros disponibles":"en",
+"Cambiar a fuera de servicio":"en",
+"Cambiar a operativo":"en",
+"Editar":"en",
+"Asignar Lleva":"en",
+"Asignar Reparte":"en",
+"Asignar Trae":"en",
+"Desasignar Lleva":"en",
+"Desasignar Reparte":"en",
+"Desasignar Trae":"en",
+"Inicio":"en",
+"Español":"en",
+"ingles":"en",
+"CI":"en"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -35,7 +35,7 @@
     </form>
     <p>Usuario: prueba Constraseña: submarino</p>
     <a href="{{ route('password.request') }}">{{ __("¿Olvidaste tu contraseña?") }}</a>
-    <a href="{{route("locale","es")}}">español</a>
-    <a href="{{route("locale","en")}}">ingles</a>
+    <a href="{{route("locale","es")}}">{{ __("Español") }}</a>
+    <a href="{{route("locale","en")}}">{{ __("ingles") }}</a>
 </body>
 </html>

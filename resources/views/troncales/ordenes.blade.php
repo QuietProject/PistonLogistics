@@ -1,22 +1,22 @@
 <x-layout menu="4" titulo="Editar Ordenes">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
-        <p class="titleText">Nombre: {{ $troncal->nombre }}</p>
+        <p class="titleText">{{ __("Nombre") }}: {{ $troncal->nombre }}</p>
         <p class="titleText" style="top: 12.5vh">ID: {{ $troncal->ID }}</p>
         <form action="{{ route('ordenes.update', $troncal->ID) }}" method="POST">
             @csrf
             @method('PATCH')
             <input type="text" name="ordenes" hidden id="ordenes">
-            <button type="submit" class="addButton">Confirmar</button>
+            <button type="submit" class="addButton">{{ __("Confirmar") }}</button>
         </form>
-        <h3 class="tableTitle">Almacenes</h3>
+        <h3 class="tableTitle">{{ __("Almacenes") }}</h3>
         <div class="tableContainer">
             <table class="tableView" id="table_left">
                 <thead>
                     <tr>
                         <th style="width: 15%">ID</th>
-                        <th style="width: 32.5%">Almacen</th>
-                        <th style="width: 32.5%">Dirección</th>
+                        <th style="width: 32.5%">{{ __("Almacen") }}</th>
+                        <th style="width: 32.5%">{{ __("Dirección") }}</th>
                         <th style="width: 10%"></th>
                     </tr>
                 </thead>
@@ -35,16 +35,16 @@
                 </tbody>
             </table>
         </div>
-        <h3 class="tableTitle" style="left: 64vw">Ordenes</h3>
+        <h3 class="tableTitle" style="left: 64vw">{{ __("Ordenes") }}</h3>
         <div class="tableContainer" style="left: 50vw">
             <table class="tableView" id="table_right">
                 <thead>
                     <tr>
                         <th style="width: 5%"></th>
                         <th style="width: 15%">ID</th>
-                        <th style="width: 20%">Almacen</th>
-                        <th style="width: 20%">Dirección</th>
-                        <th style="width: 20%">Posicion</th>
+                        <th style="width: 20%">{{ __("Almacen") }}</th>
+                        <th style="width: 20%">{{ __("Dirección") }}</th>
+                        <th style="width: 20%">{{ __("Posicion") }}</th>
                         <th style="width: 5%"></th>
                         <th style="width: 5%"></th>
                     </tr>
