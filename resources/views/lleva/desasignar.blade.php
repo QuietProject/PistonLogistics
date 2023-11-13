@@ -1,24 +1,24 @@
 <x-layout titulo='Lleva' menu='7' import1="../css/styleLlevaReparteTrae.css">
     <div class="display">
-        <h2 class="titleText">Asignar lotes a camiones</h2>
+        <h2 class="titleText">{{ __("Asignar lotes a camiones") }}</h2>
         @if (count($lotes) == 0)
-            <p class="textNegative">No hay lotes para asignar</p>
+            <p class="textNegative">{{ __("No hay lotes para asignar") }}</p>
         @else
             <div class="tableContainer">
                 <table tableView" id="tableDriver" class="tableView">
                     <thead>
                         <tr>
-                            <th onclick="sortTable(0);arrowsTable(0);" id="0">Lote </th>
-                            <th onclick="sortTable(1);arrowsTable(1);" id="1">Codigo</th>
-                            <th onclick="sortTable(2);arrowsTable(2);" id="2">Pronto desde</th>
-                            <th onclick="sortTable(3);arrowsTable(3);" id="3">Almacen origen</th>
-                            <th onclick="sortTable(4);arrowsTable(4);" id="4">Almacen destino</th>
-                            <th onclick="sortTable(5);arrowsTable(5);" id="5">Troncal</th>
-                            <th onclick="sortTable(6);arrowsTable(6);" id="6">Peso</th>
-                            <th onclick="sortTable(7);arrowsTable(7);" id="7">Cantidad</th>
-                            <th onclick="sortTable(8);arrowsTable(8);" id="8">Fecha asignado</th>
-                            <th onclick="sortTable(9);arrowsTable(9);" id="9">Camion</th>
-                            <th onclick="sortTable(10);arrowsTable(10);" id="10">Desasignar</th>
+                            <th onclick="sortTable(0);arrowsTable(0);" id="0">{{ __("Lote") }}</th>
+                            <th onclick="sortTable(1);arrowsTable(1);" id="1">{{ __("Codigo") }}</th>
+                            <th onclick="sortTable(2);arrowsTable(2);" id="2">{{ __("Pronto desde") }}</th>
+                            <th onclick="sortTable(3);arrowsTable(3);" id="3">{{ __("Almacen origen") }}</th>
+                            <th onclick="sortTable(4);arrowsTable(4);" id="4">{{ __("Almacen destino") }}</th>
+                            <th onclick="sortTable(5);arrowsTable(5);" id="5">{{ __("Troncal") }}</th>
+                            <th onclick="sortTable(6);arrowsTable(6);" id="6">{{ __("Peso") }}</th>
+                            <th onclick="sortTable(7);arrowsTable(7);" id="7">{{ __("Cantidad") }}</th>
+                            <th onclick="sortTable(8);arrowsTable(8);" id="8">{{ __("Fecha asignado") }}</th>
+                            <th onclick="sortTable(9);arrowsTable(9);" id="9">{{ __("Camion") }}</th>
+                            <th onclick="sortTable(10);arrowsTable(10);" id="10">{{ __("Desasignar") }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +43,7 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="switchBtn">
-                                            Desasignar
+                                            {{ __("Desasignar") }}
                                         </button>
                                     </form>
                                 </td>
