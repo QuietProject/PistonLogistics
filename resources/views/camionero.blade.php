@@ -160,8 +160,10 @@
                     L.latLng(marker2Coordinates)
                 ],
                 addWaypoints: false,
+                collapsed: true
             })
-
+            
+            const verMapa = document.getElementById('verMapa');
             verMapa.addEventListener("click", () => {
                 map.whenReady(function() {
                     map.invalidateSize(

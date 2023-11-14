@@ -56,24 +56,17 @@
                         <label for="codPaquete">{{ __("Codigo del paquete") }}</label>
                         <input id="codPaquete" type="number" name="codigoPaquete" required>
                     </div>
-                    <input type="submit" value="Rastrear">
+                    <input type="submit" value="{{ __("Rastrear") }}">
                 </form>
             </div>
         </section>
         <section id="aboutUs" class="aboutUs">
             <h3 class="animar sobreNosotros">{{ __("Sobre Nosotros") }}</h3>
             <div class="textoAbout">
-                <p class="animar">{{ __("En Quick Carry, nos dedicamos al transporte de paquetería en distribución nacional.
-                    Somos una empresa
-                    líder en el sector logístico, con una amplia red de plataformas estratégicamente ubicadas en la
-                    proximidad de las principales ciudades y centros poblados en la casi totalidad de los departamentos.") }}
+                <p class="animar">{{ __("En Quick Carry, nos dedicamos al transporte de paquetería en distribución nacional. Somos una empresa líder en el sector logístico, con una amplia red de plataformas estratégicamente ubicadas en la proximidad de las principales ciudades y centros poblados en la casi totalidad de los departamentos.") }}
                 </p>
                 <br>
-                <p class="animar">{{ __("Contamos con un equipo altamente capacitado de profesionales en logística y transporte
-                    que se dedican a
-                    garantizar la entrega oportuna y segura de cada paquete. Nuestros conductores, administradores y
-                    personal de atención al cliente están comprometidos con la excelencia en el servicio, brindando una
-                    experiencia excepcional a nuestros clientes en cada etapa del proceso de transporte.") }}</p>
+                <p class="animar">{{ __("Contamos con un equipo altamente capacitado de profesionales en logística y transporte que se dedican a garantizar la entrega oportuna y segura de cada paquete. Nuestros conductores administradores y personal de atención al cliente están comprometidos con la excelencia en el servicio, brindando una experiencia excepcional a nuestros clientes en cada etapa del proceso de transporte.") }}</p>
             </div>
             <div style="width: 100%;display: flex; justify-content:center; align-items:end; height:20vh" id="preguntas">
                 <h3 class="animar preguntas">{{ __("Preguntas Frecuentes") }}</h3>

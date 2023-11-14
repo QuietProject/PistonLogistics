@@ -271,8 +271,18 @@ td{
 .leaflet-bottom{
     display: none;
 }
-.leaflet-right{
+
+/* .leaflet-right{
     display: none;
+} */
+
+.leaflet-routing-container-hide .leaflet-routing-collapse-btn{
+    top: 0 !important;
+    left: 2px !important;
+}
+
+.leaflet-routing-alt  td{
+    color: black;
 }
 
 footer {

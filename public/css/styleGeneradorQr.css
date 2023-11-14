@@ -33,6 +33,7 @@ section > div:first-child{
 
 table{
     width: 100%;
+    min-width: 280px;
     padding: 10px;
     color: whitesmoke;
 }
@@ -66,7 +67,6 @@ table{
 div:where(.swal2-container) div:where(.swal2-actions) {
     margin: 0 !important;
 }
-
 
 .descargar{
     border: 0;
