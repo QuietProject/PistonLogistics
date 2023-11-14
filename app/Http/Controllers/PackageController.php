@@ -108,7 +108,8 @@ class PackageController extends Controller
         return redirect()->back()->with('message', $response["message"]);
     }
 
-    public function getPaquetesEntregar(){
+    public function getPaquetesEntregar()
+    {
         $idAlmacen = explode('.', session('nombre'))[1];
 
         $paquetes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "paquetes?idAlmacen=$idAlmacen")->json()['data'];
@@ -121,7 +122,8 @@ class PackageController extends Controller
         return view('entregarPaquete', ['paquetes' => $paquetes]);
     }
 
-    public function getPaquetesQr(){
+    public function getPaquetesQr()
+    {
         $idAlmacenCliente = explode('.', session('nombre'))[0];
 
         $paquetes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "cliente/paquetes/$idAlmacenCliente")->json()['paquetes'];
@@ -129,9 +131,10 @@ class PackageController extends Controller
         return view('generadorQr', ['paquetes' => $paquetes]);
     }
 
-    public function entregarPaquete($id){
+    public function entregarPaquete($id)
+    {
 
-        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL"). "paquetes/entregar/$id");
+        $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "paquetes/entregar/$id");
         return redirect()->back()->with('message', $response["message"]);
     }
 
@@ -192,10 +195,10 @@ class PackageController extends Controller
 
         $ordenes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "ordenes/almacen/$id")->json();
 
-        if($ordenes == []){
-            session()->flash('message', "El almacen no está en ninguna troncal");
+        if ($ordenes['message'] == "El almacen no se encuentra en ninguna troncal") {
+            session()->flash('message', "El almacen no se encuentra en ninguna troncal");
             return redirect()->back();
-        }else{
+        } else {
             return view('crearLote', ['ordenes' => $ordenes]);
         }
     }
@@ -231,7 +234,7 @@ class PackageController extends Controller
             $responseData = $response->json();
 
             if (isset($responseData['message']) && $responseData['message'] === 'Lote creado exitosamente') {
-                $request->session()->flash('message', 'Lote creado exitosamente');
+                session()->flash('message', 'Lote creado exitosamente');
             }
             return to_route('createLote.show');
         } catch (\Exception $e) {
@@ -344,12 +347,12 @@ class PackageController extends Controller
             if ($response2->status() == 200) {
                 return redirect()->back()->with(
                     "message",
-                    $response1['message'] .' - '. $response2["message"]
+                    $response1['message'] . ' - ' . $response2["message"]
                 );
             } else {
                 return redirect()->back()->with(
                     "message",
-                    $response1['message']['idPaquete'][0] .' - '. $response2["message"]['idLote'][0]
+                    $response1['message']['idPaquete'][0] . ' - ' . $response2["message"]['idLote'][0]
                 );
             }
         }
@@ -386,12 +389,12 @@ class PackageController extends Controller
             if ($response2->status() == 200) {
                 return redirect()->back()->with(
                     "message",
-                    $response1['message'] .' - '. $response2["message"]
+                    $response1['message'] . ' - ' . $response2["message"]
                 );
             } else {
                 return redirect()->back()->with(
                     "message",
-                    $response1['message'] .' - '. $response2["message"]['idLote'][0]
+                    $response1['message'] . ' - ' . $response2["message"]['idLote'][0]
                 );
             }
 

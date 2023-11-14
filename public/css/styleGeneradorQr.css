@@ -78,6 +78,10 @@ div:where(.swal2-container) div:where(.swal2-actions) {
     padding: 0.625em 1.1em;
     transition: box-shadow .1s;
     font-weight: 500;
+    cursor: pointer;
+}
+.descargar:hover{
+    background-color: #e68907;
 }
 
 th{

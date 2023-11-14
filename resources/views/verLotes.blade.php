@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/styleVerLotes.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <title>Almacen</title>
     <script>
         const ruta = "{{ route('quitarPaquete', ['idLote' => 'valorLote', 'idPaquete' => 'valorPaquete']) }}";
@@ -34,7 +35,8 @@
                 icon: 'success',
                 allowEnterKey: true,
                 customClass: {
-                    container: 'popup'
+                    container: 'popup',
+                    confirmButton: 'confirmButton'
                 }
             };
 
@@ -147,11 +149,8 @@
                                 <td data-columna="fecha_pronto">{{ $lote['fecha_pronto'] }}</td>
                             @endif
                             <td data-columna="tipo">{{ $lote['tipo'] ? 'pickup' : 'comun' }}</td>
-                            <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}"
-                                data-idlote="{{ $lote['ID'] }}">Ver paquetes</td>
-
-
-
+                            <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}" data-idlote="{{ $lote['ID'] }}">Ver paquetes</td>
+                            <td class="btnGenerar" id="btnGenerar" data-codigo="{{ $lote['codigo'] }}">QR</td>
                         </tr>
                     @endforeach
 
@@ -166,6 +165,7 @@
 
     <script defer src="./javascript/scriptMenu.js"></script>
     <script defer type="module" src="./javascript/scriptVerLotes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 
 </html>

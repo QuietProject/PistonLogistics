@@ -1,235 +1,146 @@
 const color = "black";
-const body = document.getElementsByTagName("body");
-let i = 0;
-let y = 0;
-
-// let radios = document.forms["estado"].elements["estado"];
-// let labels = document.querySelectorAll(".radioBtnEstados label");
-
-// for (let i = 0, max = radios.length; i < max; i++) {
-//     radios[i].addEventListener("change", function () {
-//         labels.forEach((label, index) => {
-//             if (radios[index].checked) {
-//                 label.classList.add("checked");
-//                 label.classList.remove("notChecked");
-//             } else {
-//                 label.classList.remove("checked");
-//                 label.classList.add("notChecked");
-//             }
-//         });
-//         enviarInformacion();
-//     });
-// }
-
-// function enviarInformacion() {}
-
+let abierto = null;
 const section = document.getElementById("section");
-let botonComenzarPrevio = null;
 
-const rutaActual = [
-    ["Canelones", "8:30 AM", "15:45 PM"],
-    ["Florida", "9:15 AM", "17:30 PM"],
-    ["Durazno", "9:00 AM", "16:15 PM"],
-    ["Montevideo", "8:00 AM", "17:15 PM"],
-    ["Paysandú", "9:45 AM", "18:00 PM"],
-    ["Salto", "8:30 AM", "16:45 PM"],
-    ["Maldonado", "10:15 AM", "19:30 PM"],
-    ["Rocha", "9:30 AM", "18:15 PM"]
-]
+const envio = document.createElement("div");
+envio.className = "envio";
+const carga = document.createElement("div");
+carga.style.display = "none";
+carga.className = "carga";
+const mapa = document.createElement("div");
+mapa.style.display = "none";
+mapa.className = "mapa";
 
+carga.innerHTML += `<div id='btnVolverCarga'><i class='bx bx-left-arrow-alt'></i></div><h1>Carga</h1><table id="miTabla">
+                <thead>
+                    <tr>
+                        <th class="columna" data-columna="codigo">
+                            <div>
+                                <p>Codigo</p>
+                            </div>
+                        </th>
+                        <th class="columna" data-columna="peso">
+                            <div>
+                                <p>Peso</p>
+                            </div>
+                        </th>
+                    </tr> 
+                </thead>
+                <tbody>
+                ${lotes
+                    .map(
+                        (lote) =>
+                            `<tr class="hoverRow">
+                    <td data-columna="codigo">${lote["codigo"]}</td>
+                    <td data-columna="peso">${lote["peso"]}</td>
+                </tr>`
+                    )
+                    .join("")}
+                    
+                </tbody>
+            </table>`;
 
-const divEnvio = document.createElement("div");
-section.appendChild(divEnvio);
+const btnVolverMapa = document.createElement("div");
+btnVolverMapa.innerHTML = "<i class='bx bx-left-arrow-alt'></i>";
+const mapaPlaceholder = document.createElement("div");
+mapaPlaceholder.id = "mapaPlaceholder";
+const ActualizarDiv = document.createElement("div");
+const btnActualizar = document.createElement("div");
+btnActualizar.textContent = "Actualizar";
+ActualizarDiv.appendChild(btnActualizar);
+mapa.appendChild(btnVolverMapa);
+mapa.appendChild(mapaPlaceholder);
+mapa.appendChild(ActualizarDiv);
 
-const divs = section.querySelectorAll("div");
-const disableDivs = document.getElementById("disableDivs");
-const envioComenzado = document.getElementById("envioComenzado");
-envioComenzado.style.display = "none";
-const envioFinalizado = document.getElementById("envioFinalizado");
-envioFinalizado.style.display = "none";
-let h = 0;
+const rutas = document.createElement("div");
+const botones = document.createElement("div");
 
-divs.forEach((div, index) => {
-    const newDiv = document.createElement("div");
-    newDiv.className = `div${index + 1} trabajos`;
+section.appendChild(envio);
+section.appendChild(carga);
+section.appendChild(mapa);
+envio.appendChild(rutas);
+envio.appendChild(botones);
 
-    window.addEventListener("resize", () => {
-        const alturaContenedor = newDiv.clientHeight;
-        newDivMapa.style.height = alturaContenedor + "px";
-    });
-    
+const origen = document.createElement("div");
+const destino = document.createElement("div");
 
-    const container = document.createElement("div");
+rutas.appendChild(origen);
+rutas.appendChild(destino);
 
-    const rutas = document.createElement("div");
+let almacenOrigen = "Montevideo";
+let almacenDestino = "Artigas";
 
-    const btnVerCarga = document.createElement("input");
-    btnVerCarga.type = "button";
-    btnVerCarga.value = "Ver Carga";
+origen.innerHTML = `<p>${almacenOrigen}</p><p>O</p>`;
+destino.innerHTML = `<p>${almacenDestino}</p><p>D</p>`;
 
-    const btnMapa = document.createElement("input");
-    btnMapa.type = "button";
-    btnMapa.value = "Mapa";
+const verCarga = document.createElement("div");
+const verMapa = document.createElement("div");
+// const comenzar = document.createElement("div");
 
-    const btnComenzar = document.createElement("input");
-    btnComenzar.type = "submit";
-    btnComenzar.value = "Comenzar";
+botones.appendChild(verCarga);
+botones.appendChild(verMapa);
+// botones.appendChild(comenzar);
 
-    btnComenzar.className = "comenzar-btn";
+verCarga.textContent = "Carga";
+verMapa.textContent = "Mapa";
+// comenzar.textContent = "Comenzar";
 
-    btnComenzar.addEventListener("click", () => {
-        finalizado.disabled = false;
-
-        newDiv.style.zIndex = "-1";
-        newDivMapa.style.zIndex = "0";
-
-        if (botonComenzarPrevio == null) {
-            botonComenzarPrevio = btnComenzar;
-            botonComenzarPrevio.classList.remove("comenzar-btn");
-            envioComenzado.style.display = "";
-            setTimeout(() => {
-                envioComenzado.style.opacity = "1";
-                setTimeout(() => {
-                    envioComenzado.style.opacity = "0";
-                    setTimeout(() => {
-                        envioComenzado.style.display = "none";
-                    }, 1000);
-                }, 1000);
-            }, 100);
-        }
-
-        const botonesComenzar = document.querySelectorAll(".comenzar-btn");
-        botonesComenzar.forEach((btn) => {
-            if (btn !== btnComenzar) {
-                btn.disabled = true;
-            }
-        });
-
-        finalizado.addEventListener("click", () => {
-            if (finalizado.checked) {
-
-                h = 0;
-                finalizado.disabled = true;
-
-                volver.style.display = "none";
-                cerrarMapa.style.display = "";
-
-                envioFinalizado.style.display = "";
-                setTimeout(() => {
-                    envioFinalizado.style.opacity = "1";
-                    setTimeout(() => {
-                        envioFinalizado.style.opacity = "0";
-                        setTimeout(() => {
-                            envioFinalizado.style.display = "none";
-                        }, 1000);
-                    }, 1000);
-                }, 100);
-
-                div.style.display = "none";
-                botonComenzarPrevio = null;
-                const botonesComenzar = document.querySelectorAll(".comenzar-btn");
-                botonesComenzar.forEach((btn) => {
-                    btn.disabled = false;
-                });
-            }
-        });
-    });
-
-    const divBtns = document.createElement("div");
-
-    const cerrar = document.createElement("i");
-    cerrar.className = "bx bx-x-circle";
-
-    section.appendChild(newDiv);
-    newDiv.appendChild(container);
-    newDiv.appendChild(cerrar);
-    container.appendChild(rutas);
-    container.appendChild(divBtns);
-    divBtns.appendChild(btnVerCarga);
-    divBtns.appendChild(btnMapa);
-    divBtns.appendChild(btnComenzar);
-
-    // div.addEventListener("click", () => {
-    //     newDiv.style.zIndex = "2";
-    //     section.style.filter = "blur(10px)";
-    //     disableDivs.style.zIndex = "1";
-    // });
-
-    // cerrar.addEventListener("click", () => {
-    //     newDiv.style.zIndex = "-1";
-    //     section.style.filter = "none";
-    //     disableDivs.style.zIndex = "-1";
-    // });
-
-    for (let i = 0; i < rutaActual.length; i++) {
-        const ruta = document.createElement("p");
-        ruta.textContent = rutaActual[i][0];
-        rutas.appendChild(ruta);
-    }
-
-    const newDivMapa = document.createElement("div");
-    newDivMapa.className = `${"mapa" + index} mapa`;
-    const alturaContenedor = newDiv.clientHeight;
-    newDivMapa.style.height = alturaContenedor + "px";
-
-    const cerrarMapa = document.createElement("i");
-    cerrarMapa.className = "bx bx-x-circle";
-    cerrarMapa.style.display = "none";
-
-    const volver = document.createElement("i");
-    volver.className = "bx bx-left-arrow-alt";
-
-    const mapaContainerDiv = document.createElement("div");
-    const mapaContainer = document.createElement("div");
-    mapaContainer.className = "mapaContainer";
-
-    section.appendChild(newDivMapa);
-    newDivMapa.appendChild(cerrarMapa);
-    newDivMapa.appendChild(volver);
-    newDivMapa.appendChild(mapaContainerDiv);
-
-
-    const horaRetiro = document.createElement("p");
-    horaRetiro.textContent = rutaActual[0][1];
-
-    const horaEntrega = document.createElement("p");
-    horaEntrega.textContent = rutaActual[rutaActual.length - 1][2];
-
-    const finalizado = document.createElement("input");
-    finalizado.type = "radio";
-    finalizado.disabled = true;
-
-    const infoMapa = document.createElement("div");
-    infoMapa.className = "infoMapa";
-    mapaContainerDiv.appendChild(mapaContainer);
-    const horas = document.createElement("div");
-    horas.appendChild(horaRetiro);
-    horas.appendChild(horaEntrega);
-    infoMapa.appendChild(horas);
-    infoMapa.appendChild(finalizado);
-    mapaContainerDiv.appendChild(infoMapa);
-    mapaContainerDiv.appendChild(infoMapa);
-
-    btnMapa.addEventListener("click", () => {
-        newDiv.style.zIndex = "-1";
-        newDivMapa.style.zIndex = "0";
-    });
-
-    cerrarMapa.addEventListener("click", () => {
-        newDivMapa.style.zIndex = "-1";
-        disableDivs.style.zIndex = "-1";
-        section.style.filter = "none";
-    });
-
-    volver.addEventListener("click", () => {
-        newDiv.style.zIndex = "0";
-        newDivMapa.style.zIndex = "-1";
-    });
-
-    h++;
+verCarga.addEventListener("click", () => {
+    envio.style.display = "none";
+    carga.style.display = "flex";
 });
 
-menu.addEventListener("click", () =>{
+verMapa.addEventListener("click", () => {
+    envio.style.display = "none";
+    mapa.style.display = "flex";
+});
+
+// let viajeComenzado = false;
+// comenzar.addEventListener("click", () => {
+//     if (viajeComenzado) {
+//     }else{
+//         Swal.fire({
+//             title: "Seguro?",
+//             text: "Seguro que quieres comenzar el viaje?",
+//             icon: "warning",
+//             showCancelButton: true,
+//             confirmButtonColor: "#3085d6",
+//             cancelButtonColor: "#d33",
+//             confirmButtonText: "Comenzar",
+//         }).then((result) => {
+//             if (result.isConfirmed) {
+//                 Swal.fire({
+//                     title: "Comenzado!",
+//                     text: "Buen viaje!",
+//                     icon: "success",
+//                 }).then((result) => {
+//                     envio.style.display = "none";
+//                     mapa.style.display = "flex";
+//                     viajeComenzado = true;
+//                     comenzar.setAttribute("disabled", true);
+//                 });
+//             }
+//         });
+//     }
+// });
+
+
+const btnVolverCarga = document.getElementById("btnVolverCarga");
+btnVolverCarga.addEventListener("click", () => {
+    envio.style.display = "flex";
+    carga.style.display = "none";
+});
+
+btnActualizar.addEventListener("click", () => {
+    location.reload();
+});
+
+btnVolverMapa.addEventListener("click", () => {
+    envio.style.display = "flex";
+    mapa.style.display = "none";
+});
+
+menu.addEventListener("click", () => {
     const sideMenu = document.getElementById("sideMenu");
     const computedStyles = window.getComputedStyle(sideMenu);
     const rightValue = computedStyles.getPropertyValue("right");
@@ -238,10 +149,9 @@ menu.addEventListener("click", () =>{
         sideMenu.style.right = "0";
         menu.style.color = "var(--highlight)";
         menu.style.position = "fixed";
-    }else{
+    } else {
         sideMenu.style.right = "-400px";
         menu.style.color = `${color}`;
         menu.style.position = "static";
     }
 });
-

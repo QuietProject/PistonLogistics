@@ -289,6 +289,60 @@ if (document.documentElement.lang === "es") {
             });
         });
     });
+
+    const btnsGenerar = document.querySelectorAll(".btnGenerar");
+    btnsGenerar.forEach((btnGenerar) => {
+        btnGenerar.addEventListener("click", () => {
+            const div = document.createElement("div");
+            div.style.display = "flex";
+            div.style.alignItems = "center";
+            div.style.justifyContent = "center";
+            div.style.flexDirection = "column";
+            let codigo = btnGenerar.getAttribute("data-codigo");
+
+            const btnDescargar = document.createElement("a");
+            btnDescargar.className = "descargar";
+            btnDescargar.textContent = "Descargar";
+            btnDescargar.addEventListener("click", () => {
+                html2canvas(div).then((canvas) => {
+                    const imageData = canvas.toDataURL("image/png");
+
+                    const link = document.createElement("a");
+                    link.href = imageData;
+                    link.download = `${codigo}.png`;
+
+                    link.click();
+                });
+            });
+
+            const info = document.createElement("div");
+            const h1 = document.createElement("h1");
+            h1.style.color = "black";
+            h1.textContent = "QuickCarry";
+
+            const textCodigo = document.createElement("div");
+            textCodigo.style.color = "black";
+            textCodigo.textContent = `Codigo: ${codigo}`;
+            info.appendChild(h1);
+            info.appendChild(document.createElement("br"));
+            info.appendChild(textCodigo);
+            info.appendChild(document.createElement("br"));
+
+            div.appendChild(info);
+
+            const descargar = document.createElement("div");
+            descargar.appendChild(btnDescargar);
+
+            new QRCode(div, codigo);
+
+            Swal.fire({
+                title: div,
+                html: descargar,
+                confirmButtonText: "Cerrar",
+                confirmButtonColor: "crimson",
+            });
+        });
+    });
 } else {
     const columnas = document.querySelectorAll(".columna");
 
@@ -486,9 +540,9 @@ if (document.documentElement.lang === "es") {
                                     <td data-columna="ID_almacen_cliente">${
                                         array.ID_almacen
                                     }</td>
-                                    <td data-columna="fecha_registrado">${
-                                        traducirFecha(array.fecha_registrado)
-                                    }</td>
+                                    <td data-columna="fecha_registrado">${traducirFecha(
+                                        array.fecha_registrado
+                                    )}</td>
                                     <td data-columna="ID_pickup">${
                                         array.ID_pickup
                                     }</td>
@@ -498,9 +552,7 @@ if (document.documentElement.lang === "es") {
                                             : ""
                                     }</td>
                                     <td data-columna="peso">${
-                                        array.peso !== null
-                                            ? array.peso
-                                            : ""
+                                        array.peso !== null ? array.peso : ""
                                     }</td>
                                     <td data-columna="peso">${array.cedula}</td>
                                     <td data-columna="mail">${array.mail}</td>
@@ -582,6 +634,59 @@ if (document.documentElement.lang === "es") {
             });
         });
     });
+    const btnsGenerar = document.querySelectorAll(".btnGenerar");
+    btnsGenerar.forEach((btnGenerar) => {
+        btnGenerar.addEventListener("click", () => {
+            const div = document.createElement("div");
+            div.style.display = "flex";
+            div.style.alignItems = "center";
+            div.style.justifyContent = "center";
+            div.style.flexDirection = "column";
+            let codigo = btnGenerar.getAttribute("data-codigo");
+
+            const btnDescargar = document.createElement("a");
+            btnDescargar.className = "descargar";
+            btnDescargar.textContent = "Download";
+            btnDescargar.addEventListener("click", () => {
+                html2canvas(div).then((canvas) => {
+                    const imageData = canvas.toDataURL("image/png");
+
+                    const link = document.createElement("a");
+                    link.href = imageData;
+                    link.download = `${codigo}.png`;
+
+                    link.click();
+                });
+            });
+
+            const info = document.createElement("div");
+            const h1 = document.createElement("h1");
+            h1.style.color = "black";
+            h1.textContent = "QuickCarry";
+
+            const textCodigo = document.createElement("div");
+            textCodigo.style.color = "black";
+            textCodigo.textContent = `Code: ${codigo}`;
+            info.appendChild(h1);
+            info.appendChild(document.createElement("br"));
+            info.appendChild(textCodigo);
+            info.appendChild(document.createElement("br"));
+
+            div.appendChild(info);
+
+            const descargar = document.createElement("div");
+            descargar.appendChild(btnDescargar);
+
+            new QRCode(div, codigo);
+
+            Swal.fire({
+                title: div,
+                html: descargar,
+                confirmButtonText: "Close",
+                confirmButtonColor: "crimson",
+            });
+        });
+    });
 }
 
 function traducirFecha(fechaString) {
@@ -593,14 +698,22 @@ function traducirFecha(fechaString) {
     let horas = fecha.getHours();
     let minutos = fecha.getMinutes();
 
-    let diaFormateado = dia < 10 ? '0' + dia : dia;
-    let mesFormateado = mes < 10 ? '0' + mes : mes;
+    let diaFormateado = dia < 10 ? "0" + dia : dia;
+    let mesFormateado = mes < 10 ? "0" + mes : mes;
     let anioFormateado = anio % 100;
-    let horasFormateadas = horas < 10 ? '0' + horas : horas;
-    let minutosFormateados = minutos < 10 ? '0' + minutos : minutos;
+    let horasFormateadas = horas < 10 ? "0" + horas : horas;
+    let minutosFormateados = minutos < 10 ? "0" + minutos : minutos;
 
-    let fechaFormateada = diaFormateado + '/' + mesFormateado + '/' + anioFormateado + ' ' + horasFormateadas +
-        ':' + minutosFormateados;
+    let fechaFormateada =
+        diaFormateado +
+        "/" +
+        mesFormateado +
+        "/" +
+        anioFormateado +
+        " " +
+        horasFormateadas +
+        ":" +
+        minutosFormateados;
 
     return fechaFormateada;
 }

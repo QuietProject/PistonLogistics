@@ -9,11 +9,44 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleAlmacen.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <title>Almacen</title>
 </head>
 
-<body>    
+<body>
+    @if (session('message'))
+        <script>
+            let message = '{{ session('message') }}';
+
+            let options = {
+                icon: 'success',
+                allowEnterKey: true,
+                customClass: {
+                    container: 'popup'
+                },
+                
+            };
+
+            if (message == 'El almacen no se encuentra en ninguna troncal') {
+                options.title = message;
+                options.icon = 'error';
+            }
+
+            Swal.fire(options).then(() => {
+            Swal.fire({
+                title: 'Cargando...',
+                icon: 'info',
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            window.location.href = "{{ route('clear.message') }}";
+        });
+        </script>
+    @endif    
     <!-- Ham Menu -->
     <div class="menuIcon" id="menuIcon">
         <div>
