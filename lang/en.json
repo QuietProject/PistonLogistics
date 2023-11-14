@@ -5,331 +5,205 @@
     "The :attribute must contain at least one uppercase and one lowercase letter.": "The :attribute must contain at least one uppercase and one lowercase letter.",
     "The given :attribute has appeared in a data leak. Please choose a different :attribute.": "The given :attribute has appeared in a data leak. Please choose a different :attribute.",
 
-    "Iniciar Sesion":"en",
-    "Usuario":"en",
-    "¿Olvidaste tu contraseña?":"en",
-    "Contraseña":"en",
-    "Mantener sesion inciada":"en",
-    "Submit":"en",
-    "Ha ocurrido un error":"en",
-    "El almacen se agrego correctamente":"en",
-    "El usuario o la contraseña son incorrectos":"en",
-    "El usuario no verificó su email":"en",
-    "El camionero se creo correctamente":"en",
-    "El camionero se actualizo correctamente":"en",
-    "El cliente se actualizo correctamente":"en",
-    "Se desasigno el camionero del vehiculo correctamente":"en",
-    "Se le a asignado un camionero al vehiculo correctamente":"en",
-    "Se le a asignado un vehiculo al camionero correctamente":"en",
-    "Se ha asignado correctamente":"en",
-    "Se ha Desasignado correctamente":"en",
-    "La troncal se creo correctamente":"en",
-    "La troncal se ha actualizado correctamente":"en",
-    "El usuario ya existe":"en",
-    "Se ha creado el usuario correctamente":"en",
-    "El usuario ya verificó su email":"en",
-    "Se reenvió el correo de verificación":"en",
-    "El usuario se ha eliminado correctamente":"en",
-    "No hemos podido encontrar el email":"en",
-    "El email no esta verificado, comuniquese con un administrador":"en",
-    "El vehiculo se agrego correctamente":"en",
-    "El vehiculo se actualizo correctamente":"en",
-    "El vehiculo se cambio a operaivo correctamente":"en",
-    "El vehiculo se cambio a fuera de servicio correctamente":"en",
-    "Almacenes":"en",
-    "Almacenes propios":"en",
-    "ID":"en",
-    "Nombre":"en",
-    "Direccion":"en",
-    "Estado":"en",
-    "De baja":"en",
-    "Operativo":"en",
-    "Almacenes de clientes":"en",
-    "Cliente":"en",
-    "Ingresar Almacen":"en",
-    "Tipo":"en",
-    "Propio":"en",
-    "Calle":"en",
-    "Numero":"en",
-    "Codigo postal":"en",
-    "Localidad":"en",
-    "Departamento":"en",
-    "Confirmar":"en",
-    "Paquetes 'sueltos' en el almacen":"en",
-    "Total de paquetes en que pasaron por el almacen":"en",
-    "Lotes para desarmar en el almacen":"en",
-    "Lotes en el almacen prontos para llevar":"en",
-    "Lotes en preparacion en el almacen":"en",
-    "Total de lotes recibidos en el almacen":"en",
-    "Total de lotes creados en el almacen":"en",
-    "El almacen no se encuentra en ninguna troncal":"en",
-    "Paquetes esperando en el almacenen":"en",
-    "Paquetes encargados al comprador de este almacen":"en",
-    "Total de paquetes encargados por el almacen":"en",
-    "Dar de Alta":"en",
-    "Dar de Baja":"en",
-    "Editar Almacen propio":"en",
-    "Editar Almacen cliente":"en",
-    "Camioneros":"en",
-    "Inactivo":"en",
-    "Activo":"en",
-    "Ingresar Camionero":"en",
-    "Almacen propio":"en",
-    "Almacen cliente":"en",
-    "Almacen":"en",
-    "Camionero":"en",
-    "Cedula":"en",
-    "Historial de vehiculos":"en",
-    "Matricula":"en",
-    "Desde":"en",
-    "Hasta":"en",
-    "Conduciendo":"en",
-    "Este camionero/a no ha conducido ningun camion hasta el momento":"en",
-    "Vehiculo asignado":"en",
-    "Dejar de conducir":"en",
-    "Asignar":"en",
-    "Editar Camionero":"en",
-    "No tiene":"en",
-    "Vehiculo":"en",
-    "Clientes":"en",
-    "Baja":"en",
-    "Ingresar cliente":"en",
-    "Este cliente no tiene ningun almacen todavia":"en",
-    "Contraseña olvidada":"en",
-    "Email":"en",
-    "Volver":"en",
-    "Repita su contraseña":"en",
-    "Troncales":"en",
-    "Cantidad almacenes":"en",
-    "Agregar":"en",
-    "Buscar":"en",
-    "Ingresar Troncal":"en",
-    "Latitud":"en",
-    "Longitud":"en",
-    "Bucar":"en",
-    "Troncal":"en",
-    "Editar Troncal":"en",
-    "Editar ordenes":"en",
-    "Orden":"en",
-    "De alta":"en",
-    "Cambiar Nombre":"en",
-    "El almacen esta dado de baja":"en",
-    "Editar Ordenes":"en",
-    "Ordenes":"en",
-    "Posicion":"en",
-    "Dirección":"en",
-    "Usuarios":"en",
-    "Rol":"en",
-    "Verificacion email":"en",
-    "Administrador":"en",
-    "Eliminar":"en",
-    "Ingresar usuario":"en",
-    "Correo":"en",
-    "Reenviar mail de verificacion":"en",
-    "Editar Usuario":"en",
-    "No esta verificado":"en",
-    "Correo verificado":"en",
-    "Vehiculos":"en",
-    "Camiones":"en",
-    "Camionetas":"en",
-    "Peso Maximo":"en",
-    "De Baja":"en",
-    "Ingresar Vehiculo":"en",
-    "Fuera De Servicio":"en",
-    "Camion":"en",
-    "Camioneta":"en",
-    "fuera de servicio":"en",
-    "de baja":"en",
-    "operativo":"en",
-    "Lleva lotes":"en",
-    "Trae paquetes":"en",
-    "Reparte paquetes":"en",
-    "Historial de camioneros":"en",
-    "Este vehiculo no ha sido conducido por ningun camionero/a hasta el momento":"en",
-    "No hay camioneros disponibles":"en",
-    "Cambiar a fuera de servicio":"en",
-    "Cambiar a operativo":"en",
-    "Editar":"en",
-    "Asignar Lleva":"en",
-    "Asignar Reparte":"en",
-    "Asignar Trae":"en",
-    "Desasignar Lleva":"en",
-    "Desasignar Reparte":"en",
-    "Desasignar Trae":"en",
-    "Inicio":"en",
-    "Español":"en",
-    "ingles":"en",
-    "CI":"en",
-    "Lleva":"en",
-    "Asignar lotes a camiones":"en",
-    "No hay lotes para asignar":"en",
-    "Lote":"en",
-    "Codigo":"en",
-    "Pronto desde":"en",
-    "Almacen origen":"en",
-    "Almacen destino":"en",
-    "Peso":"en",
-    "Cantidad":"en",
-    "Fecha asignado":"en",
-    "Desasignar":"en",
-    "Asignar lote":"en",
-    "Cantidad de paquetes":"en",
-    "Paquetes en el lote":"en",
-    "Fecha de ingreso al lote":"en",
-    "Fecha registrado":"en",
-    "Direccion destino":"en",
-    "Almacen final":"en",
-    "Elegir camion":"en",
-    "Carga asignada":"en",
-    "Peso maximo":"en",
-    "Troncal asignada":"en",
-    "Fecha pronto":"en",
-    "Fecha creado":"en",
-    "Reparte":"en",
-    "Asignar paquetes a camiones para repartir":"en",
-    "No hay paquetes para asignar":"en",
-    "Paquete":"en",
-    "Fecha de ingreso al almacen":"en",
-    "Asignar Paquete":"en",
-    "En Almacen":"en",
-    "Elegir camioneta":"en",
-    "Almacen asignado":"en",
-    "Paquetes asignados en reparte":"en",
-    "No hay paquetes asignados":"en",
-    "Asignar paquetes a camiones para traer":"en",
-    "Fecha de Ingreso al Almacen":"en",
-    "Paquetes asignados en trae":"en",
-    "Fecha de registrado":"en",
-    "Trae":"en",
-    "Elegir vehiculo":"en",
-    "Bienvenido":"en",
-    "Cambiar contraseña":"en",
-    "Se ha verificado el email correctamente":"en",
-    "Conductor":"en ",
-    "Lotes asignados a camiones":"en",
-    "Paquetes asignados":"en"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    "Iniciar Sesion":"Sign In",
+    "Usuario":"User",
+    "¿Olvidaste tu contraseña?":"Forgot Password?",
+    "Contraseña":"Password",
+    "Mantener sesion inciada":"Stay Logged In",
+    "Ha ocurrido un error":"An error as ocurred",
+    "El almacen se agrego correctamente":"The warehouse was created successfully",
+    "El usuario o la contraseña son incorrectos":"User or Password are Incorrect",
+    "El usuario no verificó su email":"The user's email has not been verified",
+    "El camionero se creo correctamente":"The driver was created successfully",
+    "El camionero se actualizo correctamente":"The driver was updated successfully",
+    "El cliente se actualizo correctamente":"The client was updated successfully",
+    "Se desasigno el camionero del vehiculo correctamente":"The driver was unassigned successfully",
+    "Se le a asignado un camionero al vehiculo correctamente":"The driver was assigned successfully",
+    "Se le a asignado un vehiculo al camionero correctamente":"The vehicle was assigned successfully",
+    "Se ha asignado correctamente":"Assigned successfully",
+    "Se ha Desasignado correctamente":"Unassigned successfully",
+    "La troncal se creo correctamente":"The route was created successfully",
+    "La troncal se ha actualizado correctamente":"The route was updated successfully",
+    "El usuario ya existe":"The user already exists",
+    "Se ha creado el usuario correctamente":"The user was created successfully",
+    "El usuario ya verificó su email":"The user's email has already been verified",
+    "Se reenvió el correo de verificación":"Email was sent successfully",
+    "El usuario se ha eliminado correctamente":"The user was deleted successfully",
+    "No hemos podido encontrar el email":"Email was not found",
+    "El email no esta verificado, comuniquese con un administrador":"The email is not verified, contact an administrator",
+    "El vehiculo se agrego correctamente":"The vehicle was created successfully",
+    "El vehiculo se actualizo correctamente":"The vehicle was updated successfully",
+    "El vehiculo se cambio a operaivo correctamente":"The vehicle is now operational",
+    "El vehiculo se cambio a fuera de servicio correctamente":"The vehicle is now out of service",
+    "Almacenes":"Warehouses",
+    "Almacenes propios":"Own Warehouses",
+    "ID":"ID",
+    "Nombre":"Name",
+    "Direccion":"Address",
+    "Estado":"Status",
+    "De baja":"Inoperative",
+    "Operativo":"Operative",
+    "Almacenes de clientes":"Client's Warehouses",
+    "Cliente":"Client",
+    "Ingresar Almacen":"Create warehouse",
+    "Tipo":"Type",
+    "Propio":"Own",
+    "Calle":"Street",
+    "Numero":"Door Number",
+    "Codigo postal":"Postal Code",
+    "Localidad":"Locale",
+    "Departamento":"Department",
+    "Confirmar":"Submit",
+    "Paquetes 'sueltos' en el almacen":"Packages in the warehouse",
+    "Total de paquetes que pasaron por el almacen":"Packages processed at the warehouse",
+    "Lotes para desarmar en el almacen":"Lots to unpack in the warehouse",
+    "Lotes en el almacen prontos para llevar":"Lots ready to be delivered",
+    "Lotes en preparacion en el almacen":"Lots being processed at the warehouse",
+    "Total de lotes recibidos en el almacen":"Lots recieved by the warehouse",
+    "Total de lotes creados en el almacen":"Lots created in the warehouse",
+    "El almacen no se encuentra en ninguna troncal":"The warehouse is not included in any route",
+    "Paquetes esperando en el almacenen":"Packages waiting in the warehouse",
+    "Paquetes encargados al comprador de este almacen":"Packages delivered to the buyer",
+    "Total de paquetes encargados por el almacen":"Packages delivered by the warehouse",
+    "Dar de Alta":"Enable",
+    "Dar de Baja":"Disable",
+    "Editar Almacen propio":"Modify own warehouse",
+    "Editar Almacen cliente":"Modify client's warehouse",
+    "Camioneros":"Drivers",
+    "Inactivo":"Inactive",
+    "Activo":"Active",
+    "Ingresar Camionero":"Create Driver",
+    "Almacen propio":"Own Warehouse",
+    "Almacen cliente":"Client's Warehouse",
+    "Almacen":"Warehouse",
+    "Camionero":"Driver",
+    "Cedula":"ID",
+    "Historial de vehiculos":"Vehicle's History",
+    "Matricula":"Plate",
+    "Desde":"From",
+    "Hasta":"To",
+    "Conduciendo":"Driving",
+    "Este camionero/a no ha conducido ningun camion hasta el momento":"This driver has not driven any vehicle yet",
+    "Vehiculo asignado":"Assigned Vehicle",
+    "Dejar de conducir":"Stop Driving",
+    "Asignar":"Assign",
+    "Editar Camionero":"Modify Driver",
+    "No tiene":"Does not have",
+    "Vehiculo":"Vehicle",
+    "Clientes":"Clients",
+    "Baja":"es",
+    "Ingresar cliente":"Add Client",
+    "Este cliente no tiene ningun almacen todavia":"This clients does not have any warehouse",
+    "Contraseña olvidada":"Forgot Password",
+    "Email":"Email",
+    "Volver":"Return",
+    "Repita su contraseña":"Repeat the password",
+    "Troncales":"Routes",
+    "Cantidad almacenes":"Amount of warehouses",
+    "Agregar":"Add",
+    "Buscar":"Search",
+    "Ingresar Troncal":"Create Route",
+    "Latitud":"Latitude",
+    "Longitud":"Longitude",
+    "Troncal":"Route",
+    "Editar Troncal":"Modify Route",
+    "Editar ordenes":"Modify Order",
+    "Orden":"Order",
+    "De alta":"Enabled",
+    "Cambiar Nombre":"Modify Name",
+    "El almacen esta dado de baja":"This warehouse is out of service",
+    "Editar Ordenes":"Modify Orders",
+    "Ordenes":"Orders",
+    "Posicion":"Position",
+    "Dirección":"Address",
+    "Usuarios":"Users",
+    "Rol":"Rol",
+    "Verificacion email":"Verification Email",
+    "Administrador":"Administrator",
+    "Eliminar":"Delete",
+    "Ingresar usuario":"Create User",
+    "Correo":"Email",
+    "Reenviar mail de verificacion":"Resend verification email",
+    "Editar Usuario":"Modify User",
+    "No esta verificado":"Not Verified",
+    "Correo verificado":"Email is verified",
+    "Vehiculos":"Vehicles",
+    "Camiones":"Trucks",
+    "Camionetas":"Waggons",
+    "Peso Maximo":"Maximum Weight",
+    "De Baja":"Disabled",
+    "Ingresar Vehiculo":"Create vehicle",
+    "Fuera De Servicio":"Out of Service",
+    "Camion":"Truck",
+    "Camioneta":"Waggon",
+    "fuera de servicio":"Out of Service",
+    "de baja":"Disabled",
+    "operativo":"Operative",
+    "Lleva lotes":"Carries Lots",
+    "Trae paquetes":"Carries Packages",
+    "Reparte paquetes":"Delivers Packages",
+    "Historial de camioneros":"Driver's History",
+    "Este vehiculo no ha sido conducido por ningun camionero/a hasta el momento":"This vehicle has not been driven by any driver",
+    "No hay camioneros disponibles":"No drivers available",
+    "Cambiar a fuera de servicio":"Change to out of service",
+    "Cambiar a operativo":"Change to in service",
+    "Editar":"Modify",
+    "Asignar Lleva":"Assign Carries",
+    "Asignar Reparte":"Assign Delivers",
+    "Asignar Trae":"Assign Brings",
+    "Desasignar Lleva":"Unassign Carries",
+    "Desasignar Reparte":"Unassign Delivers",
+    "Desasignar Trae":"Unassign Brings",
+    "Inicio":"Start",
+    "Español":"Spanish",
+    "Ingles":"English",
+    "CI":"CI",
+    "Lleva":"Carries",
+    "Asignar lotes a camiones":"Assign lots to vehicle",
+    "No hay lotes para asignar":"No lots to assign",
+    "Lote":"Lot",
+    "Codigo":"Code",
+    "Pronto desde":"Ready since",
+    "Almacen origen":"Origin warehouse",
+    "Almacen destino":"Destination warehouse",
+    "Peso":"Weight",
+    "Cantidad":"Amount",
+    "Fecha asignado":"Date assigned",
+    "Desasignar":"Unassign",
+    "Asignar lote":"Assign Lot",
+    "Cantidad de paquetes":"Amount of packages",
+    "Paquetes en el lote":"Packages in lot",
+    "Fecha de ingreso al lote":"Date of creaton of lot",
+    "Fecha registrado":"Registered Date",
+    "Direccion destino":"Address Destination",
+    "Almacen final":"Final warehouse",
+    "Elegir camion":"Select Vehicle",
+    "Carga asignada":"Assigned Load",
+    "Peso maximo":"Maximum Weight",
+    "Troncal asignada":"Assigned Route",
+    "Fecha pronto":"Ready Date",
+    "Fecha creado":"Creation Date",
+    "Reparte":"Delivers",
+    "Asignar paquetes a camiones para repartir":"Assign packages to vehicle to deliver",
+    "No hay paquetes para asignar":"There aro no packages to assign",
+    "Paquete":"Package",
+    "Fecha de ingreso al almacen":"Date of arrival to warehouse",
+    "Asignar Paquete":"Assign Package",
+    "En Almacen":"In warehouse",
+    "Elegir camioneta":"Select Waggon",
+    "Almacen asignado":"Assigned warehouse",
+    "Paquetes asignados en reparte":"Packages assigned to deliver",
+    "No hay paquetes asignados":"No packages assigned",
+    "Asignar paquetes a camiones para traer":"Assign packages to vehicle to bring",
+    "Fecha de Ingreso al Almacen":"Date of arrival to warehouse",
+    "Paquetes asignados en trae":"Packages assigned to bring",
+    "Fecha de registrado":"Date of creation",
+    "Trae":"Bring",
+    "Elegir vehiculo":"Select Vehicle",
+    "Bienvenido":"Welcome",
+    "Cambiar contraseña":"Change Password",
+    "Se ha verificado el email correctamente":"Email was verified successfully",
+    "Conductor":"Driver",
+    "Lotes asignados a camiones":"Lots assigned to drivers",
+    "Paquetes asignados":"Assigned packages"
 }

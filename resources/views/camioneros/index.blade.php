@@ -6,7 +6,7 @@
         <!-- Add Button -->
         <input type="button" value={{ __("Agregar") }} class="addButton" id="addTruck">
         <!-- SearchBar -->
-        <input type="text" id="searchInput" class="filterText" placeholder={{ __("Bucar") }} onkeyup="searchFilter()">
+        <input type="text" id="searchInput" class="filterText" placeholder={{ __("Buscar") }} onkeyup="searchFilter()">
         <!-- Tables Container -->
         <div class="tableContainer">
             <!-- Driver Table -->

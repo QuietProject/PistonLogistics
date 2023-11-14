@@ -8,7 +8,7 @@
                     <p>{{ $paquetesEnAlmacen }}</p>
                 </div>
                 <div style="margin-top: 1vh; display: flex; justify-content: space-between">
-                    <p>{{ __("Total de paquetes en que pasaron por el almacen") }}: </p>
+                    <p>{{ __("Total de paquetes que pasaron por el almacen") }}: </p>
                     <p>{{ $paquetesRecibidos }}</p>
                 </div>
                 <div style="margin-top: 1vh; display: flex; justify-content: space-between">
