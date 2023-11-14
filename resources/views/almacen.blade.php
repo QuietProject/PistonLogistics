@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <title>Almacen</title>
+    <title>{{ __("Almacen") }}</title>
 </head>
 
 <body>
     @if (session('message'))
         <script>
-            let message = '{{ session('message') }}';
+            let message = '{{ __(session('message')) }}';
 
             let options = {
                 icon: 'success',
@@ -25,17 +25,17 @@
                 customClass: {
                     container: 'popup'
                 },
-                
+
             };
 
-            if (message == 'El almacen no se encuentra en ninguna troncal') {
+            if (message == {{ __("El almacen no se encuentra en ninguna troncal") }}) {
                 options.title = message;
                 options.icon = 'error';
             }
 
             Swal.fire(options).then(() => {
             Swal.fire({
-                title: 'Cargando...',
+                title: '{{ __("Cargando...") }}',
                 icon: 'info',
                 showConfirmButton: false,
                 allowOutsideClick: false,
@@ -46,7 +46,7 @@
             window.location.href = "{{ route('clear.message') }}";
         });
         </script>
-    @endif    
+    @endif
     <!-- Ham Menu -->
     <div class="menuIcon" id="menuIcon">
         <div>
@@ -58,19 +58,19 @@
         <div>
             <div>
                 <div></div>
-                <a href="../almacenCarga">Carga</a>
-                <a href="../almacenDescarga">Descarga</a>
-                <a href="../verPaquetes">Paquetes</a>
-                <a href="../verLotes">Lotes</a>
-                <a href="../crearLote">Crear Lote</a>
-                <a href="../paquetePeso">Asignar Peso</a>
-                <a href="../entregarPaquete">Entregar Paquete</a>
+                <a href="../almacenCarga">{{ __("Carga") }}</a>
+                <a href="../almacenDescarga">{{ __("Descarga") }}</a>
+                <a href="../verPaquetes">{{ __("Paquetes") }}</a>
+                <a href="../verLotes">{{ __("Lotes") }}</a>
+                <a href="../crearLote">{{ __("Crear Lote") }}</a>
+                <a href="../paquetePeso">{{ __("Asignar Peso") }}</a>
+                <a href="../entregarPaquete">{{ __("Entregar Paquete") }}</a>
             </div>
 
             <div>
                 <form method="POST" action=" {{ route('logout') }} ">
                     @csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">{{ __("Cerrar sesión") }}</button>
                 </form>
             </div>
         </div>
@@ -78,10 +78,10 @@
 
     <!-- Main Container -->
     <div class="scanContainer">
-        <h1><i class='bx bxs-truck'></i>Almacen<i class='bx bxs-truck'></i></h1>
+        <h1><i class='bx bxs-truck'></i>{{ __("Almacen") }}<i class='bx bxs-truck'></i></h1>
         <img src="../source/logoNegro.svg" alt="Logo" class="containerLogo">
-        <a href="../almacenCarga" class="accessButton">Carga</a>
-        <a href="../almacenDescarga" class="accessButton">Descarga</a>
+        <a href="../almacenCarga" class="accessButton">{{ __("Carga") }}</a>
+        <a href="../almacenDescarga" class="accessButton">{{ __("Descarga") }}</a>
     </div>
 
     <script defer src="./javascript/scriptAlmacen.js"></script>

@@ -11,16 +11,16 @@
     <link rel="stylesheet" href="./css/styleCrearLote.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Almacen</title>
+    <title>{{ __("Almacen") }}</title>
 
-    
+
 
 </head>
 
 <body>
     @if (session('message'))
         <script>
-            let message = '{{ session('message') }}';
+            let message = '{{ __(session('message')) }}';
 
             let options = {
                 icon: 'success',
@@ -28,10 +28,10 @@
                 customClass: {
                     container: 'popup'
                 },
-                
+
             };
 
-            if (message != 'Lote creado exitosamente') {
+            if (message != {{ __("Lote creado exitosamente") }}) {
                 options.title = message;
                 options.icon = 'error';
             } else {
@@ -40,7 +40,7 @@
 
             Swal.fire(options).then(() => {
             Swal.fire({
-                title: 'Cargando...',
+                title: '{{ __("Cargando...") }}',
                 icon: 'info',
                 showConfirmButton: false,
                 allowOutsideClick: false,
@@ -64,18 +64,18 @@
         <div>
             <div>
                 <div></div>
-                <a href="../almacenCarga">Carga</a>
-                <a href="../almacenDescarga">Descarga</a>
-                <a href="../verPaquetes">Paquetes</a>
-                <a href="../verLotes">Lotes</a>
-                <a href="../paquetePeso">Asignar Peso</a>
-                <a href="../entregarPaquete">Entregar Paquete</a>
+                <a href="../almacenCarga">{{ __("Carga") }}</a>
+                <a href="../almacenDescarga">{{ __("Descarga") }}</a>
+                <a href="../verPaquetes">{{ __("Paquetes") }}</a>
+                <a href="../verLotes">{{ __("Lotes") }}</a>
+                <a href="../paquetePeso">{{ __("Asignar Peso") }}</a>
+                <a href="../entregarPaquete">{{ __("Entregar Paquete") }}</a>
             </div>
 
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">{{ __("Cerrar sesión") }}</button>
                 </form>
             </div>
         </div>
@@ -83,29 +83,29 @@
 
     <form class="formulario" method="POST" action=" {{ route("crearLote.store") }} " id="form">
         @csrf
-        <h1>Crear Lote</h1>
+        <h1>{{ __("Crear Lote") }}</h1>
         <div>
-            <h2>ID Almacen</h2>
+            <h2>{{ __("ID Almacen") }}</h2>
             <input type="text" id="almacenOrigen" value="" disabled>
-            <h2>Tipo</h2>
+            <h2>{{ __("Tipo") }}</h2>
             <select name="tipo" id="tipo" required>
                 <option value="" disabled selected></option>
-                <option value="0">Comun</option>
-                <option value="1">Pickup</option>
+                <option value="0">{{ __("Comun") }}</option>
+                <option value="1">{{ __("Pickup") }}</option>
             </select>
-            
-            <h2 id="almacenDestinoTitulo">Almacen Destino</h2>
+
+            <h2 id="almacenDestinoTitulo">{{ __("Almacen Destino") }}</h2>
             <select name="orden" id="orden" required>
                 <option value="" selected disabled></option>
                 @foreach ($ordenes as $orden)
                     <option value=" {{ $orden['ID_almacen'] }},{{ $orden['ID_troncal'] }} ">{{ $orden['nombre_almacen'] }} - {{ $orden['nombre_troncal'] }}</option>
                 @endforeach
             </select>
-            
+
             <h2 id="linea"></h2>
         </div>
         <div>
-            <input type="submit" id="btnSubmit" value="Crear">
+            <input type="submit" id="btnSubmit" value="{{ __("Crear") }}">
         </div>
 
     </form>
@@ -118,7 +118,7 @@
         const idAlmacen = {{ explode('.', session('nombre'))[1] }};
         document.getElementById('almacenOrigen').value = idAlmacen;
     </script>
-    
+
 </body>
 
 </html>
