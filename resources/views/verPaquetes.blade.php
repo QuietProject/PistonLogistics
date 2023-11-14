@@ -129,7 +129,7 @@
                         </th>
                         <th class="columna" data-columna="ID_pickup">
                             <div>
-                                <p>{{ __("") }}</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("ID Pickup") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="direccion">

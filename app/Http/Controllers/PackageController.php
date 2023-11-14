@@ -195,7 +195,7 @@ class PackageController extends Controller
 
         $ordenes = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("API_URL") . "ordenes/almacen/$id")->json();
 
-        if ($ordenes['message'] == "El almacen no se encuentra en ninguna troncal") {
+        if (isset($ordenes['message']) && $ordenes['message'] == "El almacen no se encuentra en ninguna troncal") {
             session()->flash('message', "El almacen no se encuentra en ninguna troncal");
             return redirect()->back();
         } else {

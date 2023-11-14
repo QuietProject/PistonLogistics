@@ -9,41 +9,16 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <link rel="stylesheet" href="./css/styleCamionero.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css" />
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script defer src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function initMap() {
-            var map = new google.maps.Map(document.getElementById('mapaPlaceholder'), {
-                center: {
-                    lat: -34.397,
-                    lng: 150.644
-                },
-                zoom: 8
-            });
-
-            // var directionsService = new google.maps.DirectionsService();
-            // var directionsRenderer = new google.maps.DirectionsRenderer();
-
-            // directionsRenderer.setMap(map);
-
-            // // var waypoints = [{
-            // //     location: 'Tacuarembó, Uruguay',
-            // //     stopover: true
-            // // }, ];
-
-            // var request = {
-            //     origin: 'Juan Carlos Gomez 1314, Montevideo, Uruguay',
-            //     // waypoints: waypoints,
-            //     destination: 'Artigas, Uruguay',
-            //     travelMode: 'DRIVING'
-            // };
-
-            // directionsService.route(request, function(response, status) {
-            //     if (status == 'OK') {
-            //         directionsRenderer.setDirections(response);
-            //     }
-            // });
-        }
-    </script>
 
     <title>App para camioneros</title>
 </head>
@@ -95,7 +70,6 @@
 
     <script defer src="./javascript/scriptMenu.js"></script>
     <script defer src="./javascript/scriptCamionero.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCEVxRt4C_8fqQ7_m80lbPthFaECX-MvJ8&callback=initMap"></script>
     <script defer>
         var lotes = [{
                 codigo: '001',
@@ -165,6 +139,39 @@
                 peso: '12 kg'
             },
         ];
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var marker1Coordinates = [-34.8783199, -56.1765372];
+            var marker2Coordinates = [-34.91375, -56.1879485];
+            var center = marker1Coordinates;
+
+
+            // Crear un mapa y establecer el nivel de zoom
+            var map = L.map('mapaPlaceholder').setView(center, 20);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.control.locate().addTo(map);
+
+            var routingControl = L.Routing.control({
+                waypoints: [
+                    L.latLng(marker1Coordinates),
+                    L.latLng(marker2Coordinates)
+                ],
+                addWaypoints: false,
+            })
+
+            verMapa.addEventListener("click", () => {
+                map.whenReady(function() {
+                    map.invalidateSize(
+                        true
+                    );
+                });
+
+                map.addControl(routingControl);
+            });
+        });
     </script>
 </body>
 
