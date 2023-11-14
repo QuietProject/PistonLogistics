@@ -148,7 +148,7 @@
                             @else
                                 <td data-columna="fecha_pronto">{{ $lote['fecha_pronto'] }}</td>
                             @endif
-                            <td data-columna="tipo">{{ $lote['tipo'] ? 'pickup' : 'comun' }}</td>
+                            <td data-columna="tipo">{{ $lote['tipo'] ? __('pickup') : _('comun') }}</td>
                             <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}" data-idlote="{{ $lote['ID'] }}">{{ __("Ver paquetes") }}</td>
                             <td class="btnGenerar" id="btnGenerar" data-codigo="{{ $lote['codigo'] }}">QR</td>
                         </tr>

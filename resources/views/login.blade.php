@@ -21,8 +21,8 @@
         </div>
 
         <div>
-            <input type="text" name="user" required placeholder="Usuario" autocomplete="username">
-            <input type="password" name="password" required placeholder="Contraseña" minlength="8">
+            <input type="text" name="user" required placeholder="{{ __("Usuario") }}" autocomplete="username">
+            <input type="password" name="password" required placeholder="{{ __("Contraseña") }}" minlength="8">
         </div>
         <div>
             <input type="submit" value="{{ __("Iniciar Sesión") }}" id="buttonLogIn">
