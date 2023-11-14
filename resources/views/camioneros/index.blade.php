@@ -2,20 +2,24 @@
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display" id="displayTrucks">
         <!-- Title -->
-        <h1 class="titleText">{{ __("Camioneros") }}</h1>
+        <h1 class="titleText">{{ __('Camioneros') }}</h1>
         <!-- Add Button -->
-        <input type="button" value={{ __("Agregar") }} class="addButton" id="addTruck">
+        <input type="button" value={{ __('Agregar') }} class="addButton" id="addTruck">
         <!-- SearchBar -->
-        <input type="text" id="searchInput" class="filterText" placeholder={{ __("Buscar") }} onkeyup="searchFilter()">
+        <input type="text" id="searchInput" class="filterText" placeholder={{ __('Buscar') }}
+            onkeyup="searchFilter()">
         <!-- Tables Container -->
         <div class="tableContainer">
             <!-- Driver Table -->
             <table class="tableView" id="tableDriver">
                 <thead>
                     <tr>
-                        <th style="width: 25%;" onclick="sortTable(0);arrowsTable(0);" id="0">{{ __("CI") }} </th>
-                        <th style="width: 35%;" onclick="sortTable(1);arrowsTable(1);" id="1">{{ __("Nombre") }}</th>
-                        <th style="width: 20%;" onclick="sortTable(2);arrowsTable(2);" id="2">{{ __("Estado") }}</th>
+                        <th style="width: 25%;" onclick="sortTable(0);arrowsTable(0);" id="0">
+                            {{ __('CI') }} </th>
+                        <th style="width: 35%;" onclick="sortTable(1);arrowsTable(1);" id="1">
+                            {{ __('Nombre') }}</th>
+                        <th style="width: 20%;" onclick="sortTable(2);arrowsTable(2);" id="2">
+                            {{ __('Estado') }}</th>
                         <th style="width: 20%;" onclick="sortTable(3);arrowsTable(3);" id="3"></th>
                     </tr>
                 </thead>
@@ -29,9 +33,9 @@
                                     @csrf
                                     @method('DELETE')
                                     @if ($camionero->baja)
-                                        {{ __("Inactivo") }}
+                                        {{ __('Inactivo') }}
                                     @else
-                                        {{ __("Activo") }}
+                                        {{ __('Activo') }}
                                     @endif
                                 </form>
                             </td>
@@ -41,9 +45,9 @@
                                     @method('DELETE')
                                     <button type="submit" class="switchBtn">
                                         @if ($camionero->baja)
-                                            {{ __("Dar de Alta") }}
+                                            {{ __('Dar de Alta') }}
                                         @else
-                                            {{ __("Dar de Baja") }}
+                                            {{ __('Dar de Baja') }}
                                         @endif
                                     </button>
                                 </form>
@@ -69,26 +73,39 @@
                         document.getElementById("addTruckInterface").style.display = "flex";
                     </script>
                 @endif
-                <h2 class="adderTitle">{{ __("Ingresar Camionero") }}</h2>
+                <h2 class="adderTitle">{{ __('Ingresar Camionero') }}</h2>
                 <form action="{{ route('camioneros.store') }}" method="POST">
                     @csrf
                     <div class="inputBox" style="margin-top: 12.5vh">
-                        <label for="CI" style="font-size: 2vh">{{ __("Cedula") }}</label>
+                        <label for="CI" style="font-size: 2vh">{{ __('Cedula') }}</label>
                         <input type="number" name="CI" id="CI" maxlength="8" minlength="8" required
                             value="{{ old('CI') }}">
                         @error('CI')
-                            <span style="color: red">{{ $message }}</span>
+                            <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "{{ $message }}",
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                            </script>
                         @enderror
                     </div>
                     <div class="inputBox">
-                        <label for="nombre" style="font-size: 2vh">{{ __("Nombre") }}</label>
-                        <input type="text" name="nombre" id="nombre"
-                            value="{{ old('nombre') }}">
+                        <label for="nombre" style="font-size: 2vh">{{ __('Nombre') }}</label>
+                        <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}">
                         @error('nombre')
-                            <span style="color: red">{{ $message }}</span>
+                            <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "{{ $message }}",
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                            </script>
                         @enderror
                     </div>
-                    <button type="submit" class="submitBtn">{{ __("Confirmar") }}</button>
+                    <button type="submit" class="submitBtn">{{ __('Confirmar') }}</button>
                 </form>
             </div>
         </div>

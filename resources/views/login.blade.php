@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleLogin.css">
     <script src="https://kit.fontawesome.com/b9577afa32.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>{{ __('Iniciar Sesion') }} - Piston Logistics</title>
 </head>
 
@@ -19,20 +20,41 @@
                 <label for="user" class="inputTitle">{{ __('Usuario') }}</label>
                 <input type="text" name="user" id="user" required>
                 @error('user')
-                    <span style="color: red">{{ $message }}</span>
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "{{ $message }}",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    </script>
                 @enderror
             </div>
             <div class="inputBox">
                 <label for="password" class="inputTitle">{{ __('Contraseña') }} </label>
                 <input type="password" name="password" id="password" required>
                 @error('password')
-                    <span style="color: red">{{ $message }}</span>
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "{{ $message }}",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    </script>
                 @enderror
             </div>
             <div class="inputBox2">
                 <button type="submit" class="submitBtn">{{ __('Iniciar Sesion') }}</button>
                 @error('authError')
-                    <span style="color: red">{{ $message }}</span>
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "{{ $message }}",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    </script>
                 @enderror
             </div>
             <div class="cbxPass">

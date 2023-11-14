@@ -92,7 +92,14 @@
                 <input type="text" name="nombre" id="nombre" style="height: 2.5vh; font-weight: 500"
                     value="{{ old('nombre', $camionero->nombre) }}">
                 @error('nombre')
-                    <span style="color: red">{{ $message }}</span>
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "{{ $message }}",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    </script>
                 @enderror
             </div>
             <button type="submit" class="modBtn">{{ __('Confirmar') }}</button>

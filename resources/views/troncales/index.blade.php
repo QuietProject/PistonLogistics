@@ -1,17 +1,21 @@
 <x-layout menu="4" titulo="Troncales" import1="../css/styleTroncales.css">
     <div class="addBackdrop disabled" id="addBackdrop"></div>
     <div class="display">
-        <h2 class="titleText">{{ __("Troncales") }}</h2>
-        <input type="button" value={{ __("Agregar") }} class="addButton" id="addTruck">
-        <input type="text" id="searchInput" class="filterText" placeholder={{ __("Buscar") }} onkeyup="searchFilter()">
+        <h2 class="titleText">{{ __('Troncales') }}</h2>
+        <input type="button" value={{ __('Agregar') }} class="addButton" id="addTruck">
+        <input type="text" id="searchInput" class="filterText" placeholder={{ __('Buscar') }}
+            onkeyup="searchFilter()">
         <div class="tableContainer">
             <table class="tableView" id="tableTrucks">
                 <thead>
                     <tr>
                         <th style="width: 10%;" onclick="sortTable(0);arrowsTable(0);" id="0">ID</th>
-                        <th style="width: 30%;" onclick="sortTable(1);arrowsTable(1);" id="0">{{ __("Nombre") }}</th>
-                        <th style="width: 30%;" onclick="sortTable(2);arrowsTable(2);" id="0">{{ __("Cantidad almacenes") }}</th>
-                        <th style="width: 30%;" onclick="sortTable(3);arrowsTable(3);" id="0">{{ __("Estado") }}</th>
+                        <th style="width: 30%;" onclick="sortTable(1);arrowsTable(1);" id="0">
+                            {{ __('Nombre') }}</th>
+                        <th style="width: 30%;" onclick="sortTable(2);arrowsTable(2);" id="0">
+                            {{ __('Cantidad almacenes') }}</th>
+                        <th style="width: 30%;" onclick="sortTable(3);arrowsTable(3);" id="0">
+                            {{ __('Estado') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,9 +28,9 @@
                             <td>
 
                                 @if ($troncal->baja)
-                                    {{ __("De baja") }}
+                                    {{ __('De baja') }}
                                 @else
-                                    {{ __("Operativo") }}
+                                    {{ __('Operativo') }}
                                 @endif
                             </td>
                         </tr>
@@ -47,18 +51,25 @@
                         document.getElementById("addTruckInterface").style.display = "flex";
                     </script>
                 @endif
-                <h2 class="adderTitle">{{ __("Ingresar Troncal") }}</h2>
+                <h2 class="adderTitle">{{ __('Ingresar Troncal') }}</h2>
                 <form action="{{ route('troncales.store') }}" method="POST">
                     @csrf
                     <div class="inputBox" style="top 20%">
-                        <label for="nombre" style="font-size: 2vh;">{{ __("Nombre") }}</label>
+                        <label for="nombre" style="font-size: 2vh;">{{ __('Nombre') }}</label>
                         <input style="inputBox" type="text" name="nombre" id="nombre" required
                             value="{{ old('nombre') }}">
                         @error('nombre')
-                            <span style="color: red">{{ $message }}</span>
+                            <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "{{ $message }}",
+                                    showConfirmButton: false,
+                                    timer: 1000
+                                });
+                            </script>
                         @enderror
                     </div>
-                    <button type="submit" class="submitBtn">{{ __("Confirmar") }}</button>
+                    <button type="submit" class="submitBtn">{{ __('Confirmar') }}</button>
                 </form>
 
             </div>

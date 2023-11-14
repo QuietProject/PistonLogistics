@@ -20,7 +20,14 @@
                 <label for="email" class="inputTitle">{{ __('Email') }}</label>
                 <input type="email" name="email" id="email" required value="{{ old('email') }}">
                 @error('email')
-                    <span style="color: red">{{ __($message) }}</span>
+                    <script>
+                        Swal.fire({
+                            icon: "error",
+                            title: "{{ $message }}",
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+                    </script>
                 @enderror
                 <input type="submit" value="{{ __('Confirmar') }}" class="submitBtn">
             </div>
