@@ -9,25 +9,6 @@ if ($vehiculo->baja) {
 <x-layout menu="5" titulo="Vehiculo" import1="../css/styleVehiculosShow.css">
     <div class="display">
         <h2 class="titleText">{{ __($tipo) }}</h2>
-        @if (count($trae) > 0)
-            <h3>{{ __('Trae paquetes') }}:</h3>
-            @foreach ($trae as $paquete)
-                <p>ID:{{ $paquete->ID_paquete }}</p>
-            @endforeach
-        @endif
-        @if (count($lleva) > 0)
-            <h3>{{ __('Lleva lotes') }}:</h3>
-            @foreach ($lleva as $lote)
-                <p>ID:{{ $lote->ID_lote }}</p>
-            @endforeach
-        @endif
-
-        @if (count($reparte) > 0)
-            <h3>{{ __('Reparte paquetes') }}:</h3>
-            @foreach ($reparte as $paquete)
-                <p>ID:{{ $paquete->ID_paquete }}</p>
-            @endforeach
-        @endif
         <h3 class="tableTitle">{{ __('Historial de camioneros') }}</h3>
         <div class="tableContainer">
             @if (count($camioneros) > 0)
@@ -57,6 +38,86 @@ if ($vehiculo->baja) {
                     {{ __('Este vehiculo no ha sido conducido por ningun conductor/a hasta el momento') }}</p>
             @endif
         </div>
+        @if ($tipo == 'Camion')
+            <h3 class="tableTitleSmall">{{ __('Trae paquetes') }}</h3>
+            <div class="tableContainerSmall">
+                <table class="tableView">
+                    <thead>
+                        <tr>
+                            <th>ID:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (count($trae) > 0)
+                            @foreach ($trae as $paquete)
+                                <tr>
+                                    <td>{{ $paquete->ID_paquete }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="tableTitleSmall" style="left: 32vw">{{ __('Lleva lotes') }}</h3>
+            <div class="tableContainerSmall" style="left: 31.5vw">
+                <table class="tableView">
+                    <thead>
+                        <tr>
+                            <th>ID:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (count($trae) > 0)
+                            @foreach ($lleva as $lote)
+                                <tr>
+                                    <td>{{ $lote->ID_lote }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        @endif
+        @if ($tipo == 'Camioneta')
+            <h3 class="tableTitleSmall" style="left: 10vw">{{ __('Trae paquetes') }}</h3>
+            <div class="tableContainerSmall">
+                <table class="tableView">
+                    <thead>
+                        <tr>
+                            <th>ID:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (count($trae) > 0)
+                            @foreach ($trae as $paquete)
+                                <tr>
+                                    <td>{{ $paquete->ID_paquete }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+            <h3 class="tableTitleSmall" style="left: 30vw">{{ __('Reparte paquetes') }}</h3>
+            <div class="tableContainerSmall" style="left: 31.5vw">
+                <table class="tableView">
+                    <thead>
+                        <tr>
+                            <th>ID:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (count($reparte) > 0)
+                            @foreach ($reparte as $paquete)
+                                <tr>
+                                    <td>{{ $paquete->ID_paquete }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        @endif
         <div class="textTopRight">
             <div style="display: flex; justify-content: space-between;">
                 <p>{{ __('Matricula') }}: </p>

@@ -86,18 +86,18 @@ input[type=number] {
 }
 
 .tableTitle {
-    position: relative;
+    position: absolute;
     color: white;
-    top: 42.5vh;
+    top: 25vh;
     left: 14vw;
     font-size: 2vw;
 }
 
 .tableContainer {
     position: absolute;
-    top: 50vh;
+    top: 30vh;
     left: 8.5vw;
-    max-height: 65vh;
+    max-height: 30vh;
     width: 40vw;
     border-radius: 10px;
     display: flex;
@@ -106,7 +106,33 @@ input[type=number] {
 }
 
 .tableView {
-    width: 80vw;
+    width: 40vw;
+    background-color: rgb(140, 140, 140);
+    border-collapse: collapse;
+}
+
+.tableTitleSmall {
+    position: absolute;
+    color: white;
+    top: 62.5vh;
+    left: 10vw;
+    font-size: 2vw;
+}
+
+.tableContainerSmall {
+    position: absolute;
+    top: 67.5vh;
+    left: 10.5vw;
+    max-height: 30vh;
+    width: 15vw;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    overflow-y: scroll;
+}
+
+.tableViewSmall {
+    width: 15vw;
     background-color: rgb(140, 140, 140);
     border-collapse: collapse;
 }
@@ -226,11 +252,11 @@ tr:nth-child(even) {
 
 .textTopRight {
     font-weight: 500;
-    font-size: 3.5vh;
+    font-size: 3vh;
     color: white;
     position: absolute;
-    left: 16vw;
-    top: 22.5vh;
+    left: 20vw;
+    top: 12.5vh;
     height: 10vh;
     width: 25vw;
 }
