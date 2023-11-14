@@ -299,7 +299,6 @@
         color: white;
         text-shadow: 0 0 10px var(--base);
         user-select: none;
-        text-align: center;
     }
 
     .addButton {
@@ -472,7 +471,6 @@
         font-size: 5vh;
         font-weight: bold;
         text-shadow: 0 0 5px var(--base);
-        user-select: none;
     }
 
     .tableContainer {

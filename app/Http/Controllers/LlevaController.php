@@ -61,7 +61,7 @@ class LlevaController extends Controller
 								where fecha_carga is null)
         group by VEHICULOS.matricula, VEHICULOS.peso_max
         having carga_asignada + ?<peso_max
-        and troncal = ? or troncal is null',[$lote->peso,$lote->troncal]);
+        and (troncal = ? or troncal is null)',[$lote->peso,$lote->troncal]);
 
         return view('lleva.show',[
             'lote'=>$lote,
@@ -100,7 +100,7 @@ class LlevaController extends Controller
 								where fecha_carga is null)
         group by VEHICULOS.matricula, VEHICULOS.peso_max
         having carga_asignada + ? < peso_max
-        and troncal = ? or troncal is null',[$matricula,$pesoLote,$lote->ID_troncal]);
+        and (troncal = ? or troncal is null)',[$matricula,$pesoLote,$lote->ID_troncal]);
         if(count($camion)!=1){
             return redirect()->back()->with('error','Ha ocurrido un error');
         }

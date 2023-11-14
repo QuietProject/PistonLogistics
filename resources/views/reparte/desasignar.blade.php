@@ -15,9 +15,9 @@
                             <th onclick="sortTable(4);arrowsTable(4);" id="4">{{ __('Peso') }}</th>
                             <th onclick="sortTable(5);arrowsTable(5);" id="5">
                                 {{ __('Fecha de ingreso al almacen') }}</th>
-                            <th onclick="sortTable(5);arrowsTable(5);" id="5">{{ __('Matricula') }}</th>
                             <th onclick="sortTable(5);arrowsTable(5);" id="5">{{ __('Fecha asignado') }}</th>
-                            <th onclick="sortTable(6);arrowsTable(6);" id="6">{{ __("Desasignar") }}</th>
+                            <th onclick="sortTable(5);arrowsTable(5);" id="5">{{ __('Camioneta') }}</th>
+                            <th onclick="sortTable(6);arrowsTable(6);" id="6">{{ __('Desasignar') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -30,15 +30,17 @@
                                 <td>{{ $paquete->direccion }}</td>
                                 <td>{{ $paquete->peso }}kg</td>
                                 <td>{{ \Carbon\Carbon::parse($paquete->desde)->format('d/m/y H:i') }}</td>
-                                <td><a href="{{ route('vehiculos.show', $paquete->matricula) }}">{{ $paquete->matricula }}</a></td>
-
                                 <td>{{ \Carbon\Carbon::parse($paquete->fecha_asignado)->format('d/m/y H:i') }}</td>
+                                <td><a
+                                        href="{{ route('vehiculos.show', $paquete->matricula) }}">{{ $paquete->matricula }}</a>
+                                </td>
+
                                 <td>
                                     <form action="{{ route('reparte.destroy', $paquete->ID_paquete) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="switchBtn">
-                                            {{ __("Desasignar") }}
+                                            {{ __('Desasignar') }}
                                         </button>
                                     </form>
                                 </td>

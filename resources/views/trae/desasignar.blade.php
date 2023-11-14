@@ -30,7 +30,7 @@
                                 </td>
                                 <td>{{ \Carbon\Carbon::parse($paquete->fecha_registrado)->format('d/m/y H:i') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($paquete->fecha_asignado)->format('d/m/y H:i') }}</td>
-                                <td>{{ $paquete->matricula }}</td>
+                                <td><a href="{{ route('vehiculos.show', $paquete->matricula) }}">{{ $paquete->matricula }}</a></td>
                                 <td>
                                     <form action="{{ route('trae.destroy', $paquete->ID_paquete) }}" method="POST">
                                         @csrf
