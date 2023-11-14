@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/stylePswForg.css">
+    <link rel="stylesheet" href="../css/stylePswForgRst.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>{{ __('Contraseña olvidada') }} - Piston Logistics</title>
 </head>

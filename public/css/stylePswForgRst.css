@@ -1,0 +1,171 @@
+* {
+    height: 100%;
+    width: 100%;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--base);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logInContainer {
+    background: var(--baseLighter);
+    height: 70%;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+.iconImage {
+    position: relative;
+    width: 55%;
+    height: 20%;
+    margin-top: 10%;
+    left: -1vw;
+}
+
+.title {
+    height: 15%;
+    color: black;
+    font-size: 4vh;
+    text-align: center;
+    user-select: none;
+    margin-top: 5vh;
+}
+
+.inputBox {
+    text-align: center;
+    height: 7.5vh;
+    margin-top: 5%;
+    width: 100%;
+}
+
+.inputBox2 {
+    text-align: center;
+    height: 10vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.inputTitle {
+    color: var(--baseDark);
+    font-size: 3vh;
+}
+
+input {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2.5%;
+    width: 90%;
+    border-radius: 20px;
+    text-align: center;
+    background-color: var(--base);
+    color: white;
+    font-size: 2vh;
+}
+
+input[type=email]:focus {
+    outline: var(--highlight) solid;
+    box-shadow: 0 0 15px var(--base);
+}
+
+.submitBtn {
+    position: relative;
+    top: 5vh;    
+    height: 5vh;
+    width: 40%;
+    left: 30%;
+    background-color: var(--highlight);
+    border-radius: 10px;
+    font-size: 2vh;
+    font-weight: 500;
+    color: black;
+}
+
+.submitBtn:hover {
+    cursor: pointer;
+}
+
+.submitBtn:active {
+    animation: buttonClick 0.15s ease-in-out;
+}
+
+@keyframes buttonClick {
+    0% {
+        transform: scale(100%);
+    }
+
+    50% {
+        transform: scale(97.5%);
+    }
+
+    100% {
+        transform: scale(100%);
+    }
+}
+
+.langBtn {
+    height: 5.5vw;
+    width: 2.5vw;
+    margin: 0;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    color: black;
+    text-shadow: none;
+    font-size: 1.25vw;
+    border-radius: 50%;
+    text-decoration: none;
+    background-color: var(--highlight);
+}
+
+.cbxPass {
+    position: absolute;
+    top: 69vh;
+    left: 40vw;
+    height: 7.5vh;
+    width: 7.5vw;
+    margin: 0;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+.cbxPass2 {
+    position: absolute;
+    top: 69vh;
+    left: 52.5vw;
+    height: 7.5vh;
+    width: 7.5vw;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    font-weight: 500;
+    font-size: 1.5vh;
+}
+
+.forgotBox {
+    text-decoration: none;
+    color: var(--highlight);
+    top:10vh;
+    font-weight: 500;
+    text-shadow: 0 0 10px black;
+}
