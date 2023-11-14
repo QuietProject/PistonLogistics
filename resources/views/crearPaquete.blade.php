@@ -63,17 +63,17 @@
             </div>
             <div>
                 <h3>{{ __("Email") }}</h3>
-                <input type="email" name="mail" id="mail" placeholder="ejemplo@gmail.com" required>
+                <input type="email" name="mail" id="mail" placeholder="{{ __("ejemplo@gmail.com") }}" required>
             </div>
 
             <div>
                 <h3>{{ __("Ciudad") }}</h3>
-                <input type="text" name="ciudad" id="ciudad" placeholder="Ej: Montevideo" required>
+                <input type="text" name="ciudad" id="ciudad" placeholder="{{ __("Ej: Montevideo") }}" required>
             </div>
 
             <div>
                 <h3>{{ __("Direccion") }}</h3>
-                <input type="text" name="direccion" id="direccion" placeholder="Ej: Av. Italia 1405" required>
+                <input type="text" name="direccion" id="direccion" placeholder="{{ __("Ej: Av. Italia 1405") }}" required>
             </div>
 
             <div>

@@ -115,9 +115,9 @@
             <div>
                 <form action="">
                     <h1>{{ __("¡Contáctenos!") }}</h1>
-                    <input type="text" placeholder="Nombre">
-                    <input type="email" name="" id="" placeholder="Correo Electrónico">
-                    <textarea name="" id="" cols="30" rows="10" placeholder="Mensaje"></textarea>
+                    <input type="text" placeholder="{{ __("Nombre") }}">
+                    <input type="email" name="" id="" placeholder="{{ __("Correo Electrónico") }}">
+                    <textarea name="" id="" cols="30" rows="10" placeholder="{{ __("Mensaje") }}"></textarea>
                     <div>
                         <input type="submit" value="Enviar">
                     </div>
