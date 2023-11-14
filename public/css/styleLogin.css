@@ -13,14 +13,14 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: var(--base);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .logInContainer {
+    position: absolute;
+    top: 15vh;
+    left: 37.5vw;
     background: var(--baseLighter);
-    height: 70%;
+    height: 70vh;
     width: 25vw;
     display: flex;
     flex-direction: column;
@@ -132,8 +132,8 @@ input[type=text]:focus {
 
 .cbxPass {
     position: absolute;
-    top: 69vh;
-    left: 40vw;
+    top: 54vh;
+    left: 2.5vw;
     height: 7.5vh;
     width: 7.5vw;
     margin: 0;
@@ -148,8 +148,8 @@ input[type=text]:focus {
 
 .cbxPass2 {
     position: absolute;
-    top: 69vh;
-    left: 52.5vw;
+    top: 54vh;
+    left: 15vw;
     height: 7.5vh;
     width: 7.5vw;
     margin: 0;
