@@ -217,6 +217,24 @@ SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.pes
         group by VEHICULOS.matricula;
         
         
+SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
+		CASE
+			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+			ELSE 2
+		END as tipo
+        FROM VEHICULOS
+        LEFT JOIN TRAE ON TRAE.matricula = VEHICULOS.matricula
+        LEFT JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
+        where VEHICULOS.baja =0
+        and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+                                        FROM REPARTE
+                                        where fecha_carga is null)
+		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+                                        FROM LLEVA
+                                        where fecha_carga is null)
+        and TRAE.fecha_carga is null
+        group by VEHICULOS.matricula;
         
  -- paquetes asignados en trae
 SELECT PAQUETES.ID ID_paquete,codigo, fecha_registrado,ALMACENES.ID ID_almacen,ALMACENES.nombre nombre, CLIENTES.nombre cliente, CLIENTES.RUT RUT, TRAE.fecha_asignado fecha_asignado, TRAE.matricula matricula 
@@ -232,7 +250,7 @@ FROM TRAE
 WHERE fecha_carga is null
 and ID_paquete = ?;
 
-SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen, DESTINO_LOTE.ID_almacen destino, LOTES.fecha_pronto pronto,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,round(peso,2) peso,cantidad, LLEVA.fecha_asignado as fecha_asignafo, LLEVA.matricula
+SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen, DESTINO_LOTE.ID_almacen destino, LOTES.fecha_pronto pronto,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,round(peso,2) peso,cantidad, LLEVA.fecha_asignado as fecha_asignado, LLEVA.matricula
         FROM LOTES 
         INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote = LOTES.ID
         INNER JOIN PESO_LOTES ON PESO_LOTES.LOTE = DESTINO_LOTE.ID_lote
@@ -242,15 +260,148 @@ SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen, DESTINO
         
 
         
+SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
+		CASE
+			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+			ELSE 2
+		END as tipo
+        FROM VEHICULOS
+        LEFT JOIN TRAE ON TRAE.matricula = VEHICULOS.matricula
+        LEFT JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
+        where VEHICULOS.baja =0
+        and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+                                        FROM REPARTE
+                                        where fecha_carga is null)
+		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+                                        FROM LLEVA
+                                        where fecha_carga is null)
+        and TRAE.fecha_carga is null
+        group by VEHICULOS.matricula;
+        
+        
+SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
+		CASE
+			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+			ELSE 2
+		END as tipo
+        FROM VEHICULOS
+        LEFT JOIN TRAE ON TRAE.matricula = VEHICULOS.matricula
+        LEFT JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
+        where VEHICULOS.baja =0
+        and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+                                        FROM REPARTE
+                                        where fecha_carga is null)
+		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+                                        FROM LLEVA
+                                        where fecha_carga is null)
+        and TRAE.fecha_carga is null
+        group by VEHICULOS.matricula, VEHICULOS.peso_max;
+        
+
         
         
         
         
         
+        insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabbb1',18,1,'casa','12312312',0.56);
+SELECT SLEEP(1);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',20);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=20;
+SELECT SLEEP(1);
+call descargar_trae(20,1,@error);
+insert into REPARTE (matricula,ID_paquete) values ('ABD2399',20);
+
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabbb2',18,1,'casa','12343223',0.3);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',21);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=21;
+SELECT SLEEP(1);
+call descargar_trae(21,3,@error);
+call lote_0('Laaabbb1',3,2,5,@ID,@error); -- QQQQQQQQQQQ
+select @error, @ID;
+SELECT SLEEP(1);
+insert into PAQUETES_LOTES(ID_paquete,ID_lote) values(21,12);
+SELECT SLEEP(1);
+update LOTES set fecha_pronto=current_timestamp() where ID=12;
+
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Lbcabd23',18,1,'casa','98712367',1.5);
         
-        
-        
-        
-        
-        
+use surno;
+ select * from `users`;
+ select * from CONDUCEN where CI="12345678";
  
+INSERT INTO ALMACENES (ID, nombre, direccion, longitud, latitud, baja) VALUES('25', 'casa', 'casa casa, Montevideo Uruguay', '-56.19143', '-34.90314', 0);
+INSERT INTO ALMACENES_PROPIOS(ID)VALUES(25);
+INSERT INTO users ( ID, user, password, rol, email, email_verified_at, remember_token) VALUES ('50', '12312312.25', '$2y$10$39freduj580sVlnfMfSKaecR56yarB1p6tb87JwLDe9B.U5C8BV5.', '1', 'surnotech@gmail.com', '2023-11-13 15:44:13', 'ZbsxkcBwmeH5dpUgChpjzgCjzLVNmvzr4X6c5Xpq5SoTfvffhkQwELtDiuOZ');
+
+SELECT LLEVA.Id_lote,
+        CASE
+            WHEN fecha_descarga is not null THEN fecha_descarga
+            ELSE fecha_carga
+            END as fecha,
+        CASE
+            WHEN fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
+            ELSE LOTES.ID_almacen
+        END as almacen,
+        CASE
+            WHEN exists( select ID_almacen from ORDENES where id_troncal = 5 and id_almacen=almacen and baja =0) THEN 1
+            ELSE 0
+        END as esta
+         FROM LLEVA
+         INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+         INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote
+         where matricula='DEF5678'
+         and fecha_carga is not null
+         order by fecha DESC
+         limit 2;
+         
+		 SELECT DESTINO_LOTE.*
+         FROM LLEVA
+         INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+         INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote
+         where matricula='DEF5678'
+         and fecha_carga is not null
+         order by fecha_carga DESC
+         limit 2;
+         
+         SELECT LLEVA.Id_lote,
+                CASE
+                    WHEN fecha_descarga is not null THEN fecha_descarga
+                    ELSE fecha_carga
+                    END as fecha,
+                CASE
+                    WHEN fecha_descarga is not null THEN DESTINO_LOTE.ID_almacen
+                    ELSE LOTES.ID_almacen
+                END as almacen,
+                CASE
+					WHEN exists( select ID_almacen from ORDENES where id_troncal = 5 and id_almacen=almacen and baja =0) THEN 1
+					ELSE 0
+				END as esta
+                 FROM LLEVA
+                 INNER JOIN LOTES ON LOTES.ID = LLEVA.ID_lote
+                 INNER JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote
+                 where !(fecha_descarga is not null and DESTINO_LOTE.ID_almacen=4) and !(fecha_descarga is null and LOTES.ID_almacen=4)
+                 and matricula='DEF5678'
+                 order by fecha DESC
+                 limit 1;
+
+SELECT orden
+        FROM ORDENES
+        WHERE ID_almacen=4
+        AND ID_troncal=5;
+        
+        SELECT * FROM DESTINO_LOTE;
+SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen, LOTES.fecha_pronto pronto,DESTINO_LOTE.ID_almacen destino,DESTINO_LOTE.ID_troncal troncal,round(peso,2) peso,cantidad
+        FROM LOTES INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote = LOTES.ID
+        INNER JOIN PESO_LOTES ON PESO_LOTES.LOTE = DESTINO_LOTE.ID_lote
+        WHERE LOTES.ID NOT IN (SELECT ID_lote FROM LLEVA)
+        AND LOTES.fecha_cerrado IS NULL
+        AND LOTES.fecha_pronto IS NOT NULL
+        ORDER BY LOTES.fecha_pronto ASC;
+        
+SELECT * FROM LOTES;
+
+insert into DESTINO_LOTE VALUES(26,6,5);

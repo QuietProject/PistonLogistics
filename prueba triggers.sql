@@ -1,5 +1,5 @@
 SELECT * FROM `PAQUETES` where id>17; 
-SELECT * FROM LOTES;
+SELECT * FROM TRAE;
 SELECT * FROM PAQUETES_ALMACENES;
 SELECT * FROM PAQUETES_EN_LOTES;
 select @error;
@@ -76,7 +76,9 @@ insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values 
 SELECT SLEEP(1);
 insert into TRAE (matricula,ID_paquete) values('ABC1234',22);
 SELECT SLEEP(1);
+update TRAE SET fecha_carga=current_timestamp() where ID_paquete=22;
 call descargar_trae(22,1,@error);
+
 insert into REPARTE (matricula,ID_paquete) values ('ABD2399',22);
 
 
@@ -91,3 +93,20 @@ FROM
     ORDENES
 WHERE
     ID_troncal = 5;
+    
+SELECT * FROM PAQUETES;
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabbb8',18,1,'casa','12343223',6.3);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',28);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=28;
+SELECT SLEEP(1);
+call descargar_trae(28,3,@error);
+call lote_0('LaaabbS9',3,6,5,@ID,@error); -- QQQQQQQQQQQ
+select @error, @ID;
+SELECT SLEEP(1);
+insert into PAQUETES_LOTES(ID_paquete,ID_lote) values(28,26);
+SELECT SLEEP(1);
+update LOTES set fecha_pronto=current_timestamp() where ID=26;
+
+update LLEVA set fecha_carga = CURRENT_TIMESTAMP() where ID_lote=12;
+select * from DESTINO_LOTE;

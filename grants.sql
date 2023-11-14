@@ -86,9 +86,11 @@ GRANT SELECT ON surno.LLEVA TO 'camionero'@'%';
 GRANT SELECT ON surno.TRAE TO 'camionero'@'%';
 GRANT SELECT ON surno.REPARTE TO 'camionero'@'%';
 GRANT SELECT ON surno.PAQUETES_ALMACENES TO 'camionero'@'%';
+GRANT SELECT ON surno.SENTIDO_LOTES TO 'camionero'@'%';
 
 GRANT INSERT (CI, matricula) ON surno.CONDUCEN TO 'camionero'@'%';
 GRANT UPDATE (hasta) ON surno.CONDUCEN TO 'camionero'@'%';
+
 
 GRANT EXECUTE ON PROCEDURE surno.entregar_paquete TO 'camionero'@'%';
 -- BACKOFFICE
@@ -134,5 +136,6 @@ GRANT EXECUTE ON PROCEDURE surno.lote_1 TO 'backoffice'@'%';
 -- SHOW GRANTS FOR 'almacen'@'%';
 -- SHOW GRANTS FOR 'autentificacion'@'%';
 -- SHOW GRANTS FOR 'camionero'@'%';
+
 
 

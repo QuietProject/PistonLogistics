@@ -54,14 +54,13 @@ CREATE OR REPLACE VIEW SENTIDO_LOTES AS
 SELECT  
 ID,
 CASE
-    WHEN (SELECT orden FROM ORDENES WHERE ID_TRONCAL= LOTES.ID_troncal AND ID_almacen=LOTES.ID_almacen) < (SELECT orden FROM ORDENES WHERE ID_TRONCAL= DESTINO_LOTE.ID_troncal AND ID_almacen=DESTINO_LOTE.ID_almacen) is null THEN 'asc'
+    WHEN (SELECT orden FROM ORDENES WHERE ID_TRONCAL= LOTES.ID_troncal AND ID_almacen=LOTES.ID_almacen) < (SELECT orden FROM ORDENES WHERE ID_TRONCAL= DESTINO_LOTE.ID_troncal AND ID_almacen=DESTINO_LOTE.ID_almacen) THEN 'asc'
     else 'desc'
 END AS sentido
 FROM LOTES
 INNER JOIN DESTINO_LOTE ON LOTES.ID= DESTINO_LOTE.ID_lote
 WHERE fecha_cerrado is null
 and fecha_pronto is not null;
-
 
 
 
