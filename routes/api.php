@@ -36,5 +36,6 @@ Route::get("prueba", [PaqueteController::class, "getOrCreateLote"])->middleware(
 // Route::middleware("authorize:13")->group(function (){
     Route::post("paquetes/create", [PaqueteController::class, "store"]);
     Route::get("cliente/carga/{id}", [PaqueteController::class, "cargaCliente"]);
+    Route::get("cliente/paquetes/{idAlmacenCliente}", [PaqueteController::class, "getPaquetesClientes"]);
 // });
 

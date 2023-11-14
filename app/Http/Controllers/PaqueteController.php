@@ -138,7 +138,7 @@ class PaqueteController extends Controller
             "cedula" => $validated["cedula"],
         ]);
         return response()->json([
-            "message" => "Paquete creado exitosamente",
+            "message" => "Paquete creado exitosamente con codigo: $paquete->codigo",
             "ID" => $paquete->ID,
             "codigo" => $paquete->codigo,
         ], 201);
@@ -422,5 +422,12 @@ class PaqueteController extends Controller
             "message" => "Paquete entregado exitosamente",
             "paquete" => $paquete
         ], 200);
+    }
+
+    public function getPaquetesClientes($almacenCliente){
+        $paquetes = Paquete::leftJoin("TRAE", "PAQUETES.ID", "TRAE.ID_paquete")->where("ID_almacen", $almacenCliente)->whereNull("fecha_carga")->get();
+        return response()->json([
+            "paquetes" => $paquetes
+        ]);
     }
 }
