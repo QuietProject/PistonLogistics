@@ -181,10 +181,10 @@ tr:nth-child(even) {
 .addInterface {
     position: absolute;
     z-index: 2;
-    height: 90vh;
+    height: 80vh;
     width: 30vw;
     left: 32.5vw;
-    top: 5vh;
+    top: 10vh;
     background-color: var(--base);
     border-radius: 1vw;
     display: flex;
@@ -251,14 +251,14 @@ tr:nth-child(even) {
 
 .inputBox {
     position: relative;
-    margin-top: 1vh;
-    font-size: 4vh;
+    margin-top: 3vh;
+    font-size: 5vh;
     font-weight: bold;
     color: rgb(225, 225, 225);
     text-shadow: 0 0 5px var(--baseDark);
-    left: 20%;
+    left: 10%;
     top: 10vh;
-    width: 60%;
+    width: 80%;
 }
 
 select,
