@@ -16,7 +16,7 @@
 <body>
     @if (session('message'))
         <script>
-            let message = '{{ __(session('message')) }}';
+            let message = "{{ __(session('message')) }}";
 
             let options = {
                 icon: 'success',
@@ -27,7 +27,7 @@
 
             };
 
-            if (message != {{ __("Paquete(s) cargado(s) exitosamente") }}) {
+            if (message != '{{ __("Paquete(s) cargado(s) exitosamente") }}') {
                 options.title = message;
                 options.icon = 'error';
             } else {
@@ -67,7 +67,7 @@
                 <h1>{{ __("Ingresar paquete") }}</h1>
                 <div>
                     <div>
-                        <h3>Codigo</h3>
+                        <h3>{{ __("Codigo") }}</h3>
                         <input type="text" id="codigo">
                     </div>
                     <div>

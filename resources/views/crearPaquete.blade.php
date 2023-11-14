@@ -16,7 +16,7 @@
 <body>
     @if (session('message'))
         <script>
-            let message = '{{ session('message') }}';
+            let message = '{{ session("message") }}';
 
             let options = {
                 icon: 'success',

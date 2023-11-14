@@ -27,13 +27,13 @@
 
             };
 
-            if (message != {{ __("Paquete(s) cargado(s) correctamente - Lote(s) cargado(s) exitosamente") }}) {
+            if (message != '{{ __("Paquete(s) cargado(s) correctamente - Lote(s) cargado(s) exitosamente") }}') {
                 options.title = message;
                 options.icon = 'error';
-            } else if (message != {{ __("Paquete(s) cargado(s) correctamente") }}) {
+            } else if (message != '{{ __("Paquete(s) cargado(s) correctamente") }}') {
                 options.title = message;
                 options.icon = 'error';
-            } else if (message != {{ __("Lote(s) cargado(s) exitosamente") }}) {
+            } else if (message != '{{ __("Lote(s) cargado(s) exitosamente") }}') {
                 options.title = message;
             }
 

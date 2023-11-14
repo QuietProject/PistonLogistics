@@ -16,7 +16,7 @@
 
         <div>
             <i class='bx bxs-truck'></i>
-            <h1 class="{{ app()->getLocale() }}">Iniciar Sesión</h1>
+            <h1 class="{{ app()->getLocale() }}">{{ __("Iniciar Sesión") }}</h1>
             <i class='bx bxs-truck'></i>
         </div>
 
@@ -25,7 +25,7 @@
             <input type="password" name="password" required placeholder="Contraseña" minlength="8">
         </div>
         <div>
-            <input type="submit" value="Iniciar Sesión" id="buttonLogIn">
+            <input type="submit" value="{{ __("Iniciar Sesión") }}" id="buttonLogIn">
         </div>
     </form>
 </body>

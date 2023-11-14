@@ -28,7 +28,7 @@
 
             };
 
-            if (message == {{ __("El almacen no se encuentra en ninguna troncal") }}) {
+            if (message == '{{ __("El almacen no se encuentra en ninguna troncal") }}') {
                 options.title = message;
                 options.icon = 'error';
             }

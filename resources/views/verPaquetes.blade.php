@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="./css/styleVerPaquetes.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Almacen</title>
+    <title>{{ __("Almacen") }}</title>
     <script>
         const ruta = "{{ route('verPaquetes.asignar', ['idPaquete', 'idLote']) }}";
         const idAlmacen = {{ explode('.', session('nombre'))[1] }};
@@ -40,7 +40,7 @@
 <body>
     @if (session('message'))
         <script>
-            let message = '{{ session('message') }}';
+            let message = '{{ __(session("message")) }}';
 
             let options = {
                 icon: 'success',
@@ -50,7 +50,7 @@
                 }
             };
 
-            if (message != 'Paquete agregado a lote') {
+            if (message != '{{ __("Paquete agregado a lote") }}') {
                 options.title = message;
                 options.icon = 'error';
             } else {
@@ -59,7 +59,7 @@
 
             Swal.fire(options).then(() => {
                 Swal.fire({
-                    title: 'Cargando...',
+                    title: '{{ __("Cargando...") }}',
                     icon: 'info',
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -84,18 +84,18 @@
         <div>
             <div>
                 <div></div>
-                <a href="../almacenCarga">Carga</a>
-                <a href="../almacenDescarga">Descarga</a>
-                <a href="../verLotes">Lotes</a>
-                <a href="../crearLote">Crear Lote</a>
-                <a href="../paquetePeso">Asignar Peso</a>
-                <a href="../entregarPaquete">Entregar Paquete</a>
+                <a href="../almacenCarga">{{ __("Carga") }}</a>
+                <a href="../almacenDescarga">{{ __("Descarga") }}</a>
+                <a href="../verLotes">{{ __("Lotes") }}</a>
+                <a href="../crearLote">{{ __("Crear Lote") }}</a>
+                <a href="../paquetePeso">{{ __("Asignar Peso") }}</a>
+                <a href="../entregarPaquete">{{ __("Entregar Paquete") }}</a>
             </div>
 
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">{{ __("Cerrar sesión") }}</button>
                 </form>
             </div>
         </div>
@@ -103,58 +103,58 @@
 
     <section>
         <div id="all">
-            <h1>Paquetes en el almacen</h1>
+            <h1>{{ __("Paquetes en el almacen") }}</h1>
             <table id="miTabla">
                 <thead>
                     <tr>
                         <th class="columna" data-columna="ID_paquete">
                             <div>
-                                <p>ID Paquete</p>
+                                <p>{{ __("ID Paquete") }}</p>
                             </div>
                         </th>
                         <th class="columna" data-columna="codigo">
                             <div>
-                                <p>Codigo</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Codigo") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="ID_almacen_cliente">
                             <div>
-                                <p>ID Almacen Cliente</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("ID Almacen Cliente") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="fecha_registrado">
                             <div>
-                                <p>Fecha Registrado</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Fecha Registrado") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="ID_pickup">
                             <div>
-                                <p>ID Pickup</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="direccion">
                             <div>
-                                <p>Dirección</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Dirección") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="peso">
                             <div>
-                                <p>Peso</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Peso") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="cedula">
                             <div>
-                                <p>Cedula</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Cedula") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="mail">
                             <div>
-                                <p>Mail</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Email") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="estado">
                             <div>
-                                <p>Estado</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Estado") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                     </tr>
@@ -173,7 +173,7 @@
                                 <td data-columna="cedula">{{ $paquete['cedula'] }}</td>
                                 <td data-columna="mail">{{ $paquete['mail'] }}</td>
                                 <td data-columna="estado">{{ $paquete['estado'] }}</td>
-                                <td class="btnAsignar" id="btnAsignar">Asignar</td>
+                                <td class="btnAsignar" id="btnAsignar">{{ __("Asignar") }}</td>
                             </tr>
                         @endif
                     @endforeach

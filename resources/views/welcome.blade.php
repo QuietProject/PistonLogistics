@@ -37,9 +37,9 @@
             <div>
                 <div>
                     <div></div>
-                    <a href="#home" id="homeLink">Home</a>
-                    <a href="#aboutUs" id="aboutUsLink">Sobre Nosotros</a>
-                    <a href="#preguntas" id="preguntasLink">Preguntas Frecuentes</a>
+                    <a href="#home" id="homeLink">{{ __("Inicio") }}</a>
+                    <a href="#aboutUs" id="aboutUsLink">{{ __("Sobre Nosotros") }}</a>
+                    <a href="#preguntas" id="preguntasLink">{{ __("Preguntas Frecuentes") }}</a>
                 </div>
             </div>
         </div>
@@ -49,11 +49,11 @@
                     @csrf
                     <div>
                         <i class='bx bxs-truck'></i>
-                        <h2>¡Rastrea tu paquete!</h2>
+                        <h2>{{ __("¡Rastrea tu paquete!") }}</h2>
                         <i class='bx bxs-truck'></i>
                     </div>
                     <div>
-                        <label for="codPaquete">Codigo del paquete</label>
+                        <label for="codPaquete">{{ __("Codigo del paquete") }}</label>
                         <input id="codPaquete" type="number" name="codigoPaquete" required>
                     </div>
                     <input type="submit" value="Rastrear">
@@ -61,73 +61,73 @@
             </div>
         </section>
         <section id="aboutUs" class="aboutUs">
-            <h3 class="animar sobreNosotros">Sobre Nosotros</h3>
+            <h3 class="animar sobreNosotros">{{ __("Sobre Nosotros") }}</h3>
             <div class="textoAbout">
-                <p class="animar">En Quick Carry, nos dedicamos al transporte de paquetería en distribución nacional.
+                <p class="animar">{{ __("En Quick Carry, nos dedicamos al transporte de paquetería en distribución nacional.
                     Somos una empresa
                     líder en el sector logístico, con una amplia red de plataformas estratégicamente ubicadas en la
-                    proximidad de las principales ciudades y centros poblados en la casi totalidad de los departamentos.
+                    proximidad de las principales ciudades y centros poblados en la casi totalidad de los departamentos.") }}
                 </p>
                 <br>
-                <p class="animar">Contamos con un equipo altamente capacitado de profesionales en logística y transporte
+                <p class="animar">{{ __("Contamos con un equipo altamente capacitado de profesionales en logística y transporte
                     que se dedican a
                     garantizar la entrega oportuna y segura de cada paquete. Nuestros conductores, administradores y
                     personal de atención al cliente están comprometidos con la excelencia en el servicio, brindando una
-                    experiencia excepcional a nuestros clientes en cada etapa del proceso de transporte.</p>
+                    experiencia excepcional a nuestros clientes en cada etapa del proceso de transporte.") }}</p>
             </div>
             <div style="width: 100%;display: flex; justify-content:center; align-items:end; height:20vh" id="preguntas">
-                <h3 class="animar preguntas">Preguntas Frecuentes</h3>
+                <h3 class="animar preguntas">{{ __("Preguntas Frecuentes") }}</h3>
             </div>
             <div class="textoPreguntas">
                 <div class="animar">
-                    <h3>¿Cuál es el alcance geográfico de sus servicios de logística y transporte?</h3>
-                    <p>Ofrecemos servicios de logística y transporte en todo Uruguay, cubriendo todo el país de manera
-                        eficiente.</p>
+                    <h3>{{ __("¿Cuál es el alcance geográfico de sus servicios de logística y transporte?") }}</h3>
+                    <p>{{ __("Ofrecemos servicios de logística y transporte en todo Uruguay, cubriendo todo el país de manera
+                        eficiente.") }}</p>
                 </div>
                 <div class="animar">
-                    <h3>¿Cuáles son sus tiempos de entrega estándar?</h3>
-                    <p>Nuestros tiempos de entrega están diseñados para ser rápidos, de acuerdo a nuestra filosofía de
-                        servicio.</p>
+                    <h3>{{ __("¿Cuáles son sus tiempos de entrega estándar?") }}</h3>
+                    <p>{{ __("Nuestros tiempos de entrega están diseñados para ser rápidos, de acuerdo a nuestra filosofía de
+                        servicio.") }}</p>
                 </div>
                 <div class="animar">
-                    <h3>¿Ofrecen servicios de seguimiento en tiempo real para los envíos?</h3>
-                    <p>Ofrecemos servicios de seguimiento en tiempo real para que los clientes puedan rastrear sus
-                        envíos desde el punto de recogida hasta su destino final.</p>
+                    <h3>{{ __("¿Ofrecen servicios de seguimiento en tiempo real para los envíos?") }}</h3>
+                    <p>{{ __("Ofrecemos servicios de seguimiento en tiempo real para que los clientes puedan rastrear sus
+                        envíos desde el punto de recogida hasta su destino final.") }}</p>
                 </div>
                 <div class="animar">
-                    <h3>¿Cómo manejan situaciones de pérdida o daño de mercancía durante el transporte?</h3>
-                    <p>En caso de pérdida o daño de mercancía, tenemos políticas claras de indemnización y trabajamos
-                        para resolver cualquier problema de manera rápida y justa.</p>
+                    <h3>{{ __("¿Cómo manejan situaciones de pérdida o daño de mercancía durante el transporte?") }}</h3>
+                    <p>{{ __("En caso de pérdida o daño de mercancía, tenemos políticas claras de indemnización y trabajamos
+                        para resolver cualquier problema de manera rápida y justa.") }}</p>
                 </div>
                 <div class="animar">
-                    <h3>¿Cuáles son sus políticas de facturación y tarifas?</h3>
-                    <p>Nuestras políticas de facturación son transparentes y nuestras tarifas son competitivas,
-                        adaptadas a las necesidades de cada cliente.</p>
+                    <h3>{{ __("¿Cuáles son sus políticas de facturación y tarifas?") }}</h3>
+                    <p>{{ __("Nuestras políticas de facturación son transparentes y nuestras tarifas son competitivas,
+                        adaptadas a las necesidades de cada cliente.") }}</p>
                 </div>
                 <div class="animar">
-                    <h3>¿Qué medidas de seguridad implementan para proteger los envíos?</h3>
-                    <p>Implementamos estrictas medidas de seguridad para proteger los envíos, desde el manejo seguro de
-                        la mercancía hasta la seguridad en nuestras instalaciones y durante el transporte.</p>
+                    <h3>{{ __("¿Qué medidas de seguridad implementan para proteger los envíos?") }}</h3>
+                    <p>{{ __("Implementamos estrictas medidas de seguridad para proteger los envíos, desde el manejo seguro de
+                        la mercancía hasta la seguridad en nuestras instalaciones y durante el transporte.") }}</p>
                 </div>
             </div>
         </section>
         <footer id="footer">
             <div>
                 <form action="">
-                    <h1>¡Contáctenos!</h1>
+                    <h1>{{ __("¡Contáctenos!") }}</h1>
                     <input type="text" placeholder="Nombre">
                     <input type="email" name="" id="" placeholder="Correo Electrónico">
                     <textarea name="" id="" cols="30" rows="10" placeholder="Mensaje"></textarea>
                     <div>
                         <input type="submit" value="Enviar">
                     </div>
-                    
+
                 </form>
             </div>
-                
+
             <div>
                 <p>© 2023, Quick Carry, Inc.</p>
-                <p>Todos los derechos reservados.</p>
+                <p>{{ __("Todos los derechos reservados.") }}</p>
             </div>
 
             <div>
@@ -138,9 +138,9 @@
 
     <div class="animacionInicio" id="animacionInicio">
         <div class="divInicio" id="divInicio">
-            <h1>¡Quick Carry!</h1>
+            <h1>{{ __("¡Quick Carry!") }}</h1>
             <img src="./source/logoNegro.svg" alt="logo" class="" id="logo">
-            <h1>Tu Solución de Transporte</h1>
+            <h1>{{ __("Tu Solución de Transporte") }}</h1>
         </div>
     </div>
 

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./css/styleAlmacenDescarga.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>{{ __("Almacen") }}</title>
+    <title>{{ __('Almacen') }}</title>
 </head>
 
 <body>
@@ -28,13 +28,14 @@
             };
 
             if (message !=
-                {{ __("Paquete(s) descargado(s) exitosamente - Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente") }}) {
+                '{{ __('Paquete(s) descargado(s) exitosamente - Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente') }}'
+                ) {
                 options.title = message;
                 options.icon = 'error';
-            } else if (message != {{ __("Paquete(s) descargado(s) exitosamente") }}) {
+            } else if (message != '{{ __('Paquete(s) descargado(s) exitosamente') }}') {
                 options.title = message;
                 options.icon = 'error';
-            } else if (message != {{ __("Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente") }}) {
+            } else if (message != "{{ __('Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente') }}") {
                 options.title = message;
             }
 
@@ -54,10 +55,10 @@
     @endif
 
     <div class="change" id="btnChange">
-        {{ __("Ingresar codigo a mano") }}
+        {{ __('Ingresar codigo a mano') }}
     </div>
     <div class="change" id="btnChangeQR" style="display: none">
-        {{ __("Ingresar codigo con QR") }}
+        {{ __('Ingresar codigo con QR') }}
     </div>
 
 
@@ -70,10 +71,10 @@
         <div class="codigoContainer" style="display: none">
 
             <div>
-                <h1>{{ __("Ingresar paquete/lote") }}</h1>
+                <h1>{{ __('Ingresar paquete/lote') }}</h1>
                 <div>
                     <div>
-                        <h3>{{ __("Codigo") }}</h3>
+                        <h3>{{ __('Codigo') }}</h3>
                         <input type="text" id="codigo">
                     </div>
                     <div>
@@ -87,62 +88,62 @@
 
         <div class="infoContainer">
             <div class="titulo">
-                <p>{{ __("Descarga") }}</p>
+                <p>{{ __('Descarga') }}</p>
             </div>
             <div class="infoLotePaquete">
                 <div class="infoPaquete" style="display:none">
-                    <h1>{{ __("Paquetes") }}</h1>
+                    <h1>{{ __('Paquetes') }}</h1>
                     <table id="miTabla">
                         <thead>
                             <tr>
                                 <th class="columna" data-columna="ID_paquete">
                                     <div>
-                                        <p>{{ __("ID Paquete") }}</p>
+                                        <p>{{ __('ID Paquete') }}</p>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="codigo">
                                     <div>
-                                        <p>{{ __("Codigo") }}</p><i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Codigo') }}</p><i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="ID_almacen_cliente">
                                     <div>
-                                        <p>{{ __("ID Almacen Cliente") }}</p><i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('ID Almacen Cliente') }}</p><i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="fecha_registrado">
                                     <div>
-                                        <p>{{ __("Fecha Registrado") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Fecha Registrado') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="ID_pickup">
                                     <div>
-                                        <p>{{ __("ID Pickup") }}</p><i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('ID Pickup') }}</p><i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="direccion">
                                     <div>
-                                        <p>{{ __("Dirección") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Dirección') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="peso">
                                     <div>
-                                        <p>{{ __("Peso") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Peso') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="cedula">
                                     <div>
-                                        <p>{{ __("Cedula") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Cedula') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="mail">
                                     <div>
-                                        <p>{{ __("Email") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Email') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="estado">
                                     <div>
-                                        <p>{{ __("Estado") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Estado') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                             </tr>
@@ -153,38 +154,38 @@
                 </div>
 
                 <div class="infoLote" style="display:none">
-                    <h1>{{ __("Lotes") }}</h1>
+                    <h1>{{ __('Lotes') }}</h1>
                     <table id="miTabla">
                         <thead>
                             <tr>
                                 <th class="columna" data-columna="ID_lote">
                                     <div>
-                                        <p>{{ __("ID Lote") }}</p>
+                                        <p>{{ __('ID Lote') }}</p>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="codigo">
                                     <div>
-                                        <p>{{ __("Codigo") }}</p><i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Codigo') }}</p><i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="ID_troncal">
                                     <div>
-                                        <p>{{ __("ID Troncal") }}</p><i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('ID Troncal') }}</p><i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="ID_almacen">
                                     <div>
-                                        <p>{{ __("ID Almacen") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('ID Almacen') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="fecha_creacion">
                                     <div>
-                                        <p>{{ __("Fecha de Creación") }}</p><i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Fecha de Creación') }}</p><i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
                                 <th class="columna" data-columna="fecha_pronto">
                                     <div>
-                                        <p>{{ __("Fecha Pronto") }}</p> <i class='bx bx-chevron-down'></i>
+                                        <p>{{ __('Fecha Pronto') }}</p> <i class='bx bx-chevron-down'></i>
                                     </div>
                                 </th>
 
@@ -200,7 +201,7 @@
 
             <div class="send">
                 @csrf
-                <input type="submit" value="{{ __("Confirmar") }}" id="btnSubmit">
+                <input type="submit" value="{{ __('Confirmar') }}" id="btnSubmit">
             </div>
         </div>
     </div>
@@ -218,18 +219,18 @@
         <div>
             <div>
                 <div></div>
-                <a href="../almacenCarga">{{ __("Carga") }}</a>
-                <a href="../verPaquetes">{{ __("Paquetes") }}</a>
-                <a href="../verLotes">{{ __("Lotes") }}</a>
-                <a href="../crearLote">{{ __("Crear Lote") }}</a>
-                <a href="../paquetePeso">{{ __("Asignar Peso") }}</a>
-                <a href="../entregarPaquete">{{ __("Entregar Paquete") }}</a>
+                <a href="../almacenCarga">{{ __('Carga') }}</a>
+                <a href="../verPaquetes">{{ __('Paquetes') }}</a>
+                <a href="../verLotes">{{ __('Lotes') }}</a>
+                <a href="../crearLote">{{ __('Crear Lote') }}</a>
+                <a href="../paquetePeso">{{ __('Asignar Peso') }}</a>
+                <a href="../entregarPaquete">{{ __('Entregar Paquete') }}</a>
             </div>
 
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">{{ __("Cerrar sesión") }}</button>
+                    <button type="submit">{{ __('Cerrar sesión') }}</button>
                 </form>
             </div>
         </div>

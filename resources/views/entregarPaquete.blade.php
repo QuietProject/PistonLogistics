@@ -11,13 +11,13 @@
     <link rel="stylesheet" href="./css/styleEntregarPaquete.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Almacen</title>
+    <title>{{ __("Almacen") }}</title>
 </head>
 
 <body>
     @if (session('message'))
         <script>
-            let message = '{{ session('message') }}';
+            let message = '{{ __(session('message')) }}';
 
             let options = {
                 icon: 'success',
@@ -27,7 +27,7 @@
                 }
             };
 
-            if (message != 'Paquete entregado exitosamente') {
+            if (message != '{{ __("Paquete entregado exitosamente") }}') {
                 options.title = message;
                 options.icon = 'error';
             } else {
@@ -61,18 +61,18 @@
         <div>
             <div>
                 <div></div>
-                <a href="../almacenCarga">Carga</a>
-                <a href="../almacenDescarga">Descarga</a>
-                <a href="../verLotes">Lotes</a>
-                <a href="../verPaquetes">Paquetes</a>
-                <a href="../crearLote">Crear Lote</a>
-                <a href="../paquetePeso">Asignar Peso</a>
+                <a href="../almacenCarga">{{ __("Carga") }}</a>
+                <a href="../almacenDescarga">{{ __("Descarga") }}</a>
+                <a href="../verLotes">{{ __("Lotes") }}</a>
+                <a href="../verPaquetes">{{ __("Paquetes") }}</a>
+                <a href="../crearLote">{{ __("Crear Lote") }}</a>
+                <a href="../paquetePeso">{{ __("Asignar Peso") }}</a>
             </div>
 
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">{{ __("Cerrar sesión") }}</button>
                 </form>
             </div>
         </div>
@@ -80,48 +80,48 @@
 
     <section>
         <div id="all">
-            <h1>Paquetes a entregar</h1>
+            <h1>{{ __("Paquetes a entregar") }}</h1>
             <table id="miTabla">
                 <thead>
                     <tr>
                         <th class="columna" data-columna="cedula">
                             <div>
-                                <p>Cedula</p>
+                                <p>{{ __("Cedula") }}</p>
                             </div>
                         </th>
                         <th class="columna" data-columna="codigo">
                             <div>
-                                <p>Codigo</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Codigo") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="ID_almacen_cliente">
                             <div>
-                                <p>ID Almacen Cliente</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("ID Almacen Cliente") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="fecha_registrado">
                             <div>
-                                <p>Fecha Registrado</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Fecha Registrado") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="ID_pickup">
                             <div>
-                                <p>ID Pickup</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("ID Pickup") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="direccion">
                             <div>
-                                <p>Dirección</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Dirección") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="peso">
                             <div>
-                                <p>Peso</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Peso") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="mail">
                             <div>
-                                <p>Mail</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Email") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                     </tr>
@@ -138,7 +138,7 @@
                                 <td data-columna="direccion">{{ $paquete['direccion'] }}</td>
                                 <td data-columna="peso">{{ $paquete['peso'] }}</td>
                                 <td data-columna="mail">{{ $paquete['mail'] }}</td>
-                                <td class="btnEntregar" id="btnEntregar" data-route="{{ route('entregarPaquete.entregar', ['id' => $paquete['ID']]) }}">Entregar</td>
+                                <td class="btnEntregar" id="btnEntregar" data-route="{{ route('entregarPaquete.entregar', ['id' => $paquete['ID']]) }}">{{ __("Entregar") }}</td>
                             </tr>
                         @endif
                     @endforeach

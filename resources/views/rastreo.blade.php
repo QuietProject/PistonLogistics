@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./css/styleMenu.css">
     <link rel="stylesheet" href="./css/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <title>Document</title>
+    <title>Quick Carry</title>
 </head>
 <body>
     <header>
@@ -34,9 +34,9 @@
         <div>
             <div>
                 <div></div>
-                <a href="#home" id="homeLink">Home</a>
-                <a href="#aboutUs" id="aboutUsLink">Sobre Nosotros</a>
-                <a href="#preguntas" id="preguntasLink">Preguntas Frecuentes</a>
+                <a href="#home" id="homeLink">{{ __("Inicio") }}</a>
+                <a href="#aboutUs" id="aboutUsLink">{{ __("Sobre Nosotros") }}</a>
+                <a href="#preguntas" id="preguntasLink">{{ __("Preguntas Frecuentes") }}</a>
             </div>
         </div>
     </div>
@@ -44,14 +44,14 @@
 
     <section>
         <div>
-            <h1> Detalles del paquete</h1>
+            <h1>{{ __("Detalles del paquete") }}</h1>
             <div>
-                <p>Codigo: </p>
+                <p>{{ __("Codigo") }}: </p>
                 <p>
                     {{ session("codigoPaquete") }}
                 </p>
             </div>
-            
+
         </div>
 
     </section>
@@ -60,20 +60,20 @@
     <footer id="footer">
         <div>
             <form action="">
-                <h1>¡Contáctenos!</h1>
-                <input type="text" placeholder="Nombre">
-                <input type="email" name="" id="" placeholder="Correo Electrónico">
-                <textarea name="" id="" cols="30" rows="10" placeholder="Mensaje"></textarea>
+                <h1>{{ __("¡Contáctenos!") }}</h1>
+                <input type="text" placeholder="{{ __("Nombre") }}">
+                <input type="email" name="" id="" placeholder="{{ __("Correo Electrónico") }}">
+                <textarea name="" id="" cols="30" rows="10" placeholder="{{ __("Mensaje") }}"></textarea>
                 <div>
-                    <input type="submit" value="Enviar">
+                    <input type="submit" value="{{ __("Enviar") }}">
                 </div>
-                
+
             </form>
         </div>
-            
+
         <div>
             <p>© 2023, Quick Carry, Inc.</p>
-            <p>Todos los derechos reservados.</p>
+            <p>{{ __("Todos los derechos reservados") }}.</p>
         </div>
 
         <div>
@@ -82,7 +82,7 @@
     </footer>
 
     <script>
-        
+
     </script>
     <script defer src="./javascript/scriptMenu.js"></script>
     <script defer src="./javascript/scriptRastreo.js"></script>

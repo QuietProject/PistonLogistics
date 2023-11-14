@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <title>Almacen</title>
+    <title>{{ __("Almacen") }}</title>
     <script>
         const ruta = "{{ route('quitarPaquete', ['idLote' => 'valorLote', 'idPaquete' => 'valorPaquete']) }}";
 
@@ -29,7 +29,7 @@
 
     @if (session('message'))
         <script>
-            let message = '{{ session('message') }}';
+            let message = '{{ __(session('message')) }}';
 
             let options = {
                 icon: 'success',
@@ -40,9 +40,9 @@
                 }
             };
 
-            if (message === 'Lote listo para enviar') {
+            if (message === '{{ __("Lote listo para enviar") }}') {
                 options.title = message;
-            } else if (message === 'Paquete quitado del lote') {
+            } else if (message === '{{ __("Paquete quitado del lote") }}') {
                 options.title = message;
             } else {
                 options.title = message;
@@ -52,7 +52,7 @@
 
             Swal.fire(options).then(() => {
                 Swal.fire({
-                    title: 'Cargando...',
+                    title: '{{ __("Cargando...") }}',
                     icon: 'info',
                     showConfirmButton: false,
                     allowOutsideClick: false,
@@ -78,18 +78,18 @@
         <div>
             <div>
                 <div></div>
-                <a href="../almacenCarga">Carga</a>
-                <a href="../almacenDescarga">Descarga</a>
-                <a href="../verPaquetes">Paquetes</a>
-                <a href="../crearLote">Crear Lote</a>
-                <a href="../paquetePeso">Asignar Peso</a>
-                <a href="../entregarPaquete">Entregar Paquete</a>
+                <a href="../almacenCarga">{{ __("Carga") }}</a>
+                <a href="../almacenDescarga">{{ __("Descarga") }}</a>
+                <a href="../verPaquetes">{{ __("Paquetes") }}</a>
+                <a href="../crearLote">{{ __("Crear Lote") }}</a>
+                <a href="../paquetePeso">{{ __("Asignar Peso") }}</a>
+                <a href="../entregarPaquete">{{ __("Entregar Paquete") }}</a>
             </div>
 
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">{{ __("Cerrar sesión") }}</button>
                 </form>
             </div>
         </div>
@@ -97,38 +97,38 @@
 
     <section>
         <div id="all">
-            <h1>Lotes en el almacen</h1>
+            <h1>{{ __("Lotes en el almacen") }}</h1>
             <table id="miTabla">
                 <thead>
                     <tr>
                         <th class="columna" data-columna="ID_lote">
                             <div>
-                                <p>ID Lote</p>
+                                <p>{{ __("ID Lote") }}</p>
                             </div>
                         </th>
                         <th class="columna" data-columna="codigo">
                             <div>
-                                <p>Codigo</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Codigo") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="ID_troncal">
                             <div>
-                                <p>ID Troncal</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("ID Troncal") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="fecha_creacion">
                             <div>
-                                <p>Fecha de Creación</p><i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Fecha de Creación") }}</p><i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="fecha_pronto">
                             <div>
-                                <p>Fecha Pronto</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Fecha Pronto") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
                         <th class="columna" data-columna="tipo">
                             <div>
-                                <p>Tipo</p> <i class='bx bx-chevron-down'></i>
+                                <p>{{ __("Tipo") }}</p> <i class='bx bx-chevron-down'></i>
                             </div>
                         </th>
 
@@ -144,12 +144,12 @@
                             @if ($lote['fecha_pronto'] === null)
                                 <td class='btnPronto'
                                     data-route="{{ route('lotePronto', ['idLote' => $lote['ID']]) }}">
-                                    Aprontar</td>
+                                    {{ __("Aprontar") }}</td>
                             @else
                                 <td data-columna="fecha_pronto">{{ $lote['fecha_pronto'] }}</td>
                             @endif
                             <td data-columna="tipo">{{ $lote['tipo'] ? 'pickup' : 'comun' }}</td>
-                            <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}" data-idlote="{{ $lote['ID'] }}">Ver paquetes</td>
+                            <td class="btnVerPaquetesEnLote" data-route="{{ route('getPaquetesLote') }}" data-idlote="{{ $lote['ID'] }}">{{ __("Ver paquetes") }}</td>
                             <td class="btnGenerar" id="btnGenerar" data-codigo="{{ $lote['codigo'] }}">QR</td>
                         </tr>
                     @endforeach

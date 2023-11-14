@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <title>Cliente</title>
+    <title>{{ __("Cliente") }}</title>
 </head>
 
 <body>
@@ -27,14 +27,14 @@
         <div>
             <div>
                 <div></div>
-                <a href="../cliente">Carga</a>
-                <a href="../crearPaquete">Crear Paquete</a>
+                <a href="../cliente">{{ __("Carga") }}</a>
+                <a href="../crearPaquete">{{ __("Crear Paquete") }}</a>
             </div>
 
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">{{ __("Cerrar sesión") }}</button>
                 </form>
             </div>
         </div>
@@ -42,13 +42,13 @@
 
     <section>
         <div id="all">
-            <h1>QR de paquetes</h1>
+            <h1>{{ __("QR de paquetes") }}</h1>
             <table id="miTabla">
                 <thead>
                     <tr>
                         <th class="columna" data-columna="codigo">
                             <div>
-                                <p>Codigo</p>
+                                <p>{{ __("Codigo") }}</p>
                             </div>
                         </th>
                         <th class="columna" data-columna="qr">
@@ -62,7 +62,7 @@
                     @foreach ($paquetes as $paquete)
                         <tr class="hoverRow">
                             <td data-columna="codigo">{{ $paquete['codigo'] }}</td>
-                            <td class="btnGenerar" id="btnGenerar" data-codigo="{{ $paquete['codigo'] }}">Generar</td>
+                            <td class="btnGenerar" id="btnGenerar" data-codigo="{{ $paquete['codigo'] }}">{{ __("Generar") }}</td>
                         </tr>
                     @endforeach
                 </tbody>

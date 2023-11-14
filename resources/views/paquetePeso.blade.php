@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="./css/stylePaquetePeso.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <title>Almacen</title>
+    <title>{{ __("Almacen") }}</title>
 </head>
 
 <body>
@@ -25,18 +25,18 @@
         <div>
             <div>
                 <div></div>
-                <a href="../almacenCarga">Carga</a>
-                <a href="../almacenDescarga">Descarga</a>
-                <a href="../verLotes">Lotes</a>
-                <a href="../verPaquetes">Paquetes</a>
-                <a href="../crearLote">Crear Lote</a>
-                <a href="../entregarPaquete">Entregar Paquete</a>
+                <a href="../almacenCarga">{{ __("Carga") }}</a>
+                <a href="../almacenDescarga">{{ __("Descarga") }}</a>
+                <a href="../verLotes">{{ __("Lotes") }}</a>
+                <a href="../verPaquetes">{{ __("Paquetes") }}</a>
+                <a href="../crearLote">{{ __("Crear Lote") }}</a>
+                <a href="../entregarPaquete">{{ __("Entregar Paquete") }}</a>
             </div>
 
             <div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit">Cerrar sesión</button>
+                    <button type="submit">{{ __("Cerrar sesión") }}</button>
                 </form>
             </div>
         </div>
@@ -44,7 +44,7 @@
 
     @if (session('message'))
         <script>
-            let message = '{{ session('message') }}';
+            let message = '{{ __(session("message")) }}';
 
             let options = {
                 icon: 'success',
@@ -52,10 +52,10 @@
                 customClass: {
                     container: 'popup'
                 },
-                
+
             };
 
-            if (message != 'Peso actualizado exitosamente') {
+            if (message != '{{ __("Peso actualizado exitosamente") }}') {
                 options.title = message;
                 options.icon = 'error';
             } else {
@@ -64,7 +64,7 @@
 
             Swal.fire(options).then(() => {
             Swal.fire({
-                title: 'Cargando...',
+                title: '{{ __("Cargando...") }}',
                 icon: 'info',
                 showConfirmButton: false,
                 allowOutsideClick: false,
@@ -80,21 +80,21 @@
     <form method="POST" action=" {{ route('paquetePeso.asignar') }} " id="form">
         @csrf
         <div>
-            <h1>Asignar Peso</h1>
+            <h1>{{ __("Asignar Peso") }}</h1>
             <i class='bx bx-package'></i>
         </div>
         <div>
             <div>
-                <h3>Paquete</h3>
-                <input type="number" name="paquete" id="paquete" min="1"  placeholder="Ej: 14" required>
+                <h3>{{ __("Paquete") }}</h3>
+                <input type="number" name="paquete" id="paquete" min="1"  placeholder="{{ __("Ej: 14") }}" required>
             </div>
             <div>
-                <h3>Peso</h3>
+                <h3>{{ __("Peso") }}</h3>
                 <div>
-                    <input type="number" name="peso" id="peso" min="0" step="0.01" placeholder="Ej: 10" required>
+                    <input type="number" name="peso" id="peso" min="0" step="0.01" placeholder="{{ __("Ej: 10") }}" required>
                     <span>Kg</span>
                 </div>
-                
+
             </div>
         </div>
         <div>

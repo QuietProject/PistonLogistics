@@ -20,7 +20,7 @@
 <body>
     @if (session('message'))
         <script>
-            let message = '{{ __(session('message')) }}';
+            let message = '{{ __(session("message")) }}';
 
             let options = {
                 icon: 'success',
@@ -31,7 +31,7 @@
 
             };
 
-            if (message != {{ __("Lote creado exitosamente") }}) {
+            if (message != '{{ __("Lote creado exitosamente") }}') {
                 options.title = message;
                 options.icon = 'error';
             } else {
