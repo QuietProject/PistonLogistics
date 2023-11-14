@@ -165,7 +165,6 @@ select {
     font-size: 5vh;
     font-weight: bold;
     text-shadow: 0 0 5px var(--base);
-    user-select: none;
 }
 
 .tableContainer {

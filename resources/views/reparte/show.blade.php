@@ -182,7 +182,6 @@
         left: 10vh;
         color: white;
         text-shadow: 0 0 10px var(--base);
-        user-select: none;
         text-align: center;
     }
 

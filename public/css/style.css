@@ -78,7 +78,7 @@ body {
     position: absolute;
     background-color: var(--baseLighter);
     border-radius: 50%;
-    text-decoration: none;  
+    text-decoration: none;
 }
 
 .buttonEnd:hover {
@@ -118,7 +118,6 @@ body {
     left: 10vh;
     color: white;
     text-shadow: 0 0 10px var(--base);
-    user-select: none;
     text-align: center;
 }
 
