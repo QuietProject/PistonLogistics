@@ -9,11 +9,10 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 /**
  * Class Paquete
- * 
+ *
  * @property int $ID
  * @property int $ID_almacen
  * @property Carbon $fecha_registrado
@@ -23,12 +22,12 @@ use Illuminate\Support\Str;
  * @property int|null $volumen
  * @property Carbon|null $fecha_entregado
  * @property string|null $mail
+ * @property string|null $cedula
  * @property int $estado
- * @property string $codigo
- * 
+ *
  * @property AlmacenCliente $almacen_cliente
  * @property AlmacenPropio $almacen_propio
- * @property Collection|PaqueteAlmacen[] $paquetes_almacenes
+ * @property Collection|PaquetesAlmacene[] $paquetes_almacenes
  * @property Collection|Lote[] $lotes
  * @property Reparte $reparte
  * @property Trae $trae
@@ -39,18 +38,17 @@ class Paquete extends Model
 {
 	protected $table = 'PAQUETES';
 	protected $primaryKey = 'ID';
-	protected $autoIncrement = true;
 	public $timestamps = false;
 
 	protected $casts = [
-		'ID_almacen' => 'int',
+		'codigo' => 'string',
+        'ID_almacen' => 'int',
 		'fecha_registrado' => 'datetime',
 		'ID_pickup' => 'int',
-		'peso' => 'int',
+		'peso' => 'float',
 		'volumen' => 'int',
 		'fecha_entregado' => 'datetime',
-		'estado' => 'int',
-		'codigo' => 'string'
+		'estado' => 'int'
 	];
 
 	protected $fillable = [
@@ -62,23 +60,9 @@ class Paquete extends Model
 		'volumen',
 		'fecha_entregado',
 		'mail',
-		'estado',
-		'codigo',
-		'cedula'
+		'cedula',
+		'estado'
 	];
-
-	protected static function boot()
-	{
-		parent::boot();
-
-		static::creating(function ($model) {
-			do {
-				$codigo = "P" . Str::random(7);
-			} while (self::where('codigo', $codigo)->exists());
-
-			$model->codigo = $codigo;
-		});
-	}
 
 	public function almacen_cliente()
 	{
@@ -90,15 +74,16 @@ class Paquete extends Model
 		return $this->belongsTo(AlmacenPropio::class, 'ID_pickup');
 	}
 
+
 	public function paquetes_almacenes()
 	{
-		return $this->hasMany(PaqueteAlmacen::class, 'ID_paquete');
+		return $this->hasMany(PaquetesAlmacene::class, 'ID_paquete');
 	}
 
 	public function lotes()
 	{
-		return $this->belongsToMany(Lote::class, 'paquetes_lotes', 'ID_paquete', 'ID_lote')
-			->withPivot('desde', 'hasta');
+		return $this->belongsToMany(Lote::class, 'PAQUETES_LOTES', 'ID_paquete', 'ID_lote')
+					->withPivot('fecha');
 	}
 
 	public function reparte()

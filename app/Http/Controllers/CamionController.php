@@ -45,7 +45,7 @@ class CamionController extends Controller
         $ID_lote = Lleva::where('matricula', $matricula)->pluck('ID_lote');
         return Lote::whereIn('ID', $ID_lote)->get();
     }
-
+/*
     public function arranque($matricula)
     {
         //$ci = session("user");
@@ -93,7 +93,7 @@ class CamionController extends Controller
 
         return "Jornal finalizado";
     }
-
+*/
     public function verEstado($id)
     {
         return DB::select(DB::raw("SELECT paquetes.id as 'ID PAQUETE', lotes.id as 'ID LOTE',

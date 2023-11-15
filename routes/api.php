@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Mockery\Generator\StringManipulation\Pass\Pass;
 use App\Http\Controllers\CamionController;
+use App\Http\Controllers\PaqueteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get("camion/paquetes", [CamionController::class, "verPaquetes"]);
 Route::get("camion/lotes", [CamionController::class, "verLotes"]);
-Route::get("camion/arrancarJornal/{matricula}", [CamionController::class, "arrancarJornal"]);
-Route::get("camion/terminarJornal", [CamionController::class, "terminarJornal"]);
+/*Route::get("camion/arrancarJornal/{matricula}", [CamionController::class, "arrancarJornal"]);
+Route::get("camion/terminarJornal", [CamionController::class, "terminarJornal"]);*/
 Route::get("verEstado/{id}", [CamionController::class, "verEstado"]);
+Route::get("entregar/{codigo}", [PaqueteController::class, "entregarPaquete"]);
 Route::get("camion/mapa", [CamionController::class, "mapa"]);
 Route::get("camion", [CamionController::class, "getCamion"]);
