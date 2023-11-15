@@ -573,7 +573,7 @@ class CamionController extends Controller
         return DB::select('SELECT codigo
         FROM LOTES
         WHERE ID=?
-        ', [$idLote])[0]->direccion;
+        ', [$idLote])[0]->codigo;
     }
     private function direccionToCooredenadas($direccion)
     {
