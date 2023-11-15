@@ -27,14 +27,15 @@
 
             };
 
-            if (message != '{{ __("Paquete(s) cargado(s) correctamente - Lote(s) cargado(s) exitosamente") }}') {
+            if (message == '{{ __("Paquete(s) cargado(s) correctamente - Lote(s) cargado(s) exitosamente") }}') {
+                options.title = message;
+            } else if (message == '{{ __("Paquete(s) cargado(s) correctamente") }}') {
+                options.title = message;
+            } else if (message == '{{ __("Lote(s) cargado(s) exitosamente") }}') {
+                options.title = message;
+            }else{
                 options.title = message;
                 options.icon = 'error';
-            } else if (message != '{{ __("Paquete(s) cargado(s) correctamente") }}') {
-                options.title = message;
-                options.icon = 'error';
-            } else if (message != '{{ __("Lote(s) cargado(s) exitosamente") }}') {
-                options.title = message;
             }
 
             Swal.fire(options).then(() => {
@@ -624,7 +625,7 @@
 
             if (arrayLotes.length === 0 && arrayPaquetes.length > 0) {
                 const ruta =
-                    "{{ route('almacenDescarga.descarga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
+                    "{{ route('almacenCarga.carga', ['paquetes' => 'paquetesArray', 'lotes' => 'lotesArray']) }}";
 
                 function getRoute(paquetes, lotes) {
                     let r = ruta;

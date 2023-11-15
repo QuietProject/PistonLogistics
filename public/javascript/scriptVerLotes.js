@@ -109,6 +109,9 @@ if (document.documentElement.lang === "es") {
             const ID = fila.querySelector(
                 'td[data-columna="ID_lote"]'
             ).textContent;
+            const fecha_pronto = fila.querySelector(
+                'td[data-columna="ID_lote"]'
+            ).textContent;
 
             const route = btnVerPaquetesEnLote.getAttribute("data-route");
             const idsLote = btnVerPaquetesEnLote.getAttribute("data-idlote");
@@ -214,9 +217,7 @@ if (document.documentElement.lang === "es") {
                                     <td data-columna="estado">${
                                         array.estado
                                     }</td>
-                                    <td class='btnQuitar' data-idPaquete="${
-                                        array.ID
-                                    }">Quitar</td>
+                                    <td class='btnQuitar' data-idPaquete="${array.ID}" style="${ fecha_pronto.textContent !== "Aprontar" ?'display:none;' : '' }">Quitar</td>
                                 </tr>`
                             )
                             .join("")}
@@ -452,6 +453,9 @@ if (document.documentElement.lang === "es") {
             const ID = fila.querySelector(
                 'td[data-columna="ID_lote"]'
             ).textContent;
+            const fecha_pronto = fila.querySelector(
+                'td[data-columna="ID_lote"]'
+            ).textContent;
 
             const route = btnVerPaquetesEnLote.getAttribute("data-route");
             const idsLote = btnVerPaquetesEnLote.getAttribute("data-idlote");
@@ -559,9 +563,8 @@ if (document.documentElement.lang === "es") {
                                     <td data-columna="estado">${
                                         array.estado
                                     }</td>
-                                    <td class='btnQuitar' data-idPaquete="${
-                                        array.ID
-                                    }">Remove</td>
+                                    
+                                    <td class='btnQuitar' data-idPaquete="${array.ID}" style="${ fecha_pronto.textContent !== "Ready Up" ?'display:none;' : '' }">Remove</td>
                                 </tr>`
                             )
                             .join("")}

@@ -1,51 +1,13 @@
 if (document.documentElement.lang === "es") {
     const color = "black";
-    let abierto = null;
     const section = document.getElementById("section");
 
     const envio = document.createElement("div");
     envio.className = "envio";
-    const carga = document.createElement("div");
-    carga.style.display = "none";
-    carga.className = "carga";
+    
     const mapa = document.createElement("div");
     mapa.style.display = "none";
     mapa.className = "mapa";
-
-    carga.innerHTML += `<div id='btnVolverCarga'><i class='bx bx-left-arrow-alt'></i></div><h1>Carga</h1><table id="miTabla">
-                <thead>
-                    <tr>
-                        <th class="columna" data-columna="codigo">
-                            <div>
-                                <p>Codigo</p>
-                            </div>
-                        </th>
-                        <th class="columna" data-columna="peso">
-                            <div>
-                                <p>Peso</p>
-                            </div>
-                        </th>
-                        <th class="columna" data-columna="accion">
-                            <div>
-                                <p>Accion</p>
-                            </div>
-                        </th>
-                    </tr> 
-                </thead>
-                <tbody>
-                ${lotes
-                    .map(
-                        (lote) =>
-                            `<tr class="hoverRow">
-                    <td data-columna="codigo">${lote["codigo"]}</td>
-                    <td data-columna="peso">${lote["peso"]}</td>
-                    <td data-columna="operacion">${lote["operacion"]}</td>
-                </tr>`
-                    )
-                    .join("")}
-                    
-                </tbody>
-            </table>`;
 
     const btnVolverMapa = document.createElement("div");
     btnVolverMapa.innerHTML = "<i class='bx bx-left-arrow-alt'></i>";
@@ -63,48 +25,26 @@ if (document.documentElement.lang === "es") {
     const botones = document.createElement("div");
 
     section.appendChild(envio);
-    section.appendChild(carga);
     section.appendChild(mapa);
     envio.appendChild(rutas);
     envio.appendChild(botones);
 
-    const origen = document.createElement("div");
-    const destino = document.createElement("div");
+    const direccion = document.createElement("div");
 
-    rutas.appendChild(origen);
-    rutas.appendChild(destino);
+    rutas.appendChild(direccion);
 
+    direccion.innerHTML = `<p>${almacen}</p><p>O</p>`;
 
-    origen.innerHTML = `<p>${almacenOrigen}</p><p>O</p>`;
-    destino.innerHTML = `<p>${almacenDestino}</p><p>D</p>`;
-
-    const verCarga = document.createElement("div");
     const verMapa = document.createElement("div");
     verMapa.id = "verMapa";
-    // const comenzar = document.createElement("div");
 
-    botones.appendChild(verCarga);
     botones.appendChild(verMapa);
-    // botones.appendChild(comenzar);
 
-    verCarga.textContent = "Carga";
     verMapa.textContent = "Mapa";
-    // comenzar.textContent = "Comenzar";
-
-    verCarga.addEventListener("click", () => {
-        envio.style.display = "none";
-        carga.style.display = "flex";
-    });
 
     verMapa.addEventListener("click", () => {
         envio.style.display = "none";
         mapa.style.display = "flex";
-    });
-
-    const btnVolverCarga = document.getElementById("btnVolverCarga");
-    btnVolverCarga.addEventListener("click", () => {
-        envio.style.display = "flex";
-        carga.style.display = "none";
     });
 
     btnActualizar.addEventListener("click", () => {
@@ -135,7 +75,6 @@ if (document.documentElement.lang === "es") {
     });
 } else {
     const color = "black";
-    let abierto = null;
     const section = document.getElementById("section");
 
     const envio = document.createElement("div");

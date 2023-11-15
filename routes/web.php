@@ -32,6 +32,7 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
     Route::middleware("authorize:2")->group(function () {
         Route::get("/camionero", [TransitController::class, "mapa"])->name("camionero");
         Route::view("/reparte", "reparte")->name("reparte");
+        Route::view("/trae", "trae")->name("trae");
     });
 
     Route::middleware("authorize:3")->group(function () {

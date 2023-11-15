@@ -17,15 +17,19 @@ class TransitController extends Controller
         $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("TRANSIT_API_URL") . "camion/mapa?cedula=$cedula")->json();
 
         $modo = $response["modo"];
-        $coordenadas = $response["coordenadas"];
-        $almacen = $response["almacen"];
-        $descargar = $response["descargar"];
-        $cargar = $response["cargar"];
-
+        
         if ($modo == "lleva"){
+            $coordenadas = $response["coordenadas"];
+            $almacen = $response["almacen"];
+            $descargar = $response["descargar"];
+            $cargar = $response["cargar"];
             return view('camionero', ['coordenadas' => $coordenadas, 'almacen' => $almacen,'descargar' => $descargar, 'cargar'=> $cargar]);
         }else if($modo == "reparte"){
-            
+            $puntos = $response["puntos"];
+            return view('reparte', ['puntos' => $puntos]);
+        }else if( $modo == 'trae'){
+            $destino = $response["destino"];
+            return view('trae', ['destino' => $destino]);
         }
     }
 

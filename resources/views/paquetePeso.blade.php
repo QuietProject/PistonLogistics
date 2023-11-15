@@ -90,7 +90,7 @@
         <div>
             <div>
                 <h3>{{ __("Paquete") }}</h3>
-                <input type="number" name="paquete" id="paquete" min="1"  placeholder="{{ __("Ej: 14") }}" required>
+                <input type="text" name="paquete" id="paquete" maxlength="8" minlength="8" placeholder="{{ __("Ej: PVMiNZ10") }}" required>
             </div>
             <div>
                 <h3>{{ __("Peso") }}</h3>

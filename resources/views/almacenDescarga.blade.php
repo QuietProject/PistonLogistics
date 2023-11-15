@@ -27,15 +27,15 @@
 
             };
 
-            if (message !=
-                '{{ __('Paquete(s) descargado(s) exitosamente - Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente') }}'
-                ) {
+            if (message == "{{ __('Paquete(s) descargado(s) exitosamente - Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente') }}") {
+                options.title = message;
+            } else if (message == "{{ __('Paquete(s) descargado(s) exitosamente') }}") {
+                options.title = message;
+            } else if (message == "{{ __('Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente') }}") {
+                options.title = message;
+            }else{
                 options.title = message;
                 options.icon = 'error';
-            } else if (message != '{{ __('Paquete(s) descargado(s) exitosamente') }}') {
-                options.title = message;
-            } else if (message != "{{ __('Lote(s) descargado(s) y paquete(s) asignado(s) exitosamente') }}") {
-                options.title = message;
             }
 
             Swal.fire(options).then(() => {
