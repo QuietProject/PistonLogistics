@@ -406,12 +406,12 @@ class CamionController extends Controller
             foreach ($carga as $lote) {
                 $idLotesCarga[] = $lote->ID_lote;
             }
+            $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
+            $coordenadasDestino = $this->almacenToCoordenadas(($this->ordenToAlmacen($troncal, $carga[0]->orden)));
 
-            $direccionOrigen = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen));
-            $direccionDestino = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $carga[0]->orden));
+            $coordenadas[] = $coordenadasOrigen;
+            $coordenadas[] = $coordenadasDestino;
 
-            $coordenadas[] = $this->direccionToCooredenadas($direccionOrigen);
-            $coordenadas[] = $this->direccionToCooredenadas($direccionDestino);
 
             return response()->json([
                 'modo' => 'lleva',
@@ -487,6 +487,7 @@ class CamionController extends Controller
 
         $coordenadas[] = $coordenadasOrigen;
         $coordenadas[] = $coordenadasDestino;
+
 
         return response()->json([
             'modo' => 'lleva',
