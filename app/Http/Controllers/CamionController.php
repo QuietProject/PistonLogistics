@@ -486,15 +486,17 @@ class CamionController extends Controller
         }
         $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
         $coordenadasDestino = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenDestino));
-
+        $this->almacenToDi
         $coordenadas[] = $coordenadasOrigen;
         $coordenadas[] = $coordenadasDestino;
 
 
+        dd([])
+
         return response()->json([
             'modo' => 'lleva',
             'coordenadas' => $coordenadas,
-            'almacen' => [$this->ordenToAlmacen($troncal, $ordenOrigen),$this->ordenToAlmacen($troncal, $ordenDestino)],
+            'almacen' => [$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen)),$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenDestino))],
             'descargar' => $idLotesDescarga,
             'cargar' => $idLotesCarga
         ], 200);
@@ -557,6 +559,13 @@ class CamionController extends Controller
         FROM ALMACENES
         WHERE ID=?
         ', [$almacen])[0];
+    }
+    private function almacenToDireccion($almacen)
+    {
+        return DB::select('SELECT direccion
+        FROM ALMACENES
+        WHERE ID=?
+        ', [$almacen])[0]->direccion;
     }
     private function direccionToCooredenadas($direccion)
     {
