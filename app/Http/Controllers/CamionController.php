@@ -405,7 +405,7 @@ class CamionController extends Controller
             }
 
             foreach ($carga as $lote) {
-                $idLotesCarga[] = $this->idLoteToCodigo($lote->ID_lote);
+                $idLotesCarga[] = $this->idLoteToData($lote->ID_lote);
             }
             $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
             $coordenadasDestino = $this->almacenToCoordenadas(($this->ordenToAlmacen($troncal, $carga[0]->orden)));
@@ -478,11 +478,11 @@ class CamionController extends Controller
         }
         $codigoLotesCarga = [];
         foreach ($carga as $lote) {
-            $codigoLotesCarga[] = $this->idLoteToCodigo($lote->ID_lote);
+            $codigoLotesCarga[] = $this->idLoteToData($lote->ID_lote);
         }
         $codigoLotesDescarga = [];
         foreach ($descarga as $lote) {
-            $codigoLotesDescarga[] = $this->idLoteToCodigo($lote->ID_lote);
+            $codigoLotesDescarga[] = $this->idLoteToData($lote->ID_lote);
         }
         $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
         $coordenadasDestino = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenDestino));
@@ -568,12 +568,13 @@ class CamionController extends Controller
         ', [$almacen])[0]->direccion;
     }
 
-    private function idLoteToCodigo($idLote)
+    private function idLoteToData($idLote)
     {
-        return DB::select('SELECT codigo
+        return DB::select('SELECT codigo, peso
         FROM LOTES
+        INNER JOIN PESO_LOTES ON PESO_LOTES.lote = LOTES.ID
         WHERE ID=?
-        ', [$idLote])[0]->codigo;
+        ', [$idLote])[0];
     }
     private function direccionToCooredenadas($direccion)
     {
