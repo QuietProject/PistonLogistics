@@ -65,7 +65,7 @@ insert into REPARTE (matricula,ID_paquete) values ('ABD2399',21);
 SELECT SLEEP(1);
 call descargar_reparte(21,1,@error);
 select @error, @ID;
-call lote_1(1,@ID,@error);
+call lote_1('lshrydeg',1,@ID,@error);
 SELECT SLEEP(1);
 insert into PAQUETES_LOTES(ID_paquete,ID_lote) values(21,14);
 SELECT SLEEP(1);
@@ -104,6 +104,7 @@ call descargar_trae(28,3,@error);
 call lote_0('LaaabbS9',3,6,5,@ID,@error); -- QQQQQQQQQQQ
 select @error, @ID;
 SELECT SLEEP(1);
+
 insert into PAQUETES_LOTES(ID_paquete,ID_lote) values(28,26);
 SELECT SLEEP(1);
 update LOTES set fecha_pronto=current_timestamp() where ID=26;

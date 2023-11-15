@@ -405,3 +405,73 @@ SELECT LOTES.ID AS id,LOTES.codigo AS codigo,LOTES.ID_ALMACEN AS origen, LOTES.f
 SELECT * FROM LOTES;
 
 insert into DESTINO_LOTE VALUES(26,6,5);
+
+SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(LOTES.ID_troncal) troncal
+        FROM CAMIONES
+        INNER JOIN VEHICULOS ON VEHICULOS.matricula=CAMIONES.matricula
+        LEFT JOIN (select * from LLEVA where fecha_carga is null) LLEVA ON VEHICULOS.matricula=LLEVA.matricula
+        LEFT JOIN PESO_LOTES ON PESO_LOTES.lote = LLEVA.ID_lote
+        LEFT JOIN LOTES ON LOTES.ID= LLEVA.ID_lote
+        where VEHICULOS.baja =0
+        and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula not in(	SELECT TRAE.matricula
+								FROM TRAE
+								where fecha_carga is null)
+        group by VEHICULOS.matricula, VEHICULOS.peso_max
+        having carga_asignada > 2600
+        and (troncal = 5 or troncal is null);
+use surno;
+SELECT * FROM PAQUETES;
+UPDATE LLEVA SET fecha_descarga=current_timestamp where id_lote=26;
+UPDATE LLEVA SET fecha_descarga=current_timestamp() where id_lote=5;
+select * from CONDUCEN WHERE matricula='PQR1234';
+
+select * from PAQUETES;
+#paquete 27
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabb27',18,1,'casa','12312312',0.56);
+SELECT SLEEP(1);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',27);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=27;
+SELECT SLEEP(1);
+call descargar_trae(27,1,@error);
+select * from PAQUETES;
+
+
+#paquete 24
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabb24',18,2,'casa','12312312',0.56);
+SELECT SLEEP(1);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',24);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=24;
+SELECT SLEEP(1);
+call descargar_trae(24,2,@error);
+
+#paquete 25
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabb25',18,3,'casa','12312312',0.56);
+SELECT SLEEP(1);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',25);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=25;
+SELECT SLEEP(1);
+call descargar_trae(25,3,@error);
+SELECT * from PAQUETES;
+#paquete 26
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabb26',18,2,'casa','12312312',0.56);
+SELECT SLEEP(1);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',26);
+SELECT SLEEP(1);
+update TRAE set fecha_carga=current_timestamp where ID_paquete=26;
+SELECT SLEEP(1);
+call descargar_trae(26,2,@error);
+insert into REPARTE (matricula,ID_paquete) values ('CDE3450',25);
+update REPARTE set fecha_carga=current_timestamp where ID_paquete=25;
+/*insert into REPARTE (matricula,ID_paquete) values ('ABD2399',20);
+SELECT SLEEP(1);
+update REPARTE set fecha_carga=current_timestamp where ID_paquete=20;
+SELECT SLEEP(1);
+call entregar_paquete(20,@error);
+select * from TRAE;*/
+SELECT * FROM PAQUETES_ALMACENES;
+select * from TRAE;
+
