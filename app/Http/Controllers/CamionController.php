@@ -417,7 +417,7 @@ class CamionController extends Controller
             return response()->json([
                 'modo' => 'lleva',
                 'coordenadas' => $coordenadas,
-                'almacen' => [$this->ordenToAlmacen($troncal, $ordenOrigen),$this->ordenToAlmacen($troncal, $carga[0]->orden)],
+                'almacen' => [$this->almacenToDireccion( $this->ordenToAlmacen($troncal, $ordenOrigen)),$this->almacenToDireccion($this->ordenToAlmacen($troncal, $carga[0]->orden))],
                 'descargar' => [],
                 'cargar' => $idLotesCarga
             ], 200);
@@ -577,8 +577,6 @@ class CamionController extends Controller
     }
     private function direccionToCooredenadas($direccion)
     {
-
-
         $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
         return $coordenadas;
     }
