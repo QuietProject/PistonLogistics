@@ -11,7 +11,11 @@ use App\Models\PaqueteLote;
 use App\Models\Lote;
 use App\Models\Conduce;
 use App\Models\Orden;
+use App\Models\PaqueteAlmacen;
+use App\Models\Reparte;
+use App\Models\Trae;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use LDAP\Result;
 
@@ -19,6 +23,8 @@ use function PHPUnit\Framework\directoryExists;
 
 class CamionController extends Controller
 {
+    private $apiKey = "9jLvsXLdz76cSLHe37HXXEJM4rw6SZ0hwSz3nZkSPV4";
+
     public function verPaquetes()
     {
 
@@ -146,8 +152,70 @@ class CamionController extends Controller
             ], 422);
         }
         $matricula = $matricula->matricula;
-        return $this->mapaLleva($matricula);
+
+        //LLEVA LOTES
+        if (Lleva::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->exists()) {
+            return $this->mapaLleva($matricula);
+        }
+
+        //TRAE PAQUETES
+        if (Trae::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->exists()) {
+            return response()->json([
+                'message' => 'TRAE PAQUETES',
+            ], 422);
+        }
+        //REPARTE PAQUETES
+        if (Reparte::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->exists()) {
+            return $this->mapaReparte($matricula);
+        }
+
+        //LLEVA ASIGNADO
+        if (Lleva::where('matricula', $matricula)->whereNull('fecha_carga')->exists()) {
+            return $this->mapaLleva($matricula);
+        }
+
+        //TRAE ASIGNADO
+        if (Trae::where('matricula', $matricula)->whereNull('fecha_carga')->exists()) {
+            return response()->json([
+                'message' => 'TRAE ASIGNADO',
+            ], 422);
+        }
+        //REPARTE ASIGNADO
+        if (Reparte::where('matricula', $matricula)->whereNull('fecha_carga')->exists()) {
+            return $this->mapaReparte($matricula);
+        }
+
+
+        return response()->json([
+            'message' => 'El vehiculo no tiene carga asignada',
+        ], 422);
     }
+
+
+    private function mapaReparte($matricula){
+
+        $carga = Reparte::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->get();
+        $asignado = Reparte::where('matricula', $matricula)->whereNull('fecha_carga')->get();
+
+        if(count($carga)==0){
+
+            $almacen = PaqueteAlmacen::where('ID_paquete',$asignado[0]->ID_paquete)->whereNull('hasta')->join('ALMACENES','ALMACENES.ID','PAQUETES_ALMACENES.ID_almacen ')->first();
+
+            dd($almacen);
+
+
+            return response()->json([
+                'carga' => 'pollo'
+            ], 200);
+
+        }
+
+        return response()->json([
+            'carga' => $carga,
+            'asignado' => $asignado,
+        ], 200);
+    }
+
     private function mapaLleva($matricula)
     {
 
@@ -184,7 +252,6 @@ class CamionController extends Controller
         $ultimoOrdenDeTroncal = Orden::where('baja', 0)->where('ID_troncal', $troncal)->max('orden');
 
         $ordenOrigen = self::ordenOrigen($troncal, $matricula, 0);
-
         $lotesCargados = DB::select('SELECT LLEVA.ID_lote, ORDENES.orden, SENTIDO_LOTES.sentido direccion
         FROM LLEVA
         INNER JOIN DESTINO_LOTE ON DESTINO_LOTE.ID_lote=LLEVA.ID_lote
@@ -256,6 +323,7 @@ class CamionController extends Controller
             }
 
 
+
             //TOMA LOS LOTES QUE TIENE QUE CARGAR EN SENTIDO DE LA DIRECCION
             foreach ($lotesAsignados as  $lote) {
                 if (($direccion == 'asc' &&  $ordenOrigen <= $lote->orden) || ($direccion == 'desc' &&  $ordenOrigen >= $lote->orden)) {
@@ -303,10 +371,15 @@ class CamionController extends Controller
                 $idLotesCarga[] = $lote->ID_lote;
             }
 
+            $direccionOrigen = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen));
+            $direccionDestino = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $carga[0]->orden));
+
+            $coordenadas[] = $this->direccionToCooredenadas($direccionOrigen);
+            $coordenadas[] = $this->direccionToCooredenadas($direccionDestino);
+
             return response()->json([
                 'modo' => 'lleva',
-                'origen' => $this->ordenToAlmacen($troncal, $ordenOrigen),
-                'destino' => $this->ordenToAlmacen($troncal, $carga[0]->orden),
+                'coordenadas' => $coordenadas,
                 'descargar' => [],
                 'cargar' => $idLotesCarga
             ], 200);
@@ -317,7 +390,6 @@ class CamionController extends Controller
 
         $carga = [];
         $descarga = [];
-
 
         //VER CUALES LOTES CARGADOS ESTAN UBICADOS DEL LADO HACIA EL QUE VA LA DIRECCION DEL CAMION
         foreach ($lotesAsignados as  $lote) {
@@ -349,7 +421,7 @@ class CamionController extends Controller
             }
         }
         //TOMO ORDEN DESTINO COMO EL ORDEN DEL PAQUETE ASIGNADO MAS CERCANO O COMO EL PRIMERO DE LA TRONCAL(EN CASO DE LA DIRECCION SER DESCENDENTE) O EL ULTMO (EN CASO DE SER ASCENDENTE)
-        if (isset($carga)) {
+        if (!empty($carga)) {
             $ordenDestino = $carga[0]->orden;
         } else {
             $ordenDestino = $direccion == 'asc' ? $ultimoOrdenDeTroncal : 1;
@@ -363,6 +435,7 @@ class CamionController extends Controller
                 $descarga = [];
                 $carga = [];
                 $descarga[] = $lote;
+                $ordenDestino = $lote->orden;
             }
         }
         $idLotesCarga = [];
@@ -373,11 +446,15 @@ class CamionController extends Controller
         foreach ($descarga as $lote) {
             $idLotesDescarga[] = $lote->ID_lote;
         }
+        $direccionOrigen = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen));
+        $direccionDestino = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenDestino));
+
+        $coordenadas[] = $this->direccionToCooredenadas($direccionOrigen);
+        $coordenadas[] = $this->direccionToCooredenadas($direccionDestino);
 
         return response()->json([
             'modo' => 'lleva',
-            'origen' => $this->ordenToAlmacen($troncal, $ordenOrigen),
-            'destino' => $this->ordenToAlmacen($troncal, $ordenDestino),
+            'coordenadas' => $coordenadas,
             'descargar' => $idLotesDescarga,
             'cargar' => $idLotesCarga
         ], 200);
@@ -433,5 +510,18 @@ class CamionController extends Controller
         WHERE ID_almacen=?
         AND ID_troncal=?
         ', [$almacen, $troncal])[0]->orden;
+    }
+    private function almacenToDireccion($almacen)
+    {
+        return DB::select('SELECT direccion
+        FROM ALMACENES
+        WHERE ID=?
+        ', [$almacen])[0]->direccion;
+    }
+    private function direccionToCooredenadas($direccion)
+    {
+
+        $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
+        return $coordenadas;
     }
 }
