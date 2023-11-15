@@ -43,7 +43,9 @@
                     <tbody>
                         @foreach ($vehiculos as $vehiculo)
                             <tr>
-                                <td>{{ $vehiculo->matricula }}</td>
+                                <td><a target="_blank" href="{{ route('vehiculos.show', $vehiculo->matricula) }}">
+                                    {{ $vehiculo->matricula }}</a>
+                            </td>
                                 <td>{{ $vehiculo->paquetes_asignados }}</td>
                                 <td>{{ $vehiculo->peso_max }}kg</td>
                                 <td>{{ $vehiculo->tipo == 1 ? 'camioneta' : 'camion' }}</td>

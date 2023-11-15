@@ -1,53 +1,55 @@
 <x-layout titulo='Reparte' menu='7'>
     <div class="display">
-        <h2 class="titleText">{{ __("Asignar Paquete") }} {{ $paquete->ID_paquete }}</h2>
-        <input type="text" id="searchInput" class="filterText" placeholder={{ __("Buscar") }} onkeyup="searchFilter()">
+        <h2 class="titleText">{{ __('Asignar Paquete') }} {{ $paquete->ID_paquete }}</h2>
+        <input type="text" id="searchInput" class="filterText" placeholder={{ __('Buscar') }} onkeyup="searchFilter()">
         <div class="infoBox">
             <div class="infoContainer">
                 <p>ID: </p>
                 <p>{{ $paquete->ID_paquete }}</p>
             </div>
             <div class="infoContainer">
-                <p>{{ __("Codigo") }}: </p>
+                <p>{{ __('Codigo') }}: </p>
                 <p>{{ $paquete->codigo }}</p>
             </div>
             <div class="infoContainer">
-                <p>{{ __("Fecha registrado") }}: </p>
+                <p>{{ __('Fecha registrado') }}: </p>
                 <p>{{ \Carbon\Carbon::parse($paquete->fecha_registrado)->format('d/m/y H:i') }}</p>
             </div>
             <div class="infoContainer">
-                <p>{{ __("En Almacen") }}: </p>
+                <p>{{ __('En Almacen') }}: </p>
                 <p><a target="_blank"
                         href="{{ route('almacenes.show', $paquete->ID_almacen) }}">{{ $paquete->ID_almacen }} -
                         {{ $paquete->nombre }}</a></p>
             </div>
             <div class="infoContainer">
-                <p>{{ __("Desde") }}: </p>
+                <p>{{ __('Desde') }}: </p>
                 <p>{{ \Carbon\Carbon::parse($paquete->desde)->format('d/m/y H:i') }}</p>
             </div>
             <div class="infoContainer">
-                <p>{{ __("Peso") }}: </p>
+                <p>{{ __('Peso') }}: </p>
                 <p>{{ $paquete->peso }} KG</p>
             </div>
         </div>
         <form action="{{ route('reparte.store', $paquete->ID_paquete) }}" method="POST">
             @csrf
-            <h3 class="tableTitle">{{ __("Elegir camioneta") }}</h3>
+            <h3 class="tableTitle">{{ __('Elegir camioneta') }}</h3>
             <div class="tableContainer">
                 <table id="tableDrivers" class="tableView">
                     <thead>
                         <tr>
-                            <th style="20%">{{ __("Matricula") }}</th>
-                            <th style="20%">{{ __("Carga asignada") }}</th>
-                            <th style="20%">{{ __("Peso maximo") }}</th>
-                            <th style="20%">{{ __("Almacen asignado") }}</th>
+                            <th style="20%">{{ __('Matricula') }}</th>
+                            <th style="20%">{{ __('Carga asignada') }}</th>
+                            <th style="20%">{{ __('Peso maximo') }}</th>
+                            <th style="20%">{{ __('Almacen asignado') }}</th>
                             <th style="20%"></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($camionetas as $camioneta)
                             <tr>
-                                <td>{{ $camioneta->matricula }}</td>
+                                <td><a target="_blank" href="{{ route('vehiculos.show', $camioneta->matricula) }}">
+                                        {{ $camioneta->matricula }}</a>
+                                </td>
                                 <td>{{ $camioneta->carga_asignada }}kg</td>
                                 <td>{{ $camioneta->peso_max }}kg</td>
                                 <td>{{ $camioneta->almacen ? $camioneta->almacen : '-' }}</td>
@@ -57,7 +59,7 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="switchBtn">{{ __("Asignar") }}</button>
+            <button type="submit" class="switchBtn">{{ __('Asignar') }}</button>
         </form>
     </div>
 </x-layout>
