@@ -549,7 +549,7 @@ class CamionController extends Controller
     }
     private function almacenToCoordenadas($almacen)
     {
-        return DB::select('SELECT lat, lng
+        return DB::select('SELECT latitud lan, longitud lng
         FROM ALMACENES
         WHERE ID=?
         ', [$almacen])[0];
