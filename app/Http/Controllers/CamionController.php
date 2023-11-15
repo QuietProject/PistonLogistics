@@ -486,12 +486,9 @@ class CamionController extends Controller
         }
         $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
         $coordenadasDestino = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenDestino));
-        $this->almacenToDi
+
         $coordenadas[] = $coordenadasOrigen;
         $coordenadas[] = $coordenadasDestino;
-
-
-        dd([])
 
         return response()->json([
             'modo' => 'lleva',
