@@ -240,7 +240,6 @@ CREATE TABLE LLEVA (
     ID_lote INT PRIMARY KEY,
     matricula CHAR(7),
     fecha_asignado TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    fecha_estimada TIMESTAMP NULL DEFAULT NULL,
     fecha_carga TIMESTAMP NULL DEFAULT NULL,
     fecha_descarga TIMESTAMP NULL DEFAULT NULL,
     FOREIGN KEY (ID_lote)
@@ -253,8 +252,6 @@ CREATE TABLE LLEVA (
 
 ALTER TABLE LLEVA 
 	ADD CONSTRAINT LLEVA_FECHAS_CARGA CHECK ((fecha_carga<fecha_descarga and fecha_carga is not null and fecha_descarga is not null )OR fecha_descarga is null );
-ALTER TABLE LLEVA
-	ADD CONSTRAINT LLEVA_FECHAS_ESTIMADA CHECK ((fecha_carga<fecha_estimada and fecha_carga is not null and fecha_estimada is not null )OR fecha_estimada is null );
 ALTER TABLE LLEVA
 	ADD CONSTRAINT LLEVA_FECHAS_ASIGNADO CHECK (fecha_asignado<fecha_carga);
 
