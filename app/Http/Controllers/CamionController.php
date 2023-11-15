@@ -219,24 +219,29 @@ class CamionController extends Controller
     }
 
 
-    private function mapaReparte($matricula){
+
+
+
+
+
+    private function mapaReparte($matricula)
+    {
 
         $carga = Reparte::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->get();
         $asignado = Reparte::where('matricula', $matricula)->whereNull('fecha_carga')->get();
 
-        if(count($carga)==0){
+        if (count($carga) == 0) {
 
             $almacen = DB::select('SELECT *
             FROM PAQUETES_ALMACENES
             INNER JOIN ALMACENES ON ALMACENES.ID = PAQUETES_ALMACENES.ID_almacen
             where ID_paquete=?
-            and hasta is null',[$asignado[0]->ID_paquete])[0];
+            and hasta is null', [$asignado[0]->ID_paquete])[0];
 
             return response()->json([
                 'modo' => 'reparte',
-                'puntos' => [['lat'=>$almacen->latitud,'lng'=>$almacen->latitud],'direccion'=> $almacen->direccion,'codigo'=>$almacen->nombre,'peso'=>false]
+                'puntos' => [   ['lat' => $almacen->latitud, 'lng' => $almacen->latitud], 'direccion' => $almacen->direccion, 'codigo' => $almacen->nombre, 'peso' => false]
             ], 200);
-
         }
 
 
@@ -246,18 +251,34 @@ class CamionController extends Controller
         INNER JOIN ALMACENES ON ALMACENES.ID = PAQUETES_ALMACENES.ID_almacen
         where ID_paquete=?
         order by hasta desc
-        limit 1',[$carga[0]->ID_paquete])[0];
+        limit 1', [$carga[0]->ID_paquete])[0];
 
-
-        foreach($carga as $paquete){
+        foreach ($carga as $paquete) {
             $direccion = $this->idPaqueteToDireccion($paquete->ID_paquete);
             $data = $this->idPaqueteToData($paquete->ID_paquete);
-            $puntos[] = ['coordenadas'=>$this->direccionToCooredenadas($direccion),'direccion'=>$direccion, 'codigo'=>$data->codigo,'peso'=>$data->peso];
+            $puntos[] = ['coordenadas'=>$this->direccionToCooredenadas($direccion), 'direccion' => $direccion, 'codigo' => $data->codigo, 'peso' => $data->peso];
         }
+        $puntos[] = ['coordenadas'=>['lat' => $almacenOrigen->latitud, 'lng' => $almacenOrigen->longitud], 'direccion' => $almacenOrigen->direccion, 'codigo' => $almacenOrigen->nombre, 'peso' => false];
 
-        $puntos[] = [['lat'=>$almacenOrigen->latitud,'lng'=>$almacenOrigen->latitud],'direccion'=> $almacenOrigen->direccion,'codigo'=>$almacenOrigen->nombre,'peso'=>false];
+        /*
+        foreach($puntos as $i => $punto){
+            $lat = $punto['coordenadas']['lat'];
+            $lng = $punto['coordenadas']['lng'];
+            $codigo= $punto['codigo'];
+            if($i==0){
+                $params = "start=$codigo;$lat;$lng";
+            }
+            if($i==count($puntos)-1){
+                $params = $params."&amp;end=$codigo;$lat;$lng";
+            }
+            $params = $params."&amp;destination$i=$codigo;$lat;$lng";
+        }
+        dd(urlencode($params));
+        $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://wps.hereapi.com/v8/findsequence2?$params&amp;improveFor=time&amp;&amp;mode=fastest;car;traffic:enabled?apikey=$this->apiKey");
+        dd($coordenadas);
+        $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
+        */
 
-        dd($puntos);
         return response()->json([
             'modo' => 'reparte',
             'puntos' => $puntos
@@ -432,7 +453,7 @@ class CamionController extends Controller
             return response()->json([
                 'modo' => 'lleva',
                 'coordenadas' => $coordenadas,
-                'almacen' => [$this->almacenToDireccion( $this->ordenToAlmacen($troncal, $ordenOrigen)),$this->almacenToDireccion($this->ordenToAlmacen($troncal, $carga[0]->orden))],
+                'almacen' => [$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen)), $this->almacenToDireccion($this->ordenToAlmacen($troncal, $carga[0]->orden))],
                 'descargar' => [],
                 'cargar' => $idLotesCarga
             ], 200);
@@ -511,7 +532,7 @@ class CamionController extends Controller
         return response()->json([
             'modo' => 'lleva',
             'coordenadas' => $coordenadas,
-            'almacen' => [$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen)),$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenDestino))],
+            'almacen' => [$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen)), $this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenDestino))],
             'descargar' => $codigoLotesDescarga,
             'cargar' => $codigoLotesCarga
         ], 200);
@@ -605,7 +626,6 @@ class CamionController extends Controller
     }
     private function idPaqueteToDireccion($id)
     {
-        return Paquete::where('ID',$id)->pluck('direccion')[0];
-
+        return Paquete::where('ID', $id)->pluck('direccion')[0];
     }
 }
