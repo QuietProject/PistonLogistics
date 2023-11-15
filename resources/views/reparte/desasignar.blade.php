@@ -1,11 +1,13 @@
 <x-layout titulo='Reparte' menu='7' import1="../css/styleLlevaReparteTrae.css">
     <div class="display">
         <h2 class="titleText">{{ __('Paquetes asignados en reparte') }}</h2>
+        <input type="text" id="searchInput" class="filterText" placeholder={{ __('Buscar') }}
+        onkeyup="searchFilter()">
         @if (count($paquetes) == 0)
             <p class="textNegative">{{ __('No hay paquetes asignados') }}</p>
         @else
             <div class="tableContainer">
-                <table tableView" id="tableDriver" class="tableView">
+                <table tableView id="tableDriver" class="tableView">
                     <thead>
                         <tr>
                             <th onclick="sortTable(0);arrowsTable(0);" id="0">{{ __('Paquete') }} </th>
@@ -15,9 +17,9 @@
                             <th onclick="sortTable(4);arrowsTable(4);" id="4">{{ __('Peso') }}</th>
                             <th onclick="sortTable(5);arrowsTable(5);" id="5">
                                 {{ __('Fecha de ingreso al almacen') }}</th>
-                            <th onclick="sortTable(5);arrowsTable(5);" id="5">{{ __('Fecha asignado') }}</th>
-                            <th onclick="sortTable(5);arrowsTable(5);" id="5">{{ __('Camioneta') }}</th>
-                            <th onclick="sortTable(6);arrowsTable(6);" id="6">{{ __('Desasignar') }}</th>
+                            <th onclick="sortTable(6);arrowsTable(6);" id="6">{{ __('Fecha asignado') }}</th>
+                            <th onclick="sortTable(7);arrowsTable(7);" id="7">{{ __('Camioneta') }}</th>
+                            <th onclick="sortTable(8);arrowsTable(8);" id="8">{{ __('Desasignar') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,3 +54,4 @@
         @endif
     </div>
 </x-layout>
+<script src="../javascript/scriptConductor.js"></script>

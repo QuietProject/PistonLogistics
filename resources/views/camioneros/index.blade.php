@@ -112,4 +112,4 @@
     </div>
 </x-layout>
 
-<script src="../javascript/scriptCamionero.js"></script>
+<script src="../javascript/scriptConductor.js"></script>

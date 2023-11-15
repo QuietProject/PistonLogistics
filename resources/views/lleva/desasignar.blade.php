@@ -1,11 +1,13 @@
 <x-layout titulo='Lleva' menu='7' import1="../css/styleLlevaReparteTrae.css">
     <div class="display">
         <h2 class="titleText">{{ __("Lotes asignados a camiones") }}</h2>
+        <input type="text" id="searchInput" class="filterText" placeholder={{ __('Buscar') }}
+        onkeyup="searchFilter()">
         @if (count($lotes) == 0)
             <p class="textNegative">{{ __("No hay lotes para asignar") }}</p>
         @else
             <div class="tableContainer">
-                <table tableView" id="tableDriver" class="tableView">
+                <table tableView id="tableDriver" class="tableView">
                     <thead>
                         <tr>
                             <th onclick="sortTable(0);arrowsTable(0);" id="0">{{ __("Lote") }}</th>
@@ -55,3 +57,4 @@
         @endif
     </div>
 </x-layout>
+<script src="../javascript/scriptConductor.js"></script>
