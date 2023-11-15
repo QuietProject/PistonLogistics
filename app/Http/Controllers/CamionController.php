@@ -405,7 +405,7 @@ class CamionController extends Controller
             }
 
             foreach ($carga as $lote) {
-                $idLotesCarga[] = $lote->ID_lote;
+                $idLotesCarga[] = $this->idLoteToCodigo($lote->ID_lote);
             }
             $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
             $coordenadasDestino = $this->almacenToCoordenadas(($this->ordenToAlmacen($troncal, $carga[0]->orden)));
@@ -476,13 +476,13 @@ class CamionController extends Controller
                 $ordenDestino = $lote->orden;
             }
         }
-        $idLotesCarga = [];
+        $codigoLotesCarga = [];
         foreach ($carga as $lote) {
-            $idLotesCarga[] = $lote->ID_lote;
+            $codigoLotesCarga[] = $this->idLoteToCodigo($lote->ID_lote);
         }
-        $idLotesDescarga = [];
+        $codigoLotesDescarga = [];
         foreach ($descarga as $lote) {
-            $idLotesDescarga[] = $lote->ID_lote;
+            $codigoLotesDescarga[] = $this->idLoteToCodigo($lote->ID_lote);
         }
         $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
         $coordenadasDestino = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenDestino));
@@ -490,12 +490,15 @@ class CamionController extends Controller
         $coordenadas[] = $coordenadasOrigen;
         $coordenadas[] = $coordenadasDestino;
 
+
+
+
         return response()->json([
             'modo' => 'lleva',
             'coordenadas' => $coordenadas,
             'almacen' => [$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen)),$this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenDestino))],
-            'descargar' => $idLotesDescarga,
-            'cargar' => $idLotesCarga
+            'descargar' => $codigoLotesDescarga,
+            'cargar' => $codigoLotesCarga
         ], 200);
     }
 
@@ -563,6 +566,14 @@ class CamionController extends Controller
         FROM ALMACENES
         WHERE ID=?
         ', [$almacen])[0]->direccion;
+    }
+
+    private function idLoteToCodigo($idLote)
+    {
+        return DB::select('SELECT codigo
+        FROM LOTES
+        WHERE ID=?
+        ', [$idLote])[0]->direccion;
     }
     private function direccionToCooredenadas($direccion)
     {
