@@ -246,6 +246,7 @@ class CamionController extends Controller
         order by hasta desc
         limit 1',[$carga[0]->ID_paquete])[0];
 
+        dd($almacenOrigen);
         return response()->json([
             'modo' => 'reparte',
             'coordenadas' => []
@@ -416,6 +417,7 @@ class CamionController extends Controller
             return response()->json([
                 'modo' => 'lleva',
                 'coordenadas' => $coordenadas,
+                'almacen' => [$this->ordenToAlmacen($troncal, $ordenOrigen),$this->ordenToAlmacen($troncal, $carga[0]->orden)],
                 'descargar' => [],
                 'cargar' => $idLotesCarga
             ], 200);
@@ -492,6 +494,7 @@ class CamionController extends Controller
         return response()->json([
             'modo' => 'lleva',
             'coordenadas' => $coordenadas,
+            'almacen' => [$this->ordenToAlmacen($troncal, $ordenOrigen),$this->ordenToAlmacen($troncal, $ordenDestino)],
             'descargar' => $idLotesDescarga,
             'cargar' => $idLotesCarga
         ], 200);
