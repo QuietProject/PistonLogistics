@@ -368,7 +368,7 @@ class PaqueteController extends Controller
     /*************************************************************************************************************************************/
 
     public function cambiarPeso($id, $peso){
-        $paquete = Paquete::find($id);
+        $paquete = Paquete::where("codigo", $id)->first();
         if ($paquete === null) {
             return response()->json([
                 "message" => "Paquete no encontrado"
