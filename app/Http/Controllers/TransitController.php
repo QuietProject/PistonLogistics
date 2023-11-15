@@ -17,6 +17,7 @@ class TransitController extends Controller
         $response = Http::withHeaders(["Authorization" => "Bearer " . session('token')])->acceptJson()->get(env("TRANSIT_API_URL") . "camion/mapa?cedula=$cedula")->json();
 
         $modo = $response["modo"];
+        // dd($modo);
         
         if ($modo == "lleva"){
             $coordenadas = $response["coordenadas"];

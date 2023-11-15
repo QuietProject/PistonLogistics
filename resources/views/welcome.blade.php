@@ -64,7 +64,7 @@
                     </div>
                     <div>
                         <label for="codPaquete">{{ __("Codigo del paquete") }}</label>
-                        <input id="codPaquete" type="number" name="codigoPaquete" required>
+                        <input id="codPaquete" type="text" maxlength="8" minlength="8" name="codigoPaquete" required>
                     </div>
                     <input type="submit" value="{{ __("Rastrear") }}">
                 </form>

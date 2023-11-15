@@ -193,7 +193,7 @@ header div img {
     font-weight: 500;
 }
 
-.menuRastreo input[type="number"] {
+.menuRastreo input[type="text"] {
     padding: .7rem;
     font-size: 1rem;
     font-weight: 300;
@@ -205,8 +205,8 @@ header div img {
     text-align: center;
 }
 
-.menuRastreo input[type="number"]::-webkit-outer-spin-button,
-.menuRastreo input[type="number"]::-webkit-inner-spin-button {
+.menuRastreo input[type="text"]::-webkit-outer-spin-button,
+.menuRastreo input[type="text"]::-webkit-inner-spin-button {
     -moz-display: none;
     -moz-appearance: textfield;
     appearance: textfield;

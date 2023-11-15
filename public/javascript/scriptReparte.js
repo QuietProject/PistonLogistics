@@ -14,7 +14,7 @@ if (document.documentElement.lang === "es") {
     mapa.className = "mapa";
     const entregar = document.createElement("div");
     entregar.style.display = "none";
-    entregar.className = "mapa";
+    entregar.className = "entregar";
 
     const btnVolverMapa = document.createElement("div");
     btnVolverMapa.innerHTML = "<i class='bx bx-left-arrow-alt'></i>";
@@ -31,6 +31,24 @@ if (document.documentElement.lang === "es") {
     const btnVolverEntregar = document.createElement("div");
     btnVolverEntregar.innerHTML = "<i class='bx bx-left-arrow-alt'></i>";
     entregar.appendChild(btnVolverEntregar);
+
+    const inputDiv = document.createElement("div");
+    const confirmarDiv = document.createElement("div");
+    entregar.appendChild(inputDiv);
+    entregar.appendChild(confirmarDiv);
+    const inputCodigo = document.createElement("input");
+    inputCodigo.setAttribute("type", "text");
+    inputCodigo.setAttribute("placeholder", "Codigo");
+    inputCodigo.setAttribute("minlength", "8");
+    inputCodigo.setAttribute("maxlength", "8");
+    const tituloEntregar = document.createElement("h1");
+    tituloEntregar.textContent = "Entregar Paquete";
+    inputDiv.appendChild(tituloEntregar);
+    inputDiv.appendChild(inputCodigo);
+    const btnConfirmar = document.createElement("input");
+    btnConfirmar.setAttribute("type", "Submit");
+    btnConfirmar.setAttribute("value", "Submit");
+    confirmarDiv.appendChild(btnConfirmar);
 
     var rutas = document.createElement("div");
     const botones = document.createElement("div");
