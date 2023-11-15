@@ -36,10 +36,20 @@
         <div class="sideMenu" id="sideMenu">
             <div>
                 <div>
-                    <div></div>
+                    <div>
+                        <a class="cambioIdioma" href="{{ route('locale', app()->getLocale() == 'es' ? 'en' : 'es') }}">
+                            <h2>{{ app()->getLocale() == 'es' ? 'en' : 'es' }}</h2>
+                        </a>
+                    </div>
                     <a href="#home" id="homeLink">{{ __("Inicio") }}</a>
                     <a href="#aboutUs" id="aboutUsLink">{{ __("Sobre Nosotros") }}</a>
                     <a href="#preguntas" id="preguntasLink">{{ __("Preguntas Frecuentes") }}</a>
+                </div>
+                <div>
+                    <form action="{{ route('login') }}">
+                        @csrf
+                        <button type="submit">{{ __("Iniciar Sesion") }}</button>
+                    </form>
                 </div>
             </div>
         </div>

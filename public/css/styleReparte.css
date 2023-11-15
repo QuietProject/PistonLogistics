@@ -277,32 +277,12 @@ td{
 } */
 
 .leaflet-routing-container-hide .leaflet-routing-collapse-btn{
-    top: 2px !important;
+    top: 0 !important;
     left: 2px !important;
-    cursor: pointer;
 }
 
 .leaflet-routing-alt  td{
     color: black;
-}
-
-.leaflet-routing-container h2 {
-    width: 250px !important;
-}
-.leaflet-routing-collapse-btn {
-    right: 19px !important;
-    font-size: 3em !important;
-    color: black !important;
-    cursor: pointer;
-}
-
-.leaflet-routing-container, .leaflet-routing-error {
-    padding-top: 0 !important;
-}
-
-.leaflet-routing-alt, .leaflet-routing-geocoders, .leaflet-routing-error {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
 }
 
 footer {

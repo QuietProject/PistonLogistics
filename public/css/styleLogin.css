@@ -88,12 +88,16 @@ h1{
     border-top: 1px solid white;
     padding: 10px;
     width: 80%;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
 .logInContainer > div:nth-child(4){
     height: 20vh;
     width: 80%;
     justify-content: end;
+    display: flex;
+    align-items: center;
 }
 
 
@@ -138,6 +142,43 @@ input:-webkit-autofill,
 input:-webkit-autofill:focus {
     transition: background-color 0s 600000s, color 0s 600000s;
 }
+
+.cambioIdioma{
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    border: 2px solid var(--highlight);
+    /* box-shadow: 0px 0px 10px -1px black; */
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.cambioIdioma:hover{
+    box-shadow: 0px 0px 10px -1px black;
+}
+.cambioIdioma > div{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cambioIdioma > div > h2{
+    font-size: 1.8em;
+    color: var(--highlight);
+    text-shadow:
+    0px 0px 0px black,
+    0 0 1em black,
+    0 0 0.2em black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3px;
+}
+
 
 @keyframes focus {
     0%{

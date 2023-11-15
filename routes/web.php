@@ -30,7 +30,8 @@ Route::middleware(LocaleCookieMiddleware::class)->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, "logout"])->name('logout');
 
     Route::middleware("authorize:2")->group(function () {
-        Route::view("/camionero", "camionero")->name("camionero");
+        Route::get("/camionero", [TransitController::class, "mapa"])->name("camionero");
+        Route::view("/reparte", "reparte")->name("reparte");
     });
 
     Route::middleware("authorize:3")->group(function () {

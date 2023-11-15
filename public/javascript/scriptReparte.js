@@ -25,11 +25,6 @@ if (document.documentElement.lang === "es") {
                                 <p>Peso</p>
                             </div>
                         </th>
-                        <th class="columna" data-columna="accion">
-                            <div>
-                                <p>Accion</p>
-                            </div>
-                        </th>
                     </tr> 
                 </thead>
                 <tbody>
@@ -39,7 +34,6 @@ if (document.documentElement.lang === "es") {
                             `<tr class="hoverRow">
                     <td data-columna="codigo">${lote["codigo"]}</td>
                     <td data-columna="peso">${lote["peso"]}</td>
-                    <td data-columna="operacion">${lote["operacion"]}</td>
                 </tr>`
                     )
                     .join("")}
@@ -74,6 +68,8 @@ if (document.documentElement.lang === "es") {
     rutas.appendChild(origen);
     rutas.appendChild(destino);
 
+    let almacenOrigen = "Montevideo";
+    let almacenDestino = "Artigas";
 
     origen.innerHTML = `<p>${almacenOrigen}</p><p>O</p>`;
     destino.innerHTML = `<p>${almacenDestino}</p><p>D</p>`;
@@ -100,6 +96,35 @@ if (document.documentElement.lang === "es") {
         envio.style.display = "none";
         mapa.style.display = "flex";
     });
+
+    // let viajeComenzado = false;
+    // comenzar.addEventListener("click", () => {
+    //     if (viajeComenzado) {
+    //     }else{
+    //         Swal.fire({
+    //             title: "Seguro?",
+    //             text: "Seguro que quieres comenzar el viaje?",
+    //             icon: "warning",
+    //             showCancelButton: true,
+    //             confirmButtonColor: "#3085d6",
+    //             cancelButtonColor: "#d33",
+    //             confirmButtonText: "Comenzar",
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 Swal.fire({
+    //                     title: "Comenzado!",
+    //                     text: "Buen viaje!",
+    //                     icon: "success",
+    //                 }).then((result) => {
+    //                     envio.style.display = "none";
+    //                     mapa.style.display = "flex";
+    //                     viajeComenzado = true;
+    //                     comenzar.setAttribute("disabled", true);
+    //                 });
+    //             }
+    //         });
+    //     }
+    // });
 
     const btnVolverCarga = document.getElementById("btnVolverCarga");
     btnVolverCarga.addEventListener("click", () => {
@@ -160,11 +185,6 @@ if (document.documentElement.lang === "es") {
                                 <p>Weight</p>
                             </div>
                         </th>
-                        <th class="columna" data-columna="accion">
-                            <div>
-                                <p>Action</p>
-                            </div>
-                        </th>
                     </tr> 
                 </thead>
                 <tbody>
@@ -174,7 +194,6 @@ if (document.documentElement.lang === "es") {
                             `<tr class="hoverRow">
                     <td data-columna="codigo">${lote["codigo"]}</td>
                     <td data-columna="peso">${lote["peso"]}</td>
-                    <td data-columna="operacion">${lote["operacion"]}</td>
                 </tr>`
                     )
                     .join("")}
@@ -209,8 +228,8 @@ if (document.documentElement.lang === "es") {
     rutas.appendChild(origen);
     rutas.appendChild(destino);
 
-    // let almacenOrigen = "Montevideo";
-    // let almacenDestino = "Artigas";
+    let almacenOrigen = "Montevideo";
+    let almacenDestino = "Artigas";
 
     origen.innerHTML = `<p>${almacenOrigen}</p><p>O</p>`;
     destino.innerHTML = `<p>${almacenDestino}</p><p>D</p>`;

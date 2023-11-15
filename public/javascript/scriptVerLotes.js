@@ -621,12 +621,12 @@ if (document.documentElement.lang === "es") {
 
             Swal.fire({
                 title: "Are you sure?",
-                text: "Surely you want to prepare this package?",
+                text: "Surely you want to ready up this batch?",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
-                confirmButtonText: "Prepare",
+                confirmButtonText: "Ready up",
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = route;

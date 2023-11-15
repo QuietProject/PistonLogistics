@@ -8,19 +8,22 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/styleMenu.css">
-    <link rel="stylesheet" href="./css/styleCamionero.css">
+    <link rel="stylesheet" href="./css/styleReparte.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    {{-- <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css" /> --}}
     <link rel="stylesheet" href="./css/leaflet-gps.css">
 
     <script defer src="./javascript/leaflet-gps.js"></script>
+    {{-- <script defer src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js" charset="utf-8"></script> --}}
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script defer src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <title>Camioneros</title>
+    <title>Reparte</title>
 </head>
 
 <body>
@@ -46,11 +49,7 @@
     <div class="sideMenu" id="sideMenu">
         <div>
             <div>
-                <div>
-                    <a class="cambioIdioma" href="{{ route('locale', app()->getLocale() == 'es' ? 'en' : 'es') }}">
-                        <h2>{{ app()->getLocale() == 'es' ? 'en' : 'es' }}</h2>
-                    </a>
-                </div>
+
             </div>
             <div>
                 <form method="POST" action="{{ route('logout') }}">
@@ -73,37 +72,81 @@
     </footer>
 
     <script defer src="./javascript/scriptMenu.js"></script>
+    <script defer src="./javascript/scriptReparte.js"></script>
     <script defer>
-        let almacen = {!! json_encode($almacen) !!};
-
-        var almacenOrigen = almacen[0];
-        var almacenDestino = almacen[1];
-
-        let cargar = {!! json_encode($cargar) !!};
-        let descargar = {!! json_encode($descargar) !!};
-
-        let lotesCarga = cargar.map(function(lote) {
-            lote.operacion = '{{ __('Cargar') }}';
-            return lote;
-        });
-
-        let lotesDescarga = descargar.map(function(lote) {
-            lote.operacion = '{{ __('Descargar') }}';
-            return lote;
-        });
-
-        var lotes = lotesCarga.concat(lotesDescarga);
-
+        var lotes = [{
+                codigo: '001',
+                peso: '10 kg'
+            },
+            {
+                codigo: '002',
+                peso: '15 kg'
+            },
+            {
+                codigo: '003',
+                peso: '12 kg'
+            }, {
+                codigo: '001',
+                peso: '10 kg'
+            },
+            {
+                codigo: '002',
+                peso: '15 kg'
+            },
+            {
+                codigo: '003',
+                peso: '12 kg'
+            }, {
+                codigo: '001',
+                peso: '10 kg'
+            },
+            {
+                codigo: '002',
+                peso: '15 kg'
+            },
+            {
+                codigo: '003',
+                peso: '12 kg'
+            }, {
+                codigo: '001',
+                peso: '10 kg'
+            },
+            {
+                codigo: '002',
+                peso: '15 kg'
+            },
+            {
+                codigo: '003',
+                peso: '12 kg'
+            }, {
+                codigo: '001',
+                peso: '10 kg'
+            },
+            {
+                codigo: '002',
+                peso: '15 kg'
+            },
+            {
+                codigo: '003',
+                peso: '12 kg'
+            }, {
+                codigo: '001',
+                peso: '10 kg'
+            },
+            {
+                codigo: '002',
+                peso: '15 kg'
+            },
+            {
+                codigo: '003',
+                peso: '12 kg'
+            },
+        ];
     </script>
-    <script defer src="./javascript/scriptCamionero.js"></script>
-
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            let coordenadas = {!! json_encode($coordenadas) !!};
-
-            var marker1Coordinates = [coordenadas[0]['lat'], coordenadas[0]['lng']];
-            var marker2Coordinates = [coordenadas[1]['lat'], coordenadas[1]['lng']];
+            var marker1Coordinates = [-34.8783199, -56.1765372];
+            var marker2Coordinates = [-34.91375, -56.1879485];
             var center = marker1Coordinates;
 
 

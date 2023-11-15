@@ -11,6 +11,11 @@
 </head>
 
 <body>
+    <a class="cambioIdioma" href="{{ route('locale', app()->getLocale() == 'es' ? 'en' : 'es') }}">
+        <div>
+            <h2>{{ app()->getLocale() == 'es' ? 'en' : 'es' }}</h2>
+        </div>
+    </a>
     <form class="logInContainer" method="POST" action=" {{ route('login') }} ">
         @csrf
 
@@ -25,6 +30,7 @@
             <input type="password" name="password" required placeholder="{{ __("Contraseña") }}" minlength="8">
         </div>
         <div>
+            <a href="{{ env("BACKOFFICE_URL") }}?front">¿Olvidaste tu contraseña?</a>
             <input type="submit" value="{{ __("Iniciar Sesión") }}" id="buttonLogIn">
         </div>
     </form>

@@ -216,7 +216,11 @@
     <div class="sideMenu" id="sideMenu">
         <div>
             <div>
-                <div></div>
+                <div>
+                    <a class="cambioIdioma" href="{{ route('locale', app()->getLocale() == 'es' ? 'en' : 'es') }}">
+                        <h2>{{ app()->getLocale() == 'es' ? 'en' : 'es' }}</h2>
+                    </a>
+                </div>
                 <a href="../almacenDescarga">{{ __("Descarga") }}</a>
                 <a href="../verPaquetes">{{ __("Paquetes") }}</a>
                 <a href="../verLotes">{{ __("Lotes") }}</a>
