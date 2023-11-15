@@ -17,15 +17,14 @@ use App\Http\Controllers\PaqueteController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::get("camion/paquetes", [CamionController::class, "verPaquetes"]);
-Route::get("camion/lotes", [CamionController::class, "verLotes"]);
-/*Route::get("camion/arrancarJornal/{matricula}", [CamionController::class, "arrancarJornal"]);
-Route::get("camion/terminarJornal", [CamionController::class, "terminarJornal"]);*/
-Route::get("verEstado/{id}", [CamionController::class, "verEstado"]);
-Route::get("entregar/{codigo}", [PaqueteController::class, "entregarPaquete"]);
-Route::get("camion/mapa", [CamionController::class, "mapa"]);
-Route::get("camion", [CamionController::class, "getCamion"]);
+Route::middleware("authorize:2")->group(function () {
+    Route::get("camion/paquetes", [CamionController::class, "verPaquetes"]);
+    Route::get("camion/lotes", [CamionController::class, "verLotes"]);
+    /*Route::get("camion/arrancarJornal/{matricula}", [CamionController::class, "arrancarJornal"]);
+    Route::get("camion/terminarJornal", [CamionController::class, "terminarJornal"]);*/
+    Route::get("verEstado/{id}", [CamionController::class, "verEstado"]);
+    Route::get("entregar/{codigo}", [PaqueteController::class, "entregarPaquete"]);
+    Route::get("camion/mapa", [CamionController::class, "mapa"]);
+    Route::get("camion", [CamionController::class, "getCamion"]);
+});
