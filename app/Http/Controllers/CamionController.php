@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Almacen;
+use App\Models\AlmacenPropio;
 use Illuminate\Http\Request;
 use App\Models\Lleva;
 use App\Models\Paquete;
@@ -187,9 +188,7 @@ class CamionController extends Controller
 
         //TRAE PAQUETES
         if (Trae::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->exists()) {
-            return response()->json([
-                'message' => 'TRAE PAQUETES',
-            ], 422);
+            return $this->mapaTrae($matricula);
         }
         //REPARTE PAQUETES
         if (Reparte::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->exists()) {
@@ -203,9 +202,7 @@ class CamionController extends Controller
 
         //TRAE ASIGNADO
         if (Trae::where('matricula', $matricula)->whereNull('fecha_carga')->exists()) {
-            return response()->json([
-                'message' => 'TRAE ASIGNADO',
-            ], 422);
+            return $this->mapaTrae($matricula);
         }
         //REPARTE ASIGNADO
         if (Reparte::where('matricula', $matricula)->whereNull('fecha_carga')->exists()) {
@@ -220,6 +217,120 @@ class CamionController extends Controller
 
 
 
+
+
+
+
+    private function mapaTrae($matricula)
+    {
+        $carga = Trae::where('matricula', $matricula)->whereNotNull('fecha_carga')->whereNull('fecha_descarga')->get();
+        $asignado = Trae::where('matricula', $matricula)->whereNull('fecha_carga')->get();
+
+        if (count($carga) == 0 and count($asignado) != 0) {
+
+            $idCLiente = Paquete::find($asignado[0]->ID_paquete)->ID_almacen;
+            $cliente = Almacen::find($idCLiente);
+
+
+            return response()->json([
+                'modo' => 'trae',
+                'destino' => ['lat' => $cliente->latitud, 'lng' => $cliente->longitud, 'direccion' => $cliente->direccion]
+            ], 200);
+        }
+        if (count($carga) != 0 and count($asignado) == 0) {
+
+            $idCLiente = Paquete::find($carga[0]->ID_paquete)->ID_almacen;
+            $coordsCLiente = $this->almacenToCoordenadas($idCLiente);
+
+            $arrayAlmacenes = AlmacenPropio::all()->pluck("ID");
+
+            $almacenesPropios = AlmacenPropio::all();
+            $coordenadasAlmacenes = $almacenesPropios->map(function ($almacenPropio) {
+                return [
+                    'lng' => $almacenPropio->almacen->longitud,
+                    'lat' => $almacenPropio->almacen->latitud,
+                ];
+            });
+
+
+            $distancias = Http::acceptJson()->withOptions(['verify' => false])->post("https://matrix.router.hereapi.com/v8/matrix?async=false&apiKey=$this->apiKey", [
+                "origins" => [
+                    [
+                        "lat" => floatval($coordsCLiente->lat),
+                        "lng" => floatval($coordsCLiente->lng)
+                    ]
+                ],
+                "destinations" => $coordenadasAlmacenes,
+                "regionDefinition" => [
+                    "type" => "world"
+                ],
+                "matrixAttributes" => [
+                    "distances"
+                ],
+            ])->json()["matrix"]["distances"];
+
+            $idAlmacen = $arrayAlmacenes[array_search(min($distancias), $distancias)];
+            $direccionDestino = Paquete::find($idAlmacen)->direccion;
+
+            return response()->json([
+                'modo' => 'trae',
+                'destino' => ['coordenadas' =>[$this->almacenToCoordenadas($idAlmacen)], 'direccion' => $direccionDestino]
+            ], 200);
+        }
+
+        $idCLienteCargado = Paquete::find($carga[0]->ID_paquete)->ID_almacen;
+        $idCLienteAsignado = Paquete::find($asignado[0]->ID_paquete)->ID_almacen;
+
+        if ($idCLienteCargado == $idCLienteAsignado) {
+
+            $idCLiente = Paquete::find($asignado[0]->ID_paquete)->ID_almacen;
+            $cliente = Almacen::find($idCLiente);
+
+
+            return response()->json([
+                'modo' => 'trae',
+                'destino' => ['coordenadas' =>['lat' => $cliente->latitud, 'lng' => $cliente->longitud], 'direccion' => $cliente->direccion]
+            ], 200);
+        }
+
+        $idCLiente = Paquete::find($carga[0]->ID_paquete)->ID_almacen;
+        $coordsCLiente = $this->almacenToCoordenadas($idCLiente);
+
+        $arrayAlmacenes = AlmacenPropio::all()->pluck("ID");
+
+        $almacenesPropios = AlmacenPropio::all();
+        $coordenadasAlmacenes = $almacenesPropios->map(function ($almacenPropio) {
+            return [
+                'lng' => $almacenPropio->almacen->longitud,
+                'lat' => $almacenPropio->almacen->latitud,
+            ];
+        });
+
+
+        $distancias = Http::acceptJson()->withOptions(['verify' => false])->post("https://matrix.router.hereapi.com/v8/matrix?async=false&apiKey=$this->apiKey", [
+            "origins" => [
+                [
+                    "lat" => floatval($coordsCLiente->lat),
+                    "lng" => floatval($coordsCLiente->lng)
+                ]
+            ],
+            "destinations" => $coordenadasAlmacenes,
+            "regionDefinition" => [
+                "type" => "world"
+            ],
+            "matrixAttributes" => [
+                "distances"
+            ],
+        ])->json()["matrix"]["distances"];
+
+        $idAlmacen = $arrayAlmacenes[array_search(min($distancias), $distancias)];
+        $direccionDestino = Paquete::find($idAlmacen)->direccion;
+
+        return response()->json([
+            'modo' => 'trae',
+            'destino' => ['coordenadas'=>[$this->almacenToCoordenadas($idAlmacen)], 'direccion' => $direccionDestino]
+        ], 200);
+    }
 
 
 
@@ -240,7 +351,7 @@ class CamionController extends Controller
 
             return response()->json([
                 'modo' => 'reparte',
-                'puntos' => [   ['lat' => $almacen->latitud, 'lng' => $almacen->latitud], 'direccion' => $almacen->direccion, 'codigo' => $almacen->nombre, 'peso' => false]
+                'puntos' => ['coordenadas' =>['lat' => $almacen->latitud, 'lng' => $almacen->latitud], 'direccion' => $almacen->direccion, 'codigo' => $almacen->nombre, 'peso' => false]
             ], 200);
         }
 
@@ -256,9 +367,9 @@ class CamionController extends Controller
         foreach ($carga as $paquete) {
             $direccion = $this->idPaqueteToDireccion($paquete->ID_paquete);
             $data = $this->idPaqueteToData($paquete->ID_paquete);
-            $puntos[] = ['coordenadas'=>$this->direccionToCooredenadas($direccion), 'direccion' => $direccion, 'codigo' => $data->codigo, 'peso' => $data->peso];
+            $puntos[] = ['coordenadas' => $this->direccionToCooredenadas($direccion), 'direccion' => $direccion, 'codigo' => $data->codigo, 'peso' => $data->peso];
         }
-        $puntos[] = ['coordenadas'=>['lat' => $almacenOrigen->latitud, 'lng' => $almacenOrigen->longitud], 'direccion' => $almacenOrigen->direccion, 'codigo' => $almacenOrigen->nombre, 'peso' => false];
+        $puntos[] = ['coordenadas' => ['lat' => $almacenOrigen->latitud, 'lng' => $almacenOrigen->longitud], 'direccion' => $almacenOrigen->direccion, 'codigo' => $almacenOrigen->nombre, 'peso' => false];
 
         /*
         foreach($puntos as $i => $punto){
