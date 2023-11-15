@@ -1,0 +1,75 @@
+version: "3"
+services:
+  main:
+    build:
+      context: ./main
+      dockerfile: Dockerfile
+    container_name: main
+    restart: always
+    ports: 
+      - "8000:80"
+    depends_on: 
+      - api_auth
+    networks:
+      red1:
+        ipv4_address: 192.168.10.3
+
+  backoffice:
+    build:
+      context: ./backoffice
+      dockerfile: Dockerfile
+    container_name: backoffice
+    restart: always
+    ports:
+      - "8001:80"
+    networks:
+      red1:
+        ipv4_address: 192.168.10.4
+
+  api_auth:
+    build:
+      context: ./api_auth
+      dockerfile: Dockerfile
+    container_name: api_auth
+    restart: always
+    ports:
+      - "8002:80"
+    networks: 
+      red1:
+        ipv4_address: 192.168.10.5
+
+  api_almacenes:
+    build:
+      context: ./api_almacenes
+      dockerfile: Dockerfile
+    container_name: api_almacenes
+    restart: always
+    ports:
+      - "8003:80"
+    depends_on: 
+      - api_auth
+    networks:
+      red1:
+        ipv4_address: 192.168.10.6
+
+  api_transito:
+    build:
+      context: ./api_transito
+      dockerfile: Dockerfile
+    container_name: api_transito
+    restart: always
+    ports: 
+      - "8004:80"
+    depends_on: 
+      - api_auth
+    networks:
+      red1:
+        ipv4_address: 192.168.10.7
+
+
+networks:
+  red1:
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.10.0/24"
