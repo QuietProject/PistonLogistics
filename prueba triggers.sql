@@ -72,16 +72,16 @@ SELECT SLEEP(1);
 call entregar_paquete_pickup(21,@error);
 
 #paquete 22
-insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Lbcabd23',18,1,'casa','98712367',1.5);
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Lbcabd24',18,1,'casa','98712367',1.5);
 SELECT SLEEP(1);
-insert into TRAE (matricula,ID_paquete) values('ABC1234',22);
+insert into TRAE (matricula,ID_paquete) values('ABC1234',23);
 SELECT SLEEP(1);
-update TRAE SET fecha_carga=current_timestamp() where ID_paquete=22;
-call descargar_trae(22,1,@error);
+update TRAE SET fecha_carga=current_timestamp() where ID_paquete=23;
+call descargar_trae(23,3,@error);
 
 insert into REPARTE (matricula,ID_paquete) values ('ABD2399',22);
-
-
+select * from  REPARTE;
+select * from PAQUETES_ALMACENES;
 call lote_0('Lbcabd23',3,1,5,@ID,@error);
 insert into PAQUETES_LOTES(ID_lote,ID_paquete) values(@ID,22);
 update LOTES set fecha_pronto=current_timestamp where ID=@ID;
@@ -110,4 +110,23 @@ SELECT SLEEP(1);
 update LOTES set fecha_pronto=current_timestamp() where ID=26;
 
 update LLEVA set fecha_carga = CURRENT_TIMESTAMP() where ID_lote=12;
-select * from DESTINO_LOTE;
+select * from PAQUETES;
+
+SELECT VEHICULOS.matricula, ifnull(round(sum(peso),2),0) carga_asignada, VEHICULOS.peso_max, max(PAQUETES_ALMACENES.ID_almacen) almacen
+        FROM VEHICULOS
+        INNER JOIN CAMIONETAS ON VEHICULOS.matricula = CAMIONETAS.matricula
+        LEFT JOIN REPARTE ON REPARTE.matricula = VEHICULOS.matricula
+        LEFT JOIN PAQUETES ON REPARTE.ID_paquete = PAQUETES.ID
+        LEFT JOIN PAQUETES_ALMACENES ON REPARTE.ID_paquete = PAQUETES_ALMACENES.ID_paquete
+        where VEHICULOS.baja =0
+        and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula='ABD2399'
+        and VEHICULOS.matricula not in(	SELECT TRAE.matricula
+                                        FROM TRAE
+                                        where fecha_carga is null)*/
+        and REPARTE.fecha_carga is null
+        group by VEHICULOS.matricula, VEHICULOS.peso_max
+        having carga_asignada < peso_max
+        and almacen is null or almacen = 1;
+
+SELECT * FROM PAQUETES;

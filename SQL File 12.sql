@@ -428,7 +428,7 @@ select * from CONDUCEN WHERE matricula='PQR1234';
 
 select * from PAQUETES;
 #paquete 27
-insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Paaabb27',18,1,'casa','12312312',0.56);
+insert into PAQUETES (codigo,id_almacen,id_pickup,direccion,cedula,peso) values ('Pfeavk29',18,1,'casa','12312312',0.56);
 SELECT SLEEP(1);
 insert into TRAE (matricula,ID_paquete) values('ABC1234',27);
 SELECT SLEEP(1);
@@ -475,3 +475,60 @@ select * from TRAE;*/
 SELECT * FROM PAQUETES_ALMACENES;
 select * from TRAE;
 
+SELECT VEHICULOS.matricula, ifnull(c.paquetes_asignados,0)paquetes_asignados, VEHICULOS.peso_max,
+		CASE
+			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+			ELSE 2
+		END as tipo
+        FROM VEHICULOS
+        LEFT JOIN (SELECT count(ID_paquete) as paquetes_asignados, matricula 
+					from TRAE 
+					WHERE fecha_carga is not null 
+                    and fecha_descarga is null 
+                    group by matricula) c ON c.matricula = VEHICULOS.matricula
+        where VEHICULOS.baja =0
+        and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+                                        FROM REPARTE
+                                        where fecha_carga is null)
+		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+                                        FROM LLEVA
+                                        where fecha_carga is null);
+       
+
+       
+SELECT * FROM TRAE;
+SELECT count(ID_paquete) as paquetes_asignados, matricula from TRAE WHERE fecha_carga is not null and fecha_descarga is null group by matricula;
+
+
+SELECT ALMACENES.*, PAQUETES.ID
+            FROM PAQUETES
+            INNER JOIN ALMACENES ON ALMACENES.ID = PAQUETES.ID_almacen
+            where ID_almacen=8
+            and hasta is null;
+            
+            
+SELECT VEHICULOS.matricula, ifnull(c.paquetes_asignados,0)paquetes_asignados, VEHICULOS.peso_max,
+        CASE
+            WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+            ELSE 2
+        END as tipo
+        FROM VEHICULOS
+        LEFT JOIN (SELECT count(ID_paquete) as paquetes_asignados, matricula
+                    from TRAE
+                    WHERE fecha_carga is not null
+                    and fecha_descarga is null
+                    group by matricula) c ON c.matricula = VEHICULOS.matricula
+        where VEHICULOS.baja =0
+        and VEHICULOS.es_operativo=1
+        and VEHICULOS.matricula not in(    SELECT REPARTE.matricula
+                                        FROM REPARTE
+                                        where fecha_carga is null)
+        and VEHICULOS.matricula not in(    SELECT LLEVA.matricula
+                                        FROM LLEVA
+                                        where fecha_carga is null)
+		and VEHICULOS.matricula not in(    SELECT TRAE.matricula
+                                        FROM TRAE
+                                        INNER JOIN PAQUETES ON PAQUETES.ID=TRAE.ID_paquete
+                                        where fecha_carga is null
+                                        and ID_almacen != 2);
