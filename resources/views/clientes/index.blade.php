@@ -4,13 +4,13 @@
         <h2 class="titleText">{{ __('Clientes') }}</h2>
         <input type="text" id="searchInput" class="filterText" placeholder={{ __('Buscar') }} onkeyup="searchFilter()">
         <div class="tableContainer">
-            <table class="tableView">
+            <table class="tableView" id="tablePropios">
                 <thead>
                     <tr>
                         <th style="width: 33%;" onclick="sortTable(0);arrowsTable(0);" id="0">RUT</th>
-                        <th style="width: 33%;" onclick="sortTable(0);arrowsTable(1);" id="0">
+                        <th style="width: 33%;" onclick="sortTable(1);arrowsTable(1);" id="1">
                             {{ __('Nombre') }}</th>
-                        <th style="width: 33%;" onclick="sortTable(0);arrowsTable(2);" id="0">
+                        <th style="width: 33%;" onclick="sortTable(2);arrowsTable(2);" id="2">
                             {{ __('Baja') }}</th>
                     </tr>
                 </thead>

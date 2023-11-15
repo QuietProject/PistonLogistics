@@ -25,7 +25,7 @@
                             {{ __('Matricula') }}</th>
                         <th style="width: 33%;" onclick="sortTable(1);arrowsTable(1);" id="1">
                             {{ __('Peso Maximo') }}</th>
-                        <th style="width: 33%;" onclick="sortTable(3);arrowsTable(3);" id="3">
+                        <th style="width: 33%;" onclick="sortTable(2);arrowsTable(2);" id="2">
                             {{ __('Estado') }}</th>
                     </tr>
                 </thead>
@@ -56,11 +56,11 @@
             <table class="tableView" id="tableCamionetas">
                 <thead>
                     <tr>
-                        <th style="width: 33%;" onclick="sortTableAlternate(0);arrowsTable(4);"" id="4">
+                        <th style="width: 33%;" onclick="sortTableAlternate(0);arrowsTable(0);"" id="0">
                             {{ __('Matricula') }}</th>
-                        <th style="width: 33%;" onclick="sortTableAlternate(1);arrowsTable(5);"" id="5">
+                        <th style="width: 33%;" onclick="sortTableAlternate(1);arrowsTable(1);"" id="4">
                             {{ __('Peso Maximo') }}</th>
-                        <th style="width: 33%;" onclick="sortTableAlternate(3);arrowsTable(7);"" id="7">
+                        <th style="width: 33%;" onclick="sortTableAlternate(2);arrowsTable(2);"" id="2">
                             {{ __('Estado') }}
                         </th>
                     </tr>
@@ -151,4 +151,4 @@
     </div>
 </x-layout>
 
-<script src="../javascript/scriptAdministrador.js"></script>
+<script src="../javascript/scriptCamionero.js"></script>
