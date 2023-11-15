@@ -127,10 +127,38 @@ class CamionController extends Controller
         WHERE paquetes.fecha_registrado < DATE_SUB(current_timestamp(), INTERVAL 0 DAY) AND paquetes.ID = $id"))[0]->ESTADO_ENVIO;
     }
 
-    public function camion($cedula)
+    private function camion($cedula)
     {
         $camion = Conduce::where('CI', $cedula)->whereNull("hasta")->first("matricula");
         return $camion;
+        dd('camion');
+        return response()->json([
+            'message' => 'El vehiculo no tiene carga asignada',
+        ], 422);
+    }
+
+    public function getCamion(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'cedula' => 'required|digits:8|exists:CAMIONEROS,CI'
+        ]);
+
+        if ($this->validacion($validator)) {
+            return $this->validacion($validator);
+        }
+
+        $matricula = self::camion($request->cedula);
+
+        if (is_null($matricula)) {
+
+            return response()->json([
+                'message' => 'El camionero no está en un camion',
+            ], 422);
+        }
+        $matricula = $matricula->matricula;
+        return response()->json([
+            'matricula' => $matricula
+        ], 200);
     }
 
     public function mapa(Request $request)
@@ -199,20 +227,28 @@ class CamionController extends Controller
 
         if(count($carga)==0){
 
-            $almacen = PaqueteAlmacen::where('ID_paquete',$asignado[0]->ID_paquete)->whereNull('hasta')->join('ALMACENES','ALMACENES.ID','PAQUETES_ALMACENES.ID_almacen ')->first();
-
-            dd($almacen);
-
+            $almacen = DB::select('SELECT *
+            FROM PAQUETES_ALMACENES
+            INNER JOIN ALMACENES ON ALMACENES.ID = PAQUETES_ALMACENES.ID_almacen
+            where ID_paquete=?
+            and hasta is null',[$asignado[0]->ID_paquete])[0];
 
             return response()->json([
-                'carga' => 'pollo'
+                'modo' => 'reparte',
+                'coordenadas' => [['lat'=>$almacen->latitud,'lng'=>$almacen->latitud,'paquete'=> false]]
             ], 200);
 
         }
+        $almacenOrigen = DB::select('SELECT *
+        FROM PAQUETES_ALMACENES
+        INNER JOIN ALMACENES ON ALMACENES.ID = PAQUETES_ALMACENES.ID_almacen
+        where ID_paquete=?
+        order by hasta desc
+        limit 1',[$carga[0]->ID_paquete])[0];
 
         return response()->json([
-            'carga' => $carga,
-            'asignado' => $asignado,
+            'modo' => 'reparte',
+            'coordenadas' => []
         ], 200);
     }
 
