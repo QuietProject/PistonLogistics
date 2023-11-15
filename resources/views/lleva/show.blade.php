@@ -49,12 +49,12 @@
                 <table class="tableView" id="tableDrivers2">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>{{ __("Peso") }}</th>
-                            <th>{{ __("Almacen final") }}</th>
-                            <th>{{ __("Direccion destino") }}</th>
-                            <th>{{ __("Fecha registrado") }}</th>
-                            <th>{{ __("Fecha de ingreso al lote") }}</th>
+                            <th style="width:7.5%">ID</th>
+                            <th style="width:7.5%">{{ __("Peso") }}</th>
+                            <th style="width:15%">{{ __("Almacen final") }}</th>
+                            <th style="width:20%">{{ __("Direccion destino") }}</th>
+                            <th style="width:20%">{{ __("Fecha registrado") }}</th>
+                            <th style="width:30%">{{ __("Fecha de ingreso al lote") }}</th>
                         </tr>
                     </thead>
                     <tbody>

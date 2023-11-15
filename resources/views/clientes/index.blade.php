@@ -58,7 +58,7 @@
                     @enderror
                 </div>
                 <div
-                    style="display: flex; justify-content: space-between; width: 20vw; left: 7.5vw; position: relative;">
+                    style="display: flex; justify-content: space-between; width: 20vw; left: 7.5vw; position: relative; margin-top: 1vh">
                     <label for="nombre" class="asignadoText">{{ __('Nombre') }}</label>
                     <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}">
                     @error('nombre')

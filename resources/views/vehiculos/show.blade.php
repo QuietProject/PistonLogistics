@@ -15,9 +15,9 @@ if ($vehiculo->baja) {
                 <table class="tableView">
                     <thead>
                         <tr>
-                            <th>{{ __('Nombre') }}</th>
-                            <th>{{ __('Desde') }}</th>
-                            <th>{{ __('Hasta') }}</th>
+                            <th style="width: 30%">{{ __('Nombre') }}</th>
+                            <th style="width: 30%">{{ __('Desde') }}</th>
+                            <th style="width: 30%">{{ __('Hasta') }}</th>
                         </tr>
                     </thead>
                     <tbody>
