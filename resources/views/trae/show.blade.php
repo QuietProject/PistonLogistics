@@ -23,8 +23,7 @@
             </div>
             <div class="infoContainer">
                 <p>{{ __("Cliente") }}: </p>
-                <p><a target="_blank" href="{{ route('clientes.show', $paquete->RUT) }}">{{ $paquete->cliente }} -
-                        {{ $paquete->nombre }}</a></p>
+                <p><a target="_blank" href="{{ route('clientes.show', $paquete->RUT) }}">{{ $paquete->cliente }}</a></p>
             </div>
         </div>
         <form action="{{ route('trae.store', $paquete->ID_paquete) }}" method="POST">

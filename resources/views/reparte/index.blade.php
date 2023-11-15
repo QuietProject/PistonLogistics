@@ -19,6 +19,7 @@
                         </tr>
                     </thead>
                     <tbody>
+
                         @foreach ($paquetes as $paquete)
                             <tr>
                                 <td>{{ $paquete->ID_paquete }}</td>

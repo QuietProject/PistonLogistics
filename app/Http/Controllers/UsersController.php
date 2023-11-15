@@ -245,6 +245,13 @@ class UsersController extends Controller
     }
 
 
+    public function forgotPasswordShow(Request $request)
+    {
+        $front = $request->query('front');
+        return view('password.request', ['front' => $front]);
+    }
+
+
     /**
      *
      *

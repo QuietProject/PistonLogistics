@@ -41,17 +41,16 @@ class TraeController extends Controller
             return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
         $paquete = $consulta[0];
-
         $vehiculos = DB::select('SELECT VEHICULOS.matricula, ifnull(c.paquetes_asignados,0)paquetes_asignados, VEHICULOS.peso_max,
         CASE
             WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
             ELSE 2
         END as tipo
         FROM VEHICULOS
-        LEFT JOIN (SELECT count(ID_paquete) as paquetes_asignados, matricula 
-                    from TRAE 
-                    WHERE fecha_carga is not null 
-                    and fecha_descarga is null 
+        LEFT JOIN (SELECT count(ID_paquete) as paquetes_asignados, matricula
+                    from TRAE
+                    WHERE fecha_carga is not null
+                    and fecha_descarga is null
                     group by matricula) c ON c.matricula = VEHICULOS.matricula
         where VEHICULOS.baja =0
         and VEHICULOS.es_operativo=1
@@ -60,7 +59,12 @@ class TraeController extends Controller
                                         where fecha_carga is null)
         and VEHICULOS.matricula not in(    SELECT LLEVA.matricula
                                         FROM LLEVA
-                                        where fecha_carga is null)');
+                                        where fecha_carga is null)
+		and VEHICULOS.matricula not in(    SELECT TRAE.matricula
+                                        FROM TRAE
+                                        INNER JOIN PAQUETES ON PAQUETES.ID=TRAE.ID_paquete
+                                        where fecha_carga is null
+                                        and ID_almacen != ?)',[$paquete->ID_almacen]);
 
 
         return view('trae.show', [
@@ -83,25 +87,31 @@ class TraeController extends Controller
             return redirect()->back()->with('error', __('Ha ocurrido un error'));
         }
 
-        $vehiculo = DB::select('SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
-		CASE
-			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
-			ELSE 2
-		END as tipo
+        $vehiculo = DB::select('SELECT VEHICULOS.matricula, ifnull(c.paquetes_asignados,0)paquetes_asignados, VEHICULOS.peso_max,
+        CASE
+            WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+            ELSE 2
+        END as tipo
         FROM VEHICULOS
-        LEFT JOIN TRAE ON TRAE.matricula = VEHICULOS.matricula
-        LEFT JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
+        LEFT JOIN (SELECT count(ID_paquete) as paquetes_asignados, matricula
+                    from TRAE
+                    WHERE fecha_carga is not null
+                    and fecha_descarga is null
+                    group by matricula) c ON c.matricula = VEHICULOS.matricula
         where VEHICULOS.baja =0
         and VEHICULOS.es_operativo=1
-        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+        and VEHICULOS.matricula not in(    SELECT REPARTE.matricula
                                         FROM REPARTE
                                         where fecha_carga is null)
-		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+        and VEHICULOS.matricula not in(    SELECT LLEVA.matricula
                                         FROM LLEVA
                                         where fecha_carga is null)
-        and TRAE.fecha_carga is null
-        and VEHICULOS.matricula = ?
-        group by VEHICULOS.matricula, VEHICULOS.peso_max', [$matricula]);
+		and VEHICULOS.matricula not in(    SELECT TRAE.matricula
+                                        FROM TRAE
+                                        INNER JOIN PAQUETES ON PAQUETES.ID=TRAE.ID_paquete
+                                        where fecha_carga is null
+                                        and ID_almacen != ?)
+        and VEHICULOS.matricula = ?', [$paquete->ID_almacen,$matricula]);
 
         if (count($vehiculo) != 1) {
             return redirect()->back()->with('error', __('Ha ocurrido un error'));
