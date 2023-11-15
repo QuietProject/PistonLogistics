@@ -37,10 +37,11 @@ body {
 
 .title {
     height: 15%;
-    color: black;
+    color: var(--highlight);
     font-size: 4vh;
     text-align: center;
     margin-top: 5vh;
+    text-shadow: 0 0 5px black;
 }
 
 .inputBox {
