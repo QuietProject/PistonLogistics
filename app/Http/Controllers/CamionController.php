@@ -131,7 +131,6 @@ class CamionController extends Controller
     {
         $camion = Conduce::where('CI', $cedula)->whereNull("hasta")->first("matricula");
         return $camion;
-        dd('camion');
         return response()->json([
             'message' => 'El vehiculo no tiene carga asignada',
         ], 422);
@@ -235,10 +234,13 @@ class CamionController extends Controller
 
             return response()->json([
                 'modo' => 'reparte',
-                'coordenadas' => [['lat'=>$almacen->latitud,'lng'=>$almacen->latitud,'paquete'=> false]]
+                'puntos' => [['lat'=>$almacen->latitud,'lng'=>$almacen->latitud],'direccion'=> $almacen->direccion,'codigo'=>$almacen->nombre,'peso'=>false]
             ], 200);
 
         }
+
+
+
         $almacenOrigen = DB::select('SELECT *
         FROM PAQUETES_ALMACENES
         INNER JOIN ALMACENES ON ALMACENES.ID = PAQUETES_ALMACENES.ID_almacen
@@ -246,12 +248,25 @@ class CamionController extends Controller
         order by hasta desc
         limit 1',[$carga[0]->ID_paquete])[0];
 
-        dd($almacenOrigen);
+
+        foreach($carga as $paquete){
+            $direccion = $this->idPaqueteToDireccion($paquete->ID_paquete);
+            $data = $this->idPaqueteToData($paquete->ID_paquete);
+            $puntos[] = ['coordenadas'=>$this->direccionToCooredenadas($direccion),'direccion'=>$direccion, 'codigo'=>$data->codigo,'peso'=>$data->peso];
+        }
+
+        $puntos[] = [['lat'=>$almacenOrigen->latitud,'lng'=>$almacenOrigen->latitud],'direccion'=> $almacenOrigen->direccion,'codigo'=>$almacenOrigen->nombre,'peso'=>false];
+
+        dd($puntos);
         return response()->json([
             'modo' => 'reparte',
-            'coordenadas' => []
+            'puntos' => $puntos
         ], 200);
     }
+
+
+
+
 
     private function mapaLleva($matricula)
     {
@@ -576,9 +591,21 @@ class CamionController extends Controller
         WHERE ID=?
         ', [$idLote])[0];
     }
+    private function idPaqueteToData($idPaquete)
+    {
+        return DB::select('SELECT codigo, peso
+        FROM PAQUETES
+        WHERE ID=?
+        ', [$idPaquete])[0];
+    }
     private function direccionToCooredenadas($direccion)
     {
         $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
         return $coordenadas;
+    }
+    private function idPaqueteToDireccion($id)
+    {
+        return Paquete::where('ID',$id)->pluck('direccion')[0];
+
     }
 }
