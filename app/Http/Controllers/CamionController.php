@@ -482,11 +482,11 @@ class CamionController extends Controller
         foreach ($descarga as $lote) {
             $idLotesDescarga[] = $lote->ID_lote;
         }
-        $direccionOrigen = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenOrigen));
-        $direccionDestino = $this->almacenToDireccion($this->ordenToAlmacen($troncal, $ordenDestino));
+        $coordenadasOrigen = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenOrigen));
+        $coordenadasDestino = $this->almacenToCoordenadas($this->ordenToAlmacen($troncal, $ordenDestino));
 
-        $coordenadas[] = $this->direccionToCooredenadas($direccionOrigen);
-        $coordenadas[] = $this->direccionToCooredenadas($direccionDestino);
+        $coordenadas[] = $coordenadasOrigen;
+        $coordenadas[] = $coordenadasDestino;
 
         return response()->json([
             'modo' => 'lleva',
@@ -547,15 +547,16 @@ class CamionController extends Controller
         AND ID_troncal=?
         ', [$almacen, $troncal])[0]->orden;
     }
-    private function almacenToDireccion($almacen)
+    private function almacenToCoordenadas($almacen)
     {
-        return DB::select('SELECT direccion
+        return DB::select('SELECT lat, lng
         FROM ALMACENES
         WHERE ID=?
-        ', [$almacen])[0]->direccion;
+        ', [$almacen])[0];
     }
     private function direccionToCooredenadas($direccion)
     {
+
 
         $coordenadas = Http::acceptJson()->withOptions(['verify' => false])->get("https://geocode.search.hereapi.com/v1/geocode?q=$direccion&apiKey=$this->apiKey")["items"][0]["position"];
         return $coordenadas;
