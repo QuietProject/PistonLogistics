@@ -42,24 +42,25 @@ class TraeController extends Controller
         }
         $paquete = $consulta[0];
 
-        $vehiculos = DB::select('SELECT VEHICULOS.matricula, count(PAQUETES.ID) paquetes_asignados, VEHICULOS.peso_max,
-		CASE
-			WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
-			ELSE 2
-		END as tipo
+        $vehiculos = DB::select('SELECT VEHICULOS.matricula, ifnull(c.paquetes_asignados,0)paquetes_asignados, VEHICULOS.peso_max,
+        CASE
+            WHEN exists(select 1 from CAMIONETAS where CAMIONETAS.matricula=VEHICULOS.matricula) then 1
+            ELSE 2
+        END as tipo
         FROM VEHICULOS
-        LEFT JOIN TRAE ON TRAE.matricula = VEHICULOS.matricula
-        LEFT JOIN PAQUETES ON TRAE.ID_paquete = PAQUETES.ID
+        LEFT JOIN (SELECT count(ID_paquete) as paquetes_asignados, matricula 
+                    from TRAE 
+                    WHERE fecha_carga is not null 
+                    and fecha_descarga is null 
+                    group by matricula) c ON c.matricula = VEHICULOS.matricula
         where VEHICULOS.baja =0
         and VEHICULOS.es_operativo=1
-        and VEHICULOS.matricula not in(	SELECT REPARTE.matricula
+        and VEHICULOS.matricula not in(    SELECT REPARTE.matricula
                                         FROM REPARTE
                                         where fecha_carga is null)
-		and VEHICULOS.matricula not in(	SELECT LLEVA.matricula
+        and VEHICULOS.matricula not in(    SELECT LLEVA.matricula
                                         FROM LLEVA
-                                        where fecha_carga is null)
-        and TRAE.fecha_carga is null
-        group by VEHICULOS.matricula, VEHICULOS.peso_max');
+                                        where fecha_carga is null)');
 
 
         return view('trae.show', [
