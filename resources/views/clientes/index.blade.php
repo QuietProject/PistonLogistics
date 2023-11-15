@@ -4,13 +4,13 @@
         <h2 class="titleText">{{ __('Clientes') }}</h2>
         <input type="text" id="searchInput" class="filterText" placeholder={{ __('Buscar') }} onkeyup="searchFilter()">
         <div class="tableContainer">
-            <table class="tableView">
+            <table class="tableView" id="tablePropios">
                 <thead>
                     <tr>
                         <th style="width: 33%;" onclick="sortTable(0);arrowsTable(0);" id="0">RUT</th>
-                        <th style="width: 33%;" onclick="sortTable(0);arrowsTable(1);" id="0">
+                        <th style="width: 33%;" onclick="sortTable(1);arrowsTable(1);" id="1">
                             {{ __('Nombre') }}</th>
-                        <th style="width: 33%;" onclick="sortTable(0);arrowsTable(2);" id="0">
+                        <th style="width: 33%;" onclick="sortTable(2);arrowsTable(2);" id="2">
                             {{ __('Baja') }}</th>
                     </tr>
                 </thead>
@@ -58,7 +58,7 @@
                     @enderror
                 </div>
                 <div
-                    style="display: flex; justify-content: space-between; width: 20vw; left: 7.5vw; position: relative;">
+                    style="display: flex; justify-content: space-between; width: 20vw; left: 7.5vw; position: relative; margin-top: 1vh">
                     <label for="nombre" class="asignadoText">{{ __('Nombre') }}</label>
                     <input type="text" name="nombre" id="nombre" value="{{ old('nombre') }}">
                     @error('nombre')
