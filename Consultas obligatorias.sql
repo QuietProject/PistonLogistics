@@ -1,9 +1,13 @@
 USE mauricio_lapido;
+
 -- 1. MOSTRAR LOS PAQUETES ENTREGADOS EN EL MES DE MAYO DEL 2023 CON DESTINO A LA CIUDAD DE MELO
+select * 
+from PAQUETES 
+where direccion like('% melo %') 
+AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
 
-select * from PAQUETES where direccion like('% melo') AND '2023-05-01'<=cast(fecha_registrado as date) and cast(fecha_registrado as date) <'2023-06-01';
-
--- 2. MOSTRAR TODOS LOS ALMACENES Y LOS PAQUETES QUE FUERON ENTREGADOS EN LOS MISMOS DURANTE EL 2023, ORDENARLOS ADEMAS DE LOS QUE RECIBIERON MAS PAQUETES A LOS QUE RECIBIERON MENOS.
+-- 2. MOSTRAR TODOS LOS ALMACENES Y LOS PAQUETES QUE FUERON ENTREGADOS EN LOS MISMOS DURANTE EL 2023, ORDENARLOS ADEMAS DE LOS QUE 
+-- RECIBIERON MAS PAQUETES A LOS QUE RECIBIERON MENOS.
 select cantidad.* , PAQUETES_ALMACENES.ID_paquete
 from (select ID_almacen,  count(*) as "cantidad" from PAQUETES_ALMACENES group by ID_almacen) cantidad
 inner join PAQUETES_ALMACENES on PAQUETES_ALMACENES.ID_almacen = cantidad.ID_almacen
@@ -43,7 +47,8 @@ LEFT JOIN DESTINO_LOTE ON LOTES.ID = DESTINO_LOTE.ID_lote
 LEFT JOIN LLEVA ON LOTES.id = LLEVA.id_lote
 WHERE PAQUETES.ID= 6;
 
--- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
+-- 6. MOSTRAR EL IDENTIFICADOR DEL PAQUETE, IDENTIFICADOR DE LOTE, MATRICULA DEL CAMION QUE LO TRANSPORTA, 
+-- ALMACEN DE DESTINO, DIRECCIÓN FINAL Y EL ESTADO DEL ENVÍO, PARA LOS PAQUETES QUE SE RECIBIERON HACE MAS DE 3 DÍAS.
 SELECT  PAQUETES.id as 'ID PAQUETE', LOTES.id as 'ID LOTE' ,
 CASE
     WHEN TRAE.matricula is not null and TRAE.fecha_descarga is null THEN TRAE.matricula
@@ -75,7 +80,8 @@ where es_operativo=0 and baja=0 and matricula in(select matricula from CAMIONES)
 
 -- 9. MOSTRAR TODOS LOS CAMIONES QUE NO TIENEN UN CONDUCTOR ASIGNADO Y SU ESTADO OPERATIVO.
 select *from VEHICULOS
-where es_operativo=1 and baja=0 and matricula in(select matricula from CAMIONES) and matricula not in(select matricula from CONDUCEN where hasta is null);
+where es_operativo=1 and baja=0 and matricula in(select matricula from CAMIONES) 
+and matricula not in(select matricula from CONDUCEN where hasta is null);
 
 -- 10. MOSTRAR TODOS LOS ALMACENES QUE SE ENCUENTRAN EN UN RECORRIDO DADO.
 
