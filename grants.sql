@@ -12,7 +12,7 @@ CREATE USER 'administrador'@'%' IDENTIFIED BY 'admin';
 
 -- ADMINISTRADOR
 
-/*GRANT ALL PRIVILEGES ON *.* TO 'administrador'@'localhost' WITH GRANT OPTION;*/
+GRANT ALL PRIVILEGES ON *.* TO 'administrador'@'localhost' WITH GRANT OPTION;
 
 -- AUTENTIFICACION
 
